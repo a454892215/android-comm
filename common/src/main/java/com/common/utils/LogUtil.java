@@ -13,20 +13,12 @@ import com.orhanobut.logger.Logger;
 public class LogUtil {
 
     public LogUtil() {
-        /* cannot be instantiated */
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-    private static boolean isDebug =  BuildConfig.IS_DEBUG;
+    private static boolean isDebug = BuildConfig.IS_DEBUG;
 
     private static final String TAG = "LLpp,LOGGER: ";
-
-
-    // 下面四个是默认tag的函数
-    public static void i(String msg) {
-        if (isDebug)
-            Log.i(TAG, msg);
-    }
 
     public static void d(String msg) {
         if (isDebug)
@@ -34,48 +26,11 @@ public class LogUtil {
 
     }
 
-    public static void e(String msg) {
-        if (isDebug)
-            Log.e(TAG, unicodeToUTF_8(msg));
-    }
-
-    public static void v(String msg) {
-        if (isDebug)
-            Log.v(TAG, msg);
-    }
-
-    // 下面是传入自定义tag的函数
-    public static void i(String tag, String msg) {
-        if (isDebug)
-            Log.i(tag, msg);
-    }
-
-    public static void d(String tag, String msg) {
-        if (isDebug)
-            Log.i(tag, msg);
-    }
-
-    public static void e(String tag, String msg) {
-        if (isDebug)
-            Log.e(tag, unicodeToUTF_8(msg));
-    }
-
-    public static void v(String tag, String msg) {
-        if (isDebug)
-            Log.i(tag, msg);
-    }
-
     public static void debug(String msg) {
-        if (isDebug) {
-            Logger.d(TAG+ msg);
-        }
-    }
-
-    public static void debugAll(String msg) {
         if (isDebug) {
             if (!TextUtils.isEmpty(msg)) {
                 int length = msg.length();
-                int count = 1024*3;
+                int count = 1024 * 3;
                 int times = length / count + 1;
                 for (int i = 0; i < times; i++) {
                     int end = (i + 1) * count > msg.length() ? msg.length() : (i + 1) * count;
@@ -91,7 +46,7 @@ public class LogUtil {
         }
     }
 
-    public static void err(String msg) {
+    public static void e(String msg) {
         Logger.e("LLpp====" + unicodeToUTF_8(msg));
     }
 

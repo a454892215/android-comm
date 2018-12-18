@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.common.R;
 import com.common.base.BaseRecyclerViewAdapter;
-import com.common.utils.LogUtil;
 import com.common.utils.ViewHolder;
 
 import java.util.List;
