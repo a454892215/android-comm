@@ -9,10 +9,6 @@ import android.widget.Toast;
 
 public class ToastUtil {
 
-    private ToastUtil() {
-        throw new UnsupportedOperationException("cannot be instantiated");
-    }
-
     public static void showShort(Context context, CharSequence message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);

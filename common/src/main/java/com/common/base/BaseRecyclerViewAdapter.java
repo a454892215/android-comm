@@ -40,14 +40,17 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
     @Override
     public void onBindViewHolder(@NonNull final BaseRecyclerViewAdapter.BaseViewHolder holder, int position) {
-        OnClick onClick = CastUtil.cast(holder.itemView.getTag(R.id.key_item_click));
-        if (onClick == null) {
-            onClick = new OnClick();
-            holder.itemView.setTag(R.id.key_item_click, onClick);
+        if (onItemClick != null) {
+            OnClick onClick = CastUtil.cast(holder.itemView.getTag(R.id.key_item_click));
+            if (onClick == null) {
+                onClick = new OnClick();
+                holder.itemView.setTag(R.id.key_item_click, onClick);
+            }
+            onClick.setView(holder.itemView);
+            onClick.setPosition(position);
+            holder.itemView.setOnClickListener(onClick);
         }
-        onClick.setView(holder.itemView);
-        onClick.setPosition(position);
-        holder.itemView.setOnClickListener(onClick);
+
     }
 
     @Override
@@ -83,9 +86,7 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
 
         @Override
         public void onClick(View v) {
-            if (onItemClick != null) {
-                onItemClick.onItemClick(view, position);
-            }
+            onItemClick.onItemClick(view, position);
         }
     }
 

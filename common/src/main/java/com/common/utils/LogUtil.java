@@ -12,10 +12,6 @@ import com.orhanobut.logger.Logger;
 
 public class LogUtil {
 
-    public LogUtil() {
-        throw new UnsupportedOperationException("cannot be instantiated");
-    }
-
     private static boolean isDebug = BuildConfig.IS_DEBUG;
 
     private static final String TAG = "LLpp,LOGGER: ";
