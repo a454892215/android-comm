@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BorderLineTextView">
+        <attr name="top_line_height" format="dimension|reference"/>                         
+        <attr name="top_line_color" format="color|reference"/>          
+        <attr name="top_line_enable" format="boolean"/>   
+                
+        <attr name="bottom_line_height" format="dimension|reference"/>                         
+        <attr name="bottom_line_color" format="color|reference"/>          
+        <attr name="bottom_line_enable" format="boolean"/>  
+                    
+        <attr name="right_line_height" format="dimension|reference"/>                         
+        <attr name="right_line_color" format="color|reference"/>          
+        <attr name="right_line_enable" format="boolean"/>  
+    </declare-styleable>
+</resources>
