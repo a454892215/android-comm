@@ -19,18 +19,4 @@ public class RecyclerViewUtil {
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
     }
-
-
-    public static void syncScroll(RecyclerView recyclerView1, RecyclerView recyclerView2) {
-        recyclerView1.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                recyclerView2.scrollBy(dx, dy);
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            }
-        });
-    }
 }

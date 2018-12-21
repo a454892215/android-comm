@@ -2,4 +2,5 @@
 <resources>
     <item name="view_holder" type="id" />
     <item name="key_item_click" type="id" />
+    <item name="key_rv_scroll_listener" type="id" />
 </resources>
