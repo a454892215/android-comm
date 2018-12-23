@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RVTestActivity"/>
+        <activity android:name=".RVAsyncScrollTestActivity"/>
         <activity android:name=".ListViewAsyncTestActivity"/>
         <activity android:name=".RVGridTestActivity"/>
     </application>

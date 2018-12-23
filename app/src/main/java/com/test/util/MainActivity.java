@@ -14,11 +14,12 @@ import java.util.Arrays;
 public class MainActivity extends BaseActivity {
 
     private String[] names = {"RecyclerView 同步滚动测试", "ListView 同步滚动测试", "GridRV测试"};
-    private Class[] classArr = {RVTestActivity.class, ListViewAsyncTestActivity.class, RVGridTestActivity.class};
+    private Class[] classArr = {RVAsyncScrollTestActivity.class, ListViewAsyncTestActivity.class, RVGridTestActivity.class};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("API测试");
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
         BaseRecyclerViewAdapter adapter = new TextViewAdapter(activity, R.layout.view_btn_1, Arrays.asList(names));
         RecyclerViewUtil.setRecyclerView(recycler_view, adapter);
