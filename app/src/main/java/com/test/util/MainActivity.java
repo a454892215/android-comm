@@ -10,7 +10,10 @@ import com.common.base.BaseActivity;
 import com.common.base.BaseRecyclerViewAdapter;
 
 import java.util.Arrays;
-
+/**
+ * Author: Pan
+ * Description:
+ */
 public class MainActivity extends BaseActivity {
 
     private String[] names = {"RecyclerView 同步滚动测试", "ListView 同步滚动测试", "GridRV测试"};

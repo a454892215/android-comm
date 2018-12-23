@@ -10,7 +10,8 @@ import com.common.utils.TestDataUtil;
 import com.common.utils.ToastUtil;
 
 /**
- * RecyclerView 同步滚动测试
+ * Author: Pan
+ * Description:listView 同步滚动测试
  */
 public class ListViewAsyncTestActivity extends BaseActivity {
 

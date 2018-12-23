@@ -2,19 +2,18 @@ package com.test.util;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.common.adapter.TextViewAdapter;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
 import com.common.base.BaseRecyclerViewAdapter;
-import com.common.helper.RVAsyncScrollHelper;
 import com.common.utils.TestDataUtil;
 import com.common.utils.ToastUtil;
 import com.common.widget.AsyncScrollLayout;
 
 /**
- * RecyclerView 同步滚动测试
+ * Author: Pan
+ * Description: RecyclerView 同步滚动测试
  */
 public class RVAsyncScrollTestActivity extends BaseActivity {
 
