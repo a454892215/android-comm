@@ -13,8 +13,8 @@ import java.util.Arrays;
 
 public class MainActivity extends BaseActivity {
 
-    private String[] names = {"RecyclerView 测试"};
-    private Class[] classArr = {RVTestActivity.class};
+    private String[] names = {"RecyclerView 同步滚动测试", "ListView 同步滚动测试", "GridRV测试"};
+    private Class[] classArr = {RVTestActivity.class, ListViewAsyncTestActivity.class, RVGridTestActivity.class};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,11 @@ public class MainActivity extends BaseActivity {
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
         BaseRecyclerViewAdapter adapter = new TextViewAdapter(activity, R.layout.view_btn_1, Arrays.asList(names));
         RecyclerViewUtil.setRecyclerView(recycler_view, adapter);
-        adapter.setOnItemClick((itemView, position) -> startActivity(new Intent(activity, classArr[position])));
+        adapter.setOnItemClick((itemView, position) -> {
+            Intent intent = new Intent(activity, classArr[position]);
+            intent.putExtra("title", names[position]);
+            startActivity(intent);
+        });
     }
 
     @Override

@@ -22,6 +22,7 @@ public class RVTestActivity extends BaseActivity {
         RecyclerView recycler_view_1 = findViewById(R.id.recycler_view_1);
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
 
+
         BaseRecyclerViewAdapter adapter_1 = new TextViewAdapter(activity,
                 R.layout.view_tv_1, TestDataUtil.getData(500));
         BaseRecyclerViewAdapter adapter_2 = new TextViewAdapter(activity,
