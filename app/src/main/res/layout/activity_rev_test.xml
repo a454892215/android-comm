@@ -8,15 +8,14 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_1"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_2"
-        android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
+        android:background="#cccccc"
         android:scrollbars="vertical" />
 </com.common.widget.AsyncScrollLayout>

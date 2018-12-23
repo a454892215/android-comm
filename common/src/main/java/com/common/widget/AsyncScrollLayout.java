@@ -1,12 +1,14 @@
 package com.common.widget;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
+
+import com.common.R;
 
 public class AsyncScrollLayout extends LinearLayout {
     public AsyncScrollLayout(Context context) {
@@ -21,41 +23,63 @@ public class AsyncScrollLayout extends LinearLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (handleTouchRV != null) {
-            return true;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (RecyclerView rv : syncedRVArr) {
+                    if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
+                        asyncScrollRecyclerView(rv);
+                }
+                break;
         }
-        return super.onInterceptTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
-    private void asyncScrollRecyclerView() {
-        handleTouchRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                for (RecyclerView rv : syncedRVArr) {
-                    rv.scrollBy(dx, dy);
+    private RecyclerView lastScrollView; //记录上次主动滚动的RecyclerView
+
+    private void asyncScrollRecyclerView(RecyclerView handleTouchRV) {
+        if (handleTouchRV == lastScrollView) {
+            return;
+        } else {
+            if (lastScrollView != null) {
+                int scrollState = lastScrollView.getScrollState();
+                if (scrollState == RecyclerView.SCROLL_STATE_SETTLING) {
+                    lastScrollView.stopScroll();
                 }
             }
-        });
-
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    public boolean onTouchEvent(MotionEvent event) {
-        if (handleTouchRV != null) {
-            handleTouchRV.dispatchTouchEvent(event);
-            return true;
         }
-        return super.onTouchEvent(event);
+        for (RecyclerView rv : syncedRVArr) {
+            rv.removeOnScrollListener(onScrollListener);
+        }
+        handleTouchRV.addOnScrollListener(onScrollListener);
+        lastScrollView = handleTouchRV;
     }
 
-    private RecyclerView handleTouchRV;
+    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            for (RecyclerView rv : syncedRVArr) {
+                if (recyclerView != rv) rv.scrollBy(dx, dy);
+            }
+        }
+    };
     private RecyclerView[] syncedRVArr;
-
-    public void setRecyclerView(RecyclerView handleTouchRV, RecyclerView... syncedRV) {
-        this.handleTouchRV = handleTouchRV;
+    public void setRecyclerView(RecyclerView... syncedRV) {
         this.syncedRVArr = syncedRV;
-        asyncScrollRecyclerView();
+    }
+    private boolean isTouchPointInView(View view, float x, float y) {
+        if (view == null) {
+            return false;
+        }
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getMeasuredWidth();
+        int bottom = top + view.getMeasuredHeight();
+        return y >= top && y <= bottom && x >= left
+                && x <= right;
     }
 }
