@@ -12,10 +12,15 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_2"
-        android:layout_width="300dp"
-        android:layout_height="match_parent"
-        android:background="#cccccc"
-        android:scrollbars="vertical" />
+    <com.common.widget.HorizontalScrollLayout
+        android:id="@+id/flt_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_2"
+            android:layout_width="400dp"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </com.common.widget.HorizontalScrollLayout>
+
 </com.common.widget.AsyncScrollLayout>
