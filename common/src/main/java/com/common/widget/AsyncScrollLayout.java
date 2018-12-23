@@ -8,8 +8,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.common.R;
-
 public class AsyncScrollLayout extends LinearLayout {
     public AsyncScrollLayout(Context context) {
         this(context, null);
@@ -25,13 +23,15 @@ public class AsyncScrollLayout extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                for (RecyclerView rv : syncedRVArr) {
-                    if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
-                        asyncScrollRecyclerView(rv);
-                }
-                break;
+        if(syncedRVArr != null ){
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    for (RecyclerView rv : syncedRVArr) {
+                        if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
+                            asyncScrollRecyclerView(rv);
+                    }
+                    break;
+            }
         }
         return super.dispatchTouchEvent(ev);
     }
