@@ -8,6 +8,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 同步滚动
+ */
 public class AsyncScrollLayout extends LinearLayout {
     public AsyncScrollLayout(Context context) {
         this(context, null);
@@ -23,52 +29,28 @@ public class AsyncScrollLayout extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if(syncedRVArr != null ){
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    for (RecyclerView rv : syncedRVArr) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                for (int i = 0; i < asyncScrollGroupList.size(); i++) {
+                    AsyncScrollGroup asyncScrollGroup = asyncScrollGroupList.get(i);
+                    for (RecyclerView rv : asyncScrollGroup.syncedRVArr) {
                         if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
-                            asyncScrollRecyclerView(rv);
+                            asyncScrollGroup.asyncScrollRecyclerView(rv);
                     }
-                    break;
-            }
+                }
+                break;
         }
         return super.dispatchTouchEvent(ev);
     }
 
-    private RecyclerView lastScrollView; //记录上次主动滚动的RecyclerView
+    List<AsyncScrollGroup> asyncScrollGroupList = new ArrayList<>();
 
-    private void asyncScrollRecyclerView(RecyclerView handleTouchRV) {
-        if (handleTouchRV == lastScrollView) {
-            return;
-        } else {
-            if (lastScrollView != null) {
-                int scrollState = lastScrollView.getScrollState();
-                if (scrollState == RecyclerView.SCROLL_STATE_SETTLING) {
-                    lastScrollView.stopScroll();
-                }
-            }
-        }
-        for (RecyclerView rv : syncedRVArr) {
-            rv.removeOnScrollListener(onScrollListener);
-        }
-        handleTouchRV.addOnScrollListener(onScrollListener);
-        lastScrollView = handleTouchRV;
+    public void addRecyclerViewGroup(RecyclerView... syncedRV) {
+        AsyncScrollGroup asyncScrollGroup = new AsyncScrollGroup();
+        asyncScrollGroup.setSyncedRVArr(syncedRV);
+        asyncScrollGroupList.add(asyncScrollGroup);
     }
 
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            for (RecyclerView rv : syncedRVArr) {
-                if (recyclerView != rv) rv.scrollBy(dx, dy);
-            }
-        }
-    };
-    private RecyclerView[] syncedRVArr;
-    public void setRecyclerView(RecyclerView... syncedRV) {
-        this.syncedRVArr = syncedRV;
-    }
     private boolean isTouchPointInView(View view, float x, float y) {
         if (view == null) {
             return false;
@@ -81,5 +63,43 @@ public class AsyncScrollLayout extends LinearLayout {
         int bottom = top + view.getMeasuredHeight();
         return y >= top && y <= bottom && x >= left
                 && x <= right;
+    }
+
+
+    private static class AsyncScrollGroup {
+        private RecyclerView lastScrollView; //记录上次主动滚动的RecyclerView
+        private RecyclerView[] syncedRVArr;
+
+        private void setSyncedRVArr(RecyclerView[] syncedRVArr) {
+            this.syncedRVArr = syncedRVArr;
+        }
+
+        private void asyncScrollRecyclerView(RecyclerView handleTouchRV) {
+            if (handleTouchRV == lastScrollView) {
+                return;
+            } else {
+                if (lastScrollView != null) {
+                    int scrollState = lastScrollView.getScrollState();
+                    if (scrollState == RecyclerView.SCROLL_STATE_SETTLING) {
+                        lastScrollView.stopScroll();
+                    }
+                }
+            }
+            for (RecyclerView rv : syncedRVArr) {
+                rv.removeOnScrollListener(onScrollListener);
+            }
+            handleTouchRV.addOnScrollListener(onScrollListener);
+            lastScrollView = handleTouchRV;
+        }
+
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                for (RecyclerView rv : syncedRVArr) {
+                    if (recyclerView != rv) rv.scrollBy(dx, dy);
+                }
+            }
+        };
     }
 }

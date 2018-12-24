@@ -32,7 +32,7 @@ public class RVAsyncScrollTestActivity extends BaseActivity {
 
         RecyclerViewUtil.setRecyclerView(recycler_view_1, adapter_1);
         RecyclerViewUtil.setRecyclerView(recycler_view_2, adapter_2);
-        async_scroll_view.setRecyclerView(recycler_view_2, recycler_view_1);
+        async_scroll_view.addRecyclerViewGroup(recycler_view_2, recycler_view_1);
        // adapter_1.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));
      //   adapter_2.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));
     }
