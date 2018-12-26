@@ -7,10 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
+import android.widget.Scroller;
 
 import com.common.R;
 import com.common.utils.LogUtil;
-import com.common.utils.MathUtil;
 
 /**
  * Author: Pan
@@ -21,6 +21,7 @@ public class HorizontalScrollRV extends FrameLayout {
 
     private ValueAnimator anim;
     private float min_scroll_unit;
+    private Scroller mScroller;
 
     public HorizontalScrollRV(Context context) {
         this(context, null);
@@ -29,6 +30,8 @@ public class HorizontalScrollRV extends FrameLayout {
     public HorizontalScrollRV(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
+        // 第一步，创建Scroller的实例
+        mScroller = new Scroller(context);
         //  float slop = getResources().getDimension(R.dimen.dp_5);
     }
 
@@ -88,19 +91,17 @@ public class HorizontalScrollRV extends FrameLayout {
                             float startX = ev.getRawX();
                             dx = startX - lastX;
                             lastX = startX;
-                            int abs_dx = Math.round(-dx);
-                            if (abs_dx > min_scroll_unit) {
-                                int times = Math.round(abs_dx / min_scroll_unit) + 1;
-                                for (int i = 0; i < times; i++) {
-                                    postDelayed(() -> executeScrollXBy(Math.round(min_scroll_unit)), 10 * i);
-                                }
-                            } else {
-                                executeScrollXBy(Math.round(-dx));
-                            }
+                            executeScrollXBy(-Math.round(dx));
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        if (Math.abs(dx) > min_scroll_unit/2) startScroll(-dx);
+                        if (Math.abs(dx) > min_scroll_unit / 2) {
+                            int dx_i = Math.round(dx);
+                            mScroller.forceFinished(true);
+                            mScroller.abortAnimation();
+                            mScroller.fling(getScrollX(), 0, -dx_i * 30, 0, 0, maxScrollWidth, 0, 0);
+                            invalidate();
+                        }
                         lastX = 0;
                         break;
                 }
@@ -113,30 +114,28 @@ public class HorizontalScrollRV extends FrameLayout {
         });
     }
 
-    private void startScroll(float xVelocity) {
-        if (anim != null) {
-            anim.end();
+    @Override
+    public void computeScroll() {
+        if (mScroller.computeScrollOffset()) {
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            invalidate();
         }
-        float velocity = MathUtil.absClamp(xVelocity, min_scroll_unit * 2, min_scroll_unit * 5);
-        LogUtil.d("==ACTION_UP=水平滑动=== 原值 xVelocity:" + xVelocity + "  velocity  :" + velocity);
-        anim = ValueAnimator.ofFloat(velocity, 0);
-        anim.setDuration(400);
-        anim.addUpdateListener(animation -> {
-            Float currentValue = (Float) animation.getAnimatedValue();
-            executeScrollXBy(Math.round(currentValue));
-        });
-        anim.start();
+        super.computeScroll();
+
     }
 
-    private int scrollX;
-
-    private void executeScrollXBy(int x) {
-        x = Math.round(x);
-        scrollX += x;
-        scrollX = scrollX > maxScrollWidth ? maxScrollWidth : scrollX;
-        scrollX = scrollX < 0 ? 0 : scrollX;
-        //  LogUtil.debug("executeScrollBy scrollX:" + scrollX);
-        scrollTo(scrollX, 0);
+    private void executeScrollXBy(int dx) {
+        if (mScroller.getCurrX() + dx < 0) {
+            dx = 0 - mScroller.getCurrX();
+        }
+        if (mScroller.getCurrX() + dx > maxScrollWidth) {
+            dx = maxScrollWidth - mScroller.getCurrX();
+        }
+        LogUtil.d(" getScrollX():" + mScroller.getCurrX() + "  dx:" + dx);
+        mScroller.forceFinished(true);
+        mScroller.abortAnimation();
+        mScroller.startScroll(mScroller.getCurrX(), 0, dx, 0, 180);
+        invalidate();
     }
 
 
