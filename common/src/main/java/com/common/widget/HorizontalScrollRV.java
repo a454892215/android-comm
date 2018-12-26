@@ -46,85 +46,12 @@ public class HorizontalScrollRV extends FrameLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_recycler_rv, this);
         RecyclerView recyclerView = findViewById(R.id.rv_horizontal);
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            float startX;
-            float startY;
-            int orientation = 0;
-            int orientation_vertical = 1;
-            int orientation_horizontal = 2;
-
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent ev) {
-                switch (ev.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        startX = ev.getRawX();
-                        startY = ev.getRawY();
-                        orientation = 0;
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        float currentX = ev.getRawX();
-                        float currentY = ev.getRawY();
-                        float dx = currentX - startX;
-                        float dy = currentY - startY;
-                        startX = currentX;
-                        startY = currentY;
-                        if (Math.abs(dx) > Math.abs(dy)) {
-                            if (orientation == 0) orientation = orientation_horizontal;
-                            if (orientation == orientation_horizontal) return true;
-                        } else {
-                            if (orientation == 0) orientation = orientation_vertical;
-                        }
-                        LogUtil.d("============================垂直滑动===:" + " dx:" + dx + " dy:" + dy);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                return false;
-            }
-
-            float lastX;
-            float dx;
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent ev) {
-                switch (ev.getAction()) {
-                    case MotionEvent.ACTION_MOVE:
-                        // LogUtil.d("==ACTION_MOVE=水平滑动===dx:");
-                        if (lastX == 0) {
-                            lastX = ev.getRawX();
-                        } else {
-                            float startX = ev.getRawX();
-                            dx = startX - lastX;
-                            lastX = startX;
-                            executeScrollXBy(-Math.round(dx));
-                        }
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (Math.abs(dx) > min_scroll_unit / 2) {
-                            velocityTracker.computeCurrentVelocity(1500, maxVelocity);
-                            float xVelocity = velocityTracker.getXVelocity();
-                            LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
-                            mScroller.abortAnimation();
-                            mScroller.fling(getScrollX(), 0, -Math.round(xVelocity), 0, 0, maxScrollWidth, 0, 0);
-                            invalidate();
-                        }
-                        lastX = 0;
-                        break;
-                }
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
+        recyclerView.addOnItemTouchListener(new OnScroll());
     }
 
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 velocityTracker.clear();
@@ -157,7 +84,6 @@ public class HorizontalScrollRV extends FrameLayout {
         invalidate();
     }
 
-
     private int maxScrollWidth;
 
     @Override
@@ -179,5 +105,78 @@ public class HorizontalScrollRV extends FrameLayout {
             velocityTracker = null;
         }
 
+    }
+
+    private class OnScroll implements RecyclerView.OnItemTouchListener {
+        float startX;
+        float startY;
+        int orientation = 0;
+        int orientation_vertical = 1;
+        int orientation_horizontal = 2;
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent ev) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startX = ev.getRawX();
+                    startY = ev.getRawY();
+                    orientation = 0;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    float currentX = ev.getRawX();
+                    float currentY = ev.getRawY();
+                    float dx = currentX - startX;
+                    float dy = currentY - startY;
+                    startX = currentX;
+                    startY = currentY;
+                    if (Math.abs(dx) > Math.abs(dy)) {
+                        if (orientation == 0) orientation = orientation_horizontal;
+                        if (orientation == orientation_horizontal) return true;
+                    } else {
+                        if (orientation == 0) orientation = orientation_vertical;
+                    }
+                    LogUtil.d("============================垂直滑动===:" + " dx:" + dx + " dy:" + dy);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    break;
+            }
+            return false;
+        }
+
+        float lastX;
+        float dx;
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent ev) {
+            switch (ev.getAction()) {
+                case MotionEvent.ACTION_MOVE:
+                    // LogUtil.d("==ACTION_MOVE=水平滑动===dx:");
+                    if (lastX == 0) {
+                        lastX = ev.getRawX();
+                    } else {
+                        float startX = ev.getRawX();
+                        dx = startX - lastX;
+                        lastX = startX;
+                        executeScrollXBy(-Math.round(dx));
+                    }
+                    break;
+                case MotionEvent.ACTION_UP:
+                    if (Math.abs(dx) > min_scroll_unit / 2) {
+                        velocityTracker.computeCurrentVelocity(1500, maxVelocity);
+                        float xVelocity = velocityTracker.getXVelocity();
+                        LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
+                        mScroller.abortAnimation();
+                        mScroller.fling(getScrollX(), 0, -Math.round(xVelocity), 0, 0, maxScrollWidth, 0, 0);
+                        invalidate();
+                    }
+                    lastX = 0;
+                    break;
+            }
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
     }
 }
