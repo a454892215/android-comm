@@ -18,4 +18,13 @@ public class TestDataUtil {
         }
         return arrayList;
     }
+
+
+    public static List<String> getData(int size, int start) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (int i = start; i < size + start ; i++) {
+            arrayList.add("测试数据："+i);
+        }
+        return arrayList;
+    }
 }
