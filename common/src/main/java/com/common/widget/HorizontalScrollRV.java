@@ -162,7 +162,7 @@ public class HorizontalScrollRV extends FrameLayout {
                     break;
                 case MotionEvent.ACTION_UP:
                     if (Math.abs(dx) > min_scroll_unit / 2) {
-                        velocityTracker.computeCurrentVelocity(1500, maxVelocity);
+                        velocityTracker.computeCurrentVelocity(1200, maxVelocity);
                         float xVelocity = velocityTracker.getXVelocity();
                         LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
                         mScroller.abortAnimation();
