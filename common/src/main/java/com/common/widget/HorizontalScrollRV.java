@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.widget.FrameLayout;
 
 import com.common.R;
@@ -37,24 +36,16 @@ public class HorizontalScrollRV extends FrameLayout {
         super(context, attrs, defStyleAttr);
         inflate(context, R.layout.view_recycler_rv, this);
         RecyclerView recyclerView = findViewById(R.id.rv_horizontal);
-        if (velocityTracker == null) {
-            velocityTracker = VelocityTracker.obtain();
-        } else {
-            velocityTracker.clear();
-        }
 
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             float startX;
             float startY;
-            float dxAll;
-            float dyAll;
             int orientation = 0;
             int orientation_vertical = 1;
             int orientation_horizontal = 2;
 
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent ev) {
-                velocityTracker.addMovement(ev);
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         startX = ev.getRawX();
@@ -66,8 +57,6 @@ public class HorizontalScrollRV extends FrameLayout {
                         float currentY = ev.getRawY();
                         float dx = currentX - startX;
                         float dy = currentY - startY;
-                        dxAll += dx;
-                        dyAll += dy;
                         startX = currentX;
                         startY = currentY;
                         if (Math.abs(dx) > Math.abs(dy)) {
@@ -80,8 +69,6 @@ public class HorizontalScrollRV extends FrameLayout {
                         LogUtil.d("============================垂直滑动===:" + " dx:" + dx + " dy:" + dy);
                         break;
                     case MotionEvent.ACTION_UP:
-                        dxAll = 0;
-                        dyAll = 0;
                         break;
                 }
                 return false;
@@ -92,7 +79,6 @@ public class HorizontalScrollRV extends FrameLayout {
 
             @Override
             public void onTouchEvent(RecyclerView rv, MotionEvent ev) {
-                velocityTracker.addMovement(ev);
                 switch (ev.getAction()) {
                     case MotionEvent.ACTION_MOVE:
                         // LogUtil.d("==ACTION_MOVE=水平滑动===dx:");
@@ -114,8 +100,6 @@ public class HorizontalScrollRV extends FrameLayout {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        //  velocityTracker.computeCurrentVelocity(1);
-                        //     float xVelocity = velocityTracker.getXVelocity();
                         if (Math.abs(dx) > min_scroll_unit/2) startScroll(-dx);
                         lastX = 0;
                         break;
@@ -128,8 +112,6 @@ public class HorizontalScrollRV extends FrameLayout {
             }
         });
     }
-
-    private VelocityTracker velocityTracker;
 
     private void startScroll(float xVelocity) {
         if (anim != null) {
@@ -170,11 +152,6 @@ public class HorizontalScrollRV extends FrameLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        if (velocityTracker != null) {
-            velocityTracker.recycle();
-            velocityTracker = null;
-        }
-
         if (anim != null) {
             anim.cancel();
             anim = null;
