@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
@@ -34,7 +35,7 @@ public class HorizontalScrollRV extends FrameLayout {
     public HorizontalScrollRV(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
-        mScroller = new Scroller(context);
+        mScroller = new Scroller(context,new AccelerateDecelerateInterpolator());
         mScroller.forceFinished(true);
         maxVelocity = DensityUtil.dp2px(1000);
         if (velocityTracker == null) {
@@ -66,21 +67,21 @@ public class HorizontalScrollRV extends FrameLayout {
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            LogUtil.d("===========computeScroll============:"+mScroller.getCurrX());
             invalidate();
         }
         super.computeScroll();
-
     }
 
     private void executeScrollXBy(int dx) {
-        if (mScroller.getCurrX() + dx < 0) {
-            dx = 0 - mScroller.getCurrX();
+        if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
+            dx = 0 - mScroller.getFinalX();
         }
-        if (mScroller.getCurrX() + dx > maxScrollWidth) {
-            dx = maxScrollWidth - mScroller.getCurrX();
+        if (mScroller.getFinalX() + dx > maxScrollWidth) {
+            dx = maxScrollWidth - mScroller.getFinalX();
         }
-        mScroller.abortAnimation();
-        mScroller.startScroll(mScroller.getCurrX(), 0, dx, 0, 180);
+       // mScroller.abortAnimation();
+        mScroller.startScroll(mScroller.getFinalX(), 0, dx, 0, 180);
         invalidate();
     }
 
@@ -166,7 +167,7 @@ public class HorizontalScrollRV extends FrameLayout {
                         float xVelocity = velocityTracker.getXVelocity();
                         LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
                         mScroller.abortAnimation();
-                        mScroller.fling(getScrollX(), 0, -Math.round(xVelocity), 0, 0, maxScrollWidth, 0, 0);
+                        mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, maxScrollWidth, 0, 0);
                         invalidate();
                     }
                     lastX = 0;
