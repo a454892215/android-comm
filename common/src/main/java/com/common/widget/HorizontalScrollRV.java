@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
 import com.common.R;
 import com.common.utils.LogUtil;
+import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 /**
  * Author: Pan
@@ -19,9 +21,11 @@ import com.common.utils.LogUtil;
  */
 public class HorizontalScrollRV extends FrameLayout {
 
+    private VelocityTracker velocityTracker;
     private ValueAnimator anim;
     private float min_scroll_unit;
     private Scroller mScroller;
+    private int maxVelocity;
 
     public HorizontalScrollRV(Context context) {
         this(context, null);
@@ -30,9 +34,12 @@ public class HorizontalScrollRV extends FrameLayout {
     public HorizontalScrollRV(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
-        // 第一步，创建Scroller的实例
         mScroller = new Scroller(context);
-        //  float slop = getResources().getDimension(R.dimen.dp_5);
+        mScroller.forceFinished(true);
+        maxVelocity = DensityUtil.dp2px(1000);
+        if (velocityTracker == null) {
+            velocityTracker = VelocityTracker.obtain();
+        }
     }
 
     public HorizontalScrollRV(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -64,7 +71,6 @@ public class HorizontalScrollRV extends FrameLayout {
                         startY = currentY;
                         if (Math.abs(dx) > Math.abs(dy)) {
                             if (orientation == 0) orientation = orientation_horizontal;
-                            //避免垂直滑动事件流 执行水平滑动
                             if (orientation == orientation_horizontal) return true;
                         } else {
                             if (orientation == 0) orientation = orientation_vertical;
@@ -96,10 +102,11 @@ public class HorizontalScrollRV extends FrameLayout {
                         break;
                     case MotionEvent.ACTION_UP:
                         if (Math.abs(dx) > min_scroll_unit / 2) {
-                            int dx_i = Math.round(dx);
-                            mScroller.forceFinished(true);
+                            velocityTracker.computeCurrentVelocity(1500, maxVelocity);
+                            float xVelocity = velocityTracker.getXVelocity();
+                            LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
                             mScroller.abortAnimation();
-                            mScroller.fling(getScrollX(), 0, -dx_i * 30, 0, 0, maxScrollWidth, 0, 0);
+                            mScroller.fling(getScrollX(), 0, -Math.round(xVelocity), 0, 0, maxScrollWidth, 0, 0);
                             invalidate();
                         }
                         lastX = 0;
@@ -112,6 +119,20 @@ public class HorizontalScrollRV extends FrameLayout {
 
             }
         });
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                velocityTracker.clear();
+                break;
+            default:
+                velocityTracker.addMovement(ev);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -131,8 +152,6 @@ public class HorizontalScrollRV extends FrameLayout {
         if (mScroller.getCurrX() + dx > maxScrollWidth) {
             dx = maxScrollWidth - mScroller.getCurrX();
         }
-        LogUtil.d(" getScrollX():" + mScroller.getCurrX() + "  dx:" + dx);
-        mScroller.forceFinished(true);
         mScroller.abortAnimation();
         mScroller.startScroll(mScroller.getCurrX(), 0, dx, 0, 180);
         invalidate();
@@ -155,5 +174,10 @@ public class HorizontalScrollRV extends FrameLayout {
             anim.cancel();
             anim = null;
         }
+        if (velocityTracker != null) {
+            velocityTracker.recycle();
+            velocityTracker = null;
+        }
+
     }
 }
