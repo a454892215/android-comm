@@ -8,6 +8,7 @@ import com.common.adapter.TextViewAdapter;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
 import com.common.base.BaseRecyclerViewAdapter;
+import com.common.utils.FastClickUtil;
 
 import java.util.Arrays;
 /**
@@ -16,8 +17,10 @@ import java.util.Arrays;
  */
 public class MainActivity extends BaseActivity {
 
-    private String[] names = {"RecyclerView 同步滚动测试", "ListView 同步滚动测试", "GridRV测试"};
-    private Class[] classArr = {RVAsyncScrollTestActivity.class, ListViewAsyncTestActivity.class, RVGridTestActivity.class};
+    private String[] names = {"RecyclerView 同步滚动和自定义水平滚动测试", "ListView 同步滚动测试",
+            "GridRV测试", "自定义LayoutManager测试" };
+    private Class[] classArr = {RVAsyncScrollTestActivity.class, ListViewAsyncTestActivity.class,
+            RVGridTestActivity.class,CustomLayoutManagerTestActivity.class};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class MainActivity extends BaseActivity {
         BaseRecyclerViewAdapter adapter = new TextViewAdapter(activity, R.layout.view_btn_1, Arrays.asList(names));
         RecyclerViewUtil.setRecyclerView(recycler_view, adapter);
         adapter.setOnItemClick((itemView, position) -> {
+            if(FastClickUtil.isFastClick()) return;
             Intent intent = new Intent(activity, classArr[position]);
             intent.putExtra("title", names[position]);
             startActivity(intent);
