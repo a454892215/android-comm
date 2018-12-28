@@ -59,7 +59,7 @@ public class HRecyclerView extends RecyclerView {
                     float dy = currentY - startY;
                     startX = currentX;
                     startY = currentY;
-                   // LogUtil.d("=========================滑动===:" + " dx:" + dx + " dy:" + dy);
+                    // LogUtil.d("=========================滑动===:" + " dx:" + dx + " dy:" + dy);
                     if (Math.abs(dx) < min_scroll_unit && Math.abs(dy) < min_scroll_unit) {
                         return false;
                     }
@@ -68,14 +68,12 @@ public class HRecyclerView extends RecyclerView {
                         if (orientation == orientation_horizontal) {
                             layoutManager.setMyOrientation(LinearLayoutManager.HORIZONTAL);
                         }
-                        LogUtil.d("======================水平======滑动===:" + " dx:" + dx + " dy:" + dy);
                     } else {
                         if (orientation == 0) orientation = orientation_vertical;
                         if (orientation == orientation_vertical) {
                             layoutManager.setMyOrientation(LinearLayoutManager.VERTICAL);
-                            //  LogUtil.d("============================垂直滑动===:" + " dx:" + dx + " dy:" + dy);
                         }
-                        LogUtil.d("======================垂直======滑动===:" + " dx:" + dx + " dy:" + dy);
+                        //   LogUtil.d("======================垂直======滑动===:" + " dx:" + dx + " dy:" + dy);
                     }
 
                     break;

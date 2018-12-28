@@ -14,7 +14,6 @@ import android.view.View;
 
 public class HLayoutManager extends LinearLayoutManager {
 
-    private int decoratedMeasuredWidth;
     private int canScrollWidth;
 
     public HLayoutManager(Context context) {
@@ -62,7 +61,6 @@ public class HLayoutManager extends LinearLayoutManager {
     public int scrollHorizontallyBy(int dx, RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (dx_scrolled + dx < 0) { //顶边界判断
             dx = 0 - dx_scrolled;
-
         } else if (dx_scrolled + dx > canScrollWidth) { //底边界判断
             dx = canScrollWidth - dx_scrolled;
         }
@@ -72,13 +70,8 @@ public class HLayoutManager extends LinearLayoutManager {
     }
 
     @Override
-    public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        super.scrollVerticallyBy(dy, recycler, state);
-        int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View view = getChildAt(i);
-            layoutDecorated(view, view.getLeft() , view.getTop(), view.getRight(), view.getBottom());
-        }
-        return dy;
+    public void layoutDecoratedWithMargins(View child, int left, int top, int right, int bottom) {
+        left += -dx_scrolled;
+        super.layoutDecoratedWithMargins(child, left, top, right, bottom);
     }
 }
