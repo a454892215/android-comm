@@ -105,10 +105,11 @@ public class HVLayoutManager extends RecyclerView.LayoutManager {
             layoutDecorated(view, getPaddingLeft(), lastVisibleViewBottom, width + getPaddingLeft(), lastVisibleViewBottom + height);
             firstVisibleItemPosition++;
             lastVisibleItemPosition++;
+            LogUtil.d("===============: childCount "+ childCount +"  dy: "+dy +"  lastVisibleItemPosition:"+lastVisibleItemPosition);
         }
 
         int lastViewTop = lastVisibleView.getTop();
-        if (dy < 0 && lastViewTop > verticalContentHeight) {//向下滑 最后一个可见条目 离屏回收
+        if (dy < 0 && lastViewTop > verticalContentHeight) {//向上滑 最后一个可见条目 离屏回收
             removeAndRecycleView(lastVisibleView, recycler);
             View view = recycler.getViewForPosition(firstVisibleItemPosition - 1);
             addView(view,0);
@@ -119,7 +120,6 @@ public class HVLayoutManager extends RecyclerView.LayoutManager {
             firstVisibleItemPosition--;
             lastVisibleItemPosition--;
         }
-        LogUtil.d("===============: childCount "+ childCount +" dy"+dy);
         return dy;
     }
 
