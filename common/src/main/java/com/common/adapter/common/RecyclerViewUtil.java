@@ -19,4 +19,9 @@ public class RecyclerViewUtil {
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
     }
+
+    public static void setRecyclerView2(RecyclerView rv, BaseRecyclerViewAdapter adapter) {
+        rv.setLayoutManager( new HLayoutManager(rv.getContext()));
+        rv.setAdapter(adapter);
+    }
 }

@@ -23,6 +23,7 @@
         <activity android:name=".ListViewAsyncTestActivity"/>
         <activity android:name=".RVGridTestActivity"/>
         <activity android:name=".CustomLayoutManagerTestActivity"/>
+        <activity android:name=".HRVTestActivity"/>
     </application>
 
 </manifest>
