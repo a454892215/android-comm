@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.common.adapter.TextViewAdapter;
+import com.common.adapter.common.ForegroundManager;
+import com.common.adapter.common.HLayoutManager;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
 import com.common.helper.RefreshHelper;
@@ -62,7 +64,8 @@ public class ForegroundDrawingTestActivity extends BaseActivity {
 
 
         RecyclerViewUtil.setRecyclerView(recycler_view_1, adapter_1);
-        RecyclerViewUtil.setRecyclerView2(recycler_view_2, adapter_2);
+        recycler_view_2.setLayoutManager( new ForegroundManager(activity));
+        recycler_view_2.setAdapter(adapter_2);
 
         async_scroll_view.addRecyclerViewGroup(recycler_view_2, recycler_view_1);
         // adapter_1.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));

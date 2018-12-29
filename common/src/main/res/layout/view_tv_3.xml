@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.common.widget.BorderLineTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tv_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="?android:selectableItemBackground"
+    android:textSize="@dimen/sp_15"
+    android:textColor="#666666"
+    app:bottom_line_enable="true"
+    app:bottom_line_color="#ff0000"
+    app:bottom_line_height="@dimen/dp_1"
+    android:text="我是前景textView gaga"
+    tools:ignore="HardcodedText" />
