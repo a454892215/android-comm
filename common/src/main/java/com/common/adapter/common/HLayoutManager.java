@@ -45,14 +45,15 @@ public class HLayoutManager extends LinearLayoutManager {
 
     private int orientation;
 
+    public static final int ALL = 2;
     @Override
     public boolean canScrollHorizontally() {
-        return orientation == HORIZONTAL;
+        return orientation == HORIZONTAL || orientation == ALL;
     }
 
     @Override
     public boolean canScrollVertically() {
-        return orientation == VERTICAL;
+        return orientation == VERTICAL || orientation == ALL;
     }
 
     private int dx_scrolled;

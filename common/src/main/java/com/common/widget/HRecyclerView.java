@@ -32,66 +32,63 @@ public class HRecyclerView extends RecyclerView {
     public HRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
-
         LogUtil.debug("=========min_scroll_unit:" + min_scroll_unit);
-        addOnItemTouchListener(new OnScroll());
     }
 
-    float startX;
-    float startY;
-    int orientation = 0;
-    int orientation_vertical = 1;
-    int orientation_horizontal = 2;
+    private float startX;
+    private float startY;
+    private int orientation = 0;
+    private static final int orientation_vertical = 1;
+    private static final int orientation_horizontal = 2;
+    private static final int max_compute_times = 3;
+    private int compute_times = 0;
+    private float xScrollSum;
+    private float yScrollSum;
 
-    private class OnScroll implements RecyclerView.OnItemTouchListener {
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent ev) {
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    startX = ev.getRawX();
-                    startY = ev.getRawY();
-                    orientation = 0;
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    float currentX = ev.getRawX();
-                    float currentY = ev.getRawY();
-                    float dx = currentX - startX;
-                    float dy = currentY - startY;
-                    startX = currentX;
-                    startY = currentY;
-                    // LogUtil.d("=========================滑动===:" + " dx:" + dx + " dy:" + dy);
-                    if (Math.abs(dx) < min_scroll_unit && Math.abs(dy) < min_scroll_unit) {
-                        return false;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startX = ev.getRawX();
+                startY = ev.getRawY();
+                orientation = 0;
+                xScrollSum = 0;
+                yScrollSum = 0;
+                compute_times = 0;
+                layoutManager.setMyOrientation(HLayoutManager.ALL);
+               // LogUtil.d("=======================DOWN============================:");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                float currentX = ev.getRawX();
+                float currentY = ev.getRawY();
+                float dx = currentX - startX;
+                float dy = currentY - startY;
+
+                if (compute_times < max_compute_times) {
+                    xScrollSum += dx;
+                    yScrollSum += dy;
+                    compute_times++;
+                }
+                startX = currentX;
+                startY = currentY;
+             //   LogUtil.d("=====滑动===:" + " xScrollSum:" + xScrollSum + " yScrollSum:" + yScrollSum + " dx:" + dx + "  dy:" + dy);
+                if (Math.abs(xScrollSum) > min_scroll_unit && Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
+                    if (orientation == 0) orientation = orientation_horizontal;
+                    if (orientation == orientation_horizontal) {
+                        layoutManager.setMyOrientation(LinearLayoutManager.HORIZONTAL);
                     }
-                    if (Math.abs(dx) > Math.abs(dy)) {
-                        if (orientation == 0) orientation = orientation_horizontal;
-                        if (orientation == orientation_horizontal) {
-                            layoutManager.setMyOrientation(LinearLayoutManager.HORIZONTAL);
-                        }
-                    } else {
-                        if (orientation == 0) orientation = orientation_vertical;
-                        if (orientation == orientation_vertical) {
-                            layoutManager.setMyOrientation(LinearLayoutManager.VERTICAL);
-                        }
-                        //   LogUtil.d("======================垂直======滑动===:" + " dx:" + dx + " dy:" + dy);
+                } else {
+                    if (orientation == 0) orientation = orientation_vertical;
+                    if (orientation == orientation_vertical) {
+                        layoutManager.setMyOrientation(LinearLayoutManager.VERTICAL);
                     }
-
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-            }
-            return false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
         }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
