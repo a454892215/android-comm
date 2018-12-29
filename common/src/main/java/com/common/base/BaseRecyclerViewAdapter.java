@@ -32,12 +32,12 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         this.itemLayoutId = itemLayoutId;
     }
 
-    //int i = 0;
+   // int i = 0;
     @NonNull
     @Override
     public BaseRecyclerViewAdapter.BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(itemLayoutId, parent, false);
-     //   LogUtil.d("====onCreateViewHolder=========:" + i++);
+      //  LogUtil.d("====onCreateViewHolder=========:" + i++);
         return new BaseRecyclerViewAdapter.BaseViewHolder(view);
     }
 

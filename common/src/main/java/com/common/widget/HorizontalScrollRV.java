@@ -136,7 +136,7 @@ public class HorizontalScrollRV extends FrameLayout {
                     } else {
                         if (orientation == 0) orientation = orientation_vertical;
                     }
-                    LogUtil.d("============================垂直滑动===:" + " dx:" + dx + " dy:" + dy);
+                  //  LogUtil.d("============================垂直滑动===:" + " dx:" + dx + " dy:" + dy);
                     break;
                 case MotionEvent.ACTION_UP:
                     break;

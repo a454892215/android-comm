@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.common.adapter.TextViewAdapter;
-import com.common.adapter.common.HLayoutManager;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
 import com.common.helper.RefreshHelper;
@@ -57,9 +56,9 @@ public class HRVTestActivity extends BaseActivity {
         });
 
         adapter_1 = new TextViewAdapter(activity,
-                R.layout.view_tv_1, TestDataUtil.getData(40));
+                R.layout.view_tv_1, TestDataUtil.getData(300));
         adapter_2 = new TextViewAdapter(activity,
-                R.layout.view_tv_2, TestDataUtil.getData(40));
+                R.layout.view_tv_2, TestDataUtil.getData(300));
 
 
         RecyclerViewUtil.setRecyclerView(recycler_view_1, adapter_1);
