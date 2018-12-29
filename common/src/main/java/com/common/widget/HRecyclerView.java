@@ -57,7 +57,7 @@ public class HRecyclerView extends RecyclerView {
                 yScrollSum = 0;
                 compute_times = 0;
                 layoutManager.setMyOrientation(HLayoutManager.ALL);
-               // LogUtil.d("=======================DOWN============================:");
+                // LogUtil.d("=======================DOWN============================:");
                 break;
             case MotionEvent.ACTION_MOVE:
                 float currentX = ev.getRawX();
@@ -65,20 +65,20 @@ public class HRecyclerView extends RecyclerView {
                 float dx = currentX - startX;
                 float dy = currentY - startY;
 
-                if (compute_times < max_compute_times) {
+                if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit) && Math.abs(xScrollSum) < min_scroll_unit) {
                     xScrollSum += dx;
                     yScrollSum += dy;
                     compute_times++;
                 }
                 startX = currentX;
                 startY = currentY;
-             //   LogUtil.d("=====滑动===:" + " xScrollSum:" + xScrollSum + " yScrollSum:" + yScrollSum + " dx:" + dx + "  dy:" + dy);
+                //   LogUtil.d("=====滑动===:" + " xScrollSum:" + xScrollSum + " yScrollSum:" + yScrollSum + " dx:" + dx + "  dy:" + dy);
                 if (Math.abs(xScrollSum) > min_scroll_unit && Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
                     if (orientation == 0) orientation = orientation_horizontal;
                     if (orientation == orientation_horizontal) {
                         layoutManager.setMyOrientation(LinearLayoutManager.HORIZONTAL);
                     }
-                } else {
+                } else if (Math.abs(yScrollSum) > min_scroll_unit && Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
                     if (orientation == 0) orientation = orientation_vertical;
                     if (orientation == orientation_vertical) {
                         layoutManager.setMyOrientation(LinearLayoutManager.VERTICAL);

@@ -65,7 +65,10 @@ public class HLayoutManager extends LinearLayoutManager {
         } else if (dx_scrolled + dx > canScrollWidth) { //底边界判断
             dx = canScrollWidth - dx_scrolled;
         }
-        offsetChildrenHorizontal(-dx);
+        if(canScrollHorizontally()){
+            offsetChildrenHorizontal(-dx);
+        }
+
         dx_scrolled += dx;
         return dx;
     }
