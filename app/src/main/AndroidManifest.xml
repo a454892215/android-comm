@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RVAsyncScrollTestActivity"/>
+        <activity android:name=".ScrollerHSVTestActivity"/>
         <activity android:name=".RVGridTestActivity"/>
         <activity android:name=".CustomLayoutManagerTestActivity"/>
         <activity android:name=".HRVTestActivity"/>

@@ -18,7 +18,7 @@ import java.util.List;
  * Author: Pan
  * Description: RecyclerView 同步滚动测试
  */
-public class RVAsyncScrollTestActivity extends BaseActivity {
+public class ScrollerHSVTestActivity extends BaseActivity {
 
     private TextViewRVAdapter adapter_1;
     private TextViewRVAdapter adapter_2;

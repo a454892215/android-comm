@@ -18,9 +18,9 @@ import java.util.Arrays;
  */
 public class MainActivity extends BaseActivity {
 
-    private String[] names = {"RecyclerView 同步滚动和自定义水平滚动测试",
-            "GridRV测试", "自定义LayoutManager测试", "可水平滚动的垂直RecycleView", "前景绘制测试"};
-    private Class[] classArr = {RVAsyncScrollTestActivity.class,
+    private String[] names = {"基于Scoller的水平滚动测试",
+            "GridRV测试", "自定r义LayoutManager测试", "可水平滚动的垂直RecycleView", "前景绘制测试"};
+    private Class[] classArr = {ScrollerHSVTestActivity.class,
             RVGridTestActivity.class, CustomLayoutManagerTestActivity.class, HRVTestActivity.class,
             ForegroundDrawingTestActivity.class};
 
