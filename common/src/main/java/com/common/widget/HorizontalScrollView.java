@@ -40,12 +40,11 @@ public class HorizontalScrollView extends FrameLayout {
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
         mScroller = new Scroller(context);
         mScroller.forceFinished(true);
-        maxVelocity = DensityUtil.dp2px(1000);
+        maxVelocity = DensityUtil.dp2px(1500);
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
     }
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -124,7 +123,7 @@ public class HorizontalScrollView extends FrameLayout {
             case MotionEvent.ACTION_UP:
                 performClick();
                 if (Math.abs(dx) > min_scroll_unit / 2) {
-                    velocityTracker.computeCurrentVelocity(1200, maxVelocity);
+                    velocityTracker.computeCurrentVelocity(2000, maxVelocity);
                     float xVelocity = velocityTracker.getXVelocity();
                     LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
                     mScroller.abortAnimation();
