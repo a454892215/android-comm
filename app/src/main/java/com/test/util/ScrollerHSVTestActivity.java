@@ -6,13 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import com.common.adapter.TextViewRVAdapter;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
-import com.common.helper.RefreshHelper;
 import com.common.utils.TestDataUtil;
 import com.common.widget.AsyncScrollLayout;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-
-import java.util.List;
 
 /**
  * Author: Pan
@@ -26,11 +21,11 @@ public class ScrollerHSVTestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SmartRefreshLayout smt_refresh = findViewById(R.id.smt_refresh);
+      //  SmartRefreshLayout smt_refresh = findViewById(R.id.smt_refresh);
         AsyncScrollLayout async_scroll_view = findViewById(R.id.async_scroll_view);
         RecyclerView recycler_view_1 = findViewById(R.id.recycler_view_1);
         RecyclerView recycler_view_2 = findViewById(R.id.rv_horizontal);
-        RefreshHelper.setSmartRefreshLayout(smt_refresh, new RefreshHelper.CallbackAdapter() {
+/*        RefreshHelper.setSmartRefreshLayout(smt_refresh, new RefreshHelper.CallbackAdapter() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 super.onRefresh(refreshLayout);
@@ -53,7 +48,7 @@ public class ScrollerHSVTestActivity extends BaseActivity {
                 adapter_1.notifyDataSetChanged();
                 adapter_2.notifyDataSetChanged();
             }
-        });
+        });*/
 
         adapter_1 = new TextViewRVAdapter(activity,
                 R.layout.view_tv_1, TestDataUtil.getData(40));

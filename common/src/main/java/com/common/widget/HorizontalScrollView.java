@@ -49,9 +49,10 @@ public class HorizontalScrollView extends FrameLayout {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean isConsume = onInterceptTouchEvent(ev);
+        boolean isChildConsume = true;
         View view = getChildAt(0);
         if (view != null && !isConsume) {
-            view.dispatchTouchEvent(ev);
+            isChildConsume = view.dispatchTouchEvent(ev);
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -59,7 +60,11 @@ public class HorizontalScrollView extends FrameLayout {
                 break;
         }
         velocityTracker.addMovement(ev);
-        return true;
+        if(isConsume){
+            return true;
+        }else{
+            return isChildConsume;
+        }
     }
 
 
@@ -130,7 +135,7 @@ public class HorizontalScrollView extends FrameLayout {
                     mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, maxScrollWidth, 0, 0);
                     invalidate();
                 }
-                break;
+                return false;
         }
         return true;
     }
