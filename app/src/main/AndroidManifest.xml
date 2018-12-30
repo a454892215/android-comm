@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".RVAsyncScrollTestActivity"/>
-        <activity android:name=".ListViewAsyncTestActivity"/>
         <activity android:name=".RVGridTestActivity"/>
         <activity android:name=".CustomLayoutManagerTestActivity"/>
         <activity android:name=".HRVTestActivity"/>

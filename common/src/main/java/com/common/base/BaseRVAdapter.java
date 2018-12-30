@@ -19,38 +19,27 @@ import java.util.List;
  * Description: No
  */
 
-public abstract class ForegroundRVAdapter<T> extends RecyclerView.Adapter<ForegroundRVAdapter.BaseViewHolder> {
+public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    private Context context;
+    protected Context context;
     protected List<T> list = new ArrayList<>();
-    private int itemLayoutId;
+    int itemLayoutId;
 
-    public ForegroundRVAdapter(Context activity, int itemLayoutId, List<T> list) {
+    public BaseRVAdapter(Context activity, int itemLayoutId, List<T> list) {
         this.context = activity;
         if (list != null) this.list.addAll(list);
         this.itemLayoutId = itemLayoutId;
     }
 
-    // int i = 0;
     @NonNull
     @Override
-    public ForegroundRVAdapter.BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        if (foregroundView == null) {
-            view = LayoutInflater.from(context).inflate(itemLayoutId, parent, false);
-        } else {
-            if (viewType == 0) {
-                view = foregroundView;
-            } else {
-                view = LayoutInflater.from(context).inflate(itemLayoutId, parent, false);
-            }
-        }
-        //  LogUtil.d("====onCreateViewHolder=========:" + i++);
-        return new ForegroundRVAdapter.BaseViewHolder(view);
+    public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(itemLayoutId, parent, false);
+        return new BaseViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ForegroundRVAdapter.BaseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BaseViewHolder holder, int position) {
         if (onItemClick != null) {
             OnClick onClick = CastUtil.cast(holder.itemView.getTag(R.id.key_item_click));
             if (onClick == null) {
@@ -65,42 +54,13 @@ public abstract class ForegroundRVAdapter<T> extends RecyclerView.Adapter<Foregr
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (foregroundView == null) {
-            return 0;
-        } else {
-            return position == 0 ? 0 : 1;
-        }
-    }
-
-    @Override
     public int getItemCount() {
-        if (foregroundView == null) {
-            return list.size();
-        } else {
-            return list.size() + 1;
-        }
-    }
-
-    private View foregroundView;
-
-    public void setForegroundView(View foregroundView) {
-        this.foregroundView = foregroundView;
-    }
-
-    protected class BaseViewHolder extends RecyclerView.ViewHolder {
-        public View itemView;
-
-        BaseViewHolder(View itemView) {
-            super(itemView);
-            this.itemView = itemView;
-        }
+        return list.size();
     }
 
     public List<T> getList() {
         return list;
     }
-
 
     private class OnClick implements View.OnClickListener {
         private View view;

@@ -3,8 +3,7 @@ package com.test.util;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
-import com.common.adapter.TextViewAdapter;
-import com.common.adapter.common.ForegroundManager;
+import com.common.adapter.TextViewRVAdapter;
 import com.common.adapter.common.HLayoutManager;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
@@ -22,8 +21,8 @@ import java.util.List;
  */
 public class ForegroundDrawingTestActivity extends BaseActivity {
 
-    private TextViewAdapter adapter_1;
-    private TextViewAdapter adapter_2;
+    private TextViewRVAdapter adapter_1;
+    private TextViewRVAdapter adapter_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +56,15 @@ public class ForegroundDrawingTestActivity extends BaseActivity {
             }
         });
 
-        adapter_1 = new TextViewAdapter(activity,
-                R.layout.view_tv_1, TestDataUtil.getData(300));
-        adapter_2 = new TextViewAdapter(activity,
-                R.layout.view_tv_2, TestDataUtil.getData(300));
+        adapter_1 = new TextViewRVAdapter(activity,
+                R.layout.view_tv_1, TestDataUtil.getData(50));
+        adapter_2 = new TextViewRVAdapter(activity,
+                R.layout.view_tv_2, TestDataUtil.getData(50));
 
 
         RecyclerViewUtil.setRecyclerView(recycler_view_1, adapter_1);
-        recycler_view_2.setLayoutManager( new ForegroundManager(activity));
+
+        recycler_view_2.setLayoutManager(new HLayoutManager(activity));
         recycler_view_2.setAdapter(adapter_2);
 
         async_scroll_view.addRecyclerViewGroup(recycler_view_2, recycler_view_1);

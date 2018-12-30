@@ -7,7 +7,8 @@ import android.widget.TextView;
 
 
 import com.common.R;
-import com.common.base.BaseRecyclerViewAdapter;
+import com.common.base.BaseRVAdapter;
+import com.common.base.BaseViewHolder;
 import com.common.utils.ViewHolder;
 
 import java.util.List;
@@ -18,13 +19,13 @@ import java.util.List;
  * Description: No
  */
 
-public class TextViewAdapter extends BaseRecyclerViewAdapter<String> {
-    public TextViewAdapter(Context activity, int itemLayoutId, List<String> list) {
+public class TextViewRVAdapter extends BaseRVAdapter<String> {
+    public TextViewRVAdapter(Context activity, int itemLayoutId, List<String> list) {
         super(activity, itemLayoutId, list);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseRecyclerViewAdapter.BaseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         View itemView = holder.itemView;
         TextView tv_1 = ViewHolder.get(itemView, R.id.tv_1);
