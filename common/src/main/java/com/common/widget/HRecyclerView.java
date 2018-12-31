@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 
 import com.common.R;
 import com.common.adapter.common.HLayoutManager;
-import com.common.utils.LogUtil;
 
 /**
  * Author: Pan
@@ -32,7 +31,7 @@ public class HRecyclerView extends RecyclerView {
     public HRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
-        LogUtil.debug("=========min_scroll_unit:" + min_scroll_unit);
+        // LogUtil.debug("=========min_scroll_unit:" + min_scroll_unit);
     }
 
     private float startX;
@@ -65,19 +64,21 @@ public class HRecyclerView extends RecyclerView {
                 float dx = currentX - startX;
                 float dy = currentY - startY;
 
-                if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit) && Math.abs(xScrollSum) < min_scroll_unit) {
+                if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit &&
+                        Math.abs(yScrollSum) < min_scroll_unit)) {//第一个条件限制最大次数 ，避免首几次数据有误
                     xScrollSum += dx;
                     yScrollSum += dy;
                     compute_times++;
                 }
                 startX = currentX;
                 startY = currentY;
-                //   LogUtil.d("=====滑动===:" + " xScrollSum:" + xScrollSum + " yScrollSum:" + yScrollSum + " dx:" + dx + "  dy:" + dy);
+                // LogUtil.d("===1==滑动===:" + " xScrollSum:" + xScrollSum + " yScrollSum:" + yScrollSum + " dx:" + dx + "  dy:" + dy);
                 if (Math.abs(xScrollSum) > min_scroll_unit && Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
                     if (orientation == 0) orientation = orientation_horizontal;
                     if (orientation == orientation_horizontal) {
                         layoutManager.setMyOrientation(LinearLayoutManager.HORIZONTAL);
                     }
+
                 } else if (Math.abs(yScrollSum) > min_scroll_unit && Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
                     if (orientation == 0) orientation = orientation_vertical;
                     if (orientation == orientation_vertical) {
