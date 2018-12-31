@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.common.utils.LogUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +33,11 @@ public class AsyncScrollLayout extends LinearLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+
                 for (int i = 0; i < asyncScrollGroupList.size(); i++) {
                     AsyncScrollGroup asyncScrollGroup = asyncScrollGroupList.get(i);
                     for (RecyclerView rv : asyncScrollGroup.syncedRVArr) {
+                        rv.dispatchTouchEvent(ev); //解决 自定义水平rv 第一次被动滚动时候 无效问题
                         if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
                             asyncScrollGroup.asyncScrollRecyclerView(rv);
                     }
@@ -97,7 +101,7 @@ public class AsyncScrollLayout extends LinearLayout {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 for (RecyclerView rv : syncedRVArr) {
-                    if (recyclerView != rv) rv.scrollBy(dx, dy);
+                    if (recyclerView != rv)  rv.scrollBy(dx, dy);
                 }
             }
         };

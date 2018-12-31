@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.common.widget.RefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:layout_marginTop="-100dp"
+        android:background="#33ff0000">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:text="下拉刷新"/>
+    </RelativeLayout>
+    <com.common.widget.AsyncScrollLayout
+        android:id="@+id/async_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:splitMotionEvents="false">
+
+        <com.common.widget.HRecyclerView
+            android:id="@+id/recycler_view_1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+
+        <com.common.widget.HRecyclerView
+            android:id="@+id/recycler_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tag="rv2"
+            android:scrollbars="vertical"/>
+
+    </com.common.widget.AsyncScrollLayout>
+</com.common.widget.RefreshLayout>
