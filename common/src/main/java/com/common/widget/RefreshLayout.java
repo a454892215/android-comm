@@ -104,7 +104,7 @@ public class RefreshLayout extends LinearLayout {
                     sumYPerTouch = sumYPerTouch > headerHeight ? headerHeight : sumYPerTouch;
                     startX = currentX;
                     startY = currentY;
-                //    LogUtil.d("getScrollY():" + getScrollY() + "  headerHeight:" + headerHeight + " headerRefreshHeight:" + headerRefreshHeight);
+                    //    LogUtil.d("getScrollY():" + getScrollY() + "  headerHeight:" + headerHeight + " headerRefreshHeight:" + headerRefreshHeight);
                     if (Math.abs(dy) > Math.abs(dx)) {
                         if (dy > 0) { //向下滑
                             boolean canScrollDown = targetView.canScrollVertically(-1);
@@ -116,13 +116,18 @@ public class RefreshLayout extends LinearLayout {
                                         tv_header.setText("下拉刷新");
                                     }
                                 }
-
                                 float rate = sumYPerTouch / headerHeight;//0 - 1
                                 int scroll_dy = -Math.round(dy * (1 - rate));
                                 scroll_dy = scroll_dy == 0 ? -1 : scroll_dy;
                                 executeScrollYBy(scroll_dy);
                             }
                         } else if (dy < 0) {//向上滑
+                            //如果头已经出来 隐藏头
+                            if (getScrollY() < 0) {
+                                executeScrollYBy(-Math.round(dy));
+                            }
+
+
                             boolean b1 = targetView.canScrollVertically(1);
                             LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                         }
@@ -147,7 +152,7 @@ public class RefreshLayout extends LinearLayout {
     ValueAnimator headerAnim;
 
     private void scrollHeaderView(int start, int end) {
-        LogUtil.e("======scrollHeaderView=====end:"+end);
+        LogUtil.e("======scrollHeaderView=====end:" + end);
         headerAnim = ValueAnimator.ofInt(start, end);
         headerAnim.setDuration(250);
         headerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
@@ -156,7 +161,7 @@ public class RefreshLayout extends LinearLayout {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                LogUtil.e("===========onAnimationEnd:"+end);
+                LogUtil.e("===========onAnimationEnd:" + end);
                 if (end != 0) {//释放刷新
                     tv_header.setText("正在刷新");
                 }
