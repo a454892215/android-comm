@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.common.adapter.TextViewRVAdapter;
 import com.common.adapter.common.HLayoutManager;
-import com.common.adapter.common.RefreshLayoutManager;
 import com.common.base.BaseActivity;
 import com.common.utils.TestDataUtil;
 import com.common.widget.AsyncScrollLayout;

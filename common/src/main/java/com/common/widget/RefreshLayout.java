@@ -3,14 +3,17 @@ package com.common.widget;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.common.utils.LogUtil;
+import com.common.utils.ViewUtil;
 
 /**
  * Author: Pan
@@ -22,6 +25,7 @@ public class RefreshLayout extends LinearLayout {
     private final Scroller mScroller;
     private View headerView;
     private int headerHeight;
+    private View targetView;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -78,14 +82,45 @@ public class RefreshLayout extends LinearLayout {
         scrollBy(0, dy);
     }
 
+    private float startX;
+    private float startY;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_UP) {
-            if (getScrollY() >=  -headerView.getHeight()) { //向上滑,头部已经显示出来
-                closeHeaderView(getScrollY(), 0);
-            }
+        boolean b = super.dispatchTouchEvent(ev);
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                startX = ev.getRawX();
+                startY = ev.getRawY();
+                targetView = findTargetView(this, startX, startY);
+                if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (targetView != null) {
+                    float currentX = ev.getRawX();
+                    float currentY = ev.getRawY();
+                    float dx = currentX - startX;
+                    float dy = currentY - startY;
+                    startX = currentX;
+                    startY = currentY;
+                    if (Math.abs(dy) > Math.abs(dx)) {
+                        LogUtil.d("================dy:" + dy);
+                        if (dy > 0) { //向下滑
+                            boolean b1 = targetView.canScrollVertically(-1);
+                        } else if (dy < 0) {//向上滑
+                            boolean b1 = targetView.canScrollVertically(1);
+                        }
+                    }
+                }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                if (getScrollY() >= -headerView.getHeight()) { //向上滑,头部已经显示出来
+                    closeHeaderView(getScrollY(), 0);
+                }
+                break;
         }
-        return super.dispatchTouchEvent(ev);
+        return b;
     }
 
     private void closeHeaderView(int start, int end) {
@@ -95,5 +130,24 @@ public class RefreshLayout extends LinearLayout {
             scrollTo(0, (Integer) animation.getAnimatedValue());
         });
         anim.start();
+    }
+
+    public boolean canChildScrollUp(View mDragListView) {
+        return ViewCompat.canScrollVertically(mDragListView, -1);
+    }
+
+    private View findTargetView(ViewGroup parent, float x, float y) {
+        if (parent instanceof RecyclerView && ViewUtil.isTouchPointInView(parent, x, y)) {
+            return parent;
+        } else {
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View view = parent.getChildAt(i);
+                if (view instanceof ViewGroup) {
+                    findTargetView((ViewGroup) view, x, y);
+                }
+            }
+        }
+        return null;
     }
 }

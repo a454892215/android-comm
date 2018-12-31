@@ -5,10 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.LinearLayout;
-
-import com.common.utils.LogUtil;
+import com.common.utils.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +36,7 @@ public class AsyncScrollLayout extends LinearLayout {
                     AsyncScrollGroup asyncScrollGroup = asyncScrollGroupList.get(i);
                     for (RecyclerView rv : asyncScrollGroup.syncedRVArr) {
                         rv.dispatchTouchEvent(ev); //解决 自定义水平rv 第一次被动滚动时候 无效问题
-                        if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
+                        if (ViewUtil.isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
                             asyncScrollGroup.asyncScrollRecyclerView(rv);
                     }
                 }
@@ -54,21 +52,6 @@ public class AsyncScrollLayout extends LinearLayout {
         asyncScrollGroup.setSyncedRVArr(syncedRV);
         asyncScrollGroupList.add(asyncScrollGroup);
     }
-
-    private boolean isTouchPointInView(View view, float x, float y) {
-        if (view == null) {
-            return false;
-        }
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        int left = location[0];
-        int top = location[1];
-        int right = left + view.getMeasuredWidth();
-        int bottom = top + view.getMeasuredHeight();
-        return y >= top && y <= bottom && x >= left
-                && x <= right;
-    }
-
 
     private static class AsyncScrollGroup {
         private RecyclerView lastScrollView; //记录上次主动滚动的RecyclerView
