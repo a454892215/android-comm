@@ -92,7 +92,7 @@ public class RefreshLayout extends LinearLayout {
             case MotionEvent.ACTION_DOWN:
                 startX = ev.getRawX();
                 startY = ev.getRawY();
-                targetView = findTargetView(this, startX, startY);
+                targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -104,9 +104,10 @@ public class RefreshLayout extends LinearLayout {
                     startX = currentX;
                     startY = currentY;
                     if (Math.abs(dy) > Math.abs(dx)) {
-                        LogUtil.d("================dy:" + dy);
+
                         if (dy > 0) { //向下滑
                             boolean b1 = targetView.canScrollVertically(-1);
+                            LogUtil.d("================目标控件 是否能 向下滑动b1:" + dy);
                         } else if (dy < 0) {//向上滑
                             boolean b1 = targetView.canScrollVertically(1);
                         }
@@ -132,19 +133,19 @@ public class RefreshLayout extends LinearLayout {
         anim.start();
     }
 
-    public boolean canChildScrollUp(View mDragListView) {
-        return ViewCompat.canScrollVertically(mDragListView, -1);
+    private View[] targetViewArr;
+
+    public void setTargetView(View... targetView) {
+        targetViewArr = targetView;
     }
 
-    private View findTargetView(ViewGroup parent, float x, float y) {
-        if (parent instanceof RecyclerView && ViewUtil.isTouchPointInView(parent, x, y)) {
-            return parent;
+    private View findTargetView(float x, float y) {
+        if (targetViewArr == null || targetViewArr.length == 0) {
+            return null;
         } else {
-            int childCount = parent.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                View view = parent.getChildAt(i);
-                if (view instanceof ViewGroup) {
-                    findTargetView((ViewGroup) view, x, y);
+            for (View aTargetViewArr : targetViewArr) {
+                if (ViewUtil.isTouchPointInView(aTargetViewArr, x, y)) {
+                    return aTargetViewArr;
                 }
             }
         }

@@ -23,6 +23,8 @@ public class RefreshRvTestActivity extends BaseActivity {
         AsyncScrollLayout async_scroll_view = findViewById(R.id.async_scroll_view);
         RecyclerView recycler_view_1 = findViewById(R.id.recycler_view_1);
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
+
+        refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
 /*        RefreshHelper.setSmartRefreshLayout(smt_refresh, new RefreshHelper.CallbackAdapter() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
@@ -53,10 +55,10 @@ public class RefreshRvTestActivity extends BaseActivity {
         TextViewRVAdapter adapter_2 = new TextViewRVAdapter(activity,
                 R.layout.view_tv_2, TestDataUtil.getData(50));
 
-        recycler_view_1.setLayoutManager( new HLayoutManager(activity));
+        recycler_view_1.setLayoutManager(new HLayoutManager(activity));
         recycler_view_1.setAdapter(adapter_1);
 
-        recycler_view_2.setLayoutManager( new HLayoutManager(activity));
+        recycler_view_2.setLayoutManager(new HLayoutManager(activity));
         recycler_view_2.setAdapter(adapter_2);
 
         async_scroll_view.addRecyclerViewGroup(recycler_view_2, recycler_view_1);
