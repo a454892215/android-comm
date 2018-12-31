@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_100"
+        android:layout_alignTop="@id/async_scroll_view"
         android:layout_marginTop="-100dp"
         android:background="#33ff0000">
         <TextView
@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="rv2"
+            android:overScrollMode="never"
             android:scrollbars="vertical"/>
 
     </com.common.widget.AsyncScrollLayout>

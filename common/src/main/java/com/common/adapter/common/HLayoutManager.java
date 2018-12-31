@@ -19,11 +19,11 @@ public class HLayoutManager extends LinearLayoutManager {
     public HLayoutManager(Context context) {
         super(context);
     }
-
+    @SuppressWarnings("unused")
     public HLayoutManager(Context context, int orientation, boolean reverseLayout) {
         super(context, orientation, reverseLayout);
     }
-
+    @SuppressWarnings("unused")
     public HLayoutManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -31,21 +31,25 @@ public class HLayoutManager extends LinearLayoutManager {
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         super.onLayoutChildren(recycler, state);
-        int horizontalContentWidth = getWidth() - getPaddingLeft() + getPaddingRight();
-        View view = recycler.getViewForPosition(0);
-        measureChildWithMargins(view, 0, 0);
-        int itemWidth = getDecoratedMeasuredWidth(view);
-        canScrollWidth = itemWidth - horizontalContentWidth;
-        canScrollWidth = canScrollWidth < 0 ? 0 : canScrollWidth;
+        if (canScrollWidth == 0) {
+            int horizontalContentWidth = getWidth() - getPaddingLeft() + getPaddingRight();
+            View view = recycler.getViewForPosition(0);
+            measureChildWithMargins(view, 0, 0);
+            int itemWidth = getDecoratedMeasuredWidth(view);
+            canScrollWidth = itemWidth - horizontalContentWidth;
+            canScrollWidth = canScrollWidth < 0 ? 0 : canScrollWidth;
+            // LogUtil.debug("canScrollWidth:" + canScrollWidth + " itemWidth:" + itemWidth + "  horizontalContentWidth:" + horizontalContentWidth);
+        }
     }
 
     public void setMyOrientation(int orientation) {
         this.orientation = orientation;
     }
 
-    private int orientation;
+    private int orientation = HLayoutManager.ALL;
 
     public static final int ALL = 2;
+
     @Override
     public boolean canScrollHorizontally() {
         return orientation == HORIZONTAL || orientation == ALL;
@@ -65,10 +69,7 @@ public class HLayoutManager extends LinearLayoutManager {
         } else if (dx_scrolled + dx > canScrollWidth) { //底边界判断
             dx = canScrollWidth - dx_scrolled;
         }
-        if(canScrollHorizontally()){
-            offsetChildrenHorizontal(-dx);
-        }
-
+        offsetChildrenHorizontal(-dx);
         dx_scrolled += dx;
         return dx;
     }

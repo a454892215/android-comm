@@ -87,6 +87,8 @@ public class HRecyclerView extends RecyclerView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                postDelayed(() -> layoutManager.setMyOrientation(HLayoutManager.ALL),100);//防止在抬起的一瞬间 ，因为惯性，两个方向同时滚动，故延迟
                 break;
         }
         return super.dispatchTouchEvent(ev);

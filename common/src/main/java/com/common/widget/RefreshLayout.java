@@ -1,10 +1,14 @@
 package com.common.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 
 import com.common.utils.LogUtil;
 
@@ -15,7 +19,9 @@ import com.common.utils.LogUtil;
  */
 public class RefreshLayout extends LinearLayout {
 
+    private final Scroller mScroller;
     private View headerView;
+    private int headerHeight;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -28,6 +34,8 @@ public class RefreshLayout extends LinearLayout {
 
     public RefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mScroller = new Scroller(context);
+        mScroller.forceFinished(true);
     }
 
     @Override
@@ -41,19 +49,51 @@ public class RefreshLayout extends LinearLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        LogUtil.d("===== onMeasure==== headerView:" + headerView.getMeasuredHeight());
+        headerHeight = headerView.getMeasuredHeight();
     }
 
-    public interface onRefreshListener {
+/*    public interface onRefreshListener {
         void onRefresh(RefreshLayout refreshLayout);
     }
 
     public interface onLoadMoreListener {
         void onLoadMore(RefreshLayout refreshLayout);
+    }*/
+
+    public void scroll(int dy, int real_dy, RecyclerView rv) {
+        LogUtil.d("========scroll====dy:" + dy + "  real_dy:" + real_dy);
+        if (real_dy == 0) { //RV没有滚动
+            executeScrollYBy(dy);
+        }
+        if (dy > 0 && getScrollY() > -headerView.getHeight()) { //向上滑,头部已经显示出来
+            executeScrollYBy(dy);
+        }
     }
 
-    public View getHeaderView() {
-        return headerView;
+    private void executeScrollYBy(int dy) {
+        if (getScrollY() + dy < -headerHeight) {
+            dy = -headerHeight - getScrollY();
+        }
+        if (getScrollY() + dy > 0) dy = -getScrollY();
+        scrollBy(0, dy);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            if (getScrollY() >=  -headerView.getHeight()) { //向上滑,头部已经显示出来
+                closeHeaderView(getScrollY(), 0);
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    private void closeHeaderView(int start, int end) {
+        ValueAnimator anim = ValueAnimator.ofInt(start, end);
+        anim.setDuration(200);
+        anim.addUpdateListener(animation -> {
+            scrollTo(0, (Integer) animation.getAnimatedValue());
+        });
+        anim.start();
+    }
 }

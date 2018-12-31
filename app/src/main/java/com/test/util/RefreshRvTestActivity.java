@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 
 import com.common.adapter.TextViewRVAdapter;
+import com.common.adapter.common.HLayoutManager;
 import com.common.adapter.common.RefreshLayoutManager;
 import com.common.base.BaseActivity;
 import com.common.utils.TestDataUtil;
@@ -53,10 +54,10 @@ public class RefreshRvTestActivity extends BaseActivity {
         TextViewRVAdapter adapter_2 = new TextViewRVAdapter(activity,
                 R.layout.view_tv_2, TestDataUtil.getData(50));
 
-        recycler_view_1.setLayoutManager( new RefreshLayoutManager(activity,refreshLayout));
+        recycler_view_1.setLayoutManager( new HLayoutManager(activity));
         recycler_view_1.setAdapter(adapter_1);
 
-        recycler_view_2.setLayoutManager( new RefreshLayoutManager(activity,refreshLayout));
+        recycler_view_2.setLayoutManager( new HLayoutManager(activity));
         recycler_view_2.setAdapter(adapter_2);
 
         async_scroll_view.addRecyclerViewGroup(recycler_view_2, recycler_view_1);
