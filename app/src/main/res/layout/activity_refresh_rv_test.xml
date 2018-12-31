@@ -4,20 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100"
-        android:layout_alignTop="@id/async_scroll_view"
-        android:layout_marginTop="-100dp"
-        android:background="#33ff0000">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/dp_20"
-            android:text="下拉刷新"/>
-    </RelativeLayout>
+
+    <include layout="@layout/refresh_header" />
+
     <com.common.widget.AsyncScrollLayout
         android:id="@+id/async_scroll_view"
         android:layout_width="match_parent"

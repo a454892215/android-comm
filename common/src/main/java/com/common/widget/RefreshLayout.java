@@ -1,17 +1,18 @@
 package com.common.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
+import android.widget.TextView;
 
+import com.common.R;
 import com.common.utils.LogUtil;
 import com.common.utils.ViewUtil;
 
@@ -22,10 +23,11 @@ import com.common.utils.ViewUtil;
  */
 public class RefreshLayout extends LinearLayout {
 
-    private final Scroller mScroller;
     private View headerView;
     private int headerHeight;
+    private static int headerRefreshHeight;
     private View targetView;
+    private TextView tv_header;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -38,14 +40,16 @@ public class RefreshLayout extends LinearLayout {
 
     public RefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mScroller = new Scroller(context);
+        Scroller mScroller = new Scroller(context);
         mScroller.forceFinished(true);
+        headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         headerView = getChildAt(0);
+        tv_header = headerView.findViewById(R.id.tv_header);
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
@@ -64,15 +68,6 @@ public class RefreshLayout extends LinearLayout {
         void onLoadMore(RefreshLayout refreshLayout);
     }*/
 
-    public void scroll(int dy, int real_dy, RecyclerView rv) {
-        LogUtil.d("========scroll====dy:" + dy + "  real_dy:" + real_dy);
-        if (real_dy == 0) { //RV没有滚动
-            executeScrollYBy(dy);
-        }
-        if (dy > 0 && getScrollY() > -headerView.getHeight()) { //向上滑,头部已经显示出来
-            executeScrollYBy(dy);
-        }
-    }
 
     private void executeScrollYBy(int dy) {
         if (getScrollY() + dy < -headerHeight) {
@@ -84,14 +79,18 @@ public class RefreshLayout extends LinearLayout {
 
     private float startX;
     private float startY;
+    private float sumYPerTouch;
+    private static final float damping = 0.8f;//阻尼，越小 头部约容易下拉
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         boolean b = super.dispatchTouchEvent(ev);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                LogUtil.d("===============ACTION_DOWN==============");
                 startX = ev.getRawX();
                 startY = ev.getRawY();
+                sumYPerTouch = 0;
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
                 break;
@@ -101,36 +100,69 @@ public class RefreshLayout extends LinearLayout {
                     float currentY = ev.getRawY();
                     float dx = currentX - startX;
                     float dy = currentY - startY;
+                    sumYPerTouch += dy * damping;
+                    sumYPerTouch = sumYPerTouch > headerHeight ? headerHeight : sumYPerTouch;
                     startX = currentX;
                     startY = currentY;
+                //    LogUtil.d("getScrollY():" + getScrollY() + "  headerHeight:" + headerHeight + " headerRefreshHeight:" + headerRefreshHeight);
                     if (Math.abs(dy) > Math.abs(dx)) {
-
                         if (dy > 0) { //向下滑
-                            boolean b1 = targetView.canScrollVertically(-1);
-                            LogUtil.d("================目标控件 是否能 向下滑动b1:" + dy);
+                            boolean canScrollDown = targetView.canScrollVertically(-1);
+                            if (!canScrollDown) {
+                                if (getScrollY() < 0) { //头部显示出来
+                                    if (getScrollY() <= -headerRefreshHeight) {//释放刷新
+                                        tv_header.setText("释放刷新");
+                                    } else { //关闭头
+                                        tv_header.setText("下拉刷新");
+                                    }
+                                }
+
+                                float rate = sumYPerTouch / headerHeight;//0 - 1
+                                int scroll_dy = -Math.round(dy * (1 - rate));
+                                scroll_dy = scroll_dy == 0 ? -1 : scroll_dy;
+                                executeScrollYBy(scroll_dy);
+                            }
                         } else if (dy < 0) {//向上滑
                             boolean b1 = targetView.canScrollVertically(1);
+                            LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                         }
                     }
                 }
 
                 break;
             case MotionEvent.ACTION_UP:
-                if (getScrollY() >= -headerView.getHeight()) { //向上滑,头部已经显示出来
-                    closeHeaderView(getScrollY(), 0);
+                LogUtil.d("===============ACTION_UP==============");
+                if (getScrollY() < 0) { //头部显示出来
+                    if (getScrollY() <= -headerRefreshHeight) {//释放刷新
+                        scrollHeaderView(getScrollY(), -headerRefreshHeight);
+                    } else { //关闭头
+                        scrollHeaderView(getScrollY(), 0);
+                    }
                 }
                 break;
         }
         return b;
     }
 
-    private void closeHeaderView(int start, int end) {
-        ValueAnimator anim = ValueAnimator.ofInt(start, end);
-        anim.setDuration(200);
-        anim.addUpdateListener(animation -> {
-            scrollTo(0, (Integer) animation.getAnimatedValue());
+    ValueAnimator headerAnim;
+
+    private void scrollHeaderView(int start, int end) {
+        LogUtil.e("======scrollHeaderView=====end:"+end);
+        headerAnim = ValueAnimator.ofInt(start, end);
+        headerAnim.setDuration(250);
+        headerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
+
+        headerAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                LogUtil.e("===========onAnimationEnd:"+end);
+                if (end != 0) {//释放刷新
+                    tv_header.setText("正在刷新");
+                }
+            }
         });
-        anim.start();
+        headerAnim.start();
     }
 
     private View[] targetViewArr;
