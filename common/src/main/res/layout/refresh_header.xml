@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_200"
-    android:layout_marginTop="-200dp"
+    tools:ignore="HardcodedText"
     android:background="#33ff0000">
-
     <TextView
-        android:id="@+id/tv_header"
+        android:id="@+id/tv_header_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_27"
+        android:textColor="#444444"
+        android:textSize="@dimen/sp_15"
         android:text="下拉刷新" />
+
+    <TextView
+        android:id="@+id/tv_header_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:textColor="#777777"
+        android:textSize="@dimen/sp_12"
+        android:text="上次更新 12月15日 12:00" />
+
+
 </RelativeLayout>

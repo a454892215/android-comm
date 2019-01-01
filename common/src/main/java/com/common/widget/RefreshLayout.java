@@ -56,7 +56,7 @@ public class RefreshLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         headerView = getChildAt(0);
-        tv_header = headerView.findViewById(R.id.tv_header);
+        tv_header = headerView.findViewById(R.id.tv_header_state);
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
@@ -65,6 +65,12 @@ public class RefreshLayout extends LinearLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         headerHeight = headerView.getMeasuredHeight();
+        if (headerHeight != 0) {
+            LayoutParams lp = (LayoutParams) headerView.getLayoutParams();
+            lp.topMargin = -headerHeight;
+            headerView.setLayoutParams(lp);
+        }
+
     }
 
 /*    public interface onRefreshListener {
@@ -84,14 +90,16 @@ public class RefreshLayout extends LinearLayout {
 
         if (dy != 0) {
             removeAllHeaderRefreshRunnable();
+            if (headerAnim != null && headerAnim.isRunning()) {
+                headerAnim.end();
+                headerAnim.cancel();
+            }
         }
         scrollBy(0, dy);
     }
 
     private float startX;
     private float startY;
-    private float sumYPerTouch;
-    private static final float damping = 0.8f;//阻尼，越小 头部越容易下拉
 
     private static int refresh_state = 1;
     private static final int refresh_state_pull_down = 1;
@@ -106,7 +114,6 @@ public class RefreshLayout extends LinearLayout {
                 LogUtil.d("===============ACTION_DOWN==============");
                 startX = ev.getRawX();
                 startY = ev.getRawY();
-                sumYPerTouch = 0;
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
                 break;
@@ -116,8 +123,6 @@ public class RefreshLayout extends LinearLayout {
                     float currentY = ev.getRawY();
                     float dx = currentX - startX;
                     float dy = currentY - startY;
-                    sumYPerTouch += dy * damping;
-                    sumYPerTouch = sumYPerTouch > headerHeight ? headerHeight : sumYPerTouch;
                     startX = currentX;
                     startY = currentY;
                     //    LogUtil.d("getScrollY():" + getScrollY() + "  headerHeight:" + headerHeight + " headerRefreshHeight:" + headerRefreshHeight);
@@ -125,7 +130,7 @@ public class RefreshLayout extends LinearLayout {
                         if (dy > 0) { //向下滑
                             boolean canScrollDown = targetView.canScrollVertically(-1);
                             if (!canScrollDown) {
-                                if (getScrollY() < 0 && refresh_state != refresh_state_refreshing) { //头部显示出来
+                                if (refresh_state != refresh_state_refreshing) { //头部显示出来
                                     if (getScrollY() <= -headerRefreshHeight) {//释放刷新
                                         refresh_state = refresh_state_release_refresh;
                                         tv_header.setText(text_release_refresh);
@@ -133,24 +138,16 @@ public class RefreshLayout extends LinearLayout {
                                         refresh_state = refresh_state_pull_down;
                                         tv_header.setText(text_pull_down_refresh);
                                     }
-                                    if (headerAnim != null && headerAnim.isRunning()) {
-                                        headerAnim.end();
-                                        headerAnim.cancel();
-                                    }
                                 }
-                                float rate = sumYPerTouch / headerHeight;//0 - 1
-                                int scroll_dy = -Math.round(dy * (1 - rate));
-                                scroll_dy = scroll_dy == 0 ? -1 : scroll_dy;
+                                float damping = -getScrollY() / (float) headerHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
+                                float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
+                                LogUtil.d("damping_level_1: " + damping_level_1);
+                                int scroll_dy = -Math.round(dy * damping_level_1);
                                 touchScroll(scroll_dy);
                             }
                         } else if (dy < 0) {//向上滑
-
                             if (getScrollY() < 0) {  //如果头已经出来 隐藏头
                                 touchScroll(-Math.round(dy));
-                                if (headerAnim != null && headerAnim.isRunning()) {
-                                    headerAnim.end();
-                                    headerAnim.cancel();
-                                }
                             }
                             boolean b1 = targetView.canScrollVertically(1);
                             LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
