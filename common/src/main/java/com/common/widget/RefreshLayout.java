@@ -41,6 +41,7 @@ public class RefreshLayout extends LinearLayout {
     private static final String text_pull_down_refresh = "下拉刷新";
     private static final String text_release_refresh = "释放刷新";
     private static final String text_refreshing = "正在刷新";
+    private static final String text_refresh_finish = "刷新结束";
     private static final String key_refresh_last_update = "key_refresh_last_update";
     private static final String last_update_time_no_record = "上次更新 ...";
     private static final String last_update_time_prefix = "上次更新";
@@ -125,7 +126,7 @@ public class RefreshLayout extends LinearLayout {
     private static final int refresh_state_pull_down = 1;
     private static final int refresh_state_release_refresh = 2;
     private static final int refresh_state_refreshing = 3;
-
+    private static final int refresh_state_refresh_finished = 4;
     private float startX;
     private float startY;
 
@@ -256,7 +257,10 @@ public class RefreshLayout extends LinearLayout {
 
     private void scrollHeaderView(int start, int end, int end_state) {
         headerAnim = ValueAnimator.ofInt(start, end);
-        headerAnim.setDuration(250);
+        float rate = (end - start) / (float)headerRefreshHeight;
+        rate = rate > 1 ? 1 : rate;
+        rate = rate < 0 ? 0.1f : rate;
+        headerAnim.setDuration(Math.round(rate * 200));
         headerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
         headerAnim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -266,17 +270,24 @@ public class RefreshLayout extends LinearLayout {
                     refresh_state = refresh_state_pull_down;
                     tv_header.setText(text_pull_down_refresh);
                     iv_header_right.setImageDrawable(arrowDrawable);
+                    iv_header_right.setVisibility(View.VISIBLE);
                     removeAllHeaderRefreshRunnable();
                 } else if (end_state == refresh_state_refreshing) {
                     refresh_state = refresh_state_refreshing;
                     tv_header.setText(text_refreshing);
                     iv_header_right.setImageDrawable(progressDrawable);
                     progressDrawable.start();
-                    long currentTimeMillis = System.currentTimeMillis();
-                    SharedPreUtils.putLong(context, key_refresh_last_update, currentTimeMillis);//保存现在时间
-                    Runnable runnable = () -> scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);
+                    SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
+                    Runnable runnable = () -> scrollHeaderView(getScrollY(), getScrollY(), refresh_state_refresh_finished);
                     endHeaderRefreshList.add(runnable);
                     headerView.postDelayed(runnable, 3000);
+                } else if (end_state == refresh_state_refresh_finished) {
+                    refresh_state = refresh_state_refresh_finished;
+                    tv_header.setText(text_refresh_finish);
+                    iv_header_right.setVisibility(View.INVISIBLE);
+                    Runnable runnable = () -> scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);
+                    endHeaderRefreshList.add(runnable);
+                    headerView.postDelayed(runnable, 500);
                 }
             }
         });
