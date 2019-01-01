@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class RefreshLayout extends LinearLayout {
 
+    private final float min_scroll_unit;
     private View headerView;
     private int headerHeight;
     private static int headerRefreshHeight;
@@ -55,6 +56,7 @@ public class RefreshLayout extends LinearLayout {
     public RefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
         Scroller mScroller = new Scroller(context);
         mScroller.forceFinished(true);
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
@@ -107,13 +109,22 @@ public class RefreshLayout extends LinearLayout {
         scrollBy(0, dy);
     }
 
-    private float startX;
-    private float startY;
-
     private static int refresh_state = 1;
     private static final int refresh_state_pull_down = 1;
     private static final int refresh_state_release_refresh = 2;
     private static final int refresh_state_refreshing = 3;
+
+    private float startX;
+    private float startY;
+
+    private static final int max_compute_times = 3;
+    private int compute_times = 0;
+    private float xScrollSum;
+    private float yScrollSum;
+
+    private int orientation = 0;
+    private static final int orientation_vertical = 1;
+    private static final int orientation_horizontal = 2;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -123,6 +134,10 @@ public class RefreshLayout extends LinearLayout {
                 LogUtil.d("===============ACTION_DOWN==============");
                 startX = ev.getRawX();
                 startY = ev.getRawY();
+                orientation = 0;
+                xScrollSum = 0;
+                yScrollSum = 0;
+                compute_times = 0;
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
                 updateRecordTime();
@@ -134,29 +149,43 @@ public class RefreshLayout extends LinearLayout {
                     float currentY = ev.getRawY();
                     float dx = currentX - startX;
                     float dy = currentY - startY;
+
+                    if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit &&
+                            Math.abs(yScrollSum) < min_scroll_unit)) {//第一个条件限制最大次数 ，避免首几次数据有误
+                        xScrollSum += dx;
+                        yScrollSum += dy;
+                        compute_times++;
+                    }
                     startX = currentX;
                     startY = currentY;
-                    if (Math.abs(dy) > Math.abs(dx)) {
-                        updateHeaderState();
-                        if (dy > 0) { //向下滑
-                            boolean canScrollDown = targetView.canScrollVertically(-1);
-                            if (!canScrollDown) {
-                                float damping = -getScrollY() / (float) headerHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
-                                float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
-                                int scroll_dy = -Math.round(dy * damping_level_1);
-                                touchScroll(scroll_dy);
+
+                    if (Math.abs(xScrollSum) > min_scroll_unit && Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
+                        if (orientation == 0) orientation = orientation_horizontal;
+                    } else if (Math.abs(yScrollSum) > min_scroll_unit && Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
+                        if (orientation == 0) orientation = orientation_vertical;
+                        if (orientation == orientation_vertical) {
+                            updateHeaderState();
+                            if (dy > 0) { //向下滑
+                                boolean canScrollDown = targetView.canScrollVertically(-1);
+                                if (!canScrollDown) {
+                                    float damping = -getScrollY() / (float) headerHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
+                                    float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
+                                    int scroll_dy = -Math.round(dy * damping_level_1);
+                                    touchScroll(scroll_dy);
+                                }
+                            } else if (dy < 0) {//向上滑
+                                if (getScrollY() < 0) {  //如果头已经出来 隐藏头
+                                    touchScroll(-Math.round(dy));
+                                }
+                                boolean b1 = targetView.canScrollVertically(1);
+                                LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                             }
-                        } else if (dy < 0) {//向上滑
-                            if (getScrollY() < 0) {  //如果头已经出来 隐藏头
-                                touchScroll(-Math.round(dy));
-                            }
-                            boolean b1 = targetView.canScrollVertically(1);
-                            LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                         }
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 LogUtil.d("===============ACTION_UP==============");
                 if (getScrollY() < 0) { //头部显示出来
                     switch (refresh_state) {

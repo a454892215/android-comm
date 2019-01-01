@@ -68,8 +68,8 @@ public class DateUtil {
         return format.format(date);
     }
 
-    private static String[] time_of_day_1 = {"凌晨", "上午", "中午", "下午", "晚上"};
-    private static int[] time_of_day_2 = {6, 12, 14, 18, 24};
+    private static String[] time_of_day_1 = {"凌晨", "上午", "中午", "下午", "傍晚", "晚上"};
+    private static int[] time_of_day_2 = {6, 12, 14, 18, 20, 24};
 
     public static String getTimeOfDay(long date) {
         Calendar calendar = Calendar.getInstance();
