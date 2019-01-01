@@ -13,7 +13,9 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.common.R;
+import com.common.utils.DateUtil;
 import com.common.utils.LogUtil;
+import com.common.utils.SharedPreUtils;
 import com.common.utils.ViewUtil;
 
 import java.util.ArrayList;
@@ -31,10 +33,15 @@ public class RefreshLayout extends LinearLayout {
     private static int headerRefreshHeight;
     private View targetView;
     private TextView tv_header;
-
+    private Context context;
     private static final String text_pull_down_refresh = "下拉刷新";
     private static final String text_release_refresh = "释放刷新";
     private static final String text_refreshing = "正在刷新";
+    private static final String key_refresh_last_update = "key_refresh_last_update";
+    private static final String last_update_time_no_record = "上次更新 ...";
+    private static final String last_update_time_prefix = "上次更新";
+
+    private TextView tv_header_date;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -47,6 +54,7 @@ public class RefreshLayout extends LinearLayout {
 
     public RefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
         Scroller mScroller = new Scroller(context);
         mScroller.forceFinished(true);
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
@@ -57,6 +65,7 @@ public class RefreshLayout extends LinearLayout {
         super.onFinishInflate();
         headerView = getChildAt(0);
         tv_header = headerView.findViewById(R.id.tv_header_state);
+        tv_header_date = headerView.findViewById(R.id.tv_header_date);
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
@@ -116,6 +125,8 @@ public class RefreshLayout extends LinearLayout {
                 startY = ev.getRawY();
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
+                updateRecordTime();
+
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (targetView != null) {
@@ -169,6 +180,20 @@ public class RefreshLayout extends LinearLayout {
         return consume;
     }
 
+    private void updateRecordTime() {
+        long lastTime = SharedPreUtils.getLong(context, key_refresh_last_update, 0);
+        if (lastTime == 0) {
+            tv_header_date.setText(last_update_time_no_record);
+        } else {
+            String dateOfDay = DateUtil.getDateOfDay(lastTime);
+            dateOfDay = "今天".equals(dateOfDay) ? "" : dateOfDay;
+            String timeOfDay = DateUtil.getTimeOfDay(lastTime);
+            String hourAndMinute = DateUtil.getHourAndMinute(lastTime);
+            String showText = last_update_time_prefix + dateOfDay + " " + timeOfDay + " " + hourAndMinute;
+            tv_header_date.setText(showText);
+        }
+    }
+
     private void updateHeaderState() {
         if (refresh_state != refresh_state_refreshing) {
             if (getScrollY() <= -headerRefreshHeight) {//释放刷新
@@ -199,6 +224,9 @@ public class RefreshLayout extends LinearLayout {
                 } else if (end_state == refresh_state_refreshing) {
                     refresh_state = refresh_state_refreshing;
                     tv_header.setText(text_refreshing);
+
+                    long currentTimeMillis = System.currentTimeMillis();
+                    SharedPreUtils.putLong(context, key_refresh_last_update, currentTimeMillis);//保存现在时间
                     Runnable runnable = () -> scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);
                     endHeaderRefreshList.add(runnable);
                     headerView.postDelayed(runnable, 3000);
