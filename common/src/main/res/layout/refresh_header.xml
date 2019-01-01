@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dp_200"
-    tools:ignore="HardcodedText"
-    android:background="#33ff0000">
+    android:background="#33ff0000"
+    tools:ignore="HardcodedText">
+
     <TextView
         android:id="@+id/tv_header_state"
         android:layout_width="wrap_content"
@@ -12,20 +13,28 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/dp_27"
+        android:text="下拉刷新"
         android:textColor="#666666"
-        android:textSize="@dimen/sp_15"
-        android:text="下拉刷新" />
+        android:textSize="@dimen/sp_15" />
 
     <TextView
         android:id="@+id/tv_header_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/dp_10"
+        android:text="上次更新 12月15日 12:00"
         android:textColor="#777777"
-        android:textSize="@dimen/sp_12"
-        android:text="上次更新 12月15日 12:00" />
+        android:textSize="@dimen/sp_12" />
 
-
+    <ImageView
+        android:id="@+id/iv_header_right"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/tv_header_date"
+        android:layout_marginEnd="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:contentDescription="@string/app_name" />
 </RelativeLayout>

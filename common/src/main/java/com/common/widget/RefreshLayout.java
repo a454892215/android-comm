@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ import com.common.utils.DateUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
 import com.common.utils.ViewUtil;
+import com.scwang.smartrefresh.layout.internal.ArrowDrawable;
+import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +46,9 @@ public class RefreshLayout extends LinearLayout {
     private static final String last_update_time_prefix = "上次更新";
 
     private TextView tv_header_date;
+    private ImageView iv_header_right;
+    private ProgressDrawable progressDrawable;
+    private ArrowDrawable arrowDrawable;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -60,6 +66,10 @@ public class RefreshLayout extends LinearLayout {
         Scroller mScroller = new Scroller(context);
         mScroller.forceFinished(true);
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
+        progressDrawable = new ProgressDrawable();
+        progressDrawable.setColor(0xff666666);
+        arrowDrawable = new ArrowDrawable();
+        arrowDrawable.setColor(0xff666666);
     }
 
     @Override
@@ -68,6 +78,8 @@ public class RefreshLayout extends LinearLayout {
         headerView = getChildAt(0);
         tv_header = headerView.findViewById(R.id.tv_header_state);
         tv_header_date = headerView.findViewById(R.id.tv_header_date);
+        iv_header_right = headerView.findViewById(R.id.iv_header_right);
+        iv_header_right.setImageDrawable(arrowDrawable);
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
@@ -178,7 +190,7 @@ public class RefreshLayout extends LinearLayout {
                                     touchScroll(-Math.round(dy));
                                 }
                                 boolean b1 = targetView.canScrollVertically(1);
-                                LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
+                                //   LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                             }
                         }
                     }
@@ -224,6 +236,10 @@ public class RefreshLayout extends LinearLayout {
     }
 
     private void updateHeaderState() {
+
+        float angle = -getScrollY() / (float) headerRefreshHeight;
+        angle = angle > 1 ? 1 : angle;
+        iv_header_right.setRotation(angle * 180);
         if (refresh_state != refresh_state_refreshing) {
             if (getScrollY() <= -headerRefreshHeight) {//释放刷新
                 refresh_state = refresh_state_release_refresh;
@@ -249,11 +265,13 @@ public class RefreshLayout extends LinearLayout {
                 if (end_state == refresh_state_pull_down) {
                     refresh_state = refresh_state_pull_down;
                     tv_header.setText(text_pull_down_refresh);
+                    iv_header_right.setImageDrawable(arrowDrawable);
                     removeAllHeaderRefreshRunnable();
                 } else if (end_state == refresh_state_refreshing) {
                     refresh_state = refresh_state_refreshing;
                     tv_header.setText(text_refreshing);
-
+                    iv_header_right.setImageDrawable(progressDrawable);
+                    progressDrawable.start();
                     long currentTimeMillis = System.currentTimeMillis();
                     SharedPreUtils.putLong(context, key_refresh_last_update, currentTimeMillis);//保存现在时间
                     Runnable runnable = () -> scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);
@@ -290,5 +308,15 @@ public class RefreshLayout extends LinearLayout {
             }
         }
         return null;
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        progressDrawable.stop();
+        headerAnim.removeAllListeners();
+        headerAnim.removeAllUpdateListeners();
+        headerAnim.cancel();
+
     }
 }
