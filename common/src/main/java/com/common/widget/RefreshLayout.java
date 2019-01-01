@@ -16,6 +16,9 @@ import com.common.R;
 import com.common.utils.LogUtil;
 import com.common.utils.ViewUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author: Pan
  * 2018/12/26
@@ -28,6 +31,10 @@ public class RefreshLayout extends LinearLayout {
     private static int headerRefreshHeight;
     private View targetView;
     private TextView tv_header;
+
+    private static final String text_pull_down_refresh = "下拉刷新";
+    private static final String text_release_refresh = "释放刷新";
+    private static final String text_refreshing = "正在刷新";
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -69,22 +76,31 @@ public class RefreshLayout extends LinearLayout {
     }*/
 
 
-    private void executeScrollYBy(int dy) {
+    private void touchScroll(int dy) {
         if (getScrollY() + dy < -headerHeight) {
             dy = -headerHeight - getScrollY();
         }
         if (getScrollY() + dy > 0) dy = -getScrollY();
+
+        if (dy != 0) {
+            removeAllHeaderRefreshRunnable();
+        }
         scrollBy(0, dy);
     }
 
     private float startX;
     private float startY;
     private float sumYPerTouch;
-    private static final float damping = 0.8f;//阻尼，越小 头部约容易下拉
+    private static final float damping = 0.8f;//阻尼，越小 头部越容易下拉
+
+    private static int refresh_state = 1;
+    private static final int refresh_state_pull_down = 1;
+    private static final int refresh_state_release_refresh = 2;
+    private static final int refresh_state_refreshing = 3;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        boolean b = super.dispatchTouchEvent(ev);
+        boolean consume = super.dispatchTouchEvent(ev);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 LogUtil.d("===============ACTION_DOWN==============");
@@ -109,65 +125,95 @@ public class RefreshLayout extends LinearLayout {
                         if (dy > 0) { //向下滑
                             boolean canScrollDown = targetView.canScrollVertically(-1);
                             if (!canScrollDown) {
-                                if (getScrollY() < 0) { //头部显示出来
+                                if (getScrollY() < 0 && refresh_state != refresh_state_refreshing) { //头部显示出来
                                     if (getScrollY() <= -headerRefreshHeight) {//释放刷新
-                                        tv_header.setText("释放刷新");
+                                        refresh_state = refresh_state_release_refresh;
+                                        tv_header.setText(text_release_refresh);
                                     } else { //关闭头
-                                        tv_header.setText("下拉刷新");
+                                        refresh_state = refresh_state_pull_down;
+                                        tv_header.setText(text_pull_down_refresh);
+                                    }
+                                    if (headerAnim != null && headerAnim.isRunning()) {
+                                        headerAnim.end();
+                                        headerAnim.cancel();
                                     }
                                 }
                                 float rate = sumYPerTouch / headerHeight;//0 - 1
                                 int scroll_dy = -Math.round(dy * (1 - rate));
                                 scroll_dy = scroll_dy == 0 ? -1 : scroll_dy;
-                                executeScrollYBy(scroll_dy);
+                                touchScroll(scroll_dy);
                             }
                         } else if (dy < 0) {//向上滑
-                            //如果头已经出来 隐藏头
-                            if (getScrollY() < 0) {
-                                executeScrollYBy(-Math.round(dy));
+
+                            if (getScrollY() < 0) {  //如果头已经出来 隐藏头
+                                touchScroll(-Math.round(dy));
+                                if (headerAnim != null && headerAnim.isRunning()) {
+                                    headerAnim.end();
+                                    headerAnim.cancel();
+                                }
                             }
-
-
                             boolean b1 = targetView.canScrollVertically(1);
                             LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                         }
                     }
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
                 LogUtil.d("===============ACTION_UP==============");
                 if (getScrollY() < 0) { //头部显示出来
-                    if (getScrollY() <= -headerRefreshHeight) {//释放刷新
-                        scrollHeaderView(getScrollY(), -headerRefreshHeight);
-                    } else { //关闭头
-                        scrollHeaderView(getScrollY(), 0);
+                    switch (refresh_state) {
+                        case refresh_state_release_refresh: //释放刷新
+                            scrollHeaderView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing);//滚动到刷新位置
+                            break;
+                        case refresh_state_pull_down:  //下拉刷新
+                            scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);//滚动到关闭位置
+                            break;
+                        case refresh_state_refreshing:  //正在刷新
+                            if (getScrollY() <= -headerRefreshHeight) {//正在在释放刷新位置
+                                scrollHeaderView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing);//滚动到刷新位置
+                            } else { // 正在下拉刷新位置
+                                scrollHeaderView(getScrollY(), 0, refresh_state_refreshing);//滚动到关闭位置
+                            }
+                            break;
                     }
                 }
                 break;
         }
-        return b;
+        return consume;
     }
 
     ValueAnimator headerAnim;
+    List<Runnable> endHeaderRefreshList = new ArrayList<>();
 
-    private void scrollHeaderView(int start, int end) {
-        LogUtil.e("======scrollHeaderView=====end:" + end);
+    private void scrollHeaderView(int start, int end, int end_state) {
         headerAnim = ValueAnimator.ofInt(start, end);
         headerAnim.setDuration(250);
         headerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
-
         headerAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                LogUtil.e("===========onAnimationEnd:" + end);
-                if (end != 0) {//释放刷新
-                    tv_header.setText("正在刷新");
+                if (end_state == refresh_state_pull_down) {
+                    refresh_state = refresh_state_pull_down;
+                    tv_header.setText(text_pull_down_refresh);
+                    removeAllHeaderRefreshRunnable();
+                } else if (end_state == refresh_state_refreshing) {
+                    refresh_state = refresh_state_refreshing;
+                    tv_header.setText(text_refreshing);
+                    Runnable runnable = () -> scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);
+                    endHeaderRefreshList.add(runnable);
+                    headerView.postDelayed(runnable, 3000);
                 }
             }
         });
         headerAnim.start();
+    }
+
+    private void removeAllHeaderRefreshRunnable() {
+        for (Runnable runnable : endHeaderRefreshList) {
+            if (runnable != null) headerView.removeCallbacks(runnable);
+        }
+        endHeaderRefreshList.clear();
     }
 
     private View[] targetViewArr;
@@ -178,6 +224,7 @@ public class RefreshLayout extends LinearLayout {
 
     private View findTargetView(float x, float y) {
         if (targetViewArr == null || targetViewArr.length == 0) {
+            LogUtil.e("下拉刷新控件，没有设置目标ViewGroup");
             return null;
         } else {
             for (View aTargetViewArr : targetViewArr) {
