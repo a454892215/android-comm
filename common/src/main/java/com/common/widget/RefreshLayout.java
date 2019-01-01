@@ -125,23 +125,13 @@ public class RefreshLayout extends LinearLayout {
                     float dy = currentY - startY;
                     startX = currentX;
                     startY = currentY;
-                    //    LogUtil.d("getScrollY():" + getScrollY() + "  headerHeight:" + headerHeight + " headerRefreshHeight:" + headerRefreshHeight);
                     if (Math.abs(dy) > Math.abs(dx)) {
+                        updateHeaderState();
                         if (dy > 0) { //向下滑
                             boolean canScrollDown = targetView.canScrollVertically(-1);
                             if (!canScrollDown) {
-                                if (refresh_state != refresh_state_refreshing) { //头部显示出来
-                                    if (getScrollY() <= -headerRefreshHeight) {//释放刷新
-                                        refresh_state = refresh_state_release_refresh;
-                                        tv_header.setText(text_release_refresh);
-                                    } else { //关闭头
-                                        refresh_state = refresh_state_pull_down;
-                                        tv_header.setText(text_pull_down_refresh);
-                                    }
-                                }
                                 float damping = -getScrollY() / (float) headerHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
                                 float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
-                                LogUtil.d("damping_level_1: " + damping_level_1);
                                 int scroll_dy = -Math.round(dy * damping_level_1);
                                 touchScroll(scroll_dy);
                             }
@@ -177,6 +167,18 @@ public class RefreshLayout extends LinearLayout {
                 break;
         }
         return consume;
+    }
+
+    private void updateHeaderState() {
+        if (refresh_state != refresh_state_refreshing) {
+            if (getScrollY() <= -headerRefreshHeight) {//释放刷新
+                refresh_state = refresh_state_release_refresh;
+                tv_header.setText(text_release_refresh);
+            } else { //关闭头
+                refresh_state = refresh_state_pull_down;
+                tv_header.setText(text_pull_down_refresh);
+            }
+        }
     }
 
     ValueAnimator headerAnim;
