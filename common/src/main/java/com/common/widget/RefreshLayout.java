@@ -35,7 +35,7 @@ public class RefreshLayout extends LinearLayout {
     private View headerView;
     private int headerOrFooterHeight;
     private static int headerRefreshHeight;
-    private static int footerRefreshHeight;
+    private static int footerLoadHeight;
     private View targetView;
     private TextView tv_header;
     private Context context;
@@ -48,7 +48,7 @@ public class RefreshLayout extends LinearLayout {
     private static final String last_update_time_prefix = "上次更新";
 
     private static final String text_pull_up_load = "上拉加载更多";
-    private static final String text_releas_load = "释放立即加载";
+    private static final String text_release_load = "释放立即加载";
     private static final String text_loading = "正在加载中";
     private static final String text_load_finish = "加载结束";
 
@@ -56,7 +56,6 @@ public class RefreshLayout extends LinearLayout {
     private ImageView iv_header_right;
     private ProgressDrawable progressDrawable;
     private ArrowDrawable arrowDrawable;
-    private View footerView;
     private TextView tv_footer_state;
     private ImageView iv_footer_right;
 
@@ -76,7 +75,7 @@ public class RefreshLayout extends LinearLayout {
         Scroller mScroller = new Scroller(context);
         mScroller.forceFinished(true);
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
-        footerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
+        footerLoadHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
         headerOrFooterHeight = Math.round(getResources().getDimension(R.dimen.dp_150));
         progressDrawable = new ProgressDrawable();
         progressDrawable.setColor(0xff666666);
@@ -88,7 +87,7 @@ public class RefreshLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         headerView = getChildAt(0);
-        footerView = getChildAt(2);
+        View footerView = getChildAt(2);
         tv_header = headerView.findViewById(R.id.tv_header_state);
         tv_header_date = headerView.findViewById(R.id.tv_header_date);
         iv_header_right = headerView.findViewById(R.id.iv_header_right);
@@ -139,11 +138,11 @@ public class RefreshLayout extends LinearLayout {
     private static final int refresh_state_refreshing = 3;
     private static final int refresh_state_refresh_finished = 4;
 
-    private static int load_state = 1;
-    private static final int load_state_up_load = 1;
-    private static final int load_state_release_load = 2;
-    private static final int load_state_loading = 3;
-    private static final int load_state_finished = 4;
+    private static int load_state = 11;
+    private static final int load_state_up_load = 11;
+    private static final int load_state_release_load = 12;
+    private static final int load_state_loading = 13;
+    private static final int load_state_finished = 14;
 
     private float startX;
     private float startY;
@@ -195,7 +194,7 @@ public class RefreshLayout extends LinearLayout {
                     } else if (Math.abs(yScrollSum) > min_scroll_unit && Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
                         if (orientation == 0) orientation = orientation_vertical;
                         if (orientation == orientation_vertical) {
-                            updateHeaderState();
+                            updateHeaderAndFooterState();
                             if (dy > 0) { //向下滑
                                 boolean canScrollDown = targetView.canScrollVertically(-1);
                                 if (!canScrollDown) { //子视图不能下滑或者 footer出来了
@@ -212,7 +211,6 @@ public class RefreshLayout extends LinearLayout {
                                     if (!canUpScroll) {
                                         scrollShowHeaderOrFooter(dy);
                                     }
-
                                 }
                                 //   LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                             }
@@ -226,23 +224,37 @@ public class RefreshLayout extends LinearLayout {
                 if (getScrollY() < 0) { //头部显示出来
                     switch (refresh_state) {
                         case refresh_state_release_refresh: //释放刷新
-                            scrollHeaderView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing);//滚动到刷新位置
+                            scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
                             break;
                         case refresh_state_pull_down:  //下拉刷新
-                            scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);//滚动到关闭位置
+                            scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);//滚动到关闭位置
                             break;
                         case refresh_state_refreshing:  //正在刷新
                             if (getScrollY() <= -headerRefreshHeight) {//正在在释放刷新位置
-                                scrollHeaderView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing);//滚动到刷新位置
+                                scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
                             } else { // 正在下拉刷新位置
-                                scrollHeaderView(getScrollY(), 0, refresh_state_refreshing);//滚动到关闭位置
+                                scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_refreshing, true);//滚动到关闭位置
                             }
                             break;
                     }
                 }
 
                 if (getScrollY() > 0) {//脚部显示出来
-
+                    switch (load_state) {
+                        case load_state_release_load: //释放加载更多
+                            scrollHeaderOrFooterView(getScrollY(), footerLoadHeight, load_state_loading, false);//滚动到刷新位置
+                            break;
+                        case load_state_up_load:  //上拉加载更多
+                            scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);//滚动到关闭位置
+                            break;
+                        case load_state_loading:  //正在加载更多
+                            if (getScrollY() >= footerLoadHeight) {//正在在释放加载更多位置
+                                scrollHeaderOrFooterView(getScrollY(), footerLoadHeight, load_state_loading, false);//滚动到刷新位置
+                            } else { // 正在上拉加载更多位置
+                                scrollHeaderOrFooterView(getScrollY(), 0, load_state_loading, false);//滚动到关闭位置
+                            }
+                            break;
+                    }
                 }
                 break;
         }
@@ -270,7 +282,7 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
-    private void updateHeaderState() {
+    private void updateHeaderAndFooterState() {
         float angle = -getScrollY() / (float) headerRefreshHeight;
         angle = angle > 1 ? 1 : angle;
         iv_header_right.setRotation(angle * 180);
@@ -278,9 +290,19 @@ public class RefreshLayout extends LinearLayout {
             if (getScrollY() <= -headerRefreshHeight) {//释放刷新
                 refresh_state = refresh_state_release_refresh;
                 tv_header.setText(text_release_refresh);
-            } else { //关闭头
+            } else if (getScrollY() < 0) { //关闭头
                 refresh_state = refresh_state_pull_down;
                 tv_header.setText(text_pull_down_refresh);
+            }
+        }
+
+        if (load_state != load_state_loading) {
+            if (getScrollY() >= footerLoadHeight) {//释放加载更多
+                load_state = load_state_release_load;
+                tv_header.setText(text_release_load);
+            } else if (getScrollY() > 0) { //关闭头
+                load_state = load_state_up_load;
+                tv_header.setText(text_pull_up_load);
             }
         }
     }
@@ -288,9 +310,10 @@ public class RefreshLayout extends LinearLayout {
     ValueAnimator headerAnim;
     List<Runnable> endHeaderRefreshList = new ArrayList<>();
 
-    private void scrollHeaderView(int start, int end, int end_state) {
+    private void scrollHeaderOrFooterView(int start, int end, int end_state, boolean isHeader) {
         headerAnim = ValueAnimator.ofInt(start, end);
-        float rate = (end - start) / (float) headerRefreshHeight;
+        float height = isHeader ? headerRefreshHeight : footerLoadHeight;
+        float rate = Math.abs(end - start) / height;
         rate = rate > 1 ? 1 : rate;
         rate = rate < 0 ? 0.1f : rate;
         headerAnim.setDuration(Math.round(rate * 200));
@@ -311,47 +334,38 @@ public class RefreshLayout extends LinearLayout {
                     iv_header_right.setImageDrawable(progressDrawable);
                     progressDrawable.start();
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
-                    Runnable runnable = () -> scrollHeaderView(getScrollY(), getScrollY(), refresh_state_refresh_finished);
+                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, true);
                     endHeaderRefreshList.add(runnable);
                     headerView.postDelayed(runnable, 3000);
                 } else if (end_state == refresh_state_refresh_finished) {
                     refresh_state = refresh_state_refresh_finished;
                     tv_header.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
-                    Runnable runnable = () -> scrollHeaderView(getScrollY(), 0, refresh_state_pull_down);
+                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);
                     endHeaderRefreshList.add(runnable);
                     headerView.postDelayed(runnable, 500);
+                }
+
+                if (end_state == load_state_up_load) {
+                    load_state = load_state_up_load;
+                    tv_footer_state.setText(text_pull_up_load);
+                } else if (end_state == load_state_release_load) {
+                    load_state = load_state_release_load;
+                    tv_footer_state.setText(text_release_load);
+                } else if (end_state == load_state_loading) {
+                    load_state = load_state_loading;
+                    tv_footer_state.setText(text_loading);
+                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), getScrollY(), load_state_finished, false);
+                    tv_footer_state.postDelayed(runnable, 3000);
+                } else if (end_state == load_state_finished) {
+                    load_state = load_state_finished;
+                    tv_footer_state.setText(text_load_finish);
+                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);
+                    tv_footer_state.postDelayed(runnable, 500);
                 }
             }
         });
         headerAnim.start();
-    }
-
-    ValueAnimator footerAnim;
-
-    private void scrollFooterView(int start, int end, int end_state) {
-        footerAnim = ValueAnimator.ofInt(start, end);
-        float rate = (end - start) / (float) footerRefreshHeight;
-        rate = rate > 1 ? 1 : rate;
-        rate = rate < 0 ? 0.1f : rate;
-        footerAnim.setDuration(Math.round(rate * 200));
-        footerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
-        footerAnim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                if (end_state == load_state_up_load) {
-                    tv_footer_state.setText(text_pull_up_load);
-                } else if (end_state == load_state_release_load) {
-                    tv_footer_state.setText(text_releas_load);
-                } else if (end_state == load_state_loading) {
-                    tv_footer_state.setText(text_loading);
-                } else if (end_state == load_state_finished) {
-                    tv_footer_state.setText(text_load_finish);
-                }
-            }
-        });
-        footerAnim.start();
     }
 
     private void removeAllHeaderRefreshRunnable() {
