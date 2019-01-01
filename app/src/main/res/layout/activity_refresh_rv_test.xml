@@ -29,4 +29,5 @@
             android:scrollbars="vertical"/>
 
     </com.common.widget.AsyncScrollLayout>
+    <include layout="@layout/refresh_footer" />
 </com.common.widget.RefreshLayout>

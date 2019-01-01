@@ -33,8 +33,9 @@ public class RefreshLayout extends LinearLayout {
 
     private final float min_scroll_unit;
     private View headerView;
-    private int headerHeight;
+    private int headerOrFooterHeight;
     private static int headerRefreshHeight;
+    private static int footerRefreshHeight;
     private View targetView;
     private TextView tv_header;
     private Context context;
@@ -46,10 +47,18 @@ public class RefreshLayout extends LinearLayout {
     private static final String last_update_time_no_record = "上次更新 ...";
     private static final String last_update_time_prefix = "上次更新";
 
+    private static final String text_pull_up_load = "上拉加载更多";
+    private static final String text_releas_load = "释放立即加载";
+    private static final String text_loading = "正在加载中";
+    private static final String text_load_finish = "加载结束";
+
     private TextView tv_header_date;
     private ImageView iv_header_right;
     private ProgressDrawable progressDrawable;
     private ArrowDrawable arrowDrawable;
+    private View footerView;
+    private TextView tv_footer_state;
+    private ImageView iv_footer_right;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -67,6 +76,8 @@ public class RefreshLayout extends LinearLayout {
         Scroller mScroller = new Scroller(context);
         mScroller.forceFinished(true);
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
+        footerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
+        headerOrFooterHeight = Math.round(getResources().getDimension(R.dimen.dp_150));
         progressDrawable = new ProgressDrawable();
         progressDrawable.setColor(0xff666666);
         arrowDrawable = new ArrowDrawable();
@@ -77,24 +88,24 @@ public class RefreshLayout extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         headerView = getChildAt(0);
+        footerView = getChildAt(2);
         tv_header = headerView.findViewById(R.id.tv_header_state);
         tv_header_date = headerView.findViewById(R.id.tv_header_date);
         iv_header_right = headerView.findViewById(R.id.iv_header_right);
         iv_header_right.setImageDrawable(arrowDrawable);
+
+        tv_footer_state = footerView.findViewById(R.id.tv_footer_state);
+        iv_footer_right = footerView.findViewById(R.id.iv_footer_right);
+
+        LayoutParams lp = (LayoutParams) headerView.getLayoutParams();
+        lp.topMargin = -headerOrFooterHeight;
+        lp.height = headerOrFooterHeight;
+        headerView.setLayoutParams(lp);
+
+        LayoutParams lp_footer = (LayoutParams) footerView.getLayoutParams();
+        lp_footer.height = headerOrFooterHeight;
+        footerView.setLayoutParams(lp_footer);
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
-    }
-
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        headerHeight = headerView.getMeasuredHeight();
-        if (headerHeight != 0) {
-            LayoutParams lp = (LayoutParams) headerView.getLayoutParams();
-            lp.topMargin = -headerHeight;
-            headerView.setLayoutParams(lp);
-        }
-
     }
 
 /*    public interface onRefreshListener {
@@ -107,11 +118,11 @@ public class RefreshLayout extends LinearLayout {
 
 
     private void touchScroll(int dy) {
-        if (getScrollY() + dy < -headerHeight) {
-            dy = -headerHeight - getScrollY();
-        }
-        if (getScrollY() + dy > 0) dy = -getScrollY();
-
+        // if (getScrollY() + dy < -headerHeight) {
+        //   dy = -headerHeight - getScrollY();
+        //   }
+        //  if (getScrollY() + dy > 0) dy = -getScrollY();
+        LogUtil.d("========dy:" + dy + "  getScrollY:" + getScrollY() + "headerOrFooterHeight:" + headerOrFooterHeight);
         if (dy != 0) {
             removeAllHeaderRefreshRunnable();
             if (headerAnim != null && headerAnim.isRunning()) {
@@ -127,6 +138,13 @@ public class RefreshLayout extends LinearLayout {
     private static final int refresh_state_release_refresh = 2;
     private static final int refresh_state_refreshing = 3;
     private static final int refresh_state_refresh_finished = 4;
+
+    private static int load_state = 1;
+    private static final int load_state_up_load = 1;
+    private static final int load_state_release_load = 2;
+    private static final int load_state_loading = 3;
+    private static final int load_state_finished = 4;
+
     private float startX;
     private float startY;
 
@@ -180,17 +198,22 @@ public class RefreshLayout extends LinearLayout {
                             updateHeaderState();
                             if (dy > 0) { //向下滑
                                 boolean canScrollDown = targetView.canScrollVertically(-1);
-                                if (!canScrollDown) {
-                                    float damping = -getScrollY() / (float) headerHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
-                                    float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
-                                    int scroll_dy = -Math.round(dy * damping_level_1);
-                                    touchScroll(scroll_dy);
+                                if (!canScrollDown) { //子视图不能下滑或者 footer出来了
+                                    scrollShowHeaderOrFooter(dy);
                                 }
-                            } else if (dy < 0) {//向上滑
-                                if (getScrollY() < 0) {  //如果头已经出来 隐藏头
+                                if (getScrollY() > 0) {//隐藏footer
                                     touchScroll(-Math.round(dy));
                                 }
-                                boolean b1 = targetView.canScrollVertically(1);
+                            } else if (dy < 0) {//向上滑
+                                boolean canUpScroll = targetView.canScrollVertically(1);
+                                if (getScrollY() < 0) {  //如果头已经出来 隐藏头
+                                    touchScroll(-Math.round(dy));
+                                } else { //上拉加载更多
+                                    if (!canUpScroll) {
+                                        scrollShowHeaderOrFooter(dy);
+                                    }
+
+                                }
                                 //   LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
                             }
                         }
@@ -217,9 +240,20 @@ public class RefreshLayout extends LinearLayout {
                             break;
                     }
                 }
+
+                if (getScrollY() > 0) {//脚部显示出来
+
+                }
                 break;
         }
         return consume;
+    }
+
+    private void scrollShowHeaderOrFooter(float dy) {
+        float damping = Math.abs(getScrollY()) / (float) headerOrFooterHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
+        float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
+        int scroll_dy = -Math.round(dy * damping_level_1);
+        touchScroll(scroll_dy);
     }
 
     private void updateRecordTime() {
@@ -237,7 +271,6 @@ public class RefreshLayout extends LinearLayout {
     }
 
     private void updateHeaderState() {
-
         float angle = -getScrollY() / (float) headerRefreshHeight;
         angle = angle > 1 ? 1 : angle;
         iv_header_right.setRotation(angle * 180);
@@ -257,7 +290,7 @@ public class RefreshLayout extends LinearLayout {
 
     private void scrollHeaderView(int start, int end, int end_state) {
         headerAnim = ValueAnimator.ofInt(start, end);
-        float rate = (end - start) / (float)headerRefreshHeight;
+        float rate = (end - start) / (float) headerRefreshHeight;
         rate = rate > 1 ? 1 : rate;
         rate = rate < 0 ? 0.1f : rate;
         headerAnim.setDuration(Math.round(rate * 200));
@@ -294,6 +327,33 @@ public class RefreshLayout extends LinearLayout {
         headerAnim.start();
     }
 
+    ValueAnimator footerAnim;
+
+    private void scrollFooterView(int start, int end, int end_state) {
+        footerAnim = ValueAnimator.ofInt(start, end);
+        float rate = (end - start) / (float) footerRefreshHeight;
+        rate = rate > 1 ? 1 : rate;
+        rate = rate < 0 ? 0.1f : rate;
+        footerAnim.setDuration(Math.round(rate * 200));
+        footerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
+        footerAnim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                if (end_state == load_state_up_load) {
+                    tv_footer_state.setText(text_pull_up_load);
+                } else if (end_state == load_state_release_load) {
+                    tv_footer_state.setText(text_releas_load);
+                } else if (end_state == load_state_loading) {
+                    tv_footer_state.setText(text_loading);
+                } else if (end_state == load_state_finished) {
+                    tv_footer_state.setText(text_load_finish);
+                }
+            }
+        });
+        footerAnim.start();
+    }
+
     private void removeAllHeaderRefreshRunnable() {
         for (Runnable runnable : endHeaderRefreshList) {
             if (runnable != null) headerView.removeCallbacks(runnable);
@@ -325,9 +385,10 @@ public class RefreshLayout extends LinearLayout {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         progressDrawable.stop();
-        headerAnim.removeAllListeners();
-        headerAnim.removeAllUpdateListeners();
-        headerAnim.cancel();
-
+        if (headerAnim != null) {
+            headerAnim.removeAllListeners();
+            headerAnim.removeAllUpdateListeners();
+            headerAnim.cancel();
+        }
     }
 }
