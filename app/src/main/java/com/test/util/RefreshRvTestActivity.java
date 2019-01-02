@@ -41,7 +41,7 @@ public class RefreshRvTestActivity extends BaseActivity {
                 adapter_1.notifyDataSetChanged();
                 adapter_2.notifyDataSetChanged();
                 refreshLayout.notifyLoadMoreFinish();
-            },4000);
+            },2000);
         });
         refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             adapter_1.getList().clear();

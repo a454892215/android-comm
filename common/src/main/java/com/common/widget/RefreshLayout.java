@@ -349,7 +349,7 @@ public class RefreshLayout extends LinearLayout {
         } else {
             float rate = Math.abs(end - start) / height;
             rate = rate > 1 ? 1 : rate;
-            rate = rate < 0 ? 0.01f : rate;
+            rate = rate < 0 ? 0 : rate;
             during = Math.round(200 * rate);
         }
 
@@ -389,7 +389,7 @@ public class RefreshLayout extends LinearLayout {
                 }
                 if (end_state == load_state_up_load) {
                     if (load_state == load_state_finished && targetView != null) {//如果来自完成状态
-                        if (targetView instanceof RecyclerView) {
+                        if (targetView instanceof RecyclerView && during == 0) {
                             targetView.scrollBy(0, footerLoadHeight);
                         }
                     }
@@ -422,14 +422,14 @@ public class RefreshLayout extends LinearLayout {
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
 
-                    //如果targetView是RecyclerView 并且新加载的内容高度  大于footerLoadHeight，则动画时间置零
-                    int during;
-                    if (targetView instanceof RecyclerView) {
+                    int during = 200;
+                    boolean canV = targetView.canScrollVertically(1);
+                    LogUtil.d(" canV:" + canV);
+                    if (targetView instanceof RecyclerView && canV) {
                         during = 0;
-                    } else {
-                        during = 200;
                     }
-                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, during), 500);
+                    int finalDuring = during;
+                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, finalDuring), 500);
                 }
             }
         });
