@@ -111,16 +111,6 @@ public class RefreshLayout extends LinearLayout {
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
-    private void touchScroll(int dy) {
-        if (dy != 0) {
-            if (headerOrFooterAnim != null && headerOrFooterAnim.isRunning()) {
-                headerOrFooterAnim.end();
-                headerOrFooterAnim.cancel();
-            }
-        }
-        scrollBy(0, dy);
-    }
-
     private int refresh_state = 1;
     private final int refresh_state_pull_down = 1;
     private final int refresh_state_release_refresh = 2;
@@ -145,10 +135,15 @@ public class RefreshLayout extends LinearLayout {
     private static final int orientation_vertical = 1;
     private static final int orientation_horizontal = 2;
 
+    private static final float damping_level_2 = 0.2f; //二级阻尼 值越小 滑动阻力越小 取值[0-1]
+
+    boolean isIntercept = false;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        boolean consume = super.dispatchTouchEvent(ev);
+        if ((load_state == load_state_finished || refresh_state == refresh_state_refresh_finished)) {
+            return true;
+        }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 LogUtil.d("===============ACTION_DOWN==============");
@@ -187,22 +182,28 @@ public class RefreshLayout extends LinearLayout {
                             updateHeaderAndFooterState();
                             if (dy > 0) { //向下滑
                                 boolean canScrollDown = targetView.canScrollVertically(-1);
-                                if (!canScrollDown) { //子视图不能下滑或者 footer出来了
-                                    scrollShowHeaderOrFooter(dy);
+                                if (!canScrollDown) { //拉出header
+                                    touchScrollWithDamping(-dy);
                                 }
-                                if (getScrollY() > 0) {//隐藏footer
-                                    touchScroll(-Math.round(dy));
+                                if (getScrollY() > 0) {// footer出来了 隐藏
+                                    touchScroll(Math.round(-dy));
+                                    isIntercept = true;
+                                } else {
+                                    isIntercept = false;
                                 }
+                                LogUtil.d("====向下滑=====隐藏footer   isIntercept:  " + isIntercept);
                             } else if (dy < 0) {//向上滑
                                 boolean canUpScroll = targetView.canScrollVertically(1);
-                                if (getScrollY() < 0) {  //如果头已经出来 隐藏头
-                                    touchScroll(-Math.round(dy));
-                                } else { //上拉加载更多
-                                    if (!canUpScroll) {
-                                        scrollShowHeaderOrFooter(dy);
-                                    }
+                                if (!canUpScroll) {//拉出footer
+                                    touchScrollWithDamping(-dy);
                                 }
-                                //   LogUtil.d("向上滑动:" + b1 + "  dy:" + dy);
+
+                                if (getScrollY() < 0) {  //如果头已经出来 隐藏头
+                                    touchScroll(Math.round(-dy));
+                                    isIntercept = true;
+                                } else {
+                                    isIntercept = false;
+                                }
                             }
                         }
                     }
@@ -248,14 +249,26 @@ public class RefreshLayout extends LinearLayout {
                 }
                 break;
         }
+        boolean consume = true;
+        if (!isIntercept) consume = super.dispatchTouchEvent(ev);
         return consume;
     }
 
-    private void scrollShowHeaderOrFooter(float dy) {
+    private void touchScrollWithDamping(float dy) {
         float damping = Math.abs(getScrollY()) / (float) headerOrFooterHeight;//damping_level_1 值域：[0 - 1] 和下拉距离成正比
         float damping_level_1 = 1 - damping; //[1 - 0] //一级阻尼
-        int scroll_dy = -Math.round(dy * damping_level_1);
+        int scroll_dy = Math.round(dy * damping_level_1 * (1 - damping_level_2));
         touchScroll(scroll_dy);
+    }
+
+    private void touchScroll(int dy) {
+        if (dy != 0) {
+            if (headerOrFooterAnim != null && headerOrFooterAnim.isRunning()) {
+                headerOrFooterAnim.end();
+                headerOrFooterAnim.cancel();
+            }
+        }
+        scrollBy(0, dy);
     }
 
     private void updateRecordTime() {
@@ -292,7 +305,6 @@ public class RefreshLayout extends LinearLayout {
             if (getScrollY() >= footerLoadHeight) {//释放加载更多
                 load_state = load_state_release_load;
                 tv_footer_state.setText(text_release_load);
-                LogUtil.d("" + "  getScrollY:" + getScrollY() + "  footerLoadHeight:" + footerLoadHeight);
             } else if (getScrollY() > 0) { //关闭头
                 load_state = load_state_up_load;
                 tv_footer_state.setText(text_pull_up_load);
@@ -326,11 +338,11 @@ public class RefreshLayout extends LinearLayout {
                     progressDrawableTop.start();
                     if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
-                } else if (end_state == refresh_state_refresh_finished &&  refresh_state != refresh_state_refresh_finished) {
+                } else if (end_state == refresh_state_refresh_finished && refresh_state != refresh_state_refresh_finished) {
                     refresh_state = refresh_state_refresh_finished;
                     tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
-                    headerView.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true), 700);
+                    headerView.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true), 500);
                 }
 
                 if (end_state == load_state_up_load) {
@@ -350,7 +362,7 @@ public class RefreshLayout extends LinearLayout {
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
-                    tv_footer_state.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false), 700);
+                    tv_footer_state.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false), 500);
                 }
             }
         });

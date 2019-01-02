@@ -32,12 +32,15 @@ public class RefreshRvTestActivity extends BaseActivity {
         refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
 
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
-            List<String> list = adapter_1.getList();
-            adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
-            adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
-            adapter_1.notifyDataSetChanged();
-            adapter_2.notifyDataSetChanged();
-            refreshLayout.postDelayed(refreshLayout::notifyLoadMoreFinish,500);
+
+            refreshLayout.postDelayed(() -> {
+                List<String> list = adapter_1.getList();
+                adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
+                adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
+                adapter_1.notifyDataSetChanged();
+                adapter_2.notifyDataSetChanged();
+                refreshLayout.notifyLoadMoreFinish();
+            },300);
         });
         refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             adapter_1.getList().clear();
