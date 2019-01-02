@@ -30,7 +30,8 @@ public class RefreshRvTestActivity extends BaseActivity {
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
 
         refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
-
+        refreshLayout.setRefreshEnable(false);
+        refreshLayout.setLoadMoreEnable(false);
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
 
             refreshLayout.postDelayed(() -> {

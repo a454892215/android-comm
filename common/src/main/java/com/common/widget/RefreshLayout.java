@@ -121,14 +121,16 @@ public class RefreshLayout extends LinearLayout {
     private final int refresh_state_release = 2;
     private final int refresh_state_refreshing = 3;
     private final int refresh_state_finished = 4;
-    private final int refresh_state_forbid = 5; // 当正在加载更多状态的时候
+    private final int refresh_state_mutex = 5; // 互斥状态 当正在加载更多状态的时候
+    private final int refresh_state_forbid = 6; //禁止状态
 
     private int load_state = 11;
     private final int load_state_up_load = 11;
     private final int load_state_release_load = 12;
     private final int load_state_loading = 13;
     private final int load_state_finished = 14;
-    private final int load_state_forbid = 15;// 当正在更新状态的时候
+    private final int load_state_mutex = 15;// 当正在更新状态的时候
+    private final int load_state_forbid = 16; //禁止状态
 
     private float startX;
     private float startY;
@@ -200,7 +202,7 @@ public class RefreshLayout extends LinearLayout {
         onMoveUpdateState();
         if (dy > 0) { //向下滑
             boolean canScrollDown = targetView.canScrollVertically(-1);
-            if (!canScrollDown) { //拉出header
+            if (!canScrollDown && refresh_state != refresh_state_forbid) { //拉出header
                 touchScrollWithDamping(-dy);
             }
             if (getScrollY() > 0) {// footer出来了 隐藏
@@ -211,7 +213,7 @@ public class RefreshLayout extends LinearLayout {
             }
         } else if (dy < 0) {//向上滑
             boolean canUpScroll = targetView.canScrollVertically(1);
-            if (!canUpScroll) {//拉出footer
+            if (!canUpScroll && load_state != load_state_forbid) {//拉出footer
                 touchScrollWithDamping(-dy);
             }
 
@@ -271,6 +273,9 @@ public class RefreshLayout extends LinearLayout {
                         animUpdateState(getScrollY(), 0, refresh_state_refreshing, true);//滚动到关闭位置
                     }
                     break;
+                case refresh_state_mutex:
+                    animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
+                    break;
                 case refresh_state_forbid:
                     animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
                     break;
@@ -292,6 +297,9 @@ public class RefreshLayout extends LinearLayout {
                         animUpdateState(getScrollY(), 0, load_state_loading, false);//滚动到关闭位置
                     }
                     break;
+                case load_state_mutex:
+                    animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
+                    break;
                 case load_state_forbid:
                     animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
                     break;
@@ -299,6 +307,9 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
+    /**
+     * 只处理 释放状态和下拉/上拉状态
+     */
     private void onMoveUpdateState() {
         float angle = Math.abs(getScrollY()) / (float) headerRefreshHeight;
         angle = angle > 1 ? 1 : angle;
@@ -347,7 +358,7 @@ public class RefreshLayout extends LinearLayout {
                     iv_header_right.setVisibility(View.VISIBLE);
                 } else if (end_state == refresh_state_refreshing && refresh_state != refresh_state_refreshing) {
                     //设置 脚部禁止状态
-                    load_state = load_state_forbid;
+                    load_state = load_state_mutex;
                     tv_footer_state.setText(text_refreshing);
                     iv_footer_right.setVisibility(View.INVISIBLE);
 
@@ -376,7 +387,7 @@ public class RefreshLayout extends LinearLayout {
                     iv_footer_right.setImageDrawable(arrowDrawableBottom);
                 } else if (end_state == load_state_loading && load_state != load_state_loading) {
                     //设置 头部禁止状态
-                    refresh_state = refresh_state_forbid;
+                    refresh_state = refresh_state_mutex;
                     tv_header_state.setText(text_loading);
                     iv_header_right.setVisibility(View.INVISIBLE);
                     tv_header_date.setVisibility(View.INVISIBLE);
@@ -434,6 +445,24 @@ public class RefreshLayout extends LinearLayout {
             headerOrFooterAnim.removeAllListeners();
             headerOrFooterAnim.removeAllUpdateListeners();
             headerOrFooterAnim.cancel();
+        }
+    }
+
+    public void setRefreshEnable(boolean enable) {
+        if (enable) {
+            refresh_state = refresh_state_pull_down;
+        } else {
+            refresh_state = refresh_state_forbid;
+
+        }
+
+    }
+
+    public void setLoadMoreEnable(boolean enable) {
+        if (enable) {
+            load_state = load_state_up_load;
+        } else {
+            load_state = load_state_forbid;
         }
     }
 
