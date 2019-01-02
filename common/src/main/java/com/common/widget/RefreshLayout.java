@@ -114,15 +114,17 @@ public class RefreshLayout extends LinearLayout {
 
     private int refresh_state = 1;
     private final int refresh_state_pull_down = 1;
-    private final int refresh_state_release_refresh = 2;
+    private final int refresh_state_release = 2;
     private final int refresh_state_refreshing = 3;
-    private final int refresh_state_refresh_finished = 4;
+    private final int refresh_state_finished = 4;
+    private final int refresh_state_forbit = 5; // 当正在加载更多状态的时候
 
     private int load_state = 11;
     private final int load_state_up_load = 11;
     private final int load_state_release_load = 12;
     private final int load_state_loading = 13;
     private final int load_state_finished = 14;
+    private final int load_state_forbit = 15;// 当正在更新状态的时候
 
     private float startX;
     private float startY;
@@ -142,7 +144,7 @@ public class RefreshLayout extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if ((load_state == load_state_finished || refresh_state == refresh_state_refresh_finished)) {
+        if ((load_state == load_state_finished || refresh_state == refresh_state_finished)) {
             return true;
         }
         switch (ev.getAction()) {
@@ -196,7 +198,7 @@ public class RefreshLayout extends LinearLayout {
     private void onUpUpdateHeaderAndFooterState() {
         if (getScrollY() < 0) { //头部显示出来
             switch (refresh_state) {
-                case refresh_state_release_refresh: //释放刷新
+                case refresh_state_release: //释放刷新
                     scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
                     break;
                 case refresh_state_pull_down:  //下拉刷新
@@ -296,9 +298,9 @@ public class RefreshLayout extends LinearLayout {
         iv_header_right.setRotation(angle * 180);
         iv_footer_right.setRotation(angle * 180 + 180);
 
-        if (refresh_state == refresh_state_release_refresh || refresh_state == refresh_state_pull_down) {
+        if (refresh_state == refresh_state_release || refresh_state == refresh_state_pull_down) {
             if (getScrollY() <= -headerRefreshHeight) {//释放刷新
-                refresh_state = refresh_state_release_refresh;
+                refresh_state = refresh_state_release;
                 tv_header_state.setText(text_release_refresh);
             } else if (getScrollY() < 0) { //关闭头
                 refresh_state = refresh_state_pull_down;
@@ -343,8 +345,8 @@ public class RefreshLayout extends LinearLayout {
                     progressDrawableTop.start();
                     if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
-                } else if (end_state == refresh_state_refresh_finished && refresh_state != refresh_state_refresh_finished) {
-                    refresh_state = refresh_state_refresh_finished;
+                } else if (end_state == refresh_state_finished && refresh_state != refresh_state_finished) {
+                    refresh_state = refresh_state_finished;
                     tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
                     headerView.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true), 500);
@@ -423,7 +425,7 @@ public class RefreshLayout extends LinearLayout {
     }
 
     public void notifyRefreshFinish() {
-        scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, false);
+        scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_finished, false);
     }
 
     public interface OnRefreshListener {
