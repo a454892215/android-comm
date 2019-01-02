@@ -28,13 +28,13 @@ import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
  */
 public class RefreshLayout extends LinearLayout {
 
-    private final float min_scroll_unit;
-    private final ArrowDrawable arrowDrawableBottom;
-    private final ProgressDrawable progressDrawableBottom;
+    private float min_scroll_unit;
+    private ArrowDrawable arrowDrawableBottom;
+    private ProgressDrawable progressDrawableBottom;
     private View headerView;
     private int headerOrFooterHeight;
-    private static int headerRefreshHeight;
-    private static int footerLoadHeight;
+    private int headerRefreshHeight;
+    private int footerLoadHeight;
     private View targetView;
     private TextView tv_header_state;
     private Context context;
@@ -121,17 +121,17 @@ public class RefreshLayout extends LinearLayout {
         scrollBy(0, dy);
     }
 
-    private static int refresh_state = 1;
-    private static final int refresh_state_pull_down = 1;
-    private static final int refresh_state_release_refresh = 2;
-    private static final int refresh_state_refreshing = 3;
-    private static final int refresh_state_refresh_finished = 4;
+    private int refresh_state = 1;
+    private final int refresh_state_pull_down = 1;
+    private final int refresh_state_release_refresh = 2;
+    private final int refresh_state_refreshing = 3;
+    private final int refresh_state_refresh_finished = 4;
 
-    private static int load_state = 11;
-    private static final int load_state_up_load = 11;
-    private static final int load_state_release_load = 12;
-    private static final int load_state_loading = 13;
-    private static final int load_state_finished = 14;
+    private int load_state = 11;
+    private final int load_state_up_load = 11;
+    private final int load_state_release_load = 12;
+    private final int load_state_loading = 13;
+    private final int load_state_finished = 14;
 
     private float startX;
     private float startY;

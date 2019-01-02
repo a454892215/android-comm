@@ -42,8 +42,8 @@ public class RefreshRvTestActivity extends BaseActivity {
         refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             adapter_1.getList().clear();
             adapter_2.getList().clear();
-            adapter_1.getList().addAll(TestDataUtil.getData(40));
-            adapter_2.getList().addAll(TestDataUtil.getData(40));
+            adapter_1.getList().addAll(TestDataUtil.getDataNoorder(40));
+            adapter_2.getList().addAll(TestDataUtil.getDataNoorder(40));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
             refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,500);
