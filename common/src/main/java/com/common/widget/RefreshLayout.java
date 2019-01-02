@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -386,10 +387,11 @@ public class RefreshLayout extends LinearLayout {
                     iv_header_right.setVisibility(View.INVISIBLE);
                     headerView.postDelayed(() -> animUpdateState(getScrollY(), 0, refresh_state_pull_down, true), 500);
                 }
-
                 if (end_state == load_state_up_load) {
                     if (load_state == load_state_finished && targetView != null) {//如果来自完成状态
-                        targetView.scrollBy(0,footerLoadHeight);
+                        if (targetView instanceof RecyclerView) {
+                            targetView.scrollBy(0, footerLoadHeight);
+                        }
                     }
                     load_state = load_state_up_load;
                     tv_footer_state.setText(text_pull_up_load);
@@ -419,7 +421,15 @@ public class RefreshLayout extends LinearLayout {
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
-                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, 0), 500);
+
+                    //如果targetView是RecyclerView 并且新加载的内容高度  大于footerLoadHeight，则动画时间置零
+                    int during;
+                    if (targetView instanceof RecyclerView) {
+                        during = 0;
+                    } else {
+                        during = 200;
+                    }
+                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, during), 500);
                 }
             }
         });
