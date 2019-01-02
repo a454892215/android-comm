@@ -40,7 +40,7 @@ public class RefreshLayout extends LinearLayout {
     private Context context;
     private static final String text_pull_down_refresh = "下拉刷新";
     private static final String text_release_refresh = "释放刷新";
-    private static final String text_refreshing = "正在刷新";
+    private static final String text_refreshing = "正在刷新...";
     private static final String text_refresh_finish = "刷新完成";
     private static final String key_refresh_last_update = "key_refresh_last_update";
     private static final String last_update_time_no_record = "上次更新 ...";
@@ -48,7 +48,7 @@ public class RefreshLayout extends LinearLayout {
 
     private static final String text_pull_up_load = "上拉加载更多";
     private static final String text_release_load = "释放立即加载";
-    private static final String text_loading = "正在努力加载";
+    private static final String text_loading = "正在加载中...";
     private static final String text_load_finish = "加载更多完成";
 
     private TextView tv_header_date;
@@ -340,7 +340,7 @@ public class RefreshLayout extends LinearLayout {
                             scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);
                         }
                     };
-                    headerView.postDelayed(runnable, 500);
+                    headerView.postDelayed(runnable, 700);
                 }
 
                 if (end_state == load_state_up_load) {
@@ -368,7 +368,7 @@ public class RefreshLayout extends LinearLayout {
                     tv_footer_state.postDelayed(() -> {
                         if (load_state == load_state_finished)
                             scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);
-                    }, 500);
+                    }, 700);
                 }
             }
         });
