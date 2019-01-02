@@ -76,15 +76,17 @@ public class RefreshLayout extends LinearLayout {
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
         footerLoadHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
         headerOrFooterHeight = Math.round(getResources().getDimension(R.dimen.dp_150));
+
+        int color = 0xff666666;
         progressDrawableTop = new ProgressDrawable();
-        progressDrawableTop.setColor(0xff666666);
+        progressDrawableTop.setColor(color);
         arrowDrawableTop = new ArrowDrawable();
-        arrowDrawableTop.setColor(0xff666666);
+        arrowDrawableTop.setColor(color);
 
         arrowDrawableBottom = new ArrowDrawable();
-        arrowDrawableBottom.setColor(0xff666666);
-
+        arrowDrawableBottom.setColor(color);
         progressDrawableBottom = new ProgressDrawable();
+        progressDrawableBottom.setColor(color);
     }
 
     @Override
@@ -108,7 +110,6 @@ public class RefreshLayout extends LinearLayout {
         LayoutParams lp_footer = (LayoutParams) footerView.getLayoutParams();
         lp_footer.height = headerOrFooterHeight;
         footerView.setLayoutParams(lp_footer);
-        LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
     private int refresh_state = 1;
@@ -146,7 +147,6 @@ public class RefreshLayout extends LinearLayout {
         }
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                LogUtil.d("===============ACTION_DOWN==============");
                 startX = ev.getRawX();
                 startY = ev.getRawY();
                 orientation = 0;
@@ -173,85 +173,90 @@ public class RefreshLayout extends LinearLayout {
                     }
                     startX = currentX;
                     startY = currentY;
-
                     if (Math.abs(xScrollSum) > min_scroll_unit && Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
                         if (orientation == 0) orientation = orientation_horizontal;
                     } else if (Math.abs(yScrollSum) > min_scroll_unit && Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
                         if (orientation == 0) orientation = orientation_vertical;
                         if (orientation == orientation_vertical) {
-                            updateHeaderAndFooterState();
-                            if (dy > 0) { //向下滑
-                                boolean canScrollDown = targetView.canScrollVertically(-1);
-                                if (!canScrollDown) { //拉出header
-                                    touchScrollWithDamping(-dy);
-                                }
-                                if (getScrollY() > 0) {// footer出来了 隐藏
-                                    touchScroll(Math.round(-dy));
-                                    isIntercept = true;
-                                } else {
-                                    isIntercept = false;
-                                }
-                                LogUtil.d("====向下滑=====隐藏footer   isIntercept:  " + isIntercept);
-                            } else if (dy < 0) {//向上滑
-                                boolean canUpScroll = targetView.canScrollVertically(1);
-                                if (!canUpScroll) {//拉出footer
-                                    touchScrollWithDamping(-dy);
-                                }
-
-                                if (getScrollY() < 0) {  //如果头已经出来 隐藏头
-                                    touchScroll(Math.round(-dy));
-                                    isIntercept = true;
-                                } else {
-                                    isIntercept = false;
-                                }
-                            }
+                            onConfirmVerticalTouch(dy);
                         }
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                LogUtil.d("===============ACTION_UP==============");
-                if (getScrollY() < 0) { //头部显示出来
-                    switch (refresh_state) {
-                        case refresh_state_release_refresh: //释放刷新
-                            scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
-                            break;
-                        case refresh_state_pull_down:  //下拉刷新
-                            scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);//滚动到关闭位置
-                            break;
-                        case refresh_state_refreshing:  //正在刷新
-                            if (getScrollY() <= -headerRefreshHeight) {//正在在释放刷新位置
-                                scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
-                            } else { // 正在下拉刷新位置
-                                scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_refreshing, true);//滚动到关闭位置
-                            }
-                            break;
-                    }
-                }
-
-                if (getScrollY() > 0) {//脚部显示出来
-                    switch (load_state) {
-                        case load_state_release_load: //释放加载更多
-                            scrollHeaderOrFooterView(getScrollY(), footerLoadHeight, load_state_loading, false);//滚动到刷新位置
-                            break;
-                        case load_state_up_load:  //上拉加载更多
-                            scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);//滚动到关闭位置
-                            break;
-                        case load_state_loading:  //正在加载更多
-                            if (getScrollY() >= footerLoadHeight) {//正在在释放加载更多位置
-                                scrollHeaderOrFooterView(getScrollY(), footerLoadHeight, load_state_loading, false);//滚动到刷新位置
-                            } else { // 正在上拉加载更多位置
-                                scrollHeaderOrFooterView(getScrollY(), 0, load_state_loading, false);//滚动到关闭位置
-                            }
-                            break;
-                    }
-                }
+                onUpUpdateHeaderAndFooterState();
                 break;
         }
         boolean consume = true;
         if (!isIntercept) consume = super.dispatchTouchEvent(ev);
         return consume;
+    }
+
+    private void onUpUpdateHeaderAndFooterState() {
+        if (getScrollY() < 0) { //头部显示出来
+            switch (refresh_state) {
+                case refresh_state_release_refresh: //释放刷新
+                    scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
+                    break;
+                case refresh_state_pull_down:  //下拉刷新
+                    scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);//滚动到关闭位置
+                    break;
+                case refresh_state_refreshing:  //正在刷新
+                    if (getScrollY() <= -headerRefreshHeight) {//正在在释放刷新位置
+                        scrollHeaderOrFooterView(getScrollY(), -headerRefreshHeight, refresh_state_refreshing, true);//滚动到刷新位置
+                    } else { // 正在下拉刷新位置
+                        scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_refreshing, true);//滚动到关闭位置
+                    }
+                    break;
+            }
+        }
+
+        if (getScrollY() > 0) {//脚部显示出来
+            switch (load_state) {
+                case load_state_release_load: //释放加载更多
+                    scrollHeaderOrFooterView(getScrollY(), footerLoadHeight, load_state_loading, false);//滚动到刷新位置
+                    break;
+                case load_state_up_load:  //上拉加载更多
+                    scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);//滚动到关闭位置
+                    break;
+                case load_state_loading:  //正在加载更多
+                    if (getScrollY() >= footerLoadHeight) {//正在在释放加载更多位置
+                        scrollHeaderOrFooterView(getScrollY(), footerLoadHeight, load_state_loading, false);//滚动到刷新位置
+                    } else { // 正在上拉加载更多位置
+                        scrollHeaderOrFooterView(getScrollY(), 0, load_state_loading, false);//滚动到关闭位置
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void onConfirmVerticalTouch(float dy) {
+        onMoveUpdateHeaderAndFooterState();
+        if (dy > 0) { //向下滑
+            boolean canScrollDown = targetView.canScrollVertically(-1);
+            if (!canScrollDown) { //拉出header
+                touchScrollWithDamping(-dy);
+            }
+            if (getScrollY() > 0) {// footer出来了 隐藏
+                touchScroll(Math.round(-dy));
+                isIntercept = true;
+            } else {
+                isIntercept = false;
+            }
+        } else if (dy < 0) {//向上滑
+            boolean canUpScroll = targetView.canScrollVertically(1);
+            if (!canUpScroll) {//拉出footer
+                touchScrollWithDamping(-dy);
+            }
+
+            if (getScrollY() < 0) {  //如果头已经出来 隐藏头
+                touchScroll(Math.round(-dy));
+                isIntercept = true;
+            } else {
+                isIntercept = false;
+            }
+        }
     }
 
     private void touchScrollWithDamping(float dy) {
@@ -285,7 +290,7 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
-    private void updateHeaderAndFooterState() {
+    private void onMoveUpdateHeaderAndFooterState() {
         float angle = Math.abs(getScrollY()) / (float) headerRefreshHeight;
         angle = angle > 1 ? 1 : angle;
         iv_header_right.setRotation(angle * 180);
@@ -312,7 +317,7 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
-    ValueAnimator headerOrFooterAnim;
+    private ValueAnimator headerOrFooterAnim;
 
     private void scrollHeaderOrFooterView(int start, int end, int end_state, boolean isHeader) {
         headerOrFooterAnim = ValueAnimator.ofInt(start, end);
