@@ -40,7 +40,7 @@ public class RefreshRvTestActivity extends BaseActivity {
                 adapter_1.notifyDataSetChanged();
                 adapter_2.notifyDataSetChanged();
                 refreshLayout.notifyLoadMoreFinish();
-            },300);
+            },5000);
         });
         refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             adapter_1.getList().clear();
@@ -49,7 +49,7 @@ public class RefreshRvTestActivity extends BaseActivity {
             adapter_2.getList().addAll(TestDataUtil.getDataNoorder(40));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
-            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,500);
+            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,5000);
         });
 
         adapter_1 = new TextViewRVAdapter(activity,

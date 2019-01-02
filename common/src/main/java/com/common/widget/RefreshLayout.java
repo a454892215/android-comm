@@ -114,19 +114,21 @@ public class RefreshLayout extends LinearLayout {
         footerView.setLayoutParams(lp_footer);
     }
 
+    private static final int no_handle_state = -1; //不需要处理的状态
+
     private int refresh_state = 1;
     private final int refresh_state_pull_down = 1;
     private final int refresh_state_release = 2;
     private final int refresh_state_refreshing = 3;
     private final int refresh_state_finished = 4;
-    private final int refresh_state_forbit = 5; // 当正在加载更多状态的时候
+    private final int refresh_state_forbid = 5; // 当正在加载更多状态的时候
 
     private int load_state = 11;
     private final int load_state_up_load = 11;
     private final int load_state_release_load = 12;
     private final int load_state_loading = 13;
     private final int load_state_finished = 14;
-    private final int load_state_forbit = 15;// 当正在更新状态的时候
+    private final int load_state_forbid = 15;// 当正在更新状态的时候
 
     private float startX;
     private float startY;
@@ -269,6 +271,9 @@ public class RefreshLayout extends LinearLayout {
                         animUpdateState(getScrollY(), 0, refresh_state_refreshing, true);//滚动到关闭位置
                     }
                     break;
+                case refresh_state_forbid:
+                    animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
+                    break;
             }
         }
 
@@ -286,6 +291,9 @@ public class RefreshLayout extends LinearLayout {
                     } else { // 正在上拉加载更多位置
                         animUpdateState(getScrollY(), 0, load_state_loading, false);//滚动到关闭位置
                     }
+                    break;
+                case load_state_forbid:
+                    animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
                     break;
             }
         }
@@ -338,8 +346,8 @@ public class RefreshLayout extends LinearLayout {
                     iv_header_right.setImageDrawable(arrowDrawableTop);
                     iv_header_right.setVisibility(View.VISIBLE);
                 } else if (end_state == refresh_state_refreshing && refresh_state != refresh_state_refreshing) {
-                    //禁止状态
-                    load_state = load_state_forbit;
+                    //设置 脚部禁止状态
+                    load_state = load_state_forbid;
                     tv_footer_state.setText(text_refreshing);
                     iv_footer_right.setVisibility(View.INVISIBLE);
 
@@ -350,6 +358,11 @@ public class RefreshLayout extends LinearLayout {
                     if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
                 } else if (end_state == refresh_state_finished && refresh_state != refresh_state_finished) {
+                    //解除 脚部禁止状态
+                    load_state = load_state_up_load;
+                    tv_footer_state.setText(text_pull_up_load);
+                    iv_footer_right.setVisibility(View.VISIBLE);
+
                     refresh_state = refresh_state_finished;
                     tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
@@ -362,10 +375,11 @@ public class RefreshLayout extends LinearLayout {
                     iv_footer_right.setVisibility(View.VISIBLE);
                     iv_footer_right.setImageDrawable(arrowDrawableBottom);
                 } else if (end_state == load_state_loading && load_state != load_state_loading) {
-                    //禁止状态
-                    refresh_state = refresh_state_forbit;
-                    tv_header_date.setText(text_loading);
+                    //设置 头部禁止状态
+                    refresh_state = refresh_state_forbid;
+                    tv_header_state.setText(text_loading);
                     iv_header_right.setVisibility(View.INVISIBLE);
+                    tv_header_date.setVisibility(View.INVISIBLE);
 
                     load_state = load_state_loading;
                     tv_footer_state.setText(text_loading);
@@ -375,6 +389,12 @@ public class RefreshLayout extends LinearLayout {
                         onLoadMoreListener.onLoadMore(RefreshLayout.this);
                     }
                 } else if (end_state == load_state_finished && load_state != load_state_finished) {
+                    //解除 头部禁止状态
+                    refresh_state = refresh_state_pull_down;
+                    tv_header_state.setText(text_pull_down_refresh);
+                    iv_header_right.setVisibility(View.VISIBLE);
+                    tv_header_date.setVisibility(View.VISIBLE);
+
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
