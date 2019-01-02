@@ -307,7 +307,7 @@ public class RefreshLayout extends LinearLayout {
         float height = isHeader ? headerRefreshHeight : footerLoadHeight;
         float rate = Math.abs(end - start) / height;
         rate = rate > 1 ? 1 : rate;
-        rate = rate < 0 ? 0.1f : rate;
+        rate = rate < 0 ? 0.01f : rate;
         headerOrFooterAnim.setDuration(Math.round(rate * 200));
         headerOrFooterAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
         headerOrFooterAnim.addListener(new AnimatorListenerAdapter() {
@@ -319,28 +319,18 @@ public class RefreshLayout extends LinearLayout {
                     tv_header_state.setText(text_pull_down_refresh);
                     iv_header_right.setImageDrawable(arrowDrawableTop);
                     iv_header_right.setVisibility(View.VISIBLE);
-                } else if (end_state == refresh_state_refreshing) {
+                } else if (end_state == refresh_state_refreshing && refresh_state != refresh_state_refreshing) {
                     refresh_state = refresh_state_refreshing;
                     tv_header_state.setText(text_refreshing);
                     iv_header_right.setImageDrawable(progressDrawableTop);
                     progressDrawableTop.start();
                     if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
-                    headerView.postDelayed(() -> {
-                        if (refresh_state == refresh_state_refreshing) {
-                            scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, true);
-                        }
-                    }, 3000);
-                } else if (end_state == refresh_state_refresh_finished) {
+                } else if (end_state == refresh_state_refresh_finished &&  refresh_state != refresh_state_refresh_finished) {
                     refresh_state = refresh_state_refresh_finished;
                     tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
-                    Runnable runnable = () -> {
-                        if (refresh_state == refresh_state_refresh_finished) {
-                            scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);
-                        }
-                    };
-                    headerView.postDelayed(runnable, 700);
+                    headerView.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true), 700);
                 }
 
                 if (end_state == load_state_up_load) {
@@ -348,7 +338,7 @@ public class RefreshLayout extends LinearLayout {
                     tv_footer_state.setText(text_pull_up_load);
                     iv_footer_right.setVisibility(View.VISIBLE);
                     iv_footer_right.setImageDrawable(arrowDrawableBottom);
-                } else if (end_state == load_state_loading) {
+                } else if (end_state == load_state_loading && load_state != load_state_loading) {
                     load_state = load_state_loading;
                     tv_footer_state.setText(text_loading);
                     iv_footer_right.setImageDrawable(progressDrawableBottom);
@@ -356,19 +346,11 @@ public class RefreshLayout extends LinearLayout {
                     if (onLoadMoreListener != null) {
                         onLoadMoreListener.onLoadMore(RefreshLayout.this);
                     }
-                    tv_footer_state.postDelayed(() -> {
-                        if (load_state == load_state_loading) {
-                            scrollHeaderOrFooterView(getScrollY(), getScrollY(), load_state_finished, false);
-                        }
-                    }, 3000);
-                } else if (end_state == load_state_finished) {
+                } else if (end_state == load_state_finished && load_state != load_state_finished) {
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
-                    tv_footer_state.postDelayed(() -> {
-                        if (load_state == load_state_finished)
-                            scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);
-                    }, 700);
+                    tv_footer_state.postDelayed(() -> scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false), 700);
                 }
             }
         });
