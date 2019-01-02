@@ -278,7 +278,7 @@ public class RefreshLayout extends LinearLayout {
         iv_header_right.setRotation(angle * 180);
         iv_footer_right.setRotation(angle * 180 + 180);
 
-        if (refresh_state != refresh_state_refreshing) {
+        if (refresh_state == refresh_state_release_refresh || refresh_state == refresh_state_pull_down) {
             if (getScrollY() <= -headerRefreshHeight) {//释放刷新
                 refresh_state = refresh_state_release_refresh;
                 tv_header_state.setText(text_release_refresh);
@@ -288,7 +288,7 @@ public class RefreshLayout extends LinearLayout {
             }
         }
 
-        if (load_state != load_state_loading) {
+        if (load_state == load_state_release_load || load_state == load_state_up_load) {
             if (getScrollY() >= footerLoadHeight) {//释放加载更多
                 load_state = load_state_release_load;
                 tv_footer_state.setText(text_release_load);
