@@ -339,13 +339,20 @@ public class RefreshLayout extends LinearLayout {
 
     private ValueAnimator headerOrFooterAnim;
 
-    private void animUpdateState(int start, int end, int end_state, boolean isHeader) {
+    private void animUpdateState(int start, int end, int end_state, boolean isHeader, int... time) {
         headerOrFooterAnim = ValueAnimator.ofInt(start, end);
         float height = isHeader ? headerRefreshHeight : footerLoadHeight;
-        float rate = Math.abs(end - start) / height;
-        rate = rate > 1 ? 1 : rate;
-        rate = rate < 0 ? 0.01f : rate;
-        headerOrFooterAnim.setDuration(Math.round(rate * 200));
+        int during;
+        if (time.length != 0) {
+            during = time[0];
+        } else {
+            float rate = Math.abs(end - start) / height;
+            rate = rate > 1 ? 1 : rate;
+            rate = rate < 0 ? 0.01f : rate;
+            during = Math.round(200 * rate);
+        }
+
+        headerOrFooterAnim.setDuration(during);
         headerOrFooterAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
         headerOrFooterAnim.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -381,6 +388,9 @@ public class RefreshLayout extends LinearLayout {
                 }
 
                 if (end_state == load_state_up_load) {
+                    if (load_state == load_state_finished && targetView != null) {//如果来自完成状态
+                        targetView.scrollBy(0,footerLoadHeight);
+                    }
                     load_state = load_state_up_load;
                     tv_footer_state.setText(text_pull_up_load);
                     iv_footer_right.setVisibility(View.VISIBLE);
@@ -409,7 +419,7 @@ public class RefreshLayout extends LinearLayout {
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
-                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false), 500);
+                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, 0), 500);
                 }
             }
         });

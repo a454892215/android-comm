@@ -30,8 +30,8 @@ public class RefreshRvTestActivity extends BaseActivity {
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
 
         refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
-        refreshLayout.setRefreshEnable(false);
-        refreshLayout.setLoadMoreEnable(false);
+        refreshLayout.setRefreshEnable(true);
+        refreshLayout.setLoadMoreEnable(true);
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
 
             refreshLayout.postDelayed(() -> {
@@ -41,7 +41,7 @@ public class RefreshRvTestActivity extends BaseActivity {
                 adapter_1.notifyDataSetChanged();
                 adapter_2.notifyDataSetChanged();
                 refreshLayout.notifyLoadMoreFinish();
-            },5000);
+            },4000);
         });
         refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             adapter_1.getList().clear();
@@ -50,7 +50,7 @@ public class RefreshRvTestActivity extends BaseActivity {
             adapter_2.getList().addAll(TestDataUtil.getDataNoorder(40));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
-            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,5000);
+            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,4000);
         });
 
         adapter_1 = new TextViewRVAdapter(activity,
