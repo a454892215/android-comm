@@ -21,9 +21,6 @@ import com.common.utils.ViewUtil;
 import com.scwang.smartrefresh.layout.internal.ArrowDrawable;
 import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Author: Pan
  * 2018/12/26
@@ -44,7 +41,7 @@ public class RefreshLayout extends LinearLayout {
     private static final String text_pull_down_refresh = "下拉刷新";
     private static final String text_release_refresh = "释放刷新";
     private static final String text_refreshing = "正在刷新";
-    private static final String text_refresh_finish = "刷新结束";
+    private static final String text_refresh_finish = "刷新完成";
     private static final String key_refresh_last_update = "key_refresh_last_update";
     private static final String last_update_time_no_record = "上次更新 ...";
     private static final String last_update_time_prefix = "上次更新";
@@ -52,7 +49,7 @@ public class RefreshLayout extends LinearLayout {
     private static final String text_pull_up_load = "上拉加载更多";
     private static final String text_release_load = "释放立即加载";
     private static final String text_loading = "正在努力加载";
-    private static final String text_load_finish = "加载结束";
+    private static final String text_load_finish = "加载更多完成";
 
     private TextView tv_header_date;
     private ImageView iv_header_right;
@@ -114,26 +111,11 @@ public class RefreshLayout extends LinearLayout {
         LogUtil.d(" =====onFinishInflate headerView:" + headerView.getMeasuredHeight());
     }
 
-/*    public interface onRefreshListener {
-        void onRefresh(RefreshLayout refreshLayout);
-    }
-
-    public interface onLoadMoreListener {
-        void onLoadMore(RefreshLayout refreshLayout);
-    }*/
-
-
     private void touchScroll(int dy) {
-        // if (getScrollY() + dy < -headerHeight) {
-        //   dy = -headerHeight - getScrollY();
-        //   }
-        //  if (getScrollY() + dy > 0) dy = -getScrollY();
-        // LogUtil.d("========dy:" + dy + "  getScrollY:" + getScrollY() + "headerOrFooterHeight:" + headerOrFooterHeight);
         if (dy != 0) {
-            removeAllHeaderRefreshRunnable();
-            if (headerAnim != null && headerAnim.isRunning()) {
-                headerAnim.end();
-                headerAnim.cancel();
+            if (headerOrFooterAnim != null && headerOrFooterAnim.isRunning()) {
+                headerOrFooterAnim.end();
+                headerOrFooterAnim.cancel();
             }
         }
         scrollBy(0, dy);
@@ -318,18 +300,17 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
-    ValueAnimator headerAnim;
-    List<Runnable> endHeaderRefreshList = new ArrayList<>();
+    ValueAnimator headerOrFooterAnim;
 
     private void scrollHeaderOrFooterView(int start, int end, int end_state, boolean isHeader) {
-        headerAnim = ValueAnimator.ofInt(start, end);
+        headerOrFooterAnim = ValueAnimator.ofInt(start, end);
         float height = isHeader ? headerRefreshHeight : footerLoadHeight;
         float rate = Math.abs(end - start) / height;
         rate = rate > 1 ? 1 : rate;
         rate = rate < 0 ? 0.1f : rate;
-        headerAnim.setDuration(Math.round(rate * 200));
-        headerAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
-        headerAnim.addListener(new AnimatorListenerAdapter() {
+        headerOrFooterAnim.setDuration(Math.round(rate * 200));
+        headerOrFooterAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
+        headerOrFooterAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
@@ -338,22 +319,27 @@ public class RefreshLayout extends LinearLayout {
                     tv_header_state.setText(text_pull_down_refresh);
                     iv_header_right.setImageDrawable(arrowDrawableTop);
                     iv_header_right.setVisibility(View.VISIBLE);
-                    removeAllHeaderRefreshRunnable();
                 } else if (end_state == refresh_state_refreshing) {
                     refresh_state = refresh_state_refreshing;
                     tv_header_state.setText(text_refreshing);
                     iv_header_right.setImageDrawable(progressDrawableTop);
                     progressDrawableTop.start();
+                    if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
-                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, true);
-                    endHeaderRefreshList.add(runnable);
-                    headerView.postDelayed(runnable, 3000);
+                    headerView.postDelayed(() -> {
+                        if (refresh_state == refresh_state_refreshing) {
+                            scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, true);
+                        }
+                    }, 3000);
                 } else if (end_state == refresh_state_refresh_finished) {
                     refresh_state = refresh_state_refresh_finished;
                     tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
-                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);
-                    endHeaderRefreshList.add(runnable);
+                    Runnable runnable = () -> {
+                        if (refresh_state == refresh_state_refresh_finished) {
+                            scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);
+                        }
+                    };
                     headerView.postDelayed(runnable, 500);
                 }
 
@@ -367,25 +353,26 @@ public class RefreshLayout extends LinearLayout {
                     tv_footer_state.setText(text_loading);
                     iv_footer_right.setImageDrawable(progressDrawableBottom);
                     progressDrawableBottom.start();
-                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), getScrollY(), load_state_finished, false);
-                    tv_footer_state.postDelayed(runnable, 3000);
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore(RefreshLayout.this);
+                    }
+                    tv_footer_state.postDelayed(() -> {
+                        if (load_state == load_state_loading) {
+                            scrollHeaderOrFooterView(getScrollY(), getScrollY(), load_state_finished, false);
+                        }
+                    }, 3000);
                 } else if (end_state == load_state_finished) {
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
                     iv_footer_right.setVisibility(View.INVISIBLE);
-                    Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);
-                    tv_footer_state.postDelayed(runnable, 500);
+                    tv_footer_state.postDelayed(() -> {
+                        if (load_state == load_state_finished)
+                            scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);
+                    }, 500);
                 }
             }
         });
-        headerAnim.start();
-    }
-
-    private void removeAllHeaderRefreshRunnable() {
-        for (Runnable runnable : endHeaderRefreshList) {
-            if (runnable != null) headerView.removeCallbacks(runnable);
-        }
-        endHeaderRefreshList.clear();
+        headerOrFooterAnim.start();
     }
 
     private View[] targetViewArr;
@@ -413,10 +400,38 @@ public class RefreshLayout extends LinearLayout {
         super.onDetachedFromWindow();
         progressDrawableTop.stop();
         progressDrawableBottom.stop();
-        if (headerAnim != null) {
-            headerAnim.removeAllListeners();
-            headerAnim.removeAllUpdateListeners();
-            headerAnim.cancel();
+        if (headerOrFooterAnim != null) {
+            headerOrFooterAnim.removeAllListeners();
+            headerOrFooterAnim.removeAllUpdateListeners();
+            headerOrFooterAnim.cancel();
         }
+    }
+
+    private OnRefreshListener onRefreshListener;
+
+    private OnLoadMoreListener onLoadMoreListener;
+
+    public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
+        this.onRefreshListener = onRefreshListener;
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    public void notifyLoadMoreFinish() {
+        scrollHeaderOrFooterView(getScrollY(), getScrollY(), load_state_finished, false);
+    }
+
+    public void notifyRefreshFinish() {
+        scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, false);
+    }
+
+    public interface OnRefreshListener {
+        void onRefresh(RefreshLayout refreshLayout);
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore(RefreshLayout refreshLayout);
     }
 }

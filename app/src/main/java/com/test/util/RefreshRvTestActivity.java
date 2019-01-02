@@ -10,11 +10,16 @@ import com.common.utils.TestDataUtil;
 import com.common.widget.AsyncScrollLayout;
 import com.common.widget.RefreshLayout;
 
+import java.util.List;
+
 /**
  * Author: Pan
  * Description:
  */
 public class RefreshRvTestActivity extends BaseActivity {
+
+    private TextViewRVAdapter adapter_1;
+    private TextViewRVAdapter adapter_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,34 +30,28 @@ public class RefreshRvTestActivity extends BaseActivity {
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
 
         refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
-/*        RefreshHelper.setSmartRefreshLayout(smt_refresh, new RefreshHelper.CallbackAdapter() {
-            @Override
-            public void onRefresh(RefreshLayout refreshLayout) {
-                super.onRefresh(refreshLayout);
-                ((SmartRefreshLayout) refreshLayout).postDelayed(refreshLayout::finishRefresh, 500);
-                adapter_1.getList().clear();
-                adapter_2.getList().clear();
-                adapter_1.getList().addAll(TestDataUtil.getData(40));
-                adapter_2.getList().addAll(TestDataUtil.getData(40));
-                adapter_1.notifyDataSetChanged();
-                adapter_2.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onLoadMore(RefreshLayout refreshLayout) {
-                super.onLoadMore(refreshLayout);
-                ((SmartRefreshLayout) refreshLayout).postDelayed(refreshLayout::finishLoadMore, 500);
-                List<String> list = adapter_1.getList();
-                adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
-                adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
-                adapter_1.notifyDataSetChanged();
-                adapter_2.notifyDataSetChanged();
-            }
-        });*/
+        refreshLayout.setOnLoadMoreListener(refreshLayout1 -> {
+            List<String> list = adapter_1.getList();
+            adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
+            adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
+            adapter_1.notifyDataSetChanged();
+            adapter_2.notifyDataSetChanged();
+            refreshLayout.postDelayed(refreshLayout::notifyLoadMoreFinish,500);
+        });
+        refreshLayout.setOnRefreshListener(refreshLayout12 -> {
+            adapter_1.getList().clear();
+            adapter_2.getList().clear();
+            adapter_1.getList().addAll(TestDataUtil.getData(40));
+            adapter_2.getList().addAll(TestDataUtil.getData(40));
+            adapter_1.notifyDataSetChanged();
+            adapter_2.notifyDataSetChanged();
+            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,500);
+        });
 
-        TextViewRVAdapter adapter_1 = new TextViewRVAdapter(activity,
+        adapter_1 = new TextViewRVAdapter(activity,
                 R.layout.view_tv_1, TestDataUtil.getData(50));
-        TextViewRVAdapter adapter_2 = new TextViewRVAdapter(activity,
+        adapter_2 = new TextViewRVAdapter(activity,
                 R.layout.view_tv_2, TestDataUtil.getData(50));
 
         recycler_view_1.setLayoutManager(new HLayoutManager(activity));
