@@ -32,12 +32,14 @@ import java.util.List;
 public class RefreshLayout extends LinearLayout {
 
     private final float min_scroll_unit;
+    private final ArrowDrawable arrowDrawableBottom;
+    private final ProgressDrawable progressDrawableBottom;
     private View headerView;
     private int headerOrFooterHeight;
     private static int headerRefreshHeight;
     private static int footerLoadHeight;
     private View targetView;
-    private TextView tv_header;
+    private TextView tv_header_state;
     private Context context;
     private static final String text_pull_down_refresh = "下拉刷新";
     private static final String text_release_refresh = "释放刷新";
@@ -49,13 +51,13 @@ public class RefreshLayout extends LinearLayout {
 
     private static final String text_pull_up_load = "上拉加载更多";
     private static final String text_release_load = "释放立即加载";
-    private static final String text_loading = "正在加载中";
+    private static final String text_loading = "正在努力加载";
     private static final String text_load_finish = "加载结束";
 
     private TextView tv_header_date;
     private ImageView iv_header_right;
-    private ProgressDrawable progressDrawable;
-    private ArrowDrawable arrowDrawable;
+    private ProgressDrawable progressDrawableTop;
+    private ArrowDrawable arrowDrawableTop;
     private TextView tv_footer_state;
     private ImageView iv_footer_right;
 
@@ -77,10 +79,15 @@ public class RefreshLayout extends LinearLayout {
         headerRefreshHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
         footerLoadHeight = Math.round(getResources().getDimension(R.dimen.dp_60));
         headerOrFooterHeight = Math.round(getResources().getDimension(R.dimen.dp_150));
-        progressDrawable = new ProgressDrawable();
-        progressDrawable.setColor(0xff666666);
-        arrowDrawable = new ArrowDrawable();
-        arrowDrawable.setColor(0xff666666);
+        progressDrawableTop = new ProgressDrawable();
+        progressDrawableTop.setColor(0xff666666);
+        arrowDrawableTop = new ArrowDrawable();
+        arrowDrawableTop.setColor(0xff666666);
+
+        arrowDrawableBottom = new ArrowDrawable();
+        arrowDrawableBottom.setColor(0xff666666);
+
+        progressDrawableBottom = new ProgressDrawable();
     }
 
     @Override
@@ -88,14 +95,14 @@ public class RefreshLayout extends LinearLayout {
         super.onFinishInflate();
         headerView = getChildAt(0);
         View footerView = getChildAt(2);
-        tv_header = headerView.findViewById(R.id.tv_header_state);
+        tv_header_state = headerView.findViewById(R.id.tv_header_state);
         tv_header_date = headerView.findViewById(R.id.tv_header_date);
         iv_header_right = headerView.findViewById(R.id.iv_header_right);
-        iv_header_right.setImageDrawable(arrowDrawable);
+        iv_header_right.setImageDrawable(arrowDrawableTop);
 
         tv_footer_state = footerView.findViewById(R.id.tv_footer_state);
         iv_footer_right = footerView.findViewById(R.id.iv_footer_right);
-
+        iv_footer_right.setImageDrawable(arrowDrawableBottom);
         LayoutParams lp = (LayoutParams) headerView.getLayoutParams();
         lp.topMargin = -headerOrFooterHeight;
         lp.height = headerOrFooterHeight;
@@ -121,7 +128,7 @@ public class RefreshLayout extends LinearLayout {
         //   dy = -headerHeight - getScrollY();
         //   }
         //  if (getScrollY() + dy > 0) dy = -getScrollY();
-        LogUtil.d("========dy:" + dy + "  getScrollY:" + getScrollY() + "headerOrFooterHeight:" + headerOrFooterHeight);
+        // LogUtil.d("========dy:" + dy + "  getScrollY:" + getScrollY() + "headerOrFooterHeight:" + headerOrFooterHeight);
         if (dy != 0) {
             removeAllHeaderRefreshRunnable();
             if (headerAnim != null && headerAnim.isRunning()) {
@@ -155,6 +162,7 @@ public class RefreshLayout extends LinearLayout {
     private int orientation = 0;
     private static final int orientation_vertical = 1;
     private static final int orientation_horizontal = 2;
+
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -274,7 +282,7 @@ public class RefreshLayout extends LinearLayout {
             tv_header_date.setText(last_update_time_no_record);
         } else {
             String dateOfDay = DateUtil.getDateOfDay(lastTime);
-            dateOfDay = "今天".equals(dateOfDay) ? "" : dateOfDay;
+            dateOfDay = "今天".equals(dateOfDay) ? " " : dateOfDay;
             String timeOfDay = DateUtil.getTimeOfDay(lastTime);
             String hourAndMinute = DateUtil.getHourAndMinute(lastTime);
             String showText = last_update_time_prefix + dateOfDay + " " + timeOfDay + " " + hourAndMinute;
@@ -283,26 +291,29 @@ public class RefreshLayout extends LinearLayout {
     }
 
     private void updateHeaderAndFooterState() {
-        float angle = -getScrollY() / (float) headerRefreshHeight;
+        float angle = Math.abs(getScrollY()) / (float) headerRefreshHeight;
         angle = angle > 1 ? 1 : angle;
         iv_header_right.setRotation(angle * 180);
+        iv_footer_right.setRotation(angle * 180 + 180);
+
         if (refresh_state != refresh_state_refreshing) {
             if (getScrollY() <= -headerRefreshHeight) {//释放刷新
                 refresh_state = refresh_state_release_refresh;
-                tv_header.setText(text_release_refresh);
+                tv_header_state.setText(text_release_refresh);
             } else if (getScrollY() < 0) { //关闭头
                 refresh_state = refresh_state_pull_down;
-                tv_header.setText(text_pull_down_refresh);
+                tv_header_state.setText(text_pull_down_refresh);
             }
         }
 
         if (load_state != load_state_loading) {
             if (getScrollY() >= footerLoadHeight) {//释放加载更多
                 load_state = load_state_release_load;
-                tv_header.setText(text_release_load);
+                tv_footer_state.setText(text_release_load);
+                LogUtil.d("" + "  getScrollY:" + getScrollY() + "  footerLoadHeight:" + footerLoadHeight);
             } else if (getScrollY() > 0) { //关闭头
                 load_state = load_state_up_load;
-                tv_header.setText(text_pull_up_load);
+                tv_footer_state.setText(text_pull_up_load);
             }
         }
     }
@@ -324,22 +335,22 @@ public class RefreshLayout extends LinearLayout {
                 super.onAnimationEnd(animation);
                 if (end_state == refresh_state_pull_down) {
                     refresh_state = refresh_state_pull_down;
-                    tv_header.setText(text_pull_down_refresh);
-                    iv_header_right.setImageDrawable(arrowDrawable);
+                    tv_header_state.setText(text_pull_down_refresh);
+                    iv_header_right.setImageDrawable(arrowDrawableTop);
                     iv_header_right.setVisibility(View.VISIBLE);
                     removeAllHeaderRefreshRunnable();
                 } else if (end_state == refresh_state_refreshing) {
                     refresh_state = refresh_state_refreshing;
-                    tv_header.setText(text_refreshing);
-                    iv_header_right.setImageDrawable(progressDrawable);
-                    progressDrawable.start();
+                    tv_header_state.setText(text_refreshing);
+                    iv_header_right.setImageDrawable(progressDrawableTop);
+                    progressDrawableTop.start();
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
                     Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), getScrollY(), refresh_state_refresh_finished, true);
                     endHeaderRefreshList.add(runnable);
                     headerView.postDelayed(runnable, 3000);
                 } else if (end_state == refresh_state_refresh_finished) {
                     refresh_state = refresh_state_refresh_finished;
-                    tv_header.setText(text_refresh_finish);
+                    tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
                     Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), 0, refresh_state_pull_down, true);
                     endHeaderRefreshList.add(runnable);
@@ -349,17 +360,19 @@ public class RefreshLayout extends LinearLayout {
                 if (end_state == load_state_up_load) {
                     load_state = load_state_up_load;
                     tv_footer_state.setText(text_pull_up_load);
-                } else if (end_state == load_state_release_load) {
-                    load_state = load_state_release_load;
-                    tv_footer_state.setText(text_release_load);
+                    iv_footer_right.setVisibility(View.VISIBLE);
+                    iv_footer_right.setImageDrawable(arrowDrawableBottom);
                 } else if (end_state == load_state_loading) {
                     load_state = load_state_loading;
                     tv_footer_state.setText(text_loading);
+                    iv_footer_right.setImageDrawable(progressDrawableBottom);
+                    progressDrawableBottom.start();
                     Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), getScrollY(), load_state_finished, false);
                     tv_footer_state.postDelayed(runnable, 3000);
                 } else if (end_state == load_state_finished) {
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
+                    iv_footer_right.setVisibility(View.INVISIBLE);
                     Runnable runnable = () -> scrollHeaderOrFooterView(getScrollY(), 0, load_state_up_load, false);
                     tv_footer_state.postDelayed(runnable, 500);
                 }
@@ -398,7 +411,8 @@ public class RefreshLayout extends LinearLayout {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        progressDrawable.stop();
+        progressDrawableTop.stop();
+        progressDrawableBottom.stop();
         if (headerAnim != null) {
             headerAnim.removeAllListeners();
             headerAnim.removeAllUpdateListeners();
