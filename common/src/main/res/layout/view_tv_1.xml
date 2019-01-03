@@ -12,5 +12,6 @@
     app:bottom_line_enable="true"
     app:bottom_line_color="#ff0000"
     app:bottom_line_height="@dimen/dp_1"
+    android:maxLines="1"
     android:text="gaga"
     tools:ignore="HardcodedText" />
