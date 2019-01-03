@@ -2,11 +2,13 @@ package com.test.util;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.common.adapter.TextViewRVAdapter;
 import com.common.adapter.common.HLayoutManager;
 import com.common.base.BaseActivity;
 import com.common.utils.TestDataUtil;
+import com.common.utils.ToastUtil;
 import com.common.widget.AsyncScrollLayout;
 import com.common.widget.RefreshLayout;
 
@@ -40,7 +42,7 @@ public class RefreshRvTestActivity extends BaseActivity {
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
             refreshLayout.notifyLoadMoreFinish();
-        },500));
+        }, 500));
         refreshLayout.setOnRefreshListener(refreshLayout12 -> {
             adapter_1.getList().clear();
             adapter_2.getList().clear();
@@ -48,7 +50,7 @@ public class RefreshRvTestActivity extends BaseActivity {
             adapter_2.getList().addAll(TestDataUtil.getData(40));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
-            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish,500);
+            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish, 500);
         });
 
         adapter_1 = new TextViewRVAdapter(activity,
@@ -63,8 +65,8 @@ public class RefreshRvTestActivity extends BaseActivity {
         recycler_view_2.setAdapter(adapter_2);
 
         async_scroll_view.addRecyclerViewGroup(recycler_view_2, recycler_view_1);
-        // adapter_1.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));
-        //   adapter_2.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));
+        adapter_1.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));
+        adapter_2.setOnItemClick((itemView, position) -> ToastUtil.showShort(activity, ":" + position));
     }
 
     @Override

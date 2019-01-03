@@ -12,6 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="?selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
         android:splitMotionEvents="false">
 
         <com.common.widget.HRecyclerView
@@ -25,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="rv2"
-            android:overScrollMode="never"
+            android:overScrollMode="always"
             android:scrollbars="vertical"/>
 
     </com.common.widget.AsyncScrollLayout>
