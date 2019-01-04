@@ -66,7 +66,6 @@ public class RefreshLayout extends LinearLayout {
 
     public RefreshLayout(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
-
     }
 
     public RefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -366,93 +365,99 @@ public class RefreshLayout extends LinearLayout {
             rate = rate < 0 ? 0 : rate;
             during = Math.round(200 * rate);
         }
-
         headerOrFooterAnim.setDuration(during);
         headerOrFooterAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
         headerOrFooterAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                int lastHeaderState = refresh_state;
-                if (end_state == refresh_state_pull_down) {
-                    refresh_state = refresh_state_pull_down;
-                    tv_header_state.setText(text_pull_down_refresh);
-                    iv_header_right.setImageDrawable(arrowDrawableTop);
-                    iv_header_right.setVisibility(View.VISIBLE);
-                    if (lastHeaderState == refresh_state_finished && onRefreshFinishedResetListener != null) {
-                        onRefreshFinishedResetListener.onFinishReset(RefreshLayout.this);
-                        onRefreshFinishedResetListener = null;
-                    }
-                } else if (end_state == refresh_state_refreshing && lastHeaderState != refresh_state_refreshing) {
-                    //设置 脚部禁止状态
-                    if (load_state == load_state_up_load) {//如果处于待发状态
-                        load_state = load_state_mutex;
-                        tv_footer_state.setText(text_refreshing);
-                        iv_footer_right.setVisibility(View.INVISIBLE);
-                    }
-                    refresh_state = refresh_state_refreshing;
-                    tv_header_state.setText(text_refreshing);
-                    iv_header_right.setImageDrawable(progressDrawableTop);
-                    progressDrawableTop.start();
-                    if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
-                    SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
-                } else if (end_state == refresh_state_finished && lastHeaderState != refresh_state_finished) {
-                    //解除 脚部禁止状态
-                    if (load_state == load_state_mutex) {
-                        load_state = load_state_up_load;
-                        tv_footer_state.setText(text_pull_up_load);
-                        iv_footer_right.setVisibility(View.VISIBLE);
-                    }
-                    refresh_state = refresh_state_finished;
-                    tv_header_state.setText(text_refresh_finish);
-                    iv_header_right.setVisibility(View.INVISIBLE);
-                    headerView.postDelayed(() -> animUpdateState(getScrollY(), 0, refresh_state_pull_down, true), 500);
-                }
-
-                int lastFooterState = load_state;
-                if (end_state == load_state_up_load) {
-                    if (lastFooterState == load_state_finished && targetView != null && isAutoUpScroll) {//如果来自完成状态
-                        targetView.scrollBy(0, footerLoadHeight);
-                    }
-                    load_state = load_state_up_load;
-                    tv_footer_state.setText(text_pull_up_load);
-                    iv_footer_right.setVisibility(View.VISIBLE);
-                    iv_footer_right.setImageDrawable(arrowDrawableBottom);
-                    if (lastFooterState == load_state_finished && onLoadMoreFinishedResetListener != null) {
-                        onLoadMoreFinishedResetListener.onFinishReset(RefreshLayout.this);
-                        onLoadMoreFinishedResetListener = null;
-                    }
-                } else if (end_state == load_state_loading && lastFooterState != load_state_loading) {
-                    //设置 头部禁止状态
-                    if (refresh_state == refresh_state_pull_down) {
-                        refresh_state = refresh_state_mutex;
-                        tv_header_state.setText(text_loading);
-                        iv_header_right.setVisibility(View.INVISIBLE);
-                        tv_header_date.setVisibility(View.INVISIBLE);
-                    }
-                    load_state = load_state_loading;
-                    tv_footer_state.setText(text_loading);
-                    iv_footer_right.setImageDrawable(progressDrawableBottom);
-                    progressDrawableBottom.start();
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore(RefreshLayout.this);
-                    }
-                } else if (end_state == load_state_finished && lastFooterState != load_state_finished) {
-                    //解除 头部禁止状态
-                    if (refresh_state == refresh_state_mutex) {
-                        refresh_state = refresh_state_pull_down;
-                        tv_header_state.setText(text_pull_down_refresh);
-                        iv_header_right.setVisibility(View.VISIBLE);
-                        tv_header_date.setVisibility(View.VISIBLE);
-                    }
-                    load_state = load_state_finished;
-                    tv_footer_state.setText(text_load_finish);
-                    iv_footer_right.setVisibility(View.INVISIBLE);
-                    tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, isAutoUpScroll ? 0 : 200), 500);
-                }
+                handleHeaderAnimEndState(end_state);
+                handleFooterAnimEndState(end_state);
             }
         });
         headerOrFooterAnim.start();
+    }
+
+    private void handleFooterAnimEndState(int end_state) {
+        int lastFooterState = load_state;
+        if (end_state == load_state_up_load) {
+            if (lastFooterState == load_state_finished && targetView != null && isAutoUpScroll) {//如果来自完成状态
+                targetView.scrollBy(0, footerLoadHeight);
+            }
+            load_state = load_state_up_load;
+            tv_footer_state.setText(text_pull_up_load);
+            iv_footer_right.setVisibility(View.VISIBLE);
+            iv_footer_right.setImageDrawable(arrowDrawableBottom);
+            if (lastFooterState == load_state_finished && onLoadMoreFinishedResetListener != null) {
+                onLoadMoreFinishedResetListener.onFinishReset(RefreshLayout.this);
+                onLoadMoreFinishedResetListener = null;
+            }
+        } else if (end_state == load_state_loading && lastFooterState != load_state_loading) {
+            //设置 头部禁止状态
+            if (refresh_state == refresh_state_pull_down) {
+                refresh_state = refresh_state_mutex;
+                tv_header_state.setText(text_loading);
+                iv_header_right.setVisibility(View.INVISIBLE);
+                tv_header_date.setVisibility(View.INVISIBLE);
+            }
+            load_state = load_state_loading;
+            tv_footer_state.setText(text_loading);
+            iv_footer_right.setImageDrawable(progressDrawableBottom);
+            progressDrawableBottom.start();
+            if (onLoadMoreListener != null) {
+                onLoadMoreListener.onLoadMore(RefreshLayout.this);
+            }
+        } else if (end_state == load_state_finished && lastFooterState != load_state_finished) {
+            //解除 头部禁止状态
+            if (refresh_state == refresh_state_mutex) {
+                refresh_state = refresh_state_pull_down;
+                tv_header_state.setText(text_pull_down_refresh);
+                iv_header_right.setVisibility(View.VISIBLE);
+                tv_header_date.setVisibility(View.VISIBLE);
+            }
+            load_state = load_state_finished;
+            tv_footer_state.setText(text_load_finish);
+            iv_footer_right.setVisibility(View.INVISIBLE);
+            tv_footer_state.postDelayed(() -> animUpdateState(getScrollY(), 0, load_state_up_load, false, isAutoUpScroll ? 0 : 200), 500);
+        }
+    }
+
+    private void handleHeaderAnimEndState(int end_state) {
+        int lastHeaderState = refresh_state;
+        if (end_state == refresh_state_pull_down) {
+            refresh_state = refresh_state_pull_down;
+            tv_header_state.setText(text_pull_down_refresh);
+            iv_header_right.setImageDrawable(arrowDrawableTop);
+            iv_header_right.setVisibility(View.VISIBLE);
+            if (lastHeaderState == refresh_state_finished && onRefreshFinishedResetListener != null) {
+                onRefreshFinishedResetListener.onFinishReset(RefreshLayout.this);
+                onRefreshFinishedResetListener = null;
+            }
+        } else if (end_state == refresh_state_refreshing && lastHeaderState != refresh_state_refreshing) {
+            //设置 脚部禁止状态
+            if (load_state == load_state_up_load) {//如果处于待发状态
+                load_state = load_state_mutex;
+                tv_footer_state.setText(text_refreshing);
+                iv_footer_right.setVisibility(View.INVISIBLE);
+            }
+            refresh_state = refresh_state_refreshing;
+            tv_header_state.setText(text_refreshing);
+            iv_header_right.setImageDrawable(progressDrawableTop);
+            progressDrawableTop.start();
+            if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
+            SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
+        } else if (end_state == refresh_state_finished && lastHeaderState != refresh_state_finished) {
+            //解除 脚部禁止状态
+            if (load_state == load_state_mutex) {
+                load_state = load_state_up_load;
+                tv_footer_state.setText(text_pull_up_load);
+                iv_footer_right.setVisibility(View.VISIBLE);
+            }
+            refresh_state = refresh_state_finished;
+            tv_header_state.setText(text_refresh_finish);
+            iv_header_right.setVisibility(View.INVISIBLE);
+            headerView.postDelayed(() -> animUpdateState(getScrollY(), 0, refresh_state_pull_down, true), 500);
+        }
     }
 
     private View[] targetViewArr;
