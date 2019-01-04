@@ -1,4 +1,4 @@
-package com.common.widget;
+package com.common.widget.refresh;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -114,23 +114,25 @@ public class RefreshLayout extends LinearLayout {
         footerView.setLayoutParams(lp_footer);
     }
 
-    private static final int no_handle_state = -1; //不需要处理的状态
+    private static final int no_handle_state = -1; //动画完成后 不需要处理的状态
 
     private int refresh_state = 1;
-    private final int refresh_state_pull_down = 1;
-    private final int refresh_state_release = 2;
-    private final int refresh_state_refreshing = 3;
-    private final int refresh_state_finished = 4;
-    private final int refresh_state_mutex = 5; // 互斥状态 当正在加载更多状态的时候
-    private final int refresh_state_forbid = 6; //禁止状态
+    static final int refresh_state_pull_down = 1;
+    static final int refresh_state_release = 2;
+    static final int refresh_state_refreshing = 3;
+    static final int refresh_state_finished = 4;
+    static final int refresh_state_mutex = 5; // 互斥状态 当正在加载更多状态的时候
+    static final int refresh_state_forbid_scroll = 6; //禁止状态
+    static final int refresh_state_only_display = 7; //只展示文本状态
 
     private int load_state = 11;
-    private final int load_state_up_load = 11;
-    private final int load_state_release_load = 12;
-    private final int load_state_loading = 13;
-    private final int load_state_finished = 14;
-    private final int load_state_mutex = 15;// 当正在更新状态的时候
-    private final int load_state_forbid = 16; //禁止状态
+    static final int load_state_up_load = 11;
+    static final int load_state_release_load = 12;
+    static final int load_state_loading = 13;
+    static final int load_state_finished = 14;
+    static final int load_state_mutex = 15;
+    static final int load_state_forbid_scroll = 16; //禁止状态
+    static final int load_state_only_display = 17; //只展示文本状态
 
     private float startX;
     private float startY;
@@ -159,6 +161,7 @@ public class RefreshLayout extends LinearLayout {
                 xScrollSum = 0;
                 yScrollSum = 0;
                 compute_times = 0;
+                isIntercept = false;
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
                 updateRecordTime();
@@ -190,6 +193,7 @@ public class RefreshLayout extends LinearLayout {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                isIntercept = false;
                 onUpAnimUpdatePosition();
                 break;
         }
@@ -199,10 +203,10 @@ public class RefreshLayout extends LinearLayout {
     }
 
     private void onConfirmVerticalTouch(float dy) {
-        onMoveUpdateState();
         if (dy > 0) { //向下滑
+            if (refresh_state == refresh_state_forbid_scroll) return;
             boolean canScrollDown = targetView.canScrollVertically(-1);
-            if (!canScrollDown && refresh_state != refresh_state_forbid) { //拉出header
+            if (!canScrollDown) { //拉出header
                 touchScrollWithDamping(-dy);
             }
             if (getScrollY() > 0) {// footer出来了 隐藏
@@ -211,9 +215,11 @@ public class RefreshLayout extends LinearLayout {
             } else {
                 isIntercept = false;
             }
+            onMoveUpdateState();
         } else if (dy < 0) {//向上滑
+            if (load_state == load_state_forbid_scroll) return;
             boolean canUpScroll = targetView.canScrollVertically(1);
-            if (!canUpScroll && load_state != load_state_forbid) {//拉出footer
+            if (!canUpScroll) {//拉出footer
                 touchScrollWithDamping(-dy);
             }
 
@@ -223,6 +229,7 @@ public class RefreshLayout extends LinearLayout {
             } else {
                 isIntercept = false;
             }
+            onMoveUpdateState();
         }
     }
 
@@ -276,7 +283,7 @@ public class RefreshLayout extends LinearLayout {
                 case refresh_state_mutex:
                     animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
                     break;
-                case refresh_state_forbid:
+                case refresh_state_only_display:
                     animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
                     break;
             }
@@ -300,7 +307,7 @@ public class RefreshLayout extends LinearLayout {
                 case load_state_mutex:
                     animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
                     break;
-                case load_state_forbid:
+                case load_state_only_display:
                     animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
                     break;
             }
@@ -330,7 +337,7 @@ public class RefreshLayout extends LinearLayout {
             if (getScrollY() >= footerLoadHeight) {//释放加载更多
                 load_state = load_state_release_load;
                 tv_footer_state.setText(text_release_load);
-            } else if (getScrollY() > 0) { //关闭头
+            } else if (getScrollY() > 0) {
                 load_state = load_state_up_load;
                 tv_footer_state.setText(text_pull_up_load);
             }
@@ -365,9 +372,12 @@ public class RefreshLayout extends LinearLayout {
                     iv_header_right.setVisibility(View.VISIBLE);
                 } else if (end_state == refresh_state_refreshing && refresh_state != refresh_state_refreshing) {
                     //设置 脚部禁止状态
-                    load_state = load_state_mutex;
-                    tv_footer_state.setText(text_refreshing);
-                    iv_footer_right.setVisibility(View.INVISIBLE);
+                    if (load_state == load_state_up_load) {//如果处于待发状态
+                        load_state = load_state_mutex;
+                        tv_footer_state.setText(text_refreshing);
+                        iv_footer_right.setVisibility(View.INVISIBLE);
+                    }
+
 
                     refresh_state = refresh_state_refreshing;
                     tv_header_state.setText(text_refreshing);
@@ -377,15 +387,17 @@ public class RefreshLayout extends LinearLayout {
                     SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
                 } else if (end_state == refresh_state_finished && refresh_state != refresh_state_finished) {
                     //解除 脚部禁止状态
-                    load_state = load_state_up_load;
-                    tv_footer_state.setText(text_pull_up_load);
-                    iv_footer_right.setVisibility(View.VISIBLE);
-
+                    if (load_state == load_state_mutex) {
+                        load_state = load_state_up_load;
+                        tv_footer_state.setText(text_pull_up_load);
+                        iv_footer_right.setVisibility(View.VISIBLE);
+                    }
                     refresh_state = refresh_state_finished;
                     tv_header_state.setText(text_refresh_finish);
                     iv_header_right.setVisibility(View.INVISIBLE);
                     headerView.postDelayed(() -> animUpdateState(getScrollY(), 0, refresh_state_pull_down, true), 500);
                 }
+
                 if (end_state == load_state_up_load) {
                     if (load_state == load_state_finished && targetView != null && isAutoUpScroll) {//如果来自完成状态
                         targetView.scrollBy(0, footerLoadHeight);
@@ -396,10 +408,12 @@ public class RefreshLayout extends LinearLayout {
                     iv_footer_right.setImageDrawable(arrowDrawableBottom);
                 } else if (end_state == load_state_loading && load_state != load_state_loading) {
                     //设置 头部禁止状态
-                    refresh_state = refresh_state_mutex;
-                    tv_header_state.setText(text_loading);
-                    iv_header_right.setVisibility(View.INVISIBLE);
-                    tv_header_date.setVisibility(View.INVISIBLE);
+                    if (refresh_state == refresh_state_pull_down) {
+                        refresh_state = refresh_state_mutex;
+                        tv_header_state.setText(text_loading);
+                        iv_header_right.setVisibility(View.INVISIBLE);
+                        tv_header_date.setVisibility(View.INVISIBLE);
+                    }
 
                     load_state = load_state_loading;
                     tv_footer_state.setText(text_loading);
@@ -410,10 +424,12 @@ public class RefreshLayout extends LinearLayout {
                     }
                 } else if (end_state == load_state_finished && load_state != load_state_finished) {
                     //解除 头部禁止状态
-                    refresh_state = refresh_state_pull_down;
-                    tv_header_state.setText(text_pull_down_refresh);
-                    iv_header_right.setVisibility(View.VISIBLE);
-                    tv_header_date.setVisibility(View.VISIBLE);
+                    if (refresh_state == refresh_state_mutex) {
+                        refresh_state = refresh_state_pull_down;
+                        tv_header_state.setText(text_pull_down_refresh);
+                        iv_header_right.setVisibility(View.VISIBLE);
+                        tv_header_date.setVisibility(View.VISIBLE);
+                    }
 
                     load_state = load_state_finished;
                     tv_footer_state.setText(text_load_finish);
@@ -457,26 +473,44 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
+    @SuppressWarnings("unused")
+    public void setHeaderTextOnOnlyDisplay(String text) {
+        tv_header_state.setText(text);
+    }
+
+    @SuppressWarnings("unused")
+    public void setFooterTextOnOnlyDisplay(String text) {
+        tv_footer_state.setText(text);
+    }
+
     private boolean isAutoUpScroll = false;
-    /**只支持RecyclerView*/
+
+    /**
+     * 只支持RecyclerView
+     */
     public void setAutoUpScrollEnableOnLoadMoreFinish(boolean enable) {
         isAutoUpScroll = enable;
     }
 
-    public void setRefreshEnable(boolean enable) {
-        if (enable) {
-            refresh_state = refresh_state_pull_down;
-        } else {
-            refresh_state = refresh_state_forbid;
-
+    public void setHeaderFunction(HeaderFunction headerFunction) {
+        refresh_state = headerFunction.getHeaderState();
+        if (refresh_state == refresh_state_only_display) {
+            tv_header_date.setVisibility(View.INVISIBLE);
+            iv_header_right.setVisibility(View.INVISIBLE);
+        } else if (refresh_state == refresh_state_pull_down) {
+            tv_header_date.setVisibility(View.VISIBLE);
+            iv_header_right.setVisibility(View.VISIBLE);
+            tv_header_state.setText(text_pull_down_refresh);
         }
     }
 
-    public void setLoadMoreEnable(boolean enable) {
-        if (enable) {
-            load_state = load_state_up_load;
-        } else {
-            load_state = load_state_forbid;
+    public void seFooterFunction(FooterFunction footerFunction) {
+        load_state = footerFunction.getFooterState();
+        if (load_state == load_state_only_display) {
+            iv_footer_right.setVisibility(View.INVISIBLE);
+        } else if (load_state == load_state_up_load) {
+            iv_footer_right.setVisibility(View.VISIBLE);
+            tv_footer_state.setText(text_pull_up_load);
         }
     }
 
@@ -498,13 +532,5 @@ public class RefreshLayout extends LinearLayout {
 
     public void notifyRefreshFinish() {
         animUpdateState(getScrollY(), getScrollY(), refresh_state_finished, false);
-    }
-
-    public interface OnRefreshListener {
-        void onRefresh(RefreshLayout refreshLayout);
-    }
-
-    public interface OnLoadMoreListener {
-        void onLoadMore(RefreshLayout refreshLayout);
     }
 }

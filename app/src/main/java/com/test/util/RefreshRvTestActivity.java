@@ -2,7 +2,6 @@ package com.test.util;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.common.adapter.TextViewRVAdapter;
 import com.common.adapter.common.HLayoutManager;
@@ -10,7 +9,9 @@ import com.common.base.BaseActivity;
 import com.common.utils.TestDataUtil;
 import com.common.utils.ToastUtil;
 import com.common.widget.AsyncScrollLayout;
-import com.common.widget.RefreshLayout;
+import com.common.widget.refresh.FooterFunction;
+import com.common.widget.refresh.HeaderFunction;
+import com.common.widget.refresh.RefreshLayout;
 
 import java.util.List;
 
@@ -32,8 +33,9 @@ public class RefreshRvTestActivity extends BaseActivity {
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
 
         refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
-        refreshLayout.setRefreshEnable(true);
-        refreshLayout.setLoadMoreEnable(true);
+        refreshLayout.setFooterTextOnOnlyDisplay("已经全部加载完毕");
+        refreshLayout.setHeaderFunction(HeaderFunction.refresh);
+        refreshLayout.seFooterFunction(FooterFunction.only_display);
         refreshLayout.setAutoUpScrollEnableOnLoadMoreFinish(true);
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> refreshLayout.postDelayed(() -> {
             List<String> list = adapter_1.getList();
