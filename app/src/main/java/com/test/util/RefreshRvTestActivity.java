@@ -38,30 +38,33 @@ public class RefreshRvTestActivity extends BaseActivity {
         refreshLayout.setAutoUpScrollEnableOnLoadMoreFinish(true);
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> refreshLayout.postDelayed(() -> {
             List<String> list = adapter_1.getList();
-            if (list.size() > 200) {
-                refreshLayout.setFooterTextOnOnlyDisplay("已经加载：" + list.size() + "数据");
-                refreshLayout.seFooterFunction(FooterFunction.only_display);
-            }
             adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
             adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
             refreshLayout.notifyLoadMoreFinish();
+            if (list.size() > 199) {
+                refreshLayout.setOnLoadMoreFinishedResetListener(refresh -> {
+                    refresh.setFooterTextOnOnlyDisplay("已经加载：" + list.size() + "条数据");
+                    refresh.seFooterFunction(FooterFunction.only_display);
+                });
+            }
         }, 500));
-        refreshLayout.setOnRefreshListener(refreshLayout12 -> {
+        refreshLayout.setOnRefreshListener(refresh -> {
             adapter_1.getList().clear();
             adapter_2.getList().clear();
             adapter_1.getList().addAll(TestDataUtil.getData(40));
             adapter_2.getList().addAll(TestDataUtil.getData(40));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
+            refresh.setRefreshFinishedResetListener(refreshLayout12 -> refresh.seFooterFunction(FooterFunction.load_more));
             refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish, 500);
         });
 
         adapter_1 = new TextViewRVAdapter(activity,
-                R.layout.view_tv_1, TestDataUtil.getData(50));
+                R.layout.view_tv_1, TestDataUtil.getData(40));
         adapter_2 = new TextViewRVAdapter(activity,
-                R.layout.view_tv_2, TestDataUtil.getData(50));
+                R.layout.view_tv_2, TestDataUtil.getData(40));
 
         recycler_view_1.setLayoutManager(new HLayoutManager(activity));
         recycler_view_1.setAdapter(adapter_1);
