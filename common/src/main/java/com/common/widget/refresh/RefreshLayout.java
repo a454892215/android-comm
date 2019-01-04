@@ -148,12 +148,16 @@ public class RefreshLayout extends LinearLayout {
 
     boolean isIntercept = false;
 
+    private int pointerId = -1;
+    private boolean pointerIdIsChange = false;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if ((load_state == load_state_finished || refresh_state == refresh_state_finished)) {
             return true;
         }
-        switch (ev.getAction()) {
+        int actionIndex = ev.getActionIndex();
+        switch (ev.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 startX = ev.getRawX();
                 startY = ev.getRawY();
@@ -164,15 +168,19 @@ public class RefreshLayout extends LinearLayout {
                 isIntercept = false;
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
+                pointerIdIsChange = false;
+                pointerId = ev.getPointerId(actionIndex);
                 updateRecordTime();
                 break;
             case MotionEvent.ACTION_MOVE:
+                int pointerId_move = ev.getPointerId(actionIndex);
+                if (pointerId_move != pointerId) pointerIdIsChange = true;
+                if (pointerIdIsChange) break;
                 if (targetView != null) {
                     float currentX = ev.getRawX();
                     float currentY = ev.getRawY();
                     float dx = currentX - startX;
                     float dy = currentY - startY;
-
                     if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit &&
                             Math.abs(yScrollSum) < min_scroll_unit)) {//第一个条件限制最大次数 ，避免首几次数据有误
                         xScrollSum += dx;
