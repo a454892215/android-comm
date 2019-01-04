@@ -406,6 +406,9 @@ public class RefreshLayout extends LinearLayout {
                     tv_footer_state.setText(text_pull_up_load);
                     iv_footer_right.setVisibility(View.VISIBLE);
                     iv_footer_right.setImageDrawable(arrowDrawableBottom);
+                    if (load_state == load_state_finished) {
+                        onLoadMoreFinishedResetListener.onFinishReset(RefreshLayout.this);
+                    }
                 } else if (end_state == load_state_loading && load_state != load_state_loading) {
                     //设置 头部禁止状态
                     if (refresh_state == refresh_state_pull_down) {
@@ -473,13 +476,19 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
+    private String headerTextOnOnlyDisplay = "";
+
     @SuppressWarnings("unused")
     public void setHeaderTextOnOnlyDisplay(String text) {
+        headerTextOnOnlyDisplay = text;
         tv_header_state.setText(text);
     }
 
+    private String footerTextOnOnlyDisplay = "";
+
     @SuppressWarnings("unused")
     public void setFooterTextOnOnlyDisplay(String text) {
+        footerTextOnOnlyDisplay = text;
         tv_footer_state.setText(text);
     }
 
@@ -493,30 +502,41 @@ public class RefreshLayout extends LinearLayout {
     }
 
     public void setHeaderFunction(HeaderFunction headerFunction) {
-        refresh_state = headerFunction.getHeaderState();
-        if (refresh_state == refresh_state_only_display) {
-            tv_header_date.setVisibility(View.INVISIBLE);
-            iv_header_right.setVisibility(View.INVISIBLE);
-        } else if (refresh_state == refresh_state_pull_down) {
-            tv_header_date.setVisibility(View.VISIBLE);
-            iv_header_right.setVisibility(View.VISIBLE);
-            tv_header_state.setText(text_pull_down_refresh);
+        if (refresh_state == refresh_state_pull_down) {
+            refresh_state = headerFunction.getHeaderState();
+            if (refresh_state == refresh_state_only_display) {
+                tv_header_state.setText(headerTextOnOnlyDisplay);
+                tv_header_date.setVisibility(View.INVISIBLE);
+                iv_header_right.setVisibility(View.INVISIBLE);
+            } else if (refresh_state == refresh_state_pull_down) {
+                tv_header_date.setVisibility(View.VISIBLE);
+                iv_header_right.setVisibility(View.VISIBLE);
+                tv_header_state.setText(text_pull_down_refresh);
+            }
+        } else {
+            LogUtil.e("非法状态，不能设置");
         }
     }
 
     public void seFooterFunction(FooterFunction footerFunction) {
-        load_state = footerFunction.getFooterState();
-        if (load_state == load_state_only_display) {
-            iv_footer_right.setVisibility(View.INVISIBLE);
-        } else if (load_state == load_state_up_load) {
-            iv_footer_right.setVisibility(View.VISIBLE);
-            tv_footer_state.setText(text_pull_up_load);
+        if (load_state == load_state_up_load) {
+            load_state = footerFunction.getFooterState();
+            if (load_state == load_state_only_display) {
+                tv_footer_state.setText(footerTextOnOnlyDisplay);
+                iv_footer_right.setVisibility(View.INVISIBLE);
+            } else if (load_state == load_state_up_load) {
+                iv_footer_right.setVisibility(View.VISIBLE);
+                tv_footer_state.setText(text_pull_up_load);
+            }
+        } else {
+            LogUtil.e("非法状态，不能设置");
         }
     }
 
     private OnRefreshListener onRefreshListener;
 
     private OnLoadMoreListener onLoadMoreListener;
+    private OnLoadMoreFinishedResetListener onLoadMoreFinishedResetListener;
 
     public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
         this.onRefreshListener = onRefreshListener;
@@ -524,6 +544,11 @@ public class RefreshLayout extends LinearLayout {
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
         this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    @SuppressWarnings("unused")
+    public void setOnLoadMoreFinishedResetListener(OnLoadMoreFinishedResetListener listener) {
+        this.onLoadMoreFinishedResetListener = listener;
     }
 
     public void notifyLoadMoreFinish() {

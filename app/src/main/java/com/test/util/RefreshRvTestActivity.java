@@ -33,12 +33,15 @@ public class RefreshRvTestActivity extends BaseActivity {
         RecyclerView recycler_view_2 = findViewById(R.id.recycler_view_2);
 
         refreshLayout.setTargetView(recycler_view_1, recycler_view_2);
-        refreshLayout.setFooterTextOnOnlyDisplay("已经全部加载完毕");
         refreshLayout.setHeaderFunction(HeaderFunction.refresh);
-        refreshLayout.seFooterFunction(FooterFunction.only_display);
+        refreshLayout.seFooterFunction(FooterFunction.load_more);
         refreshLayout.setAutoUpScrollEnableOnLoadMoreFinish(true);
         refreshLayout.setOnLoadMoreListener(refreshLayout1 -> refreshLayout.postDelayed(() -> {
             List<String> list = adapter_1.getList();
+            if (list.size() > 200) {
+                refreshLayout.setFooterTextOnOnlyDisplay("已经加载：" + list.size() + "数据");
+                refreshLayout.seFooterFunction(FooterFunction.only_display);
+            }
             adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
             adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
             adapter_1.notifyDataSetChanged();
