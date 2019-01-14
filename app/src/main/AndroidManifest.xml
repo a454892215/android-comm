@@ -25,6 +25,7 @@
         <activity android:name=".HRVTestActivity"/>
         <activity android:name=".ForegroundDrawingTestActivity"/>
         <activity android:name=".RefreshRvTestActivity"/>
+        <activity android:name=".ConstraintLayoutTestActivity"/>
     </application>
 
 </manifest>

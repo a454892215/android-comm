@@ -20,10 +20,10 @@ public class MainActivity extends BaseActivity {
 
     private String[] names = {"基于Scroller的水平滚动测试",
             "GridRV测试", "自定义LayoutManager测试", "自定义可水平滚动的垂直RecycleView", "前景绘制测试",
-    "自定义下拉刷新和加载更多"};
+            "自定义下拉刷新和加载更多", "ConstraintLayout测试"};
     private Class[] classArr = {ScrollerHSVTestActivity.class,
             RVGridTestActivity.class, CustomLayoutManagerTestActivity.class, HRVTestActivity.class,
-            ForegroundDrawingTestActivity.class, RefreshRvTestActivity.class};
+            ForegroundDrawingTestActivity.class, RefreshRvTestActivity.class, ConstraintLayoutTestActivity.class};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

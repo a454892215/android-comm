@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recycler_view_1"
+    tools:ignore="HardcodedText"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_left"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:contentDescription="@string/app_name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@mipmap/ic_launcher"
+            android:text="center" />
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="center"
+            android:textSize="@dimen/sp_18"
+            android:layout_marginStart="@dimen/dp_10"
+            app:layout_constraintTop_toTopOf="@id/iv_left"
+            app:layout_constraintLeft_toRightOf="@id/iv_left" />
+        <TextView
+            android:id="@+id/tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="center"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginStart="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+            app:layout_constraintLeft_toRightOf="@id/iv_left" />
+<android.support.constraint.Group
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:constraint_referenced_ids="iv_left,tv_name,tv_type"/>
+
+</android.support.constraint.ConstraintLayout>
