@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -70,6 +71,7 @@ public class RefreshLayout extends LinearLayout {
 
     public RefreshLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setOrientation(LinearLayout.VERTICAL);
         this.context = context;
         min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
         Scroller mScroller = new Scroller(context);
@@ -93,8 +95,11 @@ public class RefreshLayout extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        headerView = getChildAt(0);
-        View footerView = getChildAt(2);
+        headerView = LayoutInflater.from(context).inflate(R.layout.refresh_header, this, false);
+        View footerView = LayoutInflater.from(context).inflate(R.layout.refresh_footer, this, false);
+        this.addView(headerView, 0);
+        this.addView(footerView);
+
         tv_header_state = headerView.findViewById(R.id.tv_header_state);
         tv_header_date = headerView.findViewById(R.id.tv_header_date);
         iv_header_right = headerView.findViewById(R.id.iv_header_right);
@@ -544,8 +549,12 @@ public class RefreshLayout extends LinearLayout {
                 iv_footer_right.setVisibility(View.VISIBLE);
                 tv_footer_state.setText(text_pull_up_load);
             }
+        } else if (load_state == load_state_loading || load_state == load_state_finished) {
+            setOnLoadMoreFinishedResetListener(refreshLayout -> load_state = footerFunction.getFooterState());
+        } else if (load_state == load_state_mutex) {
+            setOnLoadMoreFinishedResetListener(refreshLayout -> load_state = footerFunction.getFooterState());
         } else {
-            LogUtil.e("非法状态，不能设置 load_state：" + load_state);
+            LogUtil.e("非法状态");
         }
     }
 
