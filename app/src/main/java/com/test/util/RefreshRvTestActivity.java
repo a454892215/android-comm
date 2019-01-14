@@ -51,6 +51,7 @@ public class RefreshRvTestActivity extends BaseActivity {
             }
         }, 500));
         refreshLayout.setOnRefreshListener(refresh -> {
+
             adapter_1.getList().clear();
             adapter_2.getList().clear();
             adapter_1.getList().addAll(TestDataUtil.getData(40));
