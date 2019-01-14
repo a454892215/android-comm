@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <include layout="@layout/refresh_header" />
-
     <com.common.widget.AsyncScrollLayout
         android:id="@+id/async_scroll_view"
         android:layout_width="match_parent"
@@ -32,5 +29,4 @@
             android:scrollbars="vertical"/>
 
     </com.common.widget.AsyncScrollLayout>
-    <include layout="@layout/refresh_footer" />
 </com.common.widget.refresh.RefreshLayout>

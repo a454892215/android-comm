@@ -36,7 +36,7 @@ public class RefreshRvTestActivity extends BaseActivity {
         refreshLayout.setHeaderFunction(HeaderFunction.refresh);
         refreshLayout.seFooterFunction(FooterFunction.load_more);
         refreshLayout.setAutoUpScrollEnableOnLoadMoreFinish(true);
-        refreshLayout.setOnLoadMoreListener(refreshLayout1 -> refreshLayout.postDelayed(() -> {
+        refreshLayout.setOnLoadMoreListener(refresh -> refreshLayout.postDelayed(() -> {
             List<String> list = adapter_1.getList();
             adapter_1.getList().addAll(TestDataUtil.getData(40, list.size()));
             adapter_2.getList().addAll(TestDataUtil.getData(40, list.size()));
@@ -44,10 +44,8 @@ public class RefreshRvTestActivity extends BaseActivity {
             adapter_2.notifyDataSetChanged();
             refreshLayout.notifyLoadMoreFinish();
             if (list.size() > 199) {
-                refreshLayout.setOnLoadMoreFinishedResetListener(refresh -> {
-                    refresh.setFooterTextOnOnlyDisplay("已经加载：" + list.size() + "条数据");
-                    refresh.seFooterFunction(FooterFunction.only_display);
-                });
+                refresh.setFooterTextOnOnlyDisplay("已经加载：" + list.size() + "条数据");
+                refresh.seFooterFunction(FooterFunction.only_display);
             }
         }, 500));
         refreshLayout.setOnRefreshListener(refresh -> {
@@ -58,8 +56,8 @@ public class RefreshRvTestActivity extends BaseActivity {
             adapter_2.getList().addAll(TestDataUtil.getData(40));
             adapter_1.notifyDataSetChanged();
             adapter_2.notifyDataSetChanged();
-            refresh.setRefreshFinishedResetListener(refreshLayout12 -> refresh.seFooterFunction(FooterFunction.load_more));
-            refreshLayout.postDelayed(refreshLayout::notifyRefreshFinish, 500);
+            refresh.seFooterFunction(FooterFunction.load_more);
+            refresh.postDelayed(refreshLayout::notifyRefreshFinish, 500);
         });
 
         adapter_1 = new TextViewRVAdapter(activity,

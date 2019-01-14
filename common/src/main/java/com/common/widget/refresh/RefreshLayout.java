@@ -510,7 +510,7 @@ public class RefreshLayout extends LinearLayout {
     @SuppressWarnings("unused")
     public void setFooterTextOnOnlyDisplay(String text) {
         footerTextOnOnlyDisplay = text;
-        tv_footer_state.setText(text);
+        tv_footer_state.setText(footerTextOnOnlyDisplay);
     }
 
     private boolean isAutoUpScroll = false;
@@ -550,7 +550,14 @@ public class RefreshLayout extends LinearLayout {
                 tv_footer_state.setText(text_pull_up_load);
             }
         } else if (load_state == load_state_loading || load_state == load_state_finished) {
-            setOnLoadMoreFinishedResetListener(refreshLayout -> load_state = footerFunction.getFooterState());
+            setOnLoadMoreFinishedResetListener(refreshLayout -> {
+                load_state = footerFunction.getFooterState();
+                if(load_state == load_state_only_display){
+                    iv_footer_right.setVisibility(View.INVISIBLE);
+                    tv_footer_state.setText(footerTextOnOnlyDisplay);
+                }
+            });
+
         } else if (load_state == load_state_mutex) {
             setOnLoadMoreFinishedResetListener(refreshLayout -> load_state = footerFunction.getFooterState());
         } else {
