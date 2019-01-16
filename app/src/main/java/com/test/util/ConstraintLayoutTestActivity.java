@@ -1,23 +1,20 @@
 package com.test.util;
 
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import com.common.adapter.TextViewRVAdapter;
 import com.common.base.BaseActivity;
-import com.common.base.BaseRVAdapter;
-import com.common.utils.TestDataUtil;
-import com.common.utils.ToastUtil;
+import com.common.widget.TabLayout;
 
 /**
  * RecyclerView
  */
 public class ConstraintLayoutTestActivity extends BaseActivity {
+    String[] names = {"ConstraintLayout线性和相对布局"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TabLayout tab_layout = findViewById(R.id.tab_layout);
+        tab_layout.setData(names);
     }
 
     @Override

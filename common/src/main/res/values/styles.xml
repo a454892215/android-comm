@@ -1,0 +1,12 @@
+<resources>
+    <declare-styleable name="TabLayout">
+        <attr name="tb_text_size" format="dimension|reference" />
+        <attr name="tb_height" format="dimension|reference" />
+        <attr name="tb_width" format="dimension|reference" />
+        <attr name="tb_round_rect_radius" format="dimension|reference" />
+        <attr name="tb_selected_text_color" format="color|reference" />
+        <attr name="tb_unselected_text_color" format="color|reference" />
+        <attr name="tb_selected_bg_color" format="color|reference" />
+        <attr name="tb_unselected_bg_color" format="color|reference" />
+    </declare-styleable>
+</resources>
