@@ -26,6 +26,7 @@
         <activity android:name=".ForegroundDrawingTestActivity"/>
         <activity android:name=".RefreshRvTestActivity"/>
         <activity android:name=".ConstraintLayoutTestActivity"/>
+        <activity android:name=".XposedTestActivity"/>
     </application>
 
 </manifest>
