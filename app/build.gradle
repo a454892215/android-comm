@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
-
+// 当前beta版本号
+ext.build_number = "debug"
+// 显示的时间格式
+def static releaseTime() {
+    return new Date().format("yyyy-MM-dd HH时mm分ss秒",TimeZone.getDefault())
+}
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -20,6 +25,60 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+
+
+    signingConfigs {
+        signing {
+            keyAlias 'sam'
+            keyPassword 'mima_180612_sw'
+            storeFile file('E:/work/projects/keystore/keystore_2.jks')
+            storePassword 'ks_mima_180612'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'boolean', 'IS_DEBUG', 'false'
+            signingConfig signingConfigs.signing
+            debuggable true
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'boolean', 'IS_DEBUG', 'true'
+            signingConfig signingConfigs.signing
+        }
+    }
+
+    // 一定要写在android节点中
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                // 显示app名称+当前版本号
+                def fileName = "V${variant.versionName}"
+                // 如果有渠道，显示渠道名""
+                if (variant.flavorName != "") {
+                    fileName = fileName + "-${variant.flavorName}"
+                }
+                // 加入打包时间
+                fileName = fileName + "-${releaseTime()}"
+                // 如果是debug版本，加入beta版本号
+                if ('debug' == variant.buildType.name) {
+                    fileName = fileName + "-${build_number}.apk"
+                } else {
+                    // 如果是release版本，直接显示
+                    fileName = fileName + "-release.apk"
+                }
+                //output.outputFile = new File(outputFile.parent, fileName)
+                variant.outputs.all {
+                    outputFileName = fileName
+                }
+            }
+        }
     }
 }
 
