@@ -51,7 +51,8 @@
         android:text="我是文本4"
         android:textAlignment="center"
         android:textAllCaps="false"
-        app:layout_constraintTop_toBottomOf="@+id/tv_2" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_2"
+        tools:ignore="MissingConstraints" />
 
 
     <TextView

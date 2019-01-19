@@ -1,10 +1,4 @@
 apply plugin: 'com.android.application'
-// 当前beta版本号
-ext.build_number = "debug1"
-// 显示的时间格式
-def static releaseTime() {
-    return new Date().format("yyyy-MM-dd HH时mm分ss秒",TimeZone.getDefault())
-}
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -38,48 +32,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'false'
             signingConfig signingConfigs.signing
-            debuggable true
+            debuggable false
         }
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'true'
             signingConfig signingConfigs.signing
+            debuggable true
         }
     }
-
-    // 一定要写在android节点中
-/*    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                // 显示app名称+当前版本号
-                def fileName = "V${variant.versionName}"
-                // 如果有渠道，显示渠道名""
-                if (variant.flavorName != "") {
-                    fileName = fileName + "-${variant.flavorName}"
-                }
-                // 加入打包时间
-                fileName = fileName + "-${releaseTime()}"
-                // 如果是debug版本，加入beta版本号
-                if ('debug' == variant.buildType.name) {
-                    fileName = fileName + "-${build_number}.apk"
-                } else {
-                    // 如果是release版本，直接显示
-                    fileName = fileName + "-release.apk"
-                }
-                //output.outputFile = new File(outputFile.parent, fileName)
-                variant.outputs.all {
-                    outputFileName = fileName
-                }
-            }
-        }
-    }*/
-
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+   // implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation 'junit:junit:4.12'

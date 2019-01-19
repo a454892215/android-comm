@@ -8,8 +8,8 @@
     tools:ignore="HardcodedText">
 
 
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Xposed框架测试"
