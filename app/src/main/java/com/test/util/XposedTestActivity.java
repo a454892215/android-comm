@@ -12,7 +12,11 @@ public class XposedTestActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Button btn = findViewById(R.id.btn);
-        btn.setOnClickListener(v -> ToastUtil.showLong(activity, "我是button"));
+        btn.setOnClickListener(v -> ToastUtil.showLong(activity, getText()));
+    }
+
+    public String getText() {
+        return "我没有被劫持";
     }
 
     @Override
