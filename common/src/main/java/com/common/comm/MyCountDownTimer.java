@@ -3,11 +3,12 @@ package com.common.comm;
 import android.os.CountDownTimer;
 
 import com.common.base.BaseActivity;
+import com.common.comm.timer.OnTickListener;
 
 import java.lang.ref.WeakReference;
 
 /**
- * Author:  Liu Pan
+ * Author:  Pan
  * CreateDate: 2018/9/7 10:23
  * Description: No
  */
