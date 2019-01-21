@@ -37,6 +37,7 @@
         <activity android:name=".RefreshRvTestActivity"/>
         <activity android:name=".ConstraintLayoutTestActivity"/>
         <activity android:name=".XposedTestActivity"/>
+        <activity android:name=".ProgressLiveTestActivity"/>
     </application>
 
 </manifest>

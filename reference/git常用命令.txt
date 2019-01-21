@@ -1,0 +1,10 @@
+git log -10 --oneline
+git  git cherry-pick commitId 把指定提交 合并到当前分支
+git remote -v 查看远程配置
+git remote rm paul 移除远程地址
+git remote rename old_name new_name 重命名远程url
+git remote show origin 查看指定远程url详情
+git branch --set-upstream-to origin/caipiaov1.1 给当前本地分支指定服务器跟踪分支
+git branch -vv 查看本地分支跟踪信息
+
+git rm --cached readme1.txt 取消已经跟踪的文件
