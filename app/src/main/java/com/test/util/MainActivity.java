@@ -3,12 +3,15 @@ package com.test.util;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 
 import com.common.adapter.TextViewRVAdapter;
 import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
 import com.common.base.BaseRVAdapter;
+import com.common.comm.MyCountDownTimer;
 import com.common.utils.FastClickUtil;
+import com.common.utils.LogUtil;
 
 import java.util.Arrays;
 
@@ -39,7 +42,20 @@ public class MainActivity extends BaseActivity {
             intent.putExtra("title", names[position]);
             startActivity(intent);
         });
+        MyCountDownTimer timer = new MyCountDownTimer(30, 2000);
+        timer.setOnTickListener((time, count) -> LogUtil.debug("onTick time:" + time + " count:" + count));
+        timer.start();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(false);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     @Override
     protected int getLayoutId() {
