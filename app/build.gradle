@@ -49,19 +49,11 @@ android {
 }
 
 static def getLastCommitInfo() {
-    String info = ""
-    File headFile = new File('.git/logs/HEAD')
-    if (headFile.exists()) {
-        info = headFile.readLines().last()
-        String[] arr = info.split(" +")
-        info = arr[1].substring(0, 7) + "-" + arr[arr.length - 3]
-        println "info ：" + info
-    }
-    def p1 = 'git symbolic-ref --short HEAD'.execute()
+    def p1 = 'git log -1 --pretty=format:"%h-%ci"'.execute()
     p1.waitFor()
-    String branch = p1.text.trim()
-    info = "[git-" + info + "-" + branch + "]-"
-    println "最后的提交信息：" + info
+    String text = p1.getInputStream().getText("utf-8").replace(":", "_").replace("+0800", "")
+    String info = "[git-" + text + "]-"
+    println "最后的提交信息：" + text
     return info
 }
 
