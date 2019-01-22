@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity {
             startActivity(intent);
         });
         MyCountDownTimer timer = new MyCountDownTimer(30, 2000);
-        timer.setOnTickListener((time, count) -> LogUtil.debug("onTick time:" + time + " count:" + count));
+        timer.setOnTickListener((time, count) -> LogUtil.debug("我还活着 onTick time:" + time + " count:" + count));
         timer.start();
     }
 

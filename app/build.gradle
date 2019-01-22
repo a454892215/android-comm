@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -8,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        project.ext.set("archivesBaseName", "V" + versionName + "("+versionCode+") " + new Date().format('yy年MM月dd日 HH时mm分ss秒'))
+        project.ext.set("archivesBaseName", "V" + versionName + "(" + versionCode + ") " + getPackageInfo() + new Date().format('yy年MM月dd日 HH时mm分ss秒'))
     }
 
     compileOptions {
@@ -42,6 +43,24 @@ android {
             debuggable true
         }
     }
+
+}
+
+task getGitInfo {
+    // .git/HEAD描述当前目录所指向的分支信息，内容示例："ref: refs/heads/master\n"
+
+}
+
+def getPackageInfo() {
+    String info = ""
+    def headFile = new File('.git/HEAD')
+    if (headFile.exists()) {
+        def text = headFile.getText('UTF-8')
+        def index = text.lastIndexOf("/")
+        info = text.substring(index + 1)
+        println "info: 当前所在分支是=============:" + info
+    }
+    return info
 }
 
 dependencies {
