@@ -9,7 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        project.ext.set("archivesBaseName", "V" + versionName + "(" + versionCode + ") " + getPackageInfo() + new Date().format('yy年MM月dd日 HH时mm分ss秒'))
+        project.ext.set("archivesBaseName", "V" + versionName + "(" + versionCode + ") " + getLastCommitInfo() + new Date().format('yy年MM月dd日 HH时mm分ss秒'))
     }
 
     compileOptions {
@@ -51,15 +51,13 @@ task getGitInfo {
 
 }
 
-def getPackageInfo() {
+static def getLastCommitInfo() {
     String info = ""
-    def headFile = new File('.git/HEAD')
+    File headFile = new File('.git/logs/HEAD')
     if (headFile.exists()) {
-        def text = headFile.getText('UTF-8')
-        def index = text.lastIndexOf("/")
-        info = text.substring(index + 1)
-        println "info: 当前所在分支是=============:" + info
+        info = headFile.readLines().last()
     }
+    println "最后的提交信息：" + info
     return info
 }
 
