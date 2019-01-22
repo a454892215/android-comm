@@ -9,7 +9,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        project.ext.set("archivesBaseName", "V" + versionName + "(" + versionCode + ") " + getLastCommitInfo() + new Date().format('yy年MM月dd日 HH时mm分ss秒'))
+        String info = "V" + versionName + "(" + versionCode + ")" + getLastCommitInfo() + new Date().format('yy年MM月dd日 HH时mm分ss秒')
+        buildConfigField('String', 'app_info', "\"" + info + "\"")
+        project.ext.set("archivesBaseName", info)
     }
 
     compileOptions {
@@ -46,17 +48,19 @@ android {
 
 }
 
-task getGitInfo {
-    // .git/HEAD描述当前目录所指向的分支信息，内容示例："ref: refs/heads/master\n"
-
-}
-
 static def getLastCommitInfo() {
     String info = ""
     File headFile = new File('.git/logs/HEAD')
     if (headFile.exists()) {
         info = headFile.readLines().last()
+        String[] arr = info.split(" ")
+        info = arr[1].substring(0, 7) + "-" + arr[4]
+        println "info ：" + info
     }
+    def p1 = 'git symbolic-ref --short HEAD'.execute()
+    p1.waitFor()
+    String branch = p1.text.trim()
+    info = "[git-" + info + "-" + branch + "]-"
     println "最后的提交信息：" + info
     return info
 }

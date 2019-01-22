@@ -25,3 +25,7 @@ cd ~/.ssh
 pwd
 
 win10 删除git账号：进入控制面板 =>用户账户=>管理Windows凭据
+
+//git log格式化配置
+git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  
+git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  
