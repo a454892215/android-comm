@@ -16,7 +16,7 @@ public class ProgressLiveTestActivity extends BaseActivity {
     }
 
     public String getText() {
-        return "进程保活";
+        return BuildConfig.app_info;
     }
 
     @Override

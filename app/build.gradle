@@ -53,8 +53,8 @@ static def getLastCommitInfo() {
     File headFile = new File('.git/logs/HEAD')
     if (headFile.exists()) {
         info = headFile.readLines().last()
-        String[] arr = info.split(" ")
-        info = arr[1].substring(0, 7) + "-" + arr[4]
+        String[] arr = info.split(" +")
+        info = arr[1].substring(0, 7) + "-" + arr[arr.length - 3]
         println "info ：" + info
     }
     def p1 = 'git symbolic-ref --short HEAD'.execute()
