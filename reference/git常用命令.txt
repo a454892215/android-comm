@@ -31,3 +31,5 @@ git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  
 
 git log -1 --pretty=format:"%h-%ci-%s" //指定log格式
+
+git checkout branch1 -- filename

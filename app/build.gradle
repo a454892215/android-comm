@@ -57,12 +57,19 @@ def getAppInfo() {
 
 static def getLastCommitInfo() {
     def p1 = 'git log -1 --pretty=format:"%h-%ci"'.execute()
+    String logInfo = getGitInfo(p1)
+    def p2 = 'git symbolic-ref --short HEAD'.execute()
+    String currentBranch = getGitInfo(p2).trim()
+    String info = "[git-" + currentBranch + "-" + logInfo + "]-"
+    return info
+}
+
+static String getGitInfo(p1) {
     p1.waitFor()
     InputStream is = p1.getInputStream()
     String text = is.getText("utf-8").replace(":", "_").replace("+0800", "")
     is.close()
-    String info = "[git-" + text + "]-"
-    return info
+    text
 }
 
 dependencies {
