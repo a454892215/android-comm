@@ -9,9 +9,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        String info = "V" + versionName + "(" + versionCode + ")" + getLastCommitInfo() + new Date().format('yy年MM月dd日 HH时mm分ss秒')
-        buildConfigField('String', 'app_info', "\"" + info + "\"")
-        project.ext.set("archivesBaseName", info)
     }
 
     compileOptions {
@@ -45,15 +42,26 @@ android {
             debuggable true
         }
     }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def appInfo = getAppInfo() + variant.name
+            buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
+            outputFileName = appInfo + ".apk"
+        }
+    }
+}
 
+def getAppInfo() {
+    return "V" + android.defaultConfig.versionName + "(" + android.defaultConfig.versionCode + ")" + getLastCommitInfo() + new Date().format('yy年MM月dd日HH时mm分ss秒')
 }
 
 static def getLastCommitInfo() {
     def p1 = 'git log -1 --pretty=format:"%h-%ci"'.execute()
     p1.waitFor()
-    String text = p1.getInputStream().getText("utf-8").replace(":", "_").replace("+0800", "")
+    InputStream is = p1.getInputStream()
+    String text = is.getText("utf-8").replace(":", "_").replace("+0800", "")
+    is.close()
     String info = "[git-" + text + "]-"
-    println "最后的提交信息：" + text
     return info
 }
 
