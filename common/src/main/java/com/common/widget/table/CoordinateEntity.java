@@ -11,7 +11,7 @@ public class CoordinateEntity {
     private float X;
     private float Y;
 
-    CoordinateEntity(float x, float y) {
+    public  CoordinateEntity(float x, float y) {
         X = x;
         Y = y;
     }

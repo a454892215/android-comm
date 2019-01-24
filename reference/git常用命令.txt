@@ -32,4 +32,5 @@ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Crese
 
 git log -1 --pretty=format:"%h-%ci-%s" //指定log格式
 
-git checkout branch1 -- filename
+git checkout branch1 -- filename 把指定分支的文件拷贝到当前分支
+git commit --amend  commit message修改
