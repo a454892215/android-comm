@@ -9,7 +9,6 @@ import java.util.Map;
 /**
  * Author:  Pan
  * CreateDate: 2019/1/5 9:46
- * Description: 号码走势数据处理
  */
 
 public class DataHandlerOfNumTrend extends DataHandler {

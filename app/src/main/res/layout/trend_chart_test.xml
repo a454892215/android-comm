@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="HardcodedText">
-    <com.common.widget.TrendChartView
+    <com.common.widget.trend.TrendChartView
         android:id="@+id/trend_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

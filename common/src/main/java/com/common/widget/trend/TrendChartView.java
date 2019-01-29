@@ -1,4 +1,4 @@
-package com.common.widget;
+package com.common.widget.trend;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PathMeasure;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.support.annotation.Nullable;
@@ -14,7 +14,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.common.R;
-import com.common.utils.LogUtil;
 import com.common.widget.table.CoordinateEntity;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class TrendChartView extends View {
     private final float strokeWidth;
     private Paint linePaint;
     private Path trendPath;
-    private float dp_1;
+    private int dp_1;
     private List<CoordinateEntity> joinPointList = new ArrayList<>();
     private float joinRadius;
 
@@ -45,7 +44,7 @@ public class TrendChartView extends View {
 
     public TrendChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        dp_1 = context.getResources().getDimension(R.dimen.dp_1);
+        dp_1 = Math.round(context.getResources().getDimension(R.dimen.dp_1));
         joinRadius = dp_1 * 4;
         strokeWidth = dp_1 * 2;
 
@@ -69,33 +68,25 @@ public class TrendChartView extends View {
         linePaint.setXfermode(null);
         linePaint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(trendPath, linePaint);
-        linePaint.setXfermode(mode_clear);
-        linePaint.setStyle(Paint.Style.FILL);
-        for (int i = 0; i < joinPointList.size(); i++) {
-            CoordinateEntity entity = joinPointList.get(i);
-            canvas.drawCircle(entity.getX(), entity.getY(), joinRadius - strokeWidth / 2f, linePaint);
-        }
     }
 
-    public void setCoordinateList(List<CoordinateEntity> list) {
+    public void setCoordinateList(List<Point> list) {
         joinPointList.clear();
-        for (int i = 0; i < list.size(); i++) {
-            CoordinateEntity entity = list.get(i);
-            float x = entity.getX() * dp_1;
-            float y = entity.getY() * dp_1;
-            if (i == 0) {
-                trendPath.moveTo(x, y);
-            } else {
-                trendPath.lineTo(x, y);
-                if (i != list.size() - 1) {
-                    joinPointList.add(new CoordinateEntity(x, y));
-                    trendPath.addCircle(x, y, joinRadius, Path.Direction.CW);
-                    trendPath.moveTo(x, y);
-                }
-            }
-            PathMeasure pathMeasure = new PathMeasure(trendPath, false);
-            float length = pathMeasure.getLength();
-            LogUtil.debug("length:" + length);
+        Point startPoint = new Point();
+        Point endPoint = new Point();
+        for (int i = 0; i < list.size() - 1; i++) {
+            Point point_1 = list.get(i);
+            Point point_2 = list.get(i + 1);
+            int x_dp = point_1.x * dp_1;
+            int y_dp = point_1.y * dp_1;
+            trendPath.moveTo(x_dp, y_dp);
+            trendPath.addCircle(x_dp, y_dp, joinRadius, Path.Direction.CW);
+            startPoint.set(x_dp, y_dp);
+            endPoint.set(point_2.x * dp_1, point_2.y * dp_1);
+            Point[] intersection = CoordinateComputeHelper.getIntersection(startPoint, endPoint, startPoint, joinRadius);
+            trendPath.lineTo(x_dp, y_dp);
+            //  joinPointList.add(new CoordinateEntity(x, y));
+            trendPath.moveTo(x_dp, y_dp);
         }
     }
 }
