@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:ignore="HardcodedText">
 
 
     <Button
         android:id="@+id/btn"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Xposed框架测试"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        android:text="Xposed框架测试" />
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200"
+        android:background="#cccccc"
+        android:gravity="top"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_39"
+            android:text="¥"
+            android:background="#FF9C4E"
+            android:textSize="@dimen/sp_38" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_39"
+            android:background="#2196F3"
+            android:text="888"
+            android:gravity="center"
+            android:textSize="@dimen/sp_38" />
+    </LinearLayout>
+
+</LinearLayout>

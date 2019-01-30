@@ -34,3 +34,13 @@ git log -1 --pretty=format:"%h-%ci-%s" //指定log格式
 
 git checkout branch1 -- filename 把指定分支的文件拷贝到当前分支
 git commit --amend  commit message修改
+
+git tag 查看本地分支标签
+git ls-remote --tags 查看远程所有标签
+git tag -a <版本号> -m "<备注信息>" 给当前分支打标签
+git tag -d v1.0.0 删除指定tag
+git push -d origin v1.0.0 删除远程的某个标签
+git push origin --tags 将本地标签一次性推送到远程
+git push origin v1.0.0 将本地某个特定标签推送到远程
+git show v1.0.0 查看某一个标签的提交信息
+git checkout -b branch_name tag_name 为tag版本代码创建指定分支
