@@ -2,8 +2,6 @@ package com.common.widget.trend;
 
 import android.graphics.Point;
 
-import com.common.utils.LogUtil;
-
 /**
  * Author:  Pan
  * CreateDate: 2019/1/29 9:27
