@@ -21,7 +21,7 @@ android {
         signing {
             keyAlias 'test'
             keyPassword '123456'
-            storeFile file('D:/work/AndroidProjects/androidAppUtil/keystore.jks')
+            storeFile file('../keystore.jks')
             storePassword '123456'
         }
     }
