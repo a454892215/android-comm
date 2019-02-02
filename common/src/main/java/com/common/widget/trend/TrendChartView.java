@@ -6,17 +6,15 @@ import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathMeasure;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import com.common.R;
-import com.common.widget.table.CoordinateEntity;
+import com.common.utils.LogUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,12 +24,9 @@ import java.util.List;
  */
 
 public class TrendChartView extends View {
-    private final PorterDuffXfermode mode_clear;
-    private final float strokeWidth;
     private Paint linePaint;
     private Path trendPath;
     private int dp_1;
-    private List<CoordinateEntity> joinPointList = new ArrayList<>();
     private float joinRadius;
 
     public TrendChartView(Context context) {
@@ -46,10 +41,9 @@ public class TrendChartView extends View {
         super(context, attrs, defStyleAttr);
         dp_1 = Math.round(context.getResources().getDimension(R.dimen.dp_1));
         joinRadius = dp_1 * 4;
-        strokeWidth = dp_1 * 2;
+        float strokeWidth = dp_1 * 2;
 
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        mode_clear = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
         linePaint.setStyle(Paint.Style.STROKE);
@@ -71,22 +65,39 @@ public class TrendChartView extends View {
     }
 
     public void setCoordinateList(List<Point> list) {
-        joinPointList.clear();
         Point startPoint = new Point();
         Point endPoint = new Point();
-        for (int i = 0; i < list.size() - 1; i++) {
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
             Point point_1 = list.get(i);
-            Point point_2 = list.get(i + 1);
-            int x_dp = point_1.x * dp_1;
-            int y_dp = point_1.y * dp_1;
-            trendPath.moveTo(x_dp, y_dp);
-            trendPath.addCircle(x_dp, y_dp, joinRadius, Path.Direction.CW);
-            startPoint.set(x_dp, y_dp);
-            endPoint.set(point_2.x * dp_1, point_2.y * dp_1);
-            Point[] intersection = CoordinateComputeHelper.getIntersection(startPoint, endPoint, startPoint, joinRadius);
-            trendPath.lineTo(x_dp, y_dp);
-            //  joinPointList.add(new CoordinateEntity(x, y));
-            trendPath.moveTo(x_dp, y_dp);
+            int x_dp_p1 = point_1.x * dp_1;
+            int y_dp_p1 = point_1.y * dp_1;
+            trendPath.moveTo(x_dp_p1, y_dp_p1);
+            trendPath.addCircle(x_dp_p1, y_dp_p1, joinRadius, Path.Direction.CW);
+            if (i != size - 1) {
+                startPoint.set(x_dp_p1, y_dp_p1);
+                endPoint.set(list.get(i + 1).x * dp_1, list.get(i + 1).y * dp_1);
+                Point[] linePoint = getStartAndEndCoordinateOfLine(startPoint, endPoint, joinRadius);
+                trendPath.moveTo(linePoint[0].x, linePoint[0].y);
+                trendPath.lineTo(linePoint[1].x, linePoint[1].y);
+            }
         }
+        PathMeasure measure = new PathMeasure(trendPath, false);
+        int pathTotalLength = 0;
+        int i = 1;
+        while (measure.nextContour()) {
+            float length = measure.getLength();
+            pathTotalLength += length;
+            LogUtil.debug("PathMeasure  length:" + length + "  pathTotalLength:" + pathTotalLength + " i:" + i++);
+        }
+    }
+
+    /**
+     * Calculate the start and end coordinates of the line
+     */
+    private Point[] getStartAndEndCoordinateOfLine(Point circleCenterP1, Point circleCenterP2, float joinRadius) {
+        Point[] points_1 = CoordinateComputeHelper.getIntersection(circleCenterP1, circleCenterP2, circleCenterP1, joinRadius);
+        Point[] points_2 = CoordinateComputeHelper.getIntersection(circleCenterP1, circleCenterP2, circleCenterP2, joinRadius);
+        return new Point[]{points_1[1], points_2[0]};
     }
 }

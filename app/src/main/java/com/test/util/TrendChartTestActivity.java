@@ -8,6 +8,7 @@ import com.common.widget.trend.TrendChartView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class TrendChartTestActivity extends BaseActivity {
     @Override
@@ -15,9 +16,9 @@ public class TrendChartTestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         TrendChartView trend_chart = findViewById(R.id.trend_chart);
         List<Point> list = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             int unit_x = 20;
-            list.add(new Point(unit_x * i + unit_x, i % 2 == 0 ? 100 : 50));
+            list.add(new Point(unit_x * i + unit_x, new Random().nextInt(100)+20));
         }
         trend_chart.setCoordinateList(list);
     }
