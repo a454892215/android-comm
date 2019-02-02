@@ -29,6 +29,7 @@ win10 删除git账号：进入控制面板 =>用户账户=>管理Windows凭据
 //git log格式化配置
 git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  
+git config --global gui.encoding utf-8  gitk 乱码解决
 
 git log -1 --pretty=format:"%h-%ci-%s" //指定log格式
 
