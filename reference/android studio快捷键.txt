@@ -1,0 +1,4 @@
+Ctrl+Alt+左键  代码跳到上次浏览的位置
+Ctrl+E 最近浏览的文件
+Ctrl+N 类搜索
+Ctrl+ Shift+F 全局搜索
