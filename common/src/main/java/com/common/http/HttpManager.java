@@ -1,6 +1,7 @@
 package com.common.http;
 
 
+import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 
 import java.net.CookieManager;
@@ -19,32 +20,34 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * Author:  Liu Pan
+ * Author:  Pan
  * CreateDate: 2018/11/26 8:51
  * Description: No
  */
 
 public class HttpManager {
-    static {
-        initRetrofit();
-    }
 
-    private static Api api;
+    public static <T> T initRetrofit(String baseUrl, Class<T> api) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(getOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+        return retrofit.create(api);
 
-    private static void initRetrofit() {
-        if (api == null) {
-            String baseUrl = "";
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .client(getOkHttpClient())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .build();
-            api = retrofit.create(Api.class);
-        }
     }
 
     public static void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
+        startRequest(observable, httpCallback, null, false);
+    }
+
+    public static void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback, BaseActivity activity, boolean isShowLoading) {
+        startRequest(observable, httpCallback, activity, isShowLoading);
+    }
+
+    private static void startRequest(Observable<ResponseBody> observable, HttpCallback httpCallback, BaseActivity activity, boolean isShowLoading) {
+        if (activity != null && isShowLoading) activity.showDefaultLoadingPop();
         observable.subscribeOn(Schedulers.io())//IO线程加载数据
                 .observeOn(AndroidSchedulers.mainThread())//主线程显示数据
                 .subscribe(new Subscriber<ResponseBody>() {
@@ -55,6 +58,7 @@ public class HttpManager {
                     @Override
                     public void onError(Throwable e) {
                         httpCallback.onFail();
+                        if (activity != null && isShowLoading) activity.dismissLoadingPop();
                         LogUtil.e("Http=====:" + e.toString());
                     }
 
@@ -62,8 +66,8 @@ public class HttpManager {
                     public void onNext(ResponseBody responseBody) {
                         try {
                             String text = responseBody.string();
-                            LogUtil.d("Http:====requestData===" + text);
                             httpCallback.onSuccess(text);
+                            if (activity != null && isShowLoading) activity.dismissLoadingPop();
                         } catch (Exception e) {
                             e.printStackTrace();
                             LogUtil.e("Http:===requestData====:" + e.toString());
@@ -74,7 +78,7 @@ public class HttpManager {
 
     private static OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new LoggerInterceptor());
+        builder.addInterceptor(new CommonInterceptor());
         //设置cookie
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
@@ -87,4 +91,5 @@ public class HttpManager {
         builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
         return builder.build();
     }
+
 }

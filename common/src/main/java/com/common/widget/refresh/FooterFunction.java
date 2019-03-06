@@ -7,6 +7,7 @@ package com.common.widget.refresh;
  */
 
 public enum FooterFunction {
+
     load_more(RefreshLayout.load_state_up_load),
     forbid_scroll(RefreshLayout.load_state_forbid_scroll),
     only_display(RefreshLayout.load_state_only_display);

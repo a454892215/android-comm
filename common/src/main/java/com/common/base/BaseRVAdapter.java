@@ -15,26 +15,40 @@ import java.util.List;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/18
  * Description: No
  */
 
 public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
+    public static final int VIEW_TYPE_EMPTY = 1;
+    private static final int VIEW_TYPE_1 = 0;
+
     protected Context context;
     protected List<T> list = new ArrayList<>();
-    int itemLayoutId;
+    private int layout_id_type_1;
+    private int layout_id_type_empty;
+    private boolean isNotSetEmptyView = true;
+    protected final float dp_1;
 
     public BaseRVAdapter(Context activity, int itemLayoutId, List<T> list) {
         this.context = activity;
+        dp_1 = context.getResources().getDimension(R.dimen.dp_1);
         if (list != null) this.list.addAll(list);
-        this.itemLayoutId = itemLayoutId;
+        this.layout_id_type_1 = itemLayoutId;
     }
 
     @NonNull
     @Override
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(itemLayoutId, parent, false);
+        View view = null;
+        switch (viewType) {
+            case VIEW_TYPE_EMPTY:
+                view = LayoutInflater.from(context).inflate(layout_id_type_empty, parent, false);
+                break;
+            case VIEW_TYPE_1:
+                view = LayoutInflater.from(context).inflate(layout_id_type_1, parent, false);
+                break;
+        }
         return new BaseViewHolder(view);
     }
 
@@ -55,7 +69,21 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
 
     @Override
     public int getItemCount() {
-        return list.size();
+        int size = list.size();
+        if (isNotSetEmptyView) return size;
+        return size == 0 ? 1 : size;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isNotSetEmptyView) return VIEW_TYPE_1;
+        int size = list.size();
+        return size == 0 ? VIEW_TYPE_EMPTY : VIEW_TYPE_1;
+    }
+
+    protected void setEmptyLayoutId(int emptyLayoutId) {
+        isNotSetEmptyView = false;
+        this.layout_id_type_empty = emptyLayoutId;
     }
 
     public List<T> getList() {

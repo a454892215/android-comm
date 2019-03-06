@@ -7,7 +7,6 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/26 14:07
  * Description: No
  */
 

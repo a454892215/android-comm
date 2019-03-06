@@ -9,4 +9,22 @@
         <attr name="tb_selected_bg_color" format="color|reference" />
         <attr name="tb_unselected_bg_color" format="color|reference" />
     </declare-styleable>
+
+    <declare-styleable name="SettingHintSizeEditText">
+        <attr name="hint_size" format="dimension|reference" />
+        <attr name="hint_color" format="color|reference" />
+        <attr name="hint_text" format="string|reference" />
+    </declare-styleable>
+
+    <style name="pop_anim_style">
+        <item name="android:windowEnterAnimation">@anim/pop_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_out</item>
+    </style>
+
+    <declare-styleable name="RefreshLayout">
+        <attr name="header_function" format="string" />
+        <attr name="footer_function" format="string" />
+        <attr name="header_text_size" format="dimension|reference" />
+        <attr name="footer_text_size" format="dimension|reference" />
+    </declare-styleable>
 </resources>

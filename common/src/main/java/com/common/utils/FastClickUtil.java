@@ -1,8 +1,7 @@
 package com.common.utils;
 
 /**
- * Author:  Liu Pan
- * CreateDate: 2018/12/3 17:43
+ * Author:  Pan
  * Description: No
  */
 
@@ -14,6 +13,16 @@ public class FastClickUtil {
         boolean flag = true;
         long currentClickTime = System.currentTimeMillis();
         if ((currentClickTime - lastClickTime) >= MIN_DELAY_TIME) {
+            flag = false;
+        }
+        lastClickTime = currentClickTime;
+        return flag;
+    }
+
+    public static boolean isFastClick(int time) {
+        boolean flag = true;
+        long currentClickTime = System.currentTimeMillis();
+        if ((currentClickTime - lastClickTime) >= time) {
             flag = false;
         }
         lastClickTime = currentClickTime;

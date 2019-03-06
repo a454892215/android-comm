@@ -2,7 +2,6 @@ package com.common.utils;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/18 8:39
  * Description: No
  */
 

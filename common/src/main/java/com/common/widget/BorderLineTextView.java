@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 
 import com.common.R;
+import com.common.utils.LogUtil;
 
 /**
  * Author:  Pan
@@ -18,16 +19,20 @@ import com.common.R;
 public class BorderLineTextView extends android.support.v7.widget.AppCompatTextView {
     private float topLineStrokeWidth;
     private float bottomLineStrokeWidth;
+    private float leftLineStrokeWidth;
     private float rightLineStrokeWidth;
 
     private int topLineColor;
     private int bottomLineColor;
+    private int leftLineColor;
     private int rightLineColor;
 
     private Paint linePaint;
-    private boolean rightLineEnable = false;
-    private boolean topLineEnable = false;
-    private boolean bottomLineEnable = false;
+    private final boolean leftLineEnable;
+    private boolean rightLineEnable;
+    private boolean topLineEnable;
+    private boolean bottomLineEnable;
+
 
     public BorderLineTextView(Context context) {
         this(context, null);
@@ -45,20 +50,25 @@ public class BorderLineTextView extends android.support.v7.widget.AppCompatTextV
         topLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_top_line_enable, false);
         bottomLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_bottom_line_enable, false);
         rightLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_right_line_enable, false);
+        leftLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_left_line_enable, false);
+
 
         topLineColor = typedArray.getColor(R.styleable.BorderLineTextView_top_line_color, Color.BLACK);
         bottomLineColor = typedArray.getColor(R.styleable.BorderLineTextView_bottom_line_color, Color.BLACK);
         rightLineColor = typedArray.getColor(R.styleable.BorderLineTextView_right_line_color, Color.BLACK);
+        leftLineColor = typedArray.getColor(R.styleable.BorderLineTextView_left_line_color, Color.BLACK);
 
         float dp_1 = getResources().getDimension(R.dimen.dp_1);
         topLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_top_line_height, dp_1);
         bottomLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_bottom_line_height, dp_1);
-        rightLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_right_line_height, dp_1);
+        rightLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_right_line_stroke_width, dp_1);
+        leftLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_left_line_stroke_width, dp_1);
         typedArray.recycle();
 
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
         linePaint.setDither(true);
+//        LogUtil.debug("leftLineEnable:" + leftLineEnable);
     }
 
     @Override
@@ -67,6 +77,12 @@ public class BorderLineTextView extends android.support.v7.widget.AppCompatTextV
             linePaint.setStrokeWidth(rightLineStrokeWidth);
             linePaint.setColor(rightLineColor);
             canvas.drawLine(getWidth() - rightLineStrokeWidth / 2, 0, getWidth() - rightLineStrokeWidth / 2, getHeight(), linePaint);
+        }
+
+        if (leftLineEnable) {
+            linePaint.setStrokeWidth(leftLineStrokeWidth);
+            linePaint.setColor(leftLineColor);
+            canvas.drawLine(leftLineStrokeWidth / 2, 0, leftLineStrokeWidth / 2, getHeight(), linePaint);
         }
 
         if (topLineEnable) {

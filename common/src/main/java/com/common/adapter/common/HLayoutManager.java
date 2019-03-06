@@ -8,7 +8,6 @@ import android.view.View;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/28
  * Description: No
  */
 

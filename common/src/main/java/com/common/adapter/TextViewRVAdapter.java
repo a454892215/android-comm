@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/17 16:33
  * Description: No
  */
 
@@ -27,6 +26,7 @@ public class TextViewRVAdapter extends BaseRVAdapter<String> {
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        if(getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         View itemView = holder.itemView;
         TextView tv_1 = ViewHolder.get(itemView, R.id.tv_1);
         tv_1.setText(list.get(position));

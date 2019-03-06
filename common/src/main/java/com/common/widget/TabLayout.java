@@ -68,7 +68,7 @@ public class TabLayout extends HorizontalScrollView {
         lastClickPosition = 0;
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
-            RelativeLayout rlt_item = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.layout_item_tablayout, this, false);
+            RelativeLayout rlt_item = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.group_item_tablayout, this, false);
             RoundTextView textView = rlt_item.findViewById(R.id.tv);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) textView.getLayoutParams();
             lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;

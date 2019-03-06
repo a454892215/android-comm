@@ -7,7 +7,6 @@ import com.common.base.BaseRVAdapter;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/18 9:14
  * Description: No
  */
 

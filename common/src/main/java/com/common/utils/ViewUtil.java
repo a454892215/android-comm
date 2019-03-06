@@ -1,10 +1,14 @@
 package com.common.utils;
 
+import android.graphics.Outline;
+import android.graphics.Rect;
 import android.view.View;
+import android.view.ViewOutlineProvider;
+
+import com.common.R;
 
 /**
  * Author:  Pan
- * CreateDate: 2018/12/31 17:21
  * Description: No
  */
 
@@ -23,4 +27,23 @@ public class ViewUtil {
         return y >= top && y <= bottom && x >= left
                 && x <= right;
     }
+
+    public static void showAndGoneView(View showingView, View... goneView) {
+        showingView.setVisibility(View.VISIBLE);
+        for (View aGoneView : goneView) {
+            aGoneView.setVisibility(View.GONE);
+        }
+    }
+
+    public static void clipRoundRectView(View view, float radius) {
+        view.setClipToOutline(true);
+        view.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
+                outline.setRoundRect(rect, radius);
+            }
+        });
+    }
+
 }

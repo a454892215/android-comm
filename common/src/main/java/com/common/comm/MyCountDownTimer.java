@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 @SuppressWarnings("unused")
 public class MyCountDownTimer extends CountDownTimer {
     private OnTickListener onTickListener;
+    private OnTickListener onLastTickListener;
     private int executeCount = 0;
     private int maxExecuteCount = executeCount - 1;//最大执行次数,初始值要小于count最小值
     private WeakReference<BaseActivity> weakReference;
@@ -35,12 +36,21 @@ public class MyCountDownTimer extends CountDownTimer {
         if (isBingActivity) {
             BaseActivity baseActivity = weakReference.get();
             if (baseActivity != null && baseActivity.isShowing()) {
-                onTickListener.onTick(millisUntilFinished, ++executeCount);
+                if (onTickListener != null) {
+                    onTickListener.onTick(millisUntilFinished, ++executeCount);
+                }
             } else {
                 this.cancel();
             }
         } else {
-            onTickListener.onTick(millisUntilFinished, ++executeCount);
+            executeCount++;
+            if (onTickListener != null) {
+                onTickListener.onTick(millisUntilFinished, executeCount);
+            }
+            if (onLastTickListener != null && executeCount == maxExecuteCount) {
+                onLastTickListener.onTick(millisUntilFinished, executeCount);
+            }
+
         }
         if (executeCount == maxExecuteCount) this.cancel();
     }
@@ -52,6 +62,10 @@ public class MyCountDownTimer extends CountDownTimer {
 
     public void setOnTickListener(OnTickListener onTickListener) {
         this.onTickListener = onTickListener;
+    }
+
+    public void setOnLastTickListener(OnTickListener onLastTickListener) {
+        this.onLastTickListener = onLastTickListener;
     }
 
     public MyCountDownTimer bindActivity(BaseActivity baseActivity) {

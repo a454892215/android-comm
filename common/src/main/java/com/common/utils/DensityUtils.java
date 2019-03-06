@@ -5,6 +5,8 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.WindowManager;
 
+import com.common.base.BaseActivity;
+
 /**
  * Created by Administrator on 2018/5/11.
  */
@@ -42,6 +44,12 @@ public class DensityUtils {
 
     public static float getHeight(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        return dm.heightPixels;
+    }
+
+    public static int getRealScreenHeight(BaseActivity context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getRealMetrics(dm);
         return dm.heightPixels;
     }
 }

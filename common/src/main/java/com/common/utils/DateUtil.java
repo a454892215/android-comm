@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Author:  Liu Pan
+ * Author:  Pan
  * CreateDate: 2018/11/22 15:54
  * Description: No
  */
@@ -42,6 +42,15 @@ public class DateUtil {
     public static String getFormatDate(long date) {
         SimpleDateFormat format = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return format.format(date);
+    }
+
+    public static String getFormatDateByPhpTime(long date) {
+        if (String.valueOf(date).length() == 10) { //php和java时间戳相差3位
+            date = date * 1000;
+        }
+        SimpleDateFormat format = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm", Locale.getDefault());
         return format.format(date);
     }
 

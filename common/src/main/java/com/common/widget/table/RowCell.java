@@ -6,8 +6,7 @@ import android.text.SpannableStringBuilder;
 import java.util.List;
 
 /**
- * Author:  Liu Pan
- * CreateDate: 2018/12/13
+ * Author:  Pan
  * Description: No
  */
 

@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,6 @@ import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
 
 /**
  * Author: Pan
- * 2018/12/26
  * Description:
  */
 public class RefreshLayout extends LinearLayout {
@@ -43,7 +44,7 @@ public class RefreshLayout extends LinearLayout {
     private static final String text_release_refresh = "释放刷新";
     private static final String text_refreshing = "正在刷新...";
     private static final String text_refresh_finish = "刷新完成";
-    private static final String key_refresh_last_update = "key_refresh_last_update";
+    private String key_refresh_last_update = "key_refresh_last_update_";
     private static final String last_update_time_no_record = "上次更新 ...";
     private static final String last_update_time_prefix = "上次更新";
 
@@ -60,6 +61,10 @@ public class RefreshLayout extends LinearLayout {
     private ArrowDrawable arrowDrawableTop;
     private TextView tv_footer_state;
     private ImageView iv_footer_right;
+    private float header_text_size;
+    private float footer_text_size;
+    private String default_header_function;
+    private String default_footer_function;
 
     public RefreshLayout(Context context) {
         this(context, null);
@@ -90,13 +95,21 @@ public class RefreshLayout extends LinearLayout {
         arrowDrawableBottom.setColor(color);
         progressDrawableBottom = new ProgressDrawable();
         progressDrawableBottom.setColor(color);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RefreshLayout, defStyleAttr, 0);
+        default_header_function = typedArray.getString(R.styleable.RefreshLayout_header_function);
+        default_footer_function = typedArray.getString(R.styleable.RefreshLayout_footer_function);
+        float dp_13 = context.getResources().getDimension(R.dimen.dp_13);
+        header_text_size = typedArray.getDimension(R.styleable.RefreshLayout_header_text_size, Math.round(dp_13));
+        footer_text_size = typedArray.getDimension(R.styleable.RefreshLayout_footer_text_size, Math.round(dp_13));
+        typedArray.recycle();
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        headerView = LayoutInflater.from(context).inflate(R.layout.refresh_header, this, false);
-        View footerView = LayoutInflater.from(context).inflate(R.layout.refresh_footer, this, false);
+        headerView = LayoutInflater.from(context).inflate(R.layout.group_refresh_header, this, false);
+        View footerView = LayoutInflater.from(context).inflate(R.layout.group_refresh_footer, this, false);
         this.addView(headerView, 0);
         this.addView(footerView);
 
@@ -104,10 +117,14 @@ public class RefreshLayout extends LinearLayout {
         tv_header_date = headerView.findViewById(R.id.tv_header_date);
         iv_header_right = headerView.findViewById(R.id.iv_header_right);
         iv_header_right.setImageDrawable(arrowDrawableTop);
+        tv_header_state.setTextSize(TypedValue.COMPLEX_UNIT_PX, header_text_size);
+        tv_header_date.setTextSize(TypedValue.COMPLEX_UNIT_PX, header_text_size * 0.88f);
 
         tv_footer_state = footerView.findViewById(R.id.tv_footer_state);
         iv_footer_right = footerView.findViewById(R.id.iv_footer_right);
         iv_footer_right.setImageDrawable(arrowDrawableBottom);
+        tv_footer_state.setTextSize(TypedValue.COMPLEX_UNIT_PX, footer_text_size);
+
         LayoutParams lp = (LayoutParams) headerView.getLayoutParams();
         lp.topMargin = -headerOrFooterHeight;
         lp.height = headerOrFooterHeight;
@@ -116,6 +133,22 @@ public class RefreshLayout extends LinearLayout {
         LayoutParams lp_footer = (LayoutParams) footerView.getLayoutParams();
         lp_footer.height = headerOrFooterHeight;
         footerView.setLayoutParams(lp_footer);
+
+        if ("refresh".equals(default_header_function)) {
+            setHeaderFunction(HeaderFunction.refresh);
+        } else if ("forbid_scroll".equals(default_header_function)) {
+            setHeaderFunction(HeaderFunction.forbid_scroll);
+        } else {
+            setHeaderFunction(HeaderFunction.only_display);
+        }
+
+        if ("load_more".equals(default_footer_function)) {
+            setFooterFunction(FooterFunction.load_more);
+        } else if ("forbid_scroll".equals(default_footer_function)) {
+            setFooterFunction(FooterFunction.forbid_scroll);
+        } else if ("only_display".equals(default_footer_function)) {
+            setFooterFunction(FooterFunction.only_display);
+        }
     }
 
     private static final int no_handle_state = -1; //动画完成后 不需要处理的状态
@@ -473,6 +506,7 @@ public class RefreshLayout extends LinearLayout {
 
     private View findTargetView(float x, float y) {
         if (targetViewArr == null || targetViewArr.length == 0) {
+            if (getChildCount() == 3) return getChildAt(1);
             LogUtil.e("下拉刷新控件，没有设置目标ViewGroup");
             return null;
         } else {
@@ -539,7 +573,7 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
-    public void seFooterFunction(FooterFunction footerFunction) {
+    public void setFooterFunction(FooterFunction footerFunction) {
         if (load_state == load_state_up_load || load_state == load_state_only_display) {
             load_state = footerFunction.getFooterState();
             if (load_state == load_state_only_display) {
@@ -552,7 +586,7 @@ public class RefreshLayout extends LinearLayout {
         } else if (load_state == load_state_loading || load_state == load_state_finished) {
             setOnLoadMoreFinishedResetListener(refreshLayout -> {
                 load_state = footerFunction.getFooterState();
-                if(load_state == load_state_only_display){
+                if (load_state == load_state_only_display) {
                     iv_footer_right.setVisibility(View.INVISIBLE);
                     tv_footer_state.setText(footerTextOnOnlyDisplay);
                 }
@@ -573,6 +607,8 @@ public class RefreshLayout extends LinearLayout {
 
     public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
         this.onRefreshListener = onRefreshListener;
+        StackTraceElement element = Thread.currentThread().getStackTrace()[3];
+        key_refresh_last_update = key_refresh_last_update + element.getClassName() + element.getLineNumber();
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {

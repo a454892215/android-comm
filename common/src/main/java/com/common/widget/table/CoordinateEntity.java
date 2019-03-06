@@ -1,8 +1,7 @@
 package com.common.widget.table;
 
 /**
- * Author:  Liu Pan
- * CreateDate: 2018/12/15 10:29
+ * Author:  Pan
  * Description: No
  */
 
