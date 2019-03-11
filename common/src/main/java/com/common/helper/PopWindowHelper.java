@@ -43,27 +43,18 @@ public class PopWindowHelper {
         return popupWindow;
     }
 
-
-    public static void showOrDismissPop_2(PopupWindow popupWindow, View parent, int gravity) {
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-        } else {
-            popupWindow.showAtLocation(parent, gravity, 0, BaseActivity.bottomVirtualKeyHeight);
-        }
-    }
-
     public static void show(BaseActivity activity, PopupWindow popupWindow, int gravity) {
         if (!popupWindow.isShowing()) {
-            popupWindow.showAtLocation(activity.getWindow().getDecorView(), gravity, 0, BaseActivity.bottomVirtualKeyHeight);
+            View decorView = activity.getWindow().getDecorView();
+            decorView.post(() -> popupWindow.showAtLocation(decorView, gravity, 0, BaseActivity.bottomVirtualKeyHeight));
         }
     }
 
     public static void show(PopupWindow popupWindow, View parent, int gravity) {
         if (!popupWindow.isShowing()) {
-            popupWindow.showAtLocation(parent, gravity, 0, BaseActivity.bottomVirtualKeyHeight);
+            parent.post(() -> popupWindow.showAtLocation(parent, gravity, 0, BaseActivity.bottomVirtualKeyHeight));
         }
     }
-
 
     public static void dismissPop(PopupWindow popupWindow) {
         if (popupWindow.isShowing()) {
@@ -71,4 +62,14 @@ public class PopWindowHelper {
         }
     }
 
+    public static void dismissPop(BaseActivity activity, PopupWindow popupWindow) {
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        } else {
+            View decorView = activity.getWindow().getDecorView();
+            decorView.postDelayed(() -> {
+                if (popupWindow.isShowing()) popupWindow.dismiss();
+            }, 2000);
+        }
+    }
 }

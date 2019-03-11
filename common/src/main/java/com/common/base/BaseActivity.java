@@ -108,8 +108,8 @@ public abstract class BaseActivity extends FontAppCompatActivity {
         PopWindowHelper.show(this, loadingPop, Gravity.CENTER);
     }
 
-    public void dismissLoadingPop() {
-        PopWindowHelper.dismissPop(loadingPop);
+    public void dismissLoadingPopWithDelay() {
+        PopWindowHelper.dismissPop(this, loadingPop);
     }
 
     public void setOnStopListener(OnPauseListener onPauseListener) {
