@@ -45,12 +45,15 @@ public class CommonTabLayout extends LinearLayout {
             if (itemView.isSelected()) selectingItemView = itemView;
             int finalI = i;
             itemView.setOnClickListener(v -> {
+                if (selectingItemView == null) selectingItemView = itemView;
                 changeItemViewSelectedState(selectingItemView, false);
                 changeItemViewSelectedState(itemView, true);
                 selectingItemView = itemView;
                 if (listener != null) listener.OnSelectChanged(finalI);
             });
         }
+
+        if (currentPosition < 0) return;
         if (selectingItemView == null && childCount > 0) {
             selectingItemView = getChildAt(0);
             changeItemViewSelectedState(selectingItemView, true);
@@ -75,7 +78,11 @@ public class CommonTabLayout extends LinearLayout {
         void OnSelectChanged(int position);
     }
 
+    private int currentPosition = 0;
+
     public void setCurrentPosition(int position) {
+        currentPosition = position;
+        if (selectingItemView == null) return;
         changeItemViewSelectedState(selectingItemView, false);
         selectingItemView = getChildAt(position);
         changeItemViewSelectedState(selectingItemView, true);
