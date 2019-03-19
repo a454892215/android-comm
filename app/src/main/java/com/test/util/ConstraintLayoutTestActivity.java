@@ -1,20 +1,23 @@
 package com.test.util;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
+
 import com.common.base.BaseActivity;
-import com.common.widget.TabLayout;
+import com.common.utils.ViewUtil;
+import com.common.widget.CommonTabLayout;
 
 /**
  * RecyclerView
  */
 public class ConstraintLayoutTestActivity extends BaseActivity {
-    String[] names = {"ConstraintLayout线性和相对布局"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TabLayout tab_layout = findViewById(R.id.tab_layout);
-        tab_layout.setData(names);
+        CommonTabLayout tab_layout = findViewById(R.id.rg_body_left);
+        FrameLayout flt_content = findViewById(R.id.flt_content);
+        tab_layout.setOnSelectChangedListener(position -> ViewUtil.onlyShowOneChildView(flt_content, position));
     }
 
     @Override

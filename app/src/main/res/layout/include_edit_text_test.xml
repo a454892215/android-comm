@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:showIn="@layout/activity_constraint_layout_test">
+
+    <com.common.widget.SettingHintSizeEditText
+        android:id="@+id/tv_1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100"
+        android:background="@drawable/layer_bg_color_border_et"
+        android:gravity="center"
+        android:textSize="sp"
+        app:hint_color="#a7a7a8"
+        app:hint_size="@dimen/sp_10"
+        app:hint_text="请输入..." />
+
+</LinearLayout>

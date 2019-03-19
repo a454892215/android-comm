@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 外层 -->
+    <item>
+        <shape>
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    <!-- 内层 控制软键盘到EditText的距离-->
+    <item android:bottom="@dimen/dp_9">
+        <!-- 边框里面背景颜色 白色 -->
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/dp_5" />
+            <stroke
+                android:width="@dimen/dp_0_5"
+                android:color="#4b402e" />
+            <solid android:color="#0b0b0b" />
+        </shape>
+    </item>
+</layer-list>
