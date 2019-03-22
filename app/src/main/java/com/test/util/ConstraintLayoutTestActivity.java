@@ -17,6 +17,7 @@ public class ConstraintLayoutTestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         CommonTabLayout tab_layout = findViewById(R.id.rg_body_left);
         FrameLayout flt_content = findViewById(R.id.flt_content);
+        ViewUtil.onlyShowOneChildView(flt_content, 0);
         tab_layout.setOnSelectChangedListener(position -> ViewUtil.onlyShowOneChildView(flt_content, position));
     }
 

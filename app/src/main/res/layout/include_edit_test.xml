@@ -12,7 +12,7 @@
         android:layout_height="@dimen/dp_100"
         android:background="@drawable/layer_bg_color_border_et"
         android:gravity="center"
-        android:textSize="sp"
+        android:textSize="@dimen/sp_12"
         app:hint_color="#a7a7a8"
         app:hint_size="@dimen/sp_10"
         app:hint_text="请输入..." />

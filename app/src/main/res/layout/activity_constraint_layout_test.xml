@@ -7,31 +7,47 @@
     android:orientation="vertical"
     tools:ignore="HardcodedText">
 
-    <com.common.widget.CommonTabLayout
-        android:id="@+id/rg_body_left"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_35"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        tools:ignore="HardcodedText">
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="ConstraintLayout测试"
-            android:textColor="@drawable/selector_text_color"
-            android:textSize="@dimen/sp_12" />
+        <com.common.widget.CommonTabLayout
+            android:id="@+id/rg_body_left"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_35"
+            android:orientation="horizontal"
+            tools:ignore="HardcodedText">
 
-        <TextView
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="EditText测试"
-            android:textColor="@drawable/selector_text_color"
-            android:textSize="@dimen/sp_12" />
+            <TextView
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="ConstraintLayout测试"
+                android:textColor="@drawable/selector_text_color"
+                android:background="?selectableItemBackground"
+                android:textSize="@dimen/sp_12" />
 
-    </com.common.widget.CommonTabLayout>
+            <TextView
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="EditText测试"
+                android:textColor="@drawable/selector_text_color"
+                android:background="?selectableItemBackground"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="RecyclerView 动画测试"
+                android:textColor="@drawable/selector_text_color"
+                android:background="?selectableItemBackground"
+                android:textSize="@dimen/sp_12" />
+
+        </com.common.widget.CommonTabLayout>
+    </HorizontalScrollView>
+
 
     <FrameLayout
         android:id="@+id/flt_content"
@@ -39,6 +55,10 @@
         android:layout_height="match_parent">
 
         <include layout="@layout/layout_constraint_test_1" />
+
+        <include layout="@layout/include_edit_test" />
+
+        <include layout="@layout/include_rev_test" />
     </FrameLayout>
 
 
