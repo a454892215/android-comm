@@ -14,6 +14,12 @@
         <attr name="hint_size" format="dimension|reference" />
         <attr name="hint_color" format="color|reference" />
         <attr name="hint_text" format="string|reference" />
+        <attr name="bg_border_color" format="color|reference" />
+        <attr name="bg_border_thick" format="dimension|reference" />
+        <attr name="bg_color" format="color|reference" />
+        <attr name="bg_radius" format="dimension|reference" />
+        <attr name="bg_enable" format="boolean|reference" />
+        <attr name="bg_clear_bg_enable" format="boolean|reference" />
     </declare-styleable>
 
     <style name="pop_anim_style">
