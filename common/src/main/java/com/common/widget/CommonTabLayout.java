@@ -45,6 +45,7 @@ public class CommonTabLayout extends LinearLayout {
             if (itemView.isSelected()) selectingItemView = itemView;
             int finalI = i;
             itemView.setOnClickListener(v -> {
+                if (selectingItemView != null && selectingItemView == itemView) return;
                 if (selectingItemView == null) selectingItemView = itemView;
                 changeItemViewSelectedState(selectingItemView, false);
                 changeItemViewSelectedState(itemView, true);

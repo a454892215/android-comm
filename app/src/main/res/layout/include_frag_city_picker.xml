@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:showIn="@layout/activity_constraint_layout_test">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_100" />
+        android:layout_height="wrap_content"
+        android:text="城市选择"
+        android:gravity="center"
+        tools:ignore="HardcodedText" />
+
 </LinearLayout>

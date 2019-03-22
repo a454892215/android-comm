@@ -35,7 +35,7 @@
         <activity android:name=".HRVTestActivity"/>
         <activity android:name=".ForegroundDrawingTestActivity"/>
         <activity android:name=".RefreshRvTestActivity"/>
-        <activity android:name=".ConstraintLayoutTestActivity"/>
+        <activity android:name=".CustomViewTestActivity"/>
         <activity android:name=".XposedTestActivity"/>
         <activity android:name=".ProgressLiveTestActivity"/>
         <activity android:name=".TrendChartTestActivity"/>

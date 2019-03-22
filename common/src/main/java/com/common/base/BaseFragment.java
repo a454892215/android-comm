@@ -14,6 +14,7 @@ public abstract class BaseFragment extends Fragment {
     private View rootView;
     protected BaseActivity activity;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,9 +24,6 @@ public abstract class BaseFragment extends Fragment {
             initView(rootView);
         }
         return rootView;
-    }
-
-    public void onSwitchShowFragment(int position) {
     }
 
     protected Object param;

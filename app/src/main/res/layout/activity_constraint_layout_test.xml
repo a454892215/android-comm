@@ -21,45 +21,34 @@
             <TextView
                 android:layout_width="@dimen/dp_120"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="ConstraintLayout测试"
-                android:textColor="@drawable/selector_text_color"
                 android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="约束布局测试"
+                android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
 
             <TextView
                 android:layout_width="@dimen/dp_120"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="EditText测试"
-                android:textColor="@drawable/selector_text_color"
                 android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="RV\动画测试"
+                android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
 
             <TextView
                 android:layout_width="@dimen/dp_120"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="RecyclerView 动画测试"
-                android:textColor="@drawable/selector_text_color"
                 android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="城市选择"
+                android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
-
         </com.common.widget.CommonTabLayout>
     </HorizontalScrollView>
-
 
     <FrameLayout
         android:id="@+id/flt_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/layout_constraint_test_1" />
-
-        <include layout="@layout/include_edit_test" />
-
-        <include layout="@layout/include_rev_test" />
-    </FrameLayout>
-
-
+        android:layout_height="match_parent" />
 </LinearLayout>
