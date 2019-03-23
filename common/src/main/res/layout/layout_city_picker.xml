@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_150"
+    android:orientation="horizontal">
+
+    <com.common.widget.wheel.WheelPicker
+        android:id="@+id/wheel_view_1"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:wheel_atmospheric="true"
+        app:wheel_curved="true"
+        app:wheel_cyclic="false"
+        app:wheel_item_align="center"
+        app:wheel_item_space="@dimen/dp_3"
+        app:wheel_item_text_color="#62615f"
+        app:wheel_item_text_size="@dimen/sp_16"
+        app:wheel_selected_item_text_color="#1D1D1D"
+        app:wheel_visible_item_count="5"/>
+
+    <com.common.widget.wheel.WheelPicker
+        android:id="@+id/wheel_view_2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:wheel_atmospheric="true"
+        app:wheel_curved="true"
+        app:wheel_cyclic="false"
+        app:wheel_item_align="center"
+        app:wheel_item_space="@dimen/dp_3"
+        app:wheel_item_text_color="#62615f"
+        app:wheel_item_text_size="@dimen/sp_16"
+        app:wheel_selected_item_text_color="#1D1D1D"
+        app:wheel_visible_item_count="5" />
+
+    <com.common.widget.wheel.WheelPicker
+        android:id="@+id/wheel_view_3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        app:wheel_atmospheric="true"
+        app:wheel_curved="true"
+        app:wheel_cyclic="false"
+        app:wheel_item_align="center"
+        app:wheel_item_space="@dimen/dp_3"
+        app:wheel_item_text_color="#62615f"
+        app:wheel_item_text_size="@dimen/sp_16"
+        app:wheel_selected_item_text_color="#1D1D1D"
+        app:wheel_visible_item_count="5" />
+</LinearLayout>
+

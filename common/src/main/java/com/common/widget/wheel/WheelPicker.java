@@ -19,7 +19,6 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
-
 import com.common.R;
 
 import java.util.Arrays;
@@ -825,10 +824,8 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
     @Override
     public void setData(List data) {
-        if (null == data)
-            throw new NullPointerException("WheelPicker's data can not be null!");
+        if (null == data) throw new NullPointerException("WheelPicker's data can not be null!");
         mData = data;
-
         // 重置位置
         if (mSelectedItemPosition > data.size() - 1 || mCurrentItemPosition > data.size() - 1) {
             mSelectedItemPosition = mCurrentItemPosition = data.size() - 1;
@@ -1063,7 +1060,9 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
 
     public interface OnWheelChangeListener {
         void onWheelScrolled(int offset);
+
         void onWheelSelected(int position);
+
         void onWheelScrollStateChanged(int state);
     }
 }
