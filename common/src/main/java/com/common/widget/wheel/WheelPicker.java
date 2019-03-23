@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -13,13 +14,13 @@ import android.graphics.Typeface;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
 import com.common.R;
+import com.common.utils.LogUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,8 +35,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
      * @see #setItemAlign(int)
      */
     public static final int ALIGN_CENTER = 0, ALIGN_LEFT = 1, ALIGN_RIGHT = 2;
-
-    private static final String TAG = WheelPicker.class.getSimpleName();
 
     private final Handler mHandler = new Handler();
 
@@ -390,14 +389,14 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             resultHeight = (int) (2 * resultHeight / Math.PI);
         }
         if (isDebug)
-            Log.i(TAG, "Wheel's content size is (" + resultWidth + ":" + resultHeight + ")");
+            LogUtil.debug("Wheel's content size is (" + resultWidth + ":" + resultHeight + ")");
 
         // 考虑内边距对尺寸的影响
         // Consideration padding influence the view sizes
         resultWidth += getPaddingLeft() + getPaddingRight();
         resultHeight += getPaddingTop() + getPaddingBottom();
         if (isDebug)
-            Log.i(TAG, "Wheel's size is (" + resultWidth + ":" + resultHeight + ")");
+            LogUtil.debug("Wheel's size is (" + resultWidth + ":" + resultHeight + ")");
 
         // 考虑父容器对尺寸的影响
         // Consideration sizes of parent can influence the view sizes
@@ -426,7 +425,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         mRectDrawn.set(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(),
                 getHeight() - getPaddingBottom());
         if (isDebug)
-            Log.i(TAG, "Wheel's drawn rect size is (" + mRectDrawn.width() + ":" +
+            LogUtil.debug("Wheel's drawn rect size is (" + mRectDrawn.width() + ":" +
                     mRectDrawn.height() + ") and location is (" + mRectDrawn.left + ":" +
                     mRectDrawn.top + ")");
 
@@ -601,11 +600,11 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             if (isDebug) {
                 canvas.save();
                 canvas.clipRect(mRectDrawn);
-                mPaint.setColor(0xFFEE3333);
+                mPaint.setColor(Color.RED);
                 int lineCenterY = mWheelCenterY + (drawnOffsetPos * mItemHeight);
                 canvas.drawLine(mRectDrawn.left, lineCenterY, mRectDrawn.right, lineCenterY,
                         mPaint);
-                mPaint.setColor(0xFF3333EE);
+                mPaint.setColor(Color.BLUE);
                 mPaint.setStyle(Paint.Style.STROKE);
                 int top = lineCenterY - mHalfItemHeight;
                 canvas.drawRect(mRectDrawn.left, top, mRectDrawn.right, top + mItemHeight, mPaint);
@@ -628,7 +627,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             canvas.drawRect(mRectIndicatorFoot, mPaint);
         }
         if (isDebug) {
-            mPaint.setColor(0x4433EE33);
+            mPaint.setColor(Color.GREEN);
             mPaint.setStyle(Paint.Style.FILL);
             canvas.drawRect(0, 0, getPaddingLeft(), getHeight(), mPaint);
             canvas.drawRect(0, 0, getWidth(), getPaddingTop(), mPaint);
@@ -748,7 +747,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             int position = (-mScrollOffsetY / mItemHeight + mSelectedItemPosition) % mData.size();
             position = position < 0 ? position + mData.size() : position;
             if (isDebug)
-                Log.i(TAG, position + ":" + mData.get(position) + ":" + mScrollOffsetY);
+                LogUtil.debug(position + ":" + mData.get(position) + ":" + mScrollOffsetY);
             mCurrentItemPosition = position;
             if (null != mOnItemSelectedListener)
                 mOnItemSelectedListener.onItemSelected(this, mData.get(position), position);

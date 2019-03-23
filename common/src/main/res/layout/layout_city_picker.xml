@@ -18,7 +18,10 @@
         app:wheel_item_text_color="#62615f"
         app:wheel_item_text_size="@dimen/sp_16"
         app:wheel_selected_item_text_color="#1D1D1D"
-        app:wheel_visible_item_count="6"/>
+        app:wheel_visible_item_count="6"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="#58380A"
+        app:wheel_indicator_size="@dimen/dp_1"/>
 
     <com.common.widget.wheel.WheelPicker
         android:id="@+id/wheel_view_2"
@@ -33,7 +36,10 @@
         app:wheel_item_text_color="#62615f"
         app:wheel_item_text_size="@dimen/sp_16"
         app:wheel_selected_item_text_color="#1D1D1D"
-        app:wheel_visible_item_count="6" />
+        app:wheel_visible_item_count="6"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="#58380A"
+        app:wheel_indicator_size="@dimen/dp_1"/>
 
     <com.common.widget.wheel.WheelPicker
         android:id="@+id/wheel_view_3"
@@ -48,6 +54,9 @@
         app:wheel_item_text_color="#62615f"
         app:wheel_item_text_size="@dimen/sp_16"
         app:wheel_selected_item_text_color="#1D1D1D"
-        app:wheel_visible_item_count="6" />
+        app:wheel_visible_item_count="6"
+        app:wheel_indicator="true"
+        app:wheel_indicator_color="#58380A"
+        app:wheel_indicator_size="@dimen/dp_1"/>
 </LinearLayout>
 
