@@ -12,6 +12,7 @@ import com.common.R;
 import com.common.comm.AssertsResourceLoader;
 import com.common.entity.ProvinceEntity;
 import com.common.helper.GsonHelper;
+import com.common.utils.LogUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +40,9 @@ public class CityPickerView extends FrameLayout {
         List<ProvinceEntity> provinceList = Arrays.asList(provinceArr);
         List<ProvinceEntity.CityListBean> cityList = provinceList.get(0).getCityList();
         List<ProvinceEntity.AreaListBean> areaList = cityList.get(0).getAreaList();
+
+        printTextLength(provinceList);
+
         View view = LayoutInflater.from(context).inflate(R.layout.layout_city_picker, this, true);
         WheelPicker wheel_view_province = view.findViewById(R.id.wheel_view_1);
         WheelPicker wheel_view_city = view.findViewById(R.id.wheel_view_2);
@@ -64,6 +68,34 @@ public class CityPickerView extends FrameLayout {
             wheel_view_area.setData(areaList_current);
 
         });
+    }
+
+
+    private void printTextLength(List<ProvinceEntity> list) {
+        for (int i = 0; i < list.size(); i++) {
+            ProvinceEntity provinceEntity = list.get(i);
+            String name = provinceEntity.getName();
+          //  LogUtil.d("   省级地名是：" + name + " 长度是：" + name.length());
+            List<ProvinceEntity.CityListBean> cityList = provinceEntity.getCityList();
+            for (int j = 0; j < cityList.size(); j++) {
+                ProvinceEntity.CityListBean cityListBean = cityList.get(j);
+                String name1 = cityListBean.getName();
+                int length1 = name1.length();
+                if (length1 >= 10) {
+                    LogUtil.e("   市级地名是：" + name1 + " 长度是：" + length1);
+                }
+
+                List<ProvinceEntity.AreaListBean> areaList = cityListBean.getAreaList();
+                for (int k = 0; k < areaList.size(); k++) {
+                    ProvinceEntity.AreaListBean areaListBean = areaList.get(k);
+                    String name2 = areaListBean.getName();
+                    int length = name2.length();
+                    if (length > 10) {
+                        LogUtil.e("省级地名是：" + name + "市级地名：" + name1 + "   县级地名是：" + name2 + " 长度是：" + name2.length());
+                    }
+                }
+            }
+        }
     }
 
 }
