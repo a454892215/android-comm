@@ -8,6 +8,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
+        flavorDimensions "1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,6 +43,28 @@ android {
             debuggable true
         }
     }
+
+    productFlavors {
+
+        product_1 {
+            /* 完成 no */
+            applicationId "com.test.product_1"
+            versionCode 101
+            versionName "1.0.1"
+            resValue "string", "app_name", "测试1"
+            resValue "bool", "auto_updates", 'true'
+        }
+
+        product_2 {
+            /* 完成 no */
+            applicationId "com.test.product_2"
+            versionCode 101
+            versionName "1.0.1"
+            resValue "string", "app_name", "测试2"
+            resValue "bool", "auto_updates", 'true'
+        }
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all {
             def appInfo = getAppInfo() + variant.name
