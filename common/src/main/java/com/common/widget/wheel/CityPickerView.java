@@ -12,13 +12,18 @@ import com.common.R;
 import com.common.comm.AssertsResourceLoader;
 import com.common.entity.ProvinceEntity;
 import com.common.helper.GsonHelper;
-import com.common.utils.LogUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class CityPickerView extends FrameLayout {
     Context context;
+    private WheelPicker wheel_view_province;
+    private WheelPicker wheel_view_city;
+    private WheelPicker wheel_view_area;
+    private List<ProvinceEntity>  currentProvinceList;
+    private List<ProvinceEntity.CityListBean> currentCityList;
+    private List<ProvinceEntity.AreaListBean> currentAreaList;
 
     public CityPickerView(@NonNull Context context) {
         this(context, null);
@@ -37,41 +42,65 @@ public class CityPickerView extends FrameLayout {
     private void init() {
         String text = AssertsResourceLoader.getText(context, "china_city.txt");
         ProvinceEntity[] provinceArr = GsonHelper.getEntity(text, ProvinceEntity[].class);
-        List<ProvinceEntity> provinceList = Arrays.asList(provinceArr);
-        List<ProvinceEntity.CityListBean> cityList = provinceList.get(0).getCityList();
-        List<ProvinceEntity.AreaListBean> areaList = cityList.get(0).getAreaList();
-
-        printTextLength(provinceList);
-
+        currentProvinceList = Arrays.asList(provinceArr);
+        currentCityList = currentProvinceList.get(0).getCityList();
+        currentAreaList = currentCityList.get(0).getAreaList();
+        //  printTextLength(provinceList);
         View view = LayoutInflater.from(context).inflate(R.layout.layout_city_picker, this, true);
-        WheelPicker wheel_view_province = view.findViewById(R.id.wheel_view_1);
-        WheelPicker wheel_view_city = view.findViewById(R.id.wheel_view_2);
-        WheelPicker wheel_view_area = view.findViewById(R.id.wheel_view_3);
-        wheel_view_province.setData(provinceList);
-        wheel_view_city.setData(cityList);
-        wheel_view_area.setData(areaList);
+        wheel_view_province = view.findViewById(R.id.wheel_view_1);
+        wheel_view_city = view.findViewById(R.id.wheel_view_2);
+        wheel_view_area = view.findViewById(R.id.wheel_view_3);
+        wheel_view_province.setData(currentProvinceList);
+        wheel_view_city.setData(currentCityList);
+        wheel_view_area.setData(currentAreaList);
 
         wheel_view_province.setOnItemSelectedListener((picker, data, position) -> {
-            List<ProvinceEntity.CityListBean> cityList_current = ((ProvinceEntity) data).getCityList();
-            List<ProvinceEntity.AreaListBean> areaList_current = cityList_current.get(0).getAreaList();
+            ProvinceEntity provinceEntity = (ProvinceEntity) data;
+          //  province = provinceEntity.getName();
+            currentCityList = provinceEntity.getCityList();
+            currentAreaList = currentCityList.get(0).getAreaList();
             wheel_view_city.setSelectedItemPosition(0);
-            wheel_view_city.setData(cityList_current);
+            wheel_view_city.setData(currentCityList);
 
             wheel_view_area.setSelectedItemPosition(0);
-            wheel_view_area.setData(areaList_current);
-
-
+            wheel_view_area.setData(currentAreaList);
         });
         wheel_view_city.setOnItemSelectedListener((picker, data, position) -> {
-            List<ProvinceEntity.AreaListBean> areaList_current = ((ProvinceEntity.CityListBean) data).getAreaList();
+            ProvinceEntity.CityListBean cityListBean = (ProvinceEntity.CityListBean) data;
+            currentAreaList = cityListBean.getAreaList();
             wheel_view_area.setSelectedItemPosition(0);
-            wheel_view_area.setData(areaList_current);
+            wheel_view_area.setData(currentAreaList);
 
         });
+
+     /*   wheel_view_area.setOnItemSelectedListener((picker, data, position) -> {
+            ProvinceEntity.AreaListBean areaListBean = (ProvinceEntity.AreaListBean) data;
+        });*/
     }
 
+    public WheelPicker getProvinceWheelView() {
+        return wheel_view_province;
+    }
 
-    private void printTextLength(List<ProvinceEntity> list) {
+    public WheelPicker getCityWheelView() {
+        return wheel_view_city;
+    }
+
+    public WheelPicker getAreaWheelView() {
+        return wheel_view_area;
+    }
+
+    public String getCurrentAreaName() {
+        int po_1 = wheel_view_province.getCurrentItemPosition();
+        int po_2 = wheel_view_city.getCurrentItemPosition();
+        int po_3 = wheel_view_area.getCurrentItemPosition();
+        String province = currentProvinceList.get(po_1).getName();
+        String city = currentCityList.get(po_2).getName();
+        String area = currentAreaList.get(po_3).getName();
+        return province + "-" + city + "-" + area;
+    }
+
+/*    private void printTextLength(List<ProvinceEntity> list) {
         for (int i = 0; i < list.size(); i++) {
             ProvinceEntity provinceEntity = list.get(i);
             String name = provinceEntity.getName();
@@ -96,6 +125,6 @@ public class CityPickerView extends FrameLayout {
                 }
             }
         }
-    }
+    }*/
 
 }

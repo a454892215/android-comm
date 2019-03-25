@@ -3,11 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:showIn="@layout/activity_constraint_layout_test">
+    android:orientation="vertical">
 
     <com.common.widget.wheel.CityPickerView
+        android:id="@+id/city_picker"
+        android:background="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="确定"
+        android:background="#DFDFDF"
+        android:foreground="?selectableItemBackground"
+        android:textSize="@dimen/sp_15"
+        android:padding="@dimen/dp_5"
+        tools:ignore="HardcodedText,UnusedAttribute" />
 
 </LinearLayout>
