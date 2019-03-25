@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.FontAppCompatActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +17,12 @@ import com.common.R;
 import com.common.helper.PopWindowHelper;
 import com.common.utils.DensityUtils;
 
-import java.util.ArrayList;
-
 /**
  * Author:  Pan
  * Description: No
  */
 
-public abstract class BaseActivity extends FontAppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     protected BaseActivity activity;
     public Context mContext;
@@ -67,19 +64,6 @@ public abstract class BaseActivity extends FontAppCompatActivity {
     }
 
     protected abstract int getLayoutId();
-
-    public void switchFragment(FragmentManager fragmentManager, ArrayList<BaseFragment> fragmentList, int position) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        int size = fragmentList.size();
-        for (int i = 0; i < size; i++) {
-            if (i == position) {
-                fragmentTransaction.show(fragmentList.get(i));
-            } else {
-                fragmentTransaction.hide(fragmentList.get(i));
-            }
-        }
-        fragmentTransaction.commit();
-    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
