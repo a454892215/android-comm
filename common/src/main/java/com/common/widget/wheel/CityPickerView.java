@@ -12,7 +12,6 @@ import com.common.R;
 import com.common.comm.AssertsResourceLoader;
 import com.common.entity.ProvinceEntity;
 import com.common.helper.GsonHelper;
-import com.common.utils.LogUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -99,7 +98,7 @@ public class CityPickerView extends FrameLayout {
             int po_1 = wheel_view_province.getCurrentItemPosition();
             int po_2 = wheel_view_city.getCurrentItemPosition();
             int po_3 = wheel_view_area.getCurrentItemPosition();
-            LogUtil.d("currentCityList:" + currentCityList + " currentAreaList: " + currentAreaList + "  po_2:" + po_2 + "  po_3:" + po_3);
+          //  LogUtil.d("currentCityList:" + currentCityList + " currentAreaList: " + currentAreaList + "  po_2:" + po_2 + "  po_3:" + po_3);
             province = currentProvinceList.get(po_1).getName();
             city = currentCityList.get(po_2).getName();
             area = currentAreaList.get(po_3).getName();
