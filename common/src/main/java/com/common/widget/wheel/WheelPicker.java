@@ -19,6 +19,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
+
 import com.common.R;
 import com.common.utils.LogUtil;
 
@@ -191,16 +192,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
     private int mLastPointY;
 
     /**
-     * 手指触摸屏幕时事件点的Y坐标
-     */
-    private int mDownPointY;
-
-    /**
-     * 点击与触摸的切换阀值
-     */
-    private int mTouchSlop;
-
-    /**
      * 滚轮选择器的每一个数据项文本是否拥有相同的宽度
      *
      * @see #setSameWidth(boolean)
@@ -241,11 +232,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
      * @see #setCurved(boolean)
      */
     private boolean isCurved;
-
-    /**
-     * 是否为点击模式
-     */
-    private boolean isClick;
 
     /**
      * 是否为强制结束滑动
@@ -310,7 +296,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         ViewConfiguration conf = ViewConfiguration.get(getContext());
         mMinimumVelocity = conf.getScaledMinimumFlingVelocity();
         mMaximumVelocity = conf.getScaledMaximumFlingVelocity();
-        mTouchSlop = conf.getScaledTouchSlop();
         mRectDrawn = new Rect();
 
         mRectIndicatorHead = new Rect();
@@ -653,6 +638,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                mLastPointY = (int) event.getY();
                 if (null != getParent())
                     getParent().requestDisallowInterceptTouchEvent(true);
                 if (null == mTracker)
@@ -664,14 +650,8 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
                     mScroller.abortAnimation();
                     isForceFinishScroll = true;
                 }
-                mDownPointY = mLastPointY = (int) event.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (Math.abs(mDownPointY - event.getY()) < mTouchSlop) {
-                    isClick = true;
-                    break;
-                }
-                isClick = false;
                 mTracker.addMovement(event);
                 if (null != mOnWheelChangeListener)
                     mOnWheelChangeListener.onWheelScrollStateChanged(SCROLL_STATE_DRAGGING);
@@ -687,7 +667,6 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             case MotionEvent.ACTION_UP:
                 if (null != getParent())
                     getParent().requestDisallowInterceptTouchEvent(false);
-                if (isClick) break;
                 mTracker.addMovement(event);
 
                 mTracker.computeCurrentVelocity(1000, mMaximumVelocity);
