@@ -8666,12 +8666,22 @@
       {
         "code": "441900",
         "name": "东莞市",
-        "areaList": []
+        "areaList": [
+          {
+             "code": "null",
+              "name": "东莞市"
+           }
+          ]
       },
       {
         "code": "442000",
         "name": "中山市",
-        "areaList": []
+        "areaList": [
+          {
+             "code": "null",
+              "name": "中山市"
+           }
+          ]
       },
       {
         "code": "445100",
@@ -9330,12 +9340,22 @@
       {
         "code": "460300",
         "name": "三沙市",
-        "areaList": []
+        "areaList": [
+          {
+             "code": "null",
+              "name": "三沙市"
+           }
+          ]
       },
       {
         "code": "460400",
         "name": "儋州市",
-        "areaList": []
+        "areaList": [
+          {
+             "code": "null",
+              "name": "儋州市"
+           }
+          ]
       }
     ]
   },
@@ -12280,7 +12300,12 @@
       {
         "code": "620200",
         "name": "嘉峪关市",
-        "areaList": []
+        "areaList": [
+          {
+             "code": "null",
+              "name": "嘉峪关市"
+           }
+          ]
       },
       {
         "code": "620300",
