@@ -12,6 +12,7 @@ import com.common.R;
 import com.common.comm.AssertsResourceLoader;
 import com.common.entity.ProvinceEntity;
 import com.common.helper.GsonHelper;
+import com.common.utils.LogUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,7 @@ public class CityPickerView extends FrameLayout {
     private WheelPicker wheel_view_province;
     private WheelPicker wheel_view_city;
     private WheelPicker wheel_view_area;
-    private List<ProvinceEntity>  currentProvinceList;
+    private List<ProvinceEntity> currentProvinceList;
     private List<ProvinceEntity.CityListBean> currentCityList;
     private List<ProvinceEntity.AreaListBean> currentAreaList;
 
@@ -56,7 +57,7 @@ public class CityPickerView extends FrameLayout {
 
         wheel_view_province.setOnItemSelectedListener((picker, data, position) -> {
             ProvinceEntity provinceEntity = (ProvinceEntity) data;
-          //  province = provinceEntity.getName();
+            //  province = provinceEntity.getName();
             currentCityList = provinceEntity.getCityList();
             currentAreaList = currentCityList.get(0).getAreaList();
             wheel_view_city.setSelectedItemPosition(0);
@@ -91,12 +92,20 @@ public class CityPickerView extends FrameLayout {
     }
 
     public String getCurrentAreaName() {
-        int po_1 = wheel_view_province.getCurrentItemPosition();
-        int po_2 = wheel_view_city.getCurrentItemPosition();
-        int po_3 = wheel_view_area.getCurrentItemPosition();
-        String province = currentProvinceList.get(po_1).getName();
-        String city = currentCityList.get(po_2).getName();
-        String area = currentAreaList.get(po_3).getName();
+        String province = null;
+        String city = null;
+        String area = null;
+        try {
+            int po_1 = wheel_view_province.getCurrentItemPosition();
+            int po_2 = wheel_view_city.getCurrentItemPosition();
+            int po_3 = wheel_view_area.getCurrentItemPosition();
+            LogUtil.d("currentCityList:" + currentCityList + " currentAreaList: " + currentAreaList + "  po_2:" + po_2 + "  po_3:" + po_3);
+            province = currentProvinceList.get(po_1).getName();
+            city = currentCityList.get(po_2).getName();
+            area = currentAreaList.get(po_3).getName();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return province + "-" + city + "-" + area;
     }
 
