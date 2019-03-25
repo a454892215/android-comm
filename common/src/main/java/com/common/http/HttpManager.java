@@ -3,6 +3,8 @@ package com.common.http;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
+import com.common.utils.SystemUtils;
+import com.common.utils.ToastUtil;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -47,6 +49,10 @@ public class HttpManager {
     }
 
     private static void startRequest(Observable<ResponseBody> observable, HttpCallback httpCallback, BaseActivity activity, boolean isShowLoading) {
+        if (activity != null && !SystemUtils.isNetWorkConnected(activity)) {
+            ToastUtil.showShort(activity, "请检测网络是否连接");
+            return;
+        }
         if (activity != null && isShowLoading) activity.showDefaultLoadingPop();
         observable.subscribeOn(Schedulers.io())//IO线程加载数据
                 .observeOn(AndroidSchedulers.mainThread())//主线程显示数据
@@ -58,7 +64,8 @@ public class HttpManager {
                     @Override
                     public void onError(Throwable e) {
                         httpCallback.onFail();
-                        if (activity != null && isShowLoading) activity.dismissLoadingPopWithDelay();
+                        if (activity != null && isShowLoading)
+                            activity.dismissLoadingPopWithDelay();
                         LogUtil.e("Http=====:" + e.toString());
                     }
 
@@ -67,7 +74,8 @@ public class HttpManager {
                         try {
                             String text = responseBody.string();
                             httpCallback.onSuccess(text);
-                            if (activity != null && isShowLoading) activity.dismissLoadingPopWithDelay();
+                            if (activity != null && isShowLoading)
+                                activity.dismissLoadingPopWithDelay();
                         } catch (Exception e) {
                             e.printStackTrace();
                             LogUtil.e("Http:===requestData====:" + e.toString());

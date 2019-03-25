@@ -1,8 +1,11 @@
 package com.common.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.common.base.BaseActivity;
 
@@ -27,6 +30,19 @@ public class SystemUtils {
             LogUtil.e("LLpp:" + e.toString());
             return false;
         }
+    }
+
+    public static boolean isNetWorkConnected(Context context) {
+        boolean isConnected = true;
+        try {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if (cm == null) return true;
+            @SuppressLint("MissingPermission") NetworkInfo activeInfo = cm.getActiveNetworkInfo();
+            isConnected = activeInfo != null && activeInfo.isAvailable() && activeInfo.isConnected();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isConnected;
     }
 
 }
