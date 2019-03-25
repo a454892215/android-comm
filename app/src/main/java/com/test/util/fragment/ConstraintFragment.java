@@ -8,7 +8,7 @@ import com.test.util.R;
 public class ConstraintFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
-        return R.layout.include_constraint_test_1;
+        return R.layout.fragment_constraint_test_1;
     }
 
     @Override

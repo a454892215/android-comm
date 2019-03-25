@@ -25,6 +25,6 @@ public class TrendChartTestActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.trend_chart_test;
+        return R.layout.activity_trend_chart_test;
     }
 }

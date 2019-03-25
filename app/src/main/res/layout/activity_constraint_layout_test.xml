@@ -9,7 +9,8 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <com.common.widget.CommonTabLayout
             android:id="@+id/rg_body_left"
@@ -42,6 +43,15 @@
                 android:background="?selectableItemBackground"
                 android:gravity="center"
                 android:text="城市选择"
+                android:textColor="@drawable/selector_text_color"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="match_parent"
+                android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="DiaragTest"
                 android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
         </com.common.widget.CommonTabLayout>

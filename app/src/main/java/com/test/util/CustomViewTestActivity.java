@@ -11,6 +11,7 @@ import com.common.utils.ViewUtil;
 import com.common.widget.CommonTabLayout;
 import com.test.util.fragment.CityPickerFragment;
 import com.test.util.fragment.ConstraintFragment;
+import com.test.util.fragment.DiaFragFragment;
 import com.test.util.fragment.RVAnimFragment;
 
 /**
@@ -18,7 +19,7 @@ import com.test.util.fragment.RVAnimFragment;
  */
 public class CustomViewTestActivity extends BaseActivity {
 
-    Class[] fragmentArr = {ConstraintFragment.class, RVAnimFragment.class, CityPickerFragment.class};
+    Class[] fragmentArr = {ConstraintFragment.class, RVAnimFragment.class, CityPickerFragment.class, DiaFragFragment.class};
     private FragmentManager fm;
 
     @Override
@@ -29,7 +30,7 @@ public class CustomViewTestActivity extends BaseActivity {
         ViewUtil.onlyShowOneChildView(flt_content, 0);
         fm = getSupportFragmentManager();
         tab_layout.setOnSelectChangedListener(position -> {
-            LogUtil.d("===========setOnSelectChangedListener=============:"+position);
+            LogUtil.d("===========setOnSelectChangedListener=============:" + position);
             FragmentHelper.onSwitchFragment(fm, fragmentArr, position, R.id.flt_content);
         });
         tab_layout.setCurrentPosition(0);

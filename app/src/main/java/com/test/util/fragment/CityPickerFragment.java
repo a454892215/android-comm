@@ -13,7 +13,7 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected int getLayoutId() {
-        return R.layout.include_frag_city_picker;
+        return R.layout.fragment_frag_city_picker;
     }
 
     @Override

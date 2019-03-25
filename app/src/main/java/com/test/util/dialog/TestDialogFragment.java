@@ -1,14 +1,14 @@
-package com.test.util.fragment;
+package com.test.util.dialog;
 
 import android.view.View;
 
-import com.common.base.BaseFragment;
+import com.common.base.BaseDialogFragment;
 import com.test.util.R;
 
-public class RVAnimFragment extends BaseFragment {
+public class TestDialogFragment extends BaseDialogFragment {
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_rv_anim;
+        return R.layout.dialog_fra_test;
     }
 
     @Override
