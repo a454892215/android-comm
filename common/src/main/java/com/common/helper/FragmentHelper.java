@@ -11,8 +11,8 @@ import com.common.utils.LogUtil;
 public class FragmentHelper {
 
 
-    private static BaseFragment getInstance(FragmentManager fragmentManager, Class<BaseFragment> fragmentClass) {
-        BaseFragment fragment = (BaseFragment) fragmentManager.findFragmentByTag(fragmentClass.getName());
+    private static Fragment getInstance(FragmentManager fragmentManager, Class<BaseFragment> fragmentClass) {
+        Fragment fragment = fragmentManager.findFragmentByTag(fragmentClass.getName());
         try {
             if (fragment == null) {
                 fragment = fragmentClass.newInstance();
@@ -33,7 +33,7 @@ public class FragmentHelper {
         }
     }
 
-    private static void showFragment(FragmentManager fragmentManager, BaseFragment fragment, int id) {
+    private static void showFragment(FragmentManager fragmentManager, Fragment fragment, int id) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (fragment.isAdded()) {
             transaction.show(fragment);
@@ -45,7 +45,7 @@ public class FragmentHelper {
 
     public static void onSwitchFragment(FragmentManager fragmentManager, Class[] fragmentArr, int position, int contentViewId) {
         FragmentHelper.hideAllShowingFragments(fragmentManager, fragmentArr);
-        BaseFragment fragment = FragmentHelper.getInstance(fragmentManager, CastUtil.cast(fragmentArr[position]));
+        Fragment fragment = FragmentHelper.getInstance(fragmentManager, CastUtil.cast(fragmentArr[position]));
         FragmentHelper.showFragment(fragmentManager, fragment, contentViewId);
     }
 }
