@@ -18,6 +18,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = super.onCreateView(inflater, container, savedInstanceState);
         if (rootView == null) {
             activity = (BaseActivity) getActivity();
             rootView = inflater.inflate(getLayoutId(), container, false);
