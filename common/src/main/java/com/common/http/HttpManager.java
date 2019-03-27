@@ -64,8 +64,10 @@ public class HttpManager {
                     @Override
                     public void onError(Throwable e) {
                         httpCallback.onFail();
-                        if (activity != null && isShowLoading)
-                            activity.dismissLoadingPopWithDelay();
+                        if (activity != null && isShowLoading) {
+                            activity.dismissDefaultLoadingPop();
+                        }
+
                         LogUtil.e("Http=====:" + e.toString());
                     }
 
@@ -74,8 +76,9 @@ public class HttpManager {
                         try {
                             String text = responseBody.string();
                             httpCallback.onSuccess(text);
-                            if (activity != null && isShowLoading)
-                                activity.dismissLoadingPopWithDelay();
+                            if (activity != null && isShowLoading) {
+                                activity.dismissDefaultLoadingPop();
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                             LogUtil.e("Http:===requestData====:" + e.toString());

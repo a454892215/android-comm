@@ -32,15 +32,25 @@ public class SoundPoolUtil {
         }
     }
 
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
+
+    private float volume = 0.5f;
+
     public void play(int position) {
-        soundPool.play(loadedIdList.get(position), 1, 1, 0, 0, 1);
+        soundPool.play(loadedIdList.get(position), volume, volume, 0, 0, 1);
     }
 
 
     public void playOnlyOne(int resId, int playTime, BaseActivity activity) {
         soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
-            int streamID = soundPool.play(sampleId, 1, 1, 1, 0, 1);
-            activity.setOnStopListener(() -> soundPool.stop(streamID));
+            int streamID = soundPool.play(sampleId, volume, volume, 1, 0, 1);
+            activity.setOnPauseListener(() -> soundPool.stop(streamID));
             MyCountDownTimer timer = new MyCountDownTimer(playTime + 2, 1000);
             timer.setOnLastTickListener((time, count) -> soundPool.unload(sampleId));
             timer.start();

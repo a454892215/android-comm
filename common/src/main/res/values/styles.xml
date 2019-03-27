@@ -1,4 +1,9 @@
 <resources>
+
+    <style name="CommonAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <declare-styleable name="TabLayout">
         <attr name="tb_text_size" format="dimension|reference" />
         <attr name="tb_height" format="dimension|reference" />

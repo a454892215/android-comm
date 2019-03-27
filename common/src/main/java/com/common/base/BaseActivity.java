@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.common.R;
 import com.common.helper.PopWindowHelper;
@@ -59,11 +60,24 @@ public abstract class BaseActivity extends AppCompatActivity {
         isShowing = true;
     }
 
+
     public boolean isShowing() {
         return isShowing;
     }
 
     protected abstract int getLayoutId();
+
+
+    @Override
+    public void setTitle(CharSequence title) {
+        TextView tv_header_title = findViewById(R.id.tv_header_title);
+        if (tv_header_title != null) {
+            tv_header_title.setText(title);
+        } else {
+            super.setTitle(title);
+        }
+
+    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -92,11 +106,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         PopWindowHelper.show(this, loadingPop, Gravity.CENTER);
     }
 
-    public void dismissLoadingPopWithDelay() {
-        PopWindowHelper.dismissPop(this, loadingPop);
+    public void dismissDefaultLoadingPop() {
+        PopWindowHelper.dismissPop(loadingPop);
     }
 
-    public void setOnStopListener(OnPauseListener onPauseListener) {
+    public void setOnPauseListener(OnPauseListener onPauseListener) {
         this.onPauseListener = onPauseListener;
     }
 

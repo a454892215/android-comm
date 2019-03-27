@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:name="com.common.AppApplication"
-        android:theme="@style/AppTheme"
+        android:theme="@style/CommonAppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data

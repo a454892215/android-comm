@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.common.utils.LogUtil;
+
 public abstract class BaseDialogFragment extends DialogFragment {
 
     private View rootView;
@@ -19,6 +21,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = super.onCreateView(inflater, container, savedInstanceState);
+        LogUtil.d("===========BaseDialogFragment======onCreateView====:"+rootView);
         if (rootView == null) {
             activity = (BaseActivity) getActivity();
             rootView = inflater.inflate(getLayoutId(), container, false);

@@ -27,10 +27,16 @@ public class MainActivity extends BaseActivity {
             ForegroundDrawingTestActivity.class, RefreshRvTestActivity.class, CustomViewTestActivity.class,
             XposedTestActivity.class, ProgressLiveTestActivity.class, TrendChartTestActivity.class};
 
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("API测试");
+        setTitle("API验证");
         RecyclerView recycler_view = findViewById(R.id.recycler_view);
         BaseRVAdapter adapter = new TextViewRVAdapter(activity, R.layout.view_btn_1, Arrays.asList(names));
         RecyclerViewUtil.setRecyclerView(recycler_view, adapter);
@@ -40,9 +46,9 @@ public class MainActivity extends BaseActivity {
             intent.putExtra("title", names[position]);
             startActivity(intent);
         });
-     //   MyCountDownTimer timer = new MyCountDownTimer(30, 2000);
-     //   timer.setOnTickListener((time, count) -> LogUtil.debug("我还活着 onTick time:" + time + " count:" + count));
-      //  timer.start();
+        //   MyCountDownTimer timer = new MyCountDownTimer(30, 2000);
+        //   timer.setOnTickListener((time, count) -> LogUtil.debug("我还活着 onTick time:" + time + " count:" + count));
+        //  timer.start();
     }
 
     @Override
@@ -54,9 +60,4 @@ public class MainActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
-    }
 }

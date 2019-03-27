@@ -2,25 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_200"
+    android:layout_height="@dimen/dp_40"
+    android:background="#46A1EB"
     tools:ignore="HardcodedText">
-
     <TextView
-        android:id="@+id/tv_footer_state"
+        android:id="@+id/tv_header_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_18"
-        android:text="上拉加载更多"
-        android:textColor="#666666"
+        android:textColor="#414141"
         android:textSize="@dimen/sp_15" />
-
-    <ImageView
-        android:id="@+id/iv_footer_right"
-        android:layout_width="@dimen/dp_18"
-        android:layout_height="@dimen/dp_18"
-        android:layout_toStartOf="@id/tv_footer_state"
-        android:layout_marginEnd="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_19"
-        tools:ignore="ContentDescription" />
 </RelativeLayout>
