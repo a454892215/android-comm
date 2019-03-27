@@ -22,5 +22,5 @@
         android:layout_toStartOf="@id/tv_footer_state"
         android:layout_marginEnd="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_19"
-        android:contentDescription="@string/app_name" />
+        tools:ignore="ContentDescription" />
 </RelativeLayout>
