@@ -16,7 +16,7 @@ import com.common.widget.refresh.RefreshLayout;
 import java.util.List;
 
 /**
- * Author: Pan
+ * Author: L
  * Description:
  */
 public class RefreshRvTestActivity extends BaseActivity {

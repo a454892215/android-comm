@@ -3,7 +3,7 @@ package com.common.comm;
 import android.os.SystemClock;
 
 /**
- * Author:  Pan
+ * Author:  L
  * CreateDate: 2019/1/22 14:58
  * Description: No
  */

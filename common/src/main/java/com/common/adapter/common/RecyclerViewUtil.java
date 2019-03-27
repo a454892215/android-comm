@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import com.common.base.BaseRVAdapter;
 
 /**
- * Author:  Pan
+ * Author:  L
  * Description: No
  */
 

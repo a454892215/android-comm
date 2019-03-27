@@ -10,7 +10,7 @@ import com.common.utils.TestDataUtil;
 import com.common.widget.AsyncScrollLayout;
 
 /**
- * Author: Pan
+ * Author: L
  * Description: RecyclerView 同步滚动测试
  */
 public class ScrollerHSVTestActivity extends BaseActivity {

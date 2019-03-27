@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.text.style.ReplacementSpan;
 
 /**
- * Author:  Pan
+ * Author:  L
  * CreateDate: 2019/1/7 9:15
  * Description: No
  */

@@ -15,7 +15,7 @@ import com.common.utils.LogUtil;
 import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 /**
- * Author: Pan
+ * Author: L
  * 2018/12/26
  * Description:
  */

@@ -25,7 +25,7 @@ import com.scwang.smartrefresh.layout.internal.ArrowDrawable;
 import com.scwang.smartrefresh.layout.internal.ProgressDrawable;
 
 /**
- * Author: Pan
+ * Author: L
  * Description:
  */
 public class RefreshLayout extends LinearLayout {

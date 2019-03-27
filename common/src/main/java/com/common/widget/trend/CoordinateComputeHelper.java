@@ -3,7 +3,7 @@ package com.common.widget.trend;
 import android.graphics.Point;
 
 /**
- * Author:  Pan
+ * Author:  L
  * CreateDate: 2019/1/29 9:27
  * Description: No
  */

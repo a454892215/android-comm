@@ -6,7 +6,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
- * Author:  Pan
+ * Author:  L
  * CreateDate: 2019/1/19 11:53
  * Description: No
  */

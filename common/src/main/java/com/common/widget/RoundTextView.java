@@ -9,13 +9,6 @@ import android.view.ViewOutlineProvider;
 
 import com.common.R;
 
-
-/**
- * Author:  Liu Pan
- * CreateDate: 2018/12/13
- * Description: No
- */
-
 public class RoundTextView extends android.support.v7.widget.AppCompatTextView {
     private float radius = 0;
 

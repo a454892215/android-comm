@@ -8,7 +8,7 @@ import com.common.comm.timer.OnTickListener;
 import java.lang.ref.WeakReference;
 
 /**
- * Author:  Pan
+ * Author:  L
  * CreateDate: 2018/9/7 10:23
  * Description: No
  */

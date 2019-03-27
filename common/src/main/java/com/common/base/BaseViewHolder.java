@@ -3,7 +3,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Author: Pan
+ * Author: L
  * Description:
  */
 public class BaseViewHolder extends RecyclerView.ViewHolder {

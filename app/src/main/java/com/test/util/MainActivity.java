@@ -14,7 +14,7 @@ import com.common.utils.FastClickUtil;
 import java.util.Arrays;
 
 /**
- * Author: Pan
+ * Author: L
  * Description:
  */
 public class MainActivity extends BaseActivity {

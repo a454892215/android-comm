@@ -11,7 +11,7 @@ import com.common.R;
 import com.common.adapter.common.HLayoutManager;
 
 /**
- * Author: Pan
+ * Author: L
  * 2018/12/26
  * Description:
  */

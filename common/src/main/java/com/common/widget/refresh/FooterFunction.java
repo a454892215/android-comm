@@ -1,7 +1,7 @@
 package com.common.widget.refresh;
 
 /**
- * Author:  Pan
+ * Author:  L
  * CreateDate: 2019/1/4 9:51
  * Description: No
  */

@@ -12,7 +12,7 @@ import com.common.R;
 import com.common.base.BaseActivity;
 
 /**
- * author: Pan
+ * author: L
  * created on: 2018/6/16 18:51
  * description:No
  */

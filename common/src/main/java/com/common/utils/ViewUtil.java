@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
- * Author:  Pan
+ * Author:  L
  * Description: No
  */
 @SuppressWarnings("unused")

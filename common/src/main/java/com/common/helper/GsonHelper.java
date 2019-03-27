@@ -3,12 +3,6 @@ package com.common.helper;
 import com.common.utils.LogUtil;
 import com.google.gson.Gson;
 
-/**
- * author: LiuPan
- * created on: 2018/6/18 16:35
- * description:No
- */
-
 
 public class GsonHelper {
 
