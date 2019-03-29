@@ -25,6 +25,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
     private int height = WindowManager.LayoutParams.WRAP_CONTENT;
     private int gravity = Gravity.CENTER;
 
+    private int animStyle;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,29 +38,36 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (BaseActivity) getActivity();
         getDialog().setCanceledOnTouchOutside(canceledOnTouchOutside);
-        //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
-            Window window = getDialog().getWindow();
-            if (window != null) {
-                window.setBackgroundDrawableResource(android.R.color.transparent);
-                window.getDecorView().setPadding(0, 0, 0, 0);
-                WindowManager.LayoutParams lp = window.getAttributes();
-                lp.gravity = gravity;
-                lp.width = width;
-                lp.height = height;
-                // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-                lp.dimAmount = dimeAmount;
-                window.setAttributes(lp);
-            } else {
-                LogUtil.e("==========window == null =======");
-            }
             initView(rootView);
         } else {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) parent.removeView(rootView);
         }
+        setWindow();
         return rootView;
+    }
+
+    private void setWindow() {
+        Window window = getDialog().getWindow();
+        //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.getDecorView().setPadding(0, 0, 0, 0);
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.gravity = gravity;
+            lp.width = width;
+            lp.height = height;
+            // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            lp.dimAmount = dimeAmount;
+            window.setAttributes(lp);
+            if (animStyle > 0) {
+                window.setWindowAnimations(animStyle);
+            }
+        } else {
+            LogUtil.e("==========window == null =======");
+        }
     }
 
     protected Object param;
@@ -93,6 +102,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @SuppressWarnings("unused")
     protected BaseDialogFragment setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
         this.canceledOnTouchOutside = canceledOnTouchOutside;
+        return this;
+    }
+
+    public BaseDialogFragment setAnimStyle(int animStyle) {
+        this.animStyle = animStyle;
         return this;
     }
 

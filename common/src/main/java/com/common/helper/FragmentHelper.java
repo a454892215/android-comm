@@ -11,7 +11,7 @@ import com.common.utils.LogUtil;
 public class FragmentHelper {
 
 
-    private static Fragment getInstance(FragmentManager fragmentManager, Class<BaseFragment> fragmentClass) {
+    public static Fragment getInstance(FragmentManager fragmentManager, Class<BaseFragment> fragmentClass) {
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentClass.getName());
         try {
             if (fragment == null) {

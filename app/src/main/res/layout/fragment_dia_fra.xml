@@ -10,45 +10,45 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_35"
-        android:background="#cccccc"
         android:layout_marginTop="@dimen/dp_5"
+        android:background="#cccccc"
         android:foreground="?selectableItemBackground"
         android:text="中心弹窗"
         tools:ignore="UnusedAttribute" />
 
-<!--    <Button
+    <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_35"
-        android:background="#cccccc"
         android:layout_marginTop="@dimen/dp_5"
+        android:background="#cccccc"
         android:foreground="?selectableItemBackground"
         android:text="底部弹窗"
         tools:ignore="UnusedAttribute" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_35"
-        android:background="#cccccc"
-        android:layout_marginTop="@dimen/dp_5"
-        android:foreground="?selectableItemBackground"
-        android:text="顶部"
-        tools:ignore="UnusedAttribute" />
+    <!--   <Button
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/dp_35"
+           android:background="#cccccc"
+           android:layout_marginTop="@dimen/dp_5"
+           android:foreground="?selectableItemBackground"
+           android:text="顶部"
+           tools:ignore="UnusedAttribute" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_35"
-        android:background="#cccccc"
-        android:layout_marginTop="@dimen/dp_5"
-        android:foreground="?selectableItemBackground"
-        android:text="左边"
-        tools:ignore="UnusedAttribute" />
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/dp_35"
+           android:background="#cccccc"
+           android:layout_marginTop="@dimen/dp_5"
+           android:foreground="?selectableItemBackground"
+           android:text="左边"
+           tools:ignore="UnusedAttribute" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_35"
-        android:background="#cccccc"
-        android:layout_marginTop="@dimen/dp_5"
-        android:foreground="?selectableItemBackground"
-        android:text="右边"
-        tools:ignore="UnusedAttribute" />-->
+       <Button
+           android:layout_width="match_parent"
+           android:layout_height="@dimen/dp_35"
+           android:background="#cccccc"
+           android:layout_marginTop="@dimen/dp_5"
+           android:foreground="?selectableItemBackground"
+           android:text="右边"
+           tools:ignore="UnusedAttribute" />-->
 </LinearLayout>

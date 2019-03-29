@@ -1,9 +1,9 @@
-package com.test.util.dialog;
+package com.common.dialog;
 
 import android.view.View;
 
+import com.common.R;
 import com.common.base.BaseDialogFragment;
-import com.test.util.R;
 
 public class CenterDialogFragment extends BaseDialogFragment {
 
