@@ -26,11 +26,11 @@ public class DiaFragFragment extends BaseFragment {
         LinearLayout tab_layout = rootView.findViewById(R.id.tab_layout);
         int childCount = tab_layout.getChildCount();
         FragmentManager fm = getChildFragmentManager();
-        CenterDialogFragment centerDialogFragment = new CenterDialogFragment();
         for (int i = 0; i < childCount; i++) {
-            DialogFragment dialogFragment = (DialogFragment) FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[i]));
             View view = tab_layout.getChildAt(i);
-            view.setOnClickListener(v -> dialogFragment.show(fm, centerDialogFragment.getClass().getName()));
+            int finalI = i;
+            DialogFragment dialogFragment = (DialogFragment) FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[finalI]));//缓存模式 无懒加载
+            view.setOnClickListener(v -> dialogFragment.show(fm, fragmentArr[finalI].getName()));
         }
     }
 }
