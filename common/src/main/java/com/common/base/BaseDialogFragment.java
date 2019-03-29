@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.common.R;
+import com.common.utils.DensityUtils;
 import com.common.utils.LogUtil;
 
 
@@ -38,8 +39,9 @@ public abstract class BaseDialogFragment extends DialogFragment {
             window.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = window.getAttributes();
             lp.gravity = Gravity.CENTER;
+            int height = (int) DensityUtils.getHeight(activity);
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+            lp.height = (int) (height - DensityUtils.dp2px(activity,20));
            // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
             lp.dimAmount = 0f;
             window.setAttributes(lp);

@@ -21,6 +21,7 @@ public class DiaFragFragment extends BaseFragment {
         rootView.findViewById(R.id.btn).setOnClickListener(v -> {
             if (dialogFragment.isShowing()) {
                 dialogFragment.dismiss();
+                dialogFragment.getDialog().show();
                 return;
             }
             if (fm != null) {

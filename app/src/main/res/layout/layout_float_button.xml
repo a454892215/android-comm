@@ -3,7 +3,6 @@
     android:id="@+id/image_web_view_back"
     android:layout_width="@dimen/dp_60"
     android:layout_height="@dimen/dp_60"
-    android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
     android:padding="@dimen/dp_8"
