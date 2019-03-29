@@ -29,7 +29,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (BaseActivity) getActivity();
-        getDialog().setCanceledOnTouchOutside(true);
+        getDialog().setCanceledOnTouchOutside(false);
+      //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
         View rootView = inflater.inflate(getLayoutId(), container, false);
         Window window = getDialog().getWindow();
         if (window != null) {
@@ -39,6 +40,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
             lp.gravity = Gravity.CENTER;
             lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+           // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            lp.dimAmount = 0f;
             window.setAttributes(lp);
         } else {
             LogUtil.e("==========window == null =======");
@@ -56,4 +59,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected abstract int getLayoutId();
 
     protected abstract void initView(View rootView);
+
+    public boolean isShowing() {
+        return getDialog() != null && getDialog().isShowing();
+    }
 }

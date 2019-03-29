@@ -19,8 +19,12 @@ public class DiaFragFragment extends BaseFragment {
 
         FragmentManager fm = getFragmentManager();
         rootView.findViewById(R.id.btn).setOnClickListener(v -> {
+            if (dialogFragment.isShowing()) {
+                dialogFragment.dismiss();
+                return;
+            }
             if (fm != null) {
-                dialogFragment.showNow(fm, dialogFragment.getClass().getName());
+                dialogFragment.show(fm, dialogFragment.getClass().getName());
             }
         });
     }

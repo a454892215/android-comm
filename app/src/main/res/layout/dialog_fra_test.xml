@@ -1,18 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="HardcodedText">
-
-    <TextView
-        android:layout_width="@dimen/dp_200"
-        android:layout_height="@dimen/dp_150"
-        android:layout_centerInParent="true"
-        android:background="#cccccc"
-        android:gravity="center"
-        android:text="我是fragment dialog"
-        android:elevation="0dp"
-        android:textColor="#ffffff" />
-
-</RelativeLayout>
+    <include layout="@layout/layout_float_button"/>
+</FrameLayout>
