@@ -88,7 +88,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return this;
     }
 
-    protected BaseDialogFragment setGravity(int gravity) {
+    public BaseDialogFragment setGravity(int gravity) {
         this.gravity = gravity;
         return this;
     }

@@ -5,5 +5,5 @@
         android:duration="250"
         android:fromYDelta="0"
         android:interpolator="@android:anim/overshoot_interpolator"
-        android:toYDelta="100%p" />
+        android:toYDelta="30%p" />
 </set>
