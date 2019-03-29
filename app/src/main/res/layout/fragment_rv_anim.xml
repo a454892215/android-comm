@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:ignore="HardcodedText"
-    tools:showIn="@layout/activity_constraint_layout_test">
+    tools:showIn="@layout/activity_custom_view_test">
 
     <TextView
         android:layout_width="match_parent"

@@ -10,7 +10,6 @@ import com.common.utils.LogUtil;
 import com.common.utils.ViewUtil;
 import com.common.widget.CommonTabLayout;
 import com.test.util.fragment.CityPickerFragment;
-import com.test.util.fragment.ConstraintFragment;
 import com.test.util.fragment.DialogTestFragment;
 import com.test.util.fragment.RVAnimFragment;
 
@@ -19,7 +18,11 @@ import com.test.util.fragment.RVAnimFragment;
  */
 public class CustomViewTestActivity extends BaseActivity {
 
-    Class[] fragmentArr = {ConstraintFragment.class, RVAnimFragment.class, CityPickerFragment.class, DialogTestFragment.class};
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_custom_view_test;
+    }
+    Class[] fragmentArr = {RVAnimFragment.class, CityPickerFragment.class, DialogTestFragment.class};
     private FragmentManager fm;
 
     @Override
@@ -37,8 +40,4 @@ public class CustomViewTestActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_constraint_layout_test;
-    }
 }
