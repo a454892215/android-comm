@@ -1,10 +1,11 @@
 package com.test.util.dialog;
+
 import android.view.View;
 
 import com.common.base.BaseDialogFragment;
 import com.test.util.R;
 
-public class TestDialogFragment extends BaseDialogFragment {
+public class CenterDialogFragment extends BaseDialogFragment {
 
     @Override
     protected int getLayoutId() {
@@ -15,4 +16,6 @@ public class TestDialogFragment extends BaseDialogFragment {
     protected void initView(View rootView) {
 
     }
+
+
 }

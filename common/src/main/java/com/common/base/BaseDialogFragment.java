@@ -12,13 +12,18 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.common.R;
-import com.common.utils.DensityUtils;
 import com.common.utils.LogUtil;
 
 
 public abstract class BaseDialogFragment extends DialogFragment {
 
     protected BaseActivity activity;
+    private View rootView;
+    private boolean canceledOnTouchOutside = true;
+    private float dimeAmount = 0.7f;
+    private int width = WindowManager.LayoutParams.WRAP_CONTENT;
+    private int height = WindowManager.LayoutParams.WRAP_CONTENT;
+    private int gravity = Gravity.CENTER;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,39 +35,69 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (BaseActivity) getActivity();
-        getDialog().setCanceledOnTouchOutside(false);
-      //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
-        View rootView = inflater.inflate(getLayoutId(), container, false);
-        Window window = getDialog().getWindow();
-        if (window != null) {
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.getDecorView().setPadding(0, 0, 0, 0);
-            WindowManager.LayoutParams lp = window.getAttributes();
-            lp.gravity = Gravity.CENTER;
-            int height = (int) DensityUtils.getHeight(activity);
-            lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-            lp.height = (int) (height - DensityUtils.dp2px(activity,20));
-           // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-            lp.dimAmount = 0f;
-            window.setAttributes(lp);
+        getDialog().setCanceledOnTouchOutside(canceledOnTouchOutside);
+        //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
+        if (rootView == null) {
+            rootView = inflater.inflate(getLayoutId(), container, false);
+            Window window = getDialog().getWindow();
+            if (window != null) {
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.getDecorView().setPadding(0, 0, 0, 0);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.gravity = gravity;
+                lp.width = width;
+                lp.height = height;
+                // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                lp.dimAmount = dimeAmount;
+                window.setAttributes(lp);
+            } else {
+                LogUtil.e("==========window == null =======");
+            }
+            initView(rootView);
         } else {
-            LogUtil.e("==========window == null =======");
+            ViewGroup parent = (ViewGroup) rootView.getParent();
+            if (parent != null) parent.removeView(rootView);
         }
-        initView(rootView);
         return rootView;
     }
 
     protected Object param;
 
+    @SuppressWarnings("unused")
     public void setParam(Object param) {
         this.param = param;
+    }
+
+    @SuppressWarnings("unused")
+    protected BaseDialogFragment setHeight(int height) {
+        this.height = height;
+        return this;
+    }
+
+    protected BaseDialogFragment setWidth(int width) {
+        this.width = width;
+        return this;
+    }
+
+    protected BaseDialogFragment setGravity(int gravity) {
+        this.gravity = gravity;
+        return this;
+    }
+
+    @SuppressWarnings("unused")
+    protected BaseDialogFragment setDimeAmount(float dimeAmount) {
+        this.dimeAmount = dimeAmount;
+        return this;
+    }
+
+    @SuppressWarnings("unused")
+    protected BaseDialogFragment setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        this.canceledOnTouchOutside = canceledOnTouchOutside;
+        return this;
     }
 
     protected abstract int getLayoutId();
 
     protected abstract void initView(View rootView);
 
-    public boolean isShowing() {
-        return getDialog() != null && getDialog().isShowing();
-    }
 }

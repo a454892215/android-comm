@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#35B3EB"
+    android:orientation="vertical"
     tools:ignore="HardcodedText">
-    <include layout="@layout/layout_float_button"/>
-</FrameLayout>
+
+    <TextView
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_150"
+        android:gravity="center"
+        android:text="我是文本"
+        android:textColor="#ffffff"
+        android:background="#EE4C84" />
+
+    <com.common.widget.SettingHintSizeEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#9C912E"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"/>
+</LinearLayout>
