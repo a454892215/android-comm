@@ -19,12 +19,12 @@ import java.util.Arrays;
  */
 public class MainActivity extends BaseActivity {
 
-    private String[] names = {"基于Scroller的水平滚动测试",
-            "GridRV测试", "自定义LayoutManager测试", "自定义可水平滚动的垂直RecycleView", "前景绘制测试",
-            "自定义下拉刷新和加载更多", "View 验证测试", "Xposed框架测试", "进程保活验证", "自定义曲线走势图表"};
-    private Class[] classArr = {ScrollerHSVTestActivity.class,
-            RVGridTestActivity.class, CustomLayoutManagerTestActivity.class, HRVTestActivity.class,
-            ForegroundDrawingTestActivity.class, RefreshRvTestActivity.class, CustomViewTestActivity.class,
+    private String[] names = {"View 验证测试", "基于Scroller的水平滚动测试",
+            "自定义LayoutManager测试", "自定义可水平滚动的垂直RecycleView", "前景绘制测试",
+            "自定义下拉刷新和加载更多", "Xposed框架测试", "进程保活验证", "自定义曲线走势图表"};
+    private Class[] classArr = {CustomViewTestActivity.class, ScrollerHSVTestActivity.class,
+            CustomLayoutManagerTestActivity.class, HRVTestActivity.class,
+            ForegroundDrawingTestActivity.class, RefreshRvTestActivity.class,
             XposedTestActivity.class, ProgressLiveTestActivity.class, TrendChartTestActivity.class};
 
 

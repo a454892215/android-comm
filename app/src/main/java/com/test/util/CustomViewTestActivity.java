@@ -11,7 +11,7 @@ import com.common.utils.ViewUtil;
 import com.common.widget.CommonTabLayout;
 import com.test.util.fragment.CityPickerFragment;
 import com.test.util.fragment.ConstraintFragment;
-import com.test.util.fragment.DiaFragFragment;
+import com.test.util.fragment.DialogTestFragment;
 import com.test.util.fragment.RVAnimFragment;
 
 /**
@@ -19,7 +19,7 @@ import com.test.util.fragment.RVAnimFragment;
  */
 public class CustomViewTestActivity extends BaseActivity {
 
-    Class[] fragmentArr = {ConstraintFragment.class, RVAnimFragment.class, CityPickerFragment.class, DiaFragFragment.class};
+    Class[] fragmentArr = {ConstraintFragment.class, RVAnimFragment.class, CityPickerFragment.class, DialogTestFragment.class};
     private FragmentManager fm;
 
     @Override

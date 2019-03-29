@@ -12,7 +12,7 @@ import com.test.util.R;
 import com.common.dialog.BottomDialogFragment;
 import com.common.dialog.CenterDialogFragment;
 
-public class DiaFragFragment extends BaseFragment {
+public class DialogTestFragment extends BaseFragment {
 
     Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
 
