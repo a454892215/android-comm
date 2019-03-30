@@ -16,7 +16,6 @@ public class ActivityCallbacks implements Application.ActivityLifecycleCallbacks
 
     @Override
     public void onActivityStarted(Activity activity) {
-        LogUtil.d("====ActivityCallbacks========onActivityStarted======app进入前台========:" + activity.getClass().getSimpleName());
         foreAppCount++;
     }
 
