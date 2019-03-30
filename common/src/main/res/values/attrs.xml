@@ -16,6 +16,8 @@
         <attr name="right_line_stroke_width" format="dimension|reference" />                         
         <attr name="right_line_color" format="color|reference" />          
         <attr name="right_line_enable" format="boolean" />  
+
+        <attr name="clip_radius" format="dimension|reference" />       
     </declare-styleable>
 
     <declare-styleable name="MarqueeView">

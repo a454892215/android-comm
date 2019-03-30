@@ -15,7 +15,7 @@ public abstract class MyBaseActivity extends BaseActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ImageView iv_back = findViewById(R.id.iv_back);
+        ImageView iv_back = findViewById(R.id.iv_header_back);
         if (iv_back != null) {
             iv_back.setOnClickListener(this);
         }
@@ -23,7 +23,7 @@ public abstract class MyBaseActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void setTitle(CharSequence title) {
-        TextView tv_header_title = findViewById(com.common.R.id.tv_header_title);
+        TextView tv_header_title = findViewById(R.id.tv_header_title);
         if (tv_header_title != null) {
             tv_header_title.setText(title);
         } else {
@@ -35,7 +35,7 @@ public abstract class MyBaseActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.iv_header_back:
                 onBackPressed();
                 break;
         }

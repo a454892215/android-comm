@@ -70,22 +70,24 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
         bottomLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_bottom_line_height, dp_1);
         rightLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_right_line_stroke_width, dp_1);
         leftLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_left_line_stroke_width, dp_1);
-        typedArray.recycle();
+
 
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
         linePaint.setDither(true);
-//        LogUtil.debug("leftLineEnable:" + leftLineEnable);
 
-        clipRadius = context.getResources().getDimension(R.dimen.dp_5);
-        this.setClipToOutline(true);
-        this.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
-                outline.setRoundRect(rect, clipRadius);
-            }
-        });
+        clipRadius = typedArray.getDimension(R.styleable.CommonTextView_clip_radius, 0);
+        if (clipRadius > 0) {
+            this.setClipToOutline(true);
+            this.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
+                    outline.setRoundRect(rect, clipRadius);
+                }
+            });
+        }
+        typedArray.recycle();
     }
 
     @Override

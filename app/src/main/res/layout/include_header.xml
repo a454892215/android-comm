@@ -7,7 +7,7 @@
     tools:ignore="HardcodedText">
 
     <ImageView
-        android:id="@+id/iv_back"
+        android:id="@+id/iv_header_back"
         android:layout_width="@dimen/dp_50"
         android:layout_height="match_parent"
         android:padding="@dimen/dp_7"
