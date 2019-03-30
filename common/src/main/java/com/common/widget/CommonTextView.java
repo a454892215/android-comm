@@ -65,7 +65,6 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
                 }
             });
         }
-
     }
 
     private void initAttr(Context context, AttributeSet attrs, int defStyleAttr) {

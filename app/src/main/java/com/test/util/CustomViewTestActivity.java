@@ -13,9 +13,6 @@ import com.test.util.fragment.DialogTestFragment;
 import com.test.util.fragment.RVAnimFragment;
 import com.test.util.fragment.TrendChartFragment;
 
-/**
- * RecyclerView
- */
 public class CustomViewTestActivity extends BaseAppActivity {
 
     @Override

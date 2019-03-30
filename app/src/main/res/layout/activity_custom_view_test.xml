@@ -21,8 +21,8 @@
             android:orientation="horizontal"
             tools:ignore="HardcodedText">
 
-            <TextView
-                android:layout_width="@dimen/dp_120"
+            <com.common.widget.CommonTextView
+                android:layout_width="@dimen/dp_100"
                 android:layout_height="match_parent"
                 android:background="?selectableItemBackground"
                 android:gravity="center"
@@ -30,8 +30,8 @@
                 android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
 
-            <TextView
-                android:layout_width="@dimen/dp_120"
+            <com.common.widget.CommonTextView
+                android:layout_width="@dimen/dp_100"
                 android:layout_height="match_parent"
                 android:background="?selectableItemBackground"
                 android:gravity="center"
@@ -39,8 +39,8 @@
                 android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
 
-            <TextView
-                android:layout_width="@dimen/dp_120"
+            <com.common.widget.CommonTextView
+                android:layout_width="@dimen/dp_100"
                 android:layout_height="match_parent"
                 android:background="?selectableItemBackground"
                 android:gravity="center"
@@ -48,8 +48,8 @@
                 android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
 
-            <TextView
-                android:layout_width="@dimen/dp_120"
+            <com.common.widget.CommonTextView
+                android:layout_width="@dimen/dp_100"
                 android:layout_height="match_parent"
                 android:background="?selectableItemBackground"
                 android:gravity="center"
