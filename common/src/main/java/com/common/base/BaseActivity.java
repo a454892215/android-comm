@@ -2,7 +2,6 @@ package com.common.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.common.R;
 import com.common.helper.PopWindowHelper;
@@ -40,11 +38,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         contentView = findViewById(android.R.id.content);
         dp_1 = getResources().getDimension(R.dimen.dp_1);
-        Intent intent = getIntent();
-        if (intent != null) {
-            String titles = intent.getStringExtra("title");
-            setTitle(titles);
-        }
     }
 
     @Override
@@ -66,18 +59,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract int getLayoutId();
-
-
-    @Override
-    public void setTitle(CharSequence title) {
-        TextView tv_header_title = findViewById(R.id.tv_header_title);
-        if (tv_header_title != null) {
-            tv_header_title.setText(title);
-        } else {
-            super.setTitle(title);
-        }
-
-    }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

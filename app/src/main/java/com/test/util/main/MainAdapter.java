@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
-import com.common.utils.LogUtil;
 import com.common.widget.CommonTextView;
 import com.test.util.R;
 

@@ -3,11 +3,11 @@ package com.test.util;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.common.base.BaseActivity;
 import com.common.comm.MultiClick;
 import com.common.utils.ToastUtil;
+import com.test.util.base.MyBaseActivity;
 
-public class ProcessLiveTestActivity extends BaseActivity {
+public class ProcessLiveTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

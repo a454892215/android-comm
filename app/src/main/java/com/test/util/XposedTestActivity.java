@@ -3,10 +3,10 @@ package com.test.util;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.common.base.BaseActivity;
 import com.common.utils.ToastUtil;
+import com.test.util.base.MyBaseActivity;
 
-public class XposedTestActivity extends BaseActivity {
+public class XposedTestActivity extends MyBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

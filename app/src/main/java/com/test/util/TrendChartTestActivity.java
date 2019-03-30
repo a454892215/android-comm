@@ -3,14 +3,14 @@ package com.test.util;
 import android.graphics.Point;
 import android.os.Bundle;
 
-import com.common.base.BaseActivity;
 import com.common.widget.trend.TrendChartView;
+import com.test.util.base.MyBaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TrendChartTestActivity extends BaseActivity {
+public class TrendChartTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

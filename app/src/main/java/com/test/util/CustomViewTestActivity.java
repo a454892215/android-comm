@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.widget.FrameLayout;
 
-import com.common.base.BaseActivity;
 import com.common.helper.FragmentHelper;
 import com.common.utils.LogUtil;
 import com.common.utils.ViewUtil;
 import com.common.widget.CommonTabLayout;
+import com.test.util.base.MyBaseActivity;
 import com.test.util.fragment.CityPickerFragment;
 import com.test.util.fragment.DialogTestFragment;
 import com.test.util.fragment.RVAnimFragment;
@@ -16,7 +16,7 @@ import com.test.util.fragment.RVAnimFragment;
 /**
  * RecyclerView
  */
-public class CustomViewTestActivity extends BaseActivity {
+public class CustomViewTestActivity extends MyBaseActivity {
 
     @Override
     protected int getLayoutId() {
