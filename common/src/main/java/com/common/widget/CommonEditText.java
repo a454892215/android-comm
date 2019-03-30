@@ -21,7 +21,7 @@ import com.common.R;
  * Description: No
  */
 
-public class SettingHintSizeEditText extends android.support.v7.widget.AppCompatEditText {
+public class CommonEditText extends android.support.v7.widget.AppCompatEditText {
 
     private int bg_border_color;
     private float bg_border_thick;
@@ -32,23 +32,23 @@ public class SettingHintSizeEditText extends android.support.v7.widget.AppCompat
     private PorterDuffXfermode mode_clear;
     private boolean isClearBg;
 
-    public SettingHintSizeEditText(Context context, AttributeSet attrs) {
+    public CommonEditText(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.editTextStyle);
     }
 
-    public SettingHintSizeEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CommonEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SettingHintSizeEditText, defStyleAttr, 0);
-        String hint_text = typedArray.getString(R.styleable.SettingHintSizeEditText_hint_text);
-        int hint_size = Math.round(typedArray.getDimension(R.styleable.SettingHintSizeEditText_hint_size, 33));
-        int hint_color = typedArray.getColor(R.styleable.SettingHintSizeEditText_hint_color, Color.GRAY);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonEditText, defStyleAttr, 0);
+        String hint_text = typedArray.getString(R.styleable.CommonEditText_hint_text);
+        int hint_size = Math.round(typedArray.getDimension(R.styleable.CommonEditText_hint_size, 33));
+        int hint_color = typedArray.getColor(R.styleable.CommonEditText_hint_color, Color.GRAY);
 
-        bg_border_color = typedArray.getColor(R.styleable.SettingHintSizeEditText_bg_border_color, Color.RED);
-        bg_border_thick = typedArray.getDimension(R.styleable.SettingHintSizeEditText_bg_border_thick, 5f);
-        bg_color = typedArray.getColor(R.styleable.SettingHintSizeEditText_bg_color, Color.BLACK);
-        bg_radius = typedArray.getDimension(R.styleable.SettingHintSizeEditText_bg_radius, 10);
-        bg_enable = typedArray.getBoolean(R.styleable.SettingHintSizeEditText_bg_enable, false);
-        isClearBg = typedArray.getBoolean(R.styleable.SettingHintSizeEditText_bg_clear_bg_enable, false);
+        bg_border_color = typedArray.getColor(R.styleable.CommonEditText_bg_border_color, Color.RED);
+        bg_border_thick = typedArray.getDimension(R.styleable.CommonEditText_bg_border_thick, 5f);
+        bg_color = typedArray.getColor(R.styleable.CommonEditText_bg_color, Color.BLACK);
+        bg_radius = typedArray.getDimension(R.styleable.CommonEditText_bg_radius, 10);
+        bg_enable = typedArray.getBoolean(R.styleable.CommonEditText_bg_enable, false);
+        isClearBg = typedArray.getBoolean(R.styleable.CommonEditText_bg_clear_bg_enable, false);
         typedArray.recycle();
 
         paint = new Paint();

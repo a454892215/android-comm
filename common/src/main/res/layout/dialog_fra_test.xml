@@ -15,7 +15,7 @@
         android:textColor="#ffffff"
         android:background="#EE4C84" />
 
-    <com.common.widget.SettingHintSizeEditText
+    <com.common.widget.CommonEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#9C912E"

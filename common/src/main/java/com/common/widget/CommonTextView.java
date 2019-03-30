@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 
 import com.common.R;
-import com.common.utils.LogUtil;
 
 /**
  * Author:  L
@@ -16,7 +15,7 @@ import com.common.utils.LogUtil;
  * Description: No
  */
 
-public class BorderLineTextView extends android.support.v7.widget.AppCompatTextView {
+public class CommonTextView extends android.support.v7.widget.AppCompatTextView {
     private float topLineStrokeWidth;
     private float bottomLineStrokeWidth;
     private float leftLineStrokeWidth;
@@ -34,35 +33,35 @@ public class BorderLineTextView extends android.support.v7.widget.AppCompatTextV
     private boolean bottomLineEnable;
 
 
-    public BorderLineTextView(Context context) {
+    public CommonTextView(Context context) {
         this(context, null);
     }
 
-    public BorderLineTextView(Context context, AttributeSet attrs) {
+    public CommonTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BorderLineTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CommonTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BorderLineTextView, defStyleAttr, 0);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonTextView, defStyleAttr, 0);
 
-        topLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_top_line_enable, false);
-        bottomLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_bottom_line_enable, false);
-        rightLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_right_line_enable, false);
-        leftLineEnable = typedArray.getBoolean(R.styleable.BorderLineTextView_left_line_enable, false);
+        topLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_top_line_enable, false);
+        bottomLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_bottom_line_enable, false);
+        rightLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_right_line_enable, false);
+        leftLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_left_line_enable, false);
 
 
-        topLineColor = typedArray.getColor(R.styleable.BorderLineTextView_top_line_color, Color.BLACK);
-        bottomLineColor = typedArray.getColor(R.styleable.BorderLineTextView_bottom_line_color, Color.BLACK);
-        rightLineColor = typedArray.getColor(R.styleable.BorderLineTextView_right_line_color, Color.BLACK);
-        leftLineColor = typedArray.getColor(R.styleable.BorderLineTextView_left_line_color, Color.BLACK);
+        topLineColor = typedArray.getColor(R.styleable.CommonTextView_top_line_color, Color.BLACK);
+        bottomLineColor = typedArray.getColor(R.styleable.CommonTextView_bottom_line_color, Color.BLACK);
+        rightLineColor = typedArray.getColor(R.styleable.CommonTextView_right_line_color, Color.BLACK);
+        leftLineColor = typedArray.getColor(R.styleable.CommonTextView_left_line_color, Color.BLACK);
 
         float dp_1 = getResources().getDimension(R.dimen.dp_1);
-        topLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_top_line_height, dp_1);
-        bottomLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_bottom_line_height, dp_1);
-        rightLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_right_line_stroke_width, dp_1);
-        leftLineStrokeWidth = typedArray.getDimension(R.styleable.BorderLineTextView_left_line_stroke_width, dp_1);
+        topLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_top_line_height, dp_1);
+        bottomLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_bottom_line_height, dp_1);
+        rightLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_right_line_stroke_width, dp_1);
+        leftLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_left_line_stroke_width, dp_1);
         typedArray.recycle();
 
         linePaint = new Paint();

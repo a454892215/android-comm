@@ -15,7 +15,7 @@
         <attr name="tb_unselected_bg_color" format="color|reference" />
     </declare-styleable>
 
-    <declare-styleable name="SettingHintSizeEditText">
+    <declare-styleable name="CommonEditText">
         <attr name="hint_size" format="dimension|reference" />
         <attr name="hint_color" format="color|reference" />
         <attr name="hint_text" format="string|reference" />

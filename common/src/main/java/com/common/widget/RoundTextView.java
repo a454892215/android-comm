@@ -10,7 +10,7 @@ import android.view.ViewOutlineProvider;
 import com.common.R;
 
 public class RoundTextView extends android.support.v7.widget.AppCompatTextView {
-    private float radius = 0;
+    private float radius;
 
     public RoundTextView(Context context) {
         this(context, null);
