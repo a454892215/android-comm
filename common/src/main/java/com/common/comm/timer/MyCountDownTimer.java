@@ -1,9 +1,8 @@
-package com.common.comm;
+package com.common.comm.timer;
 
 import android.os.CountDownTimer;
 
 import com.common.base.BaseActivity;
-import com.common.comm.timer.OnTickListener;
 
 import java.lang.ref.WeakReference;
 

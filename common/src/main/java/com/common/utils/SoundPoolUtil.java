@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 
 import com.common.base.BaseActivity;
-import com.common.comm.MyCountDownTimer;
+import com.common.comm.timer.MyCountDownTimer;
 
 import java.util.ArrayList;
 import java.util.List;
