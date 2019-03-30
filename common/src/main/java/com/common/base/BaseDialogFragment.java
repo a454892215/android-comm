@@ -40,7 +40,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         getDialog().setCanceledOnTouchOutside(canceledOnTouchOutside);
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
-            initView(rootView);
+            initView();
         } else {
             ViewGroup parent = (ViewGroup) rootView.getParent();
             if (parent != null) parent.removeView(rootView);
@@ -112,6 +112,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     protected abstract int getLayoutId();
 
-    protected abstract void initView(View rootView);
+    protected abstract void initView();
+
+    public <T extends View> T findViewById(int id) {
+        return rootView.findViewById(id);
+    }
 
 }

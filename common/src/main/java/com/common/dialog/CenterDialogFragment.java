@@ -2,7 +2,6 @@ package com.common.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import com.common.R;
 import com.common.base.BaseDialogFragment;
@@ -20,7 +19,7 @@ public class CenterDialogFragment extends BaseDialogFragment {
     }
 
     @Override
-    protected void initView(View rootView) {
+    protected void initView() {
 
     }
 
