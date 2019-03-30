@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,17 +21,16 @@ import com.common.utils.DensityUtils;
  * Description: No
  */
 
-public class TabLayout extends HorizontalScrollView {
+public class TabLayout extends LinearLayout {
     private Context context;
     private float text_size;
     private int selected_text_color;
     private int unselected_text_color;
     private int selected_bg_color;
     private int unselected_bg_color;
-    private int lastClickPosition = 0;
+    private int currentPosition = 0;
     private int tb_height;
     private int tb_round_rect_radius;
-    private LinearLayout llt_content;
 
     private int tb_width;
 
@@ -47,9 +45,6 @@ public class TabLayout extends HorizontalScrollView {
     public TabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        llt_content = new LinearLayout(context);
-        llt_content.setOrientation(LinearLayout.HORIZONTAL);
-        addView(llt_content);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TabLayout, defStyleAttr, 0);
         text_size = typedArray.getDimension(R.styleable.TabLayout_tb_text_size, 14);
@@ -63,37 +58,43 @@ public class TabLayout extends HorizontalScrollView {
         typedArray.recycle();
     }
 
+
+    @SuppressWarnings("unused")
+    public void setCurrentPosition(int position) {
+        currentPosition = position;
+    }
+
     public void setData(String[] names) {
-        llt_content.removeAllViews();
-        lastClickPosition = 0;
+        removeAllViews();
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
             RelativeLayout rlt_item = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.group_item_tablayout, this, false);
             CommonTextView textView = rlt_item.findViewById(R.id.tv);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) textView.getLayoutParams();
-            lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
             lp.height = tb_height;
             textView.setLayoutParams(lp);
             textView.setText(name);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, text_size);
             textView.setClipRadius(tb_round_rect_radius);
-            updateTextViewState(textView, i == 0);
+            updateTextViewState(textView, i == currentPosition);
             int finalI = i;
             rlt_item.setOnClickListener(v -> {
-                if (lastClickPosition != finalI) {
-                    updateTextViewState(llt_content.getChildAt(lastClickPosition).findViewById(R.id.tv), false);
-                    updateTextViewState(llt_content.getChildAt(finalI).findViewById(R.id.tv), true);
+                if (currentPosition != finalI) {
+                    updateTextViewState(getChildAt(currentPosition).findViewById(R.id.tv), false);
+                    updateTextViewState(getChildAt(finalI).findViewById(R.id.tv), true);
                     if (listener != null) listener.OnSelectChanged(finalI);
-                    lastClickPosition = finalI;
+                    currentPosition = finalI;
                 }
             });
             int itemWidth = Math.round((DensityUtils.getWidth(context) - getPaddingLeft() - getPaddingRight()) / names.length);
             itemWidth = tb_width == 0 ? itemWidth : tb_width;
-            llt_content.addView(rlt_item, new LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+            addView(rlt_item, new LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT));
+            if (currentPosition > -1) {
+                if (listener != null) listener.OnSelectChanged(currentPosition);
+            }
         }
     }
 
-    OnSelectChangedListener listener;
 
     private void updateTextViewState(TextView tv, boolean isSelect) {
         if (isSelect) {
@@ -105,20 +106,10 @@ public class TabLayout extends HorizontalScrollView {
         }
     }
 
-    public void setTabWidth(int tb_width) {
-        this.tb_width = tb_width;
-    }
-
-    public void setUnselectedTextColor(int unselected_text_color) {
-        this.unselected_text_color = unselected_text_color;
-    }
+    OnSelectChangedListener listener;
 
     public void setOnSelectChangedListener(OnSelectChangedListener listener) {
         this.listener = listener;
-    }
-
-    public void setTextSize(float textSize) {
-        this.text_size = textSize;
     }
 
     public interface OnSelectChangedListener {

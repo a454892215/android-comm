@@ -19,14 +19,18 @@ public class CustomViewTestActivity extends BaseAppActivity {
     protected int getLayoutId() {
         return R.layout.activity_custom_view_test;
     }
+
     Class[] fragmentArr = {RVAnimFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class};
+    String[] tabNames = {"RV动画测试", "城市选择", "DialogTest", "Chart"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CommonTabLayout tab_layout = findViewById(R.id.rg_body_left);
+
         FrameLayout flt_content = findViewById(R.id.flt_content);
         ViewUtil.onlyShowOneChildView(flt_content, 0);
+        CommonTabLayout tab_layout = findViewById(R.id.tab_layout);
+        tab_layout.setData(tabNames, R.layout.layout_tab_item, R.id.tv);
         tab_layout.setOnSelectChangedListener(position -> {
             LogUtil.d("===========setOnSelectChangedListener=============:" + position);
             FragmentHelper.onSwitchFragment(fm, fragmentArr, position, R.id.flt_content);

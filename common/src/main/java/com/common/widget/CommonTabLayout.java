@@ -3,9 +3,11 @@ package com.common.widget;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,9 @@ import java.util.List;
 
 public class CommonTabLayout extends LinearLayout {
 
+    private Context context;
+    private int currentPosition = 0;
+
     public CommonTabLayout(Context context) {
         this(context, null);
     }
@@ -28,9 +33,9 @@ public class CommonTabLayout extends LinearLayout {
 
     public CommonTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.context = context;
     }
 
-    private View selectingItemView;
 
     @Override
     public void onViewAdded(View child) {
@@ -42,22 +47,15 @@ public class CommonTabLayout extends LinearLayout {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View itemView = getChildAt(i);
-            if (itemView.isSelected()) selectingItemView = itemView;
-            int finalI = i;
+            changeItemViewSelectedState(itemView, currentPosition == i);
+            int indexInParent = i;
             itemView.setOnClickListener(v -> {
-                if (selectingItemView != null && selectingItemView == itemView) return;
-                if (selectingItemView == null) selectingItemView = itemView;
-                changeItemViewSelectedState(selectingItemView, false);
-                changeItemViewSelectedState(itemView, true);
-                selectingItemView = itemView;
-                if (listener != null) listener.OnSelectChanged(finalI);
+                if (currentPosition == indexInParent) return;
+                changeItemViewSelectedState(getChildAt(currentPosition), false);
+                changeItemViewSelectedState(v, true);
+                currentPosition = indexInParent;
+                if (listener != null) listener.OnSelectChanged(indexInParent);
             });
-        }
-
-        if (currentPosition < 0) return;
-        if (selectingItemView == null && childCount > 0) {
-            selectingItemView = getChildAt(0);
-            changeItemViewSelectedState(selectingItemView, true);
         }
     }
 
@@ -69,25 +67,20 @@ public class CommonTabLayout extends LinearLayout {
         }
     }
 
-    OnSelectChangedListener listener;
-
-    public void setOnSelectChangedListener(OnSelectChangedListener listener) {
-        this.listener = listener;
-    }
-
-    public interface OnSelectChangedListener {
-        void OnSelectChanged(int position);
-    }
-
-    private int currentPosition = 0;
 
     public void setCurrentPosition(int position) {
         currentPosition = position;
-        if (selectingItemView == null) return;
-        changeItemViewSelectedState(selectingItemView, false);
-        selectingItemView = getChildAt(position);
-        changeItemViewSelectedState(selectingItemView, true);
-        if (listener != null) listener.OnSelectChanged(position);
+        updateAllTabView();
+        if (listener != null) listener.OnSelectChanged(currentPosition);
+    }
+
+    public void setData(String[] names, int layoutId, int tvNameId) {
+        for (String name : names) {
+            View item = LayoutInflater.from(context).inflate(layoutId, this, false);
+            TextView tv = item.findViewById(tvNameId);
+            tv.setText(name);
+            addView(item);
+        }
     }
 
     private List<View> getAllChildViews(View view) {
@@ -101,6 +94,16 @@ public class CommonTabLayout extends LinearLayout {
             }
         }
         return list;
+    }
+
+    OnSelectChangedListener listener;
+
+    public void setOnSelectChangedListener(OnSelectChangedListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnSelectChangedListener {
+        void OnSelectChanged(int position);
     }
 
 }
