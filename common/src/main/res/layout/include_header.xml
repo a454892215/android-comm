@@ -10,9 +10,9 @@
         android:id="@+id/iv_back"
         android:layout_width="@dimen/dp_50"
         android:layout_height="match_parent"
-        android:padding="@dimen/dp_5"
+        android:padding="@dimen/dp_7"
         android:background="?selectableItemBackground"
-        android:src="@mipmap/icon_back" />
+        android:src="@drawable/icon_back" />
 
     <TextView
         android:id="@+id/tv_header_title"
