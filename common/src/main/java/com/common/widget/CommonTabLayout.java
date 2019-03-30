@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,6 +56,9 @@ public class CommonTabLayout extends LinearLayout {
                 changeItemViewSelectedState(v, true);
                 currentPosition = indexInParent;
                 if (listener != null) listener.OnSelectChanged(indexInParent);
+                if (indicatorView != null) {
+                    indicatorView.animate().setInterpolator(new DecelerateInterpolator()).x(indicatorWidth * indexInParent).setDuration(250).start();
+                }
             });
         }
     }
@@ -72,6 +76,9 @@ public class CommonTabLayout extends LinearLayout {
         currentPosition = position;
         updateAllTabView();
         if (listener != null) listener.OnSelectChanged(currentPosition);
+        if (indicatorView != null) {
+            indicatorView.animate().setInterpolator(new DecelerateInterpolator()).x(indicatorWidth * position).setDuration(250).start();
+        }
     }
 
     public void setData(String[] names, int layoutId, int tvNameId) {
@@ -97,6 +104,13 @@ public class CommonTabLayout extends LinearLayout {
     }
 
     OnSelectChangedListener listener;
+    View indicatorView;
+    int indicatorWidth;
+
+    public void setIndicatorView(View indicatorView, int indicatorWidth) {
+        this.indicatorView = indicatorView;
+        this.indicatorWidth = indicatorWidth;
+    }
 
     public void setOnSelectChangedListener(OnSelectChangedListener listener) {
         this.listener = listener;
