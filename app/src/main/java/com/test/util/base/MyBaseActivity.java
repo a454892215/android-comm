@@ -14,7 +14,6 @@ public abstract class MyBaseActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         ImageView iv_back = findViewById(R.id.iv_header_back);
         if (iv_back != null) {
             iv_back.setOnClickListener(this);

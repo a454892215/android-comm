@@ -28,6 +28,7 @@ public abstract class BaseFragment extends Fragment {
 
     protected Object param;
 
+    @SuppressWarnings("unused")
     public void setParam(Object param) {
         this.param = param;
     }

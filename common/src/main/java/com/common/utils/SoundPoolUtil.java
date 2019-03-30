@@ -47,10 +47,10 @@ public class SoundPoolUtil {
     }
 
 
-    public void playOnlyOne(int resId, int playTime, BaseActivity activity) {
+    public void playOnlyOne(int resId, int playTime) {
         soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
             int streamID = soundPool.play(sampleId, volume, volume, 1, 0, 1);
-            activity.setOnPauseListener(() -> soundPool.stop(streamID));
+           // activity.setOnPauseListener(() -> soundPool.stop(streamID));
             MyCountDownTimer timer = new MyCountDownTimer(playTime + 2, 1000);
             timer.setOnLastTickListener((time, count) -> soundPool.unload(sampleId));
             timer.start();

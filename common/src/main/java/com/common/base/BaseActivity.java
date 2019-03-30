@@ -27,7 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     public Context mContext;
     private boolean isShowing;
     public FragmentManager mManager;
-    private OnPauseListener onPauseListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         isShowing = false;
-        if (onPauseListener != null) onPauseListener.onPause();
     }
 
     @Override
@@ -89,14 +87,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void dismissDefaultLoadingPop() {
         PopWindowHelper.dismissPop(loadingPop);
-    }
-
-    public void setOnPauseListener(OnPauseListener onPauseListener) {
-        this.onPauseListener = onPauseListener;
-    }
-
-    public interface OnPauseListener {
-        void onPause();
     }
 
 }

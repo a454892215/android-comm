@@ -25,6 +25,7 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initLogger();
+        registerActivityLifecycleCallbacks(new ActivityCallbacks());
       //  sTypeface = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
     }
 
