@@ -5,9 +5,9 @@ import android.widget.Button;
 
 import com.common.comm.MultiClick;
 import com.common.utils.ToastUtil;
-import com.test.util.base.MyBaseActivity;
+import com.test.util.base.BaseAppActivity;
 
-public class ProcessLiveTestActivity extends MyBaseActivity {
+public class ProcessLiveTestActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

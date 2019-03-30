@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.common.utils.ToastUtil;
-import com.test.util.base.MyBaseActivity;
+import com.test.util.base.BaseAppActivity;
 
-public class XposedTestActivity extends MyBaseActivity {
+public class XposedTestActivity extends BaseAppActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

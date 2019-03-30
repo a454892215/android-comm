@@ -1,7 +1,6 @@
 package com.common.base;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -24,16 +23,17 @@ import com.common.utils.DensityUtils;
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected BaseActivity activity;
-    public Context mContext;
     private boolean isShowing;
-    public FragmentManager mManager;
+    protected FragmentManager fm;
+    public static int bottomVirtualKeyHeight;
+    private View contentView;
+    public float dp_1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
-        mContext = this;
-        mManager = getSupportFragmentManager();
+        fm = getSupportFragmentManager();
         setContentView(getLayoutId());
         contentView = findViewById(android.R.id.content);
         dp_1 = getResources().getDimension(R.dimen.dp_1);
@@ -51,7 +51,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         isShowing = true;
     }
 
-
     public boolean isShowing() {
         return isShowing;
     }
@@ -64,9 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setBottomVirtualKeyHeight();
     }
 
-    public static int bottomVirtualKeyHeight;
-    private View contentView;
-    public float dp_1;
 
     private void setBottomVirtualKeyHeight() {
         int contentViewHeight = contentView.getHeight();

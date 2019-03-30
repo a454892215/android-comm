@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.common.base.BaseActivity;
 import com.test.util.R;
 
-public abstract class MyBaseActivity extends BaseActivity implements View.OnClickListener {
+public abstract class BaseAppActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

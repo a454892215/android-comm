@@ -13,13 +13,13 @@ import com.test.util.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
 import com.test.util.XposedTestActivity;
-import com.test.util.base.MyBaseActivity;
+import com.test.util.base.BaseAppActivity;
 
 /**
  * Author: L
  * Description:
  */
-public class MainActivity extends MyBaseActivity {
+public class MainActivity extends BaseAppActivity {
 
     private String[] names = {"View 验证测试", "Xposed框架测试", "进程保活验证",};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class, ProcessLiveTestActivity.class,};
