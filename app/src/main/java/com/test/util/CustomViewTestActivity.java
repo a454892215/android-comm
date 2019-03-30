@@ -12,6 +12,7 @@ import com.test.util.base.MyBaseActivity;
 import com.test.util.fragment.CityPickerFragment;
 import com.test.util.fragment.DialogTestFragment;
 import com.test.util.fragment.RVAnimFragment;
+import com.test.util.fragment.TrendChartFragment;
 
 /**
  * RecyclerView
@@ -22,7 +23,7 @@ public class CustomViewTestActivity extends MyBaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_custom_view_test;
     }
-    Class[] fragmentArr = {RVAnimFragment.class, CityPickerFragment.class, DialogTestFragment.class};
+    Class[] fragmentArr = {RVAnimFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class};
     private FragmentManager fm;
 
     @Override

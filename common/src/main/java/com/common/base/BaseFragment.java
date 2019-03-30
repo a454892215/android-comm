@@ -21,7 +21,7 @@ public abstract class BaseFragment extends Fragment {
         if (rootView == null) {
             activity = (BaseActivity) getActivity();
             rootView = inflater.inflate(getLayoutId(), container, false);
-            initView(rootView);
+            initView();
         }
         return rootView;
     }
@@ -34,5 +34,9 @@ public abstract class BaseFragment extends Fragment {
 
     protected abstract int getLayoutId();
 
-    protected abstract void initView(View rootView);
+    protected abstract void initView();
+
+    public <T extends View> T findViewById(int id) {
+        return rootView.findViewById(id);
+    }
 }

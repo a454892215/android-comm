@@ -33,7 +33,6 @@
         <activity android:name=".CustomViewTestActivity" />
         <activity android:name=".XposedTestActivity" />
         <activity android:name=".ProcessLiveTestActivity" />
-        <activity android:name=".TrendChartTestActivity" />
     </application>
 
 </manifest>

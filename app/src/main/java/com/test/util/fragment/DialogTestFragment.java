@@ -22,8 +22,8 @@ public class DialogTestFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(View rootView) {
-        LinearLayout tab_layout = rootView.findViewById(R.id.tab_layout);
+    protected void initView() {
+        LinearLayout tab_layout = findViewById(R.id.tab_layout);
         int childCount = tab_layout.getChildCount();
         FragmentManager fm = getChildFragmentManager();
         for (int i = 0; i < childCount; i++) {

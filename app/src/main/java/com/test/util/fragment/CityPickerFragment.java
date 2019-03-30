@@ -17,9 +17,9 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    protected void initView(View rootView) {
-        mCityPicker = rootView.findViewById(R.id.city_picker);
-        Button mBtnOk = rootView.findViewById(R.id.btn_ok);
+    protected void initView() {
+        mCityPicker = findViewById(R.id.city_picker);
+        Button mBtnOk = findViewById(R.id.btn_ok);
         mBtnOk.setOnClickListener(this);
     }
 

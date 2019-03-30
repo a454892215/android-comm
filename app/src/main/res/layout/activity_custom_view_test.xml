@@ -47,6 +47,15 @@
                 android:text="DiaragTest"
                 android:textColor="@drawable/selector_text_color"
                 android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:layout_width="@dimen/dp_120"
+                android:layout_height="match_parent"
+                android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="Chart"
+                android:textColor="@drawable/selector_text_color"
+                android:textSize="@dimen/sp_12" />
         </com.common.widget.CommonTabLayout>
     </HorizontalScrollView>
 
