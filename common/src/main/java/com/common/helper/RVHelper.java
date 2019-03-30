@@ -1,5 +1,6 @@
 package com.common.helper;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.common.base.BaseActivity;
@@ -9,11 +10,13 @@ import com.common.utils.LogUtil;
 import java.util.List;
 import java.util.Map;
 
-public class AdapterHelpter {
+public class RVHelper {
 
-    public static void initAdapter(List<Map<String, String>> list, int layoutId, BaseActivity activity, RecyclerView rv, String classFullName) {
-        BaseAppRVAdapter adapter = BaseAppRVAdapter.getInstance(activity, layoutId, list, classFullName);
+    public static BaseAppRVAdapter initRV(BaseActivity activity, List<Map<String, String>> list, RecyclerView rv, Class<? extends BaseAppRVAdapter> typeClass) {
+        BaseAppRVAdapter adapter = BaseAppRVAdapter.getInstance(activity, list, typeClass);
+        rv.setLayoutManager(new LinearLayoutManager(activity));
         rv.setAdapter(adapter);
+        return adapter;
     }
 
     public static void notifyAdapterRefresh(List<Map<String, String>> list, RecyclerView rv) {

@@ -1,4 +1,4 @@
-package com.common.adapter.common;
+package com.common.comm;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

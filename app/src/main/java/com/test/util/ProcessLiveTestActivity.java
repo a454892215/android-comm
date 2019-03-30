@@ -7,7 +7,7 @@ import com.common.base.BaseActivity;
 import com.common.comm.MultiClick;
 import com.common.utils.ToastUtil;
 
-public class ProgressLiveTestActivity extends BaseActivity {
+public class ProcessLiveTestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

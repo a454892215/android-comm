@@ -1,4 +1,4 @@
-package com.common.adapter.common;
+package com.common.comm;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
