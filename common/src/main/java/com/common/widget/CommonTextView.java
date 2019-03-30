@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Outline;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.View;
+import android.view.ViewOutlineProvider;
 
 import com.common.R;
 
@@ -32,6 +37,9 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
     private boolean topLineEnable;
     private boolean bottomLineEnable;
 
+
+    private LinearGradient mLinearGradient;
+    private float clipRadius;
 
     public CommonTextView(Context context) {
         this(context, null);
@@ -68,6 +76,16 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
         linePaint.setAntiAlias(true);
         linePaint.setDither(true);
 //        LogUtil.debug("leftLineEnable:" + leftLineEnable);
+
+        clipRadius = context.getResources().getDimension(R.dimen.dp_5);
+        this.setClipToOutline(true);
+        this.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
+                outline.setRoundRect(rect, clipRadius);
+            }
+        });
     }
 
     @Override
@@ -95,7 +113,22 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
             linePaint.setColor(bottomLineColor);
             canvas.drawLine(0, getHeight() - bottomLineStrokeWidth / 2, getWidth(), getHeight() - bottomLineStrokeWidth / 2, linePaint);
         }
+
+        if (mLinearGradient != null) {
+            Paint mPaint = getPaint();
+            mPaint.setShader(mLinearGradient);
+        }
+
         super.onDraw(canvas);
+    }
+
+    public void setClipRadius(float radius) {
+        this.clipRadius = radius;
+    }
+
+    @SuppressWarnings("unused")
+    public void setLinearGradient(LinearGradient linearGradient) {
+        this.mLinearGradient = linearGradient;
     }
 
 }

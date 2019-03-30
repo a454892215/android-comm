@@ -69,14 +69,14 @@ public class TabLayout extends HorizontalScrollView {
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
             RelativeLayout rlt_item = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.group_item_tablayout, this, false);
-            RoundTextView textView = rlt_item.findViewById(R.id.tv);
+            CommonTextView textView = rlt_item.findViewById(R.id.tv);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) textView.getLayoutParams();
             lp.width = RelativeLayout.LayoutParams.MATCH_PARENT;
             lp.height = tb_height;
             textView.setLayoutParams(lp);
             textView.setText(name);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, text_size);
-            textView.setRadius(tb_round_rect_radius);
+            textView.setClipRadius(tb_round_rect_radius);
             updateTextViewState(textView, i == 0);
             int finalI = i;
             rlt_item.setOnClickListener(v -> {

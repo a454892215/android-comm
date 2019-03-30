@@ -8,7 +8,7 @@ import com.common.adapter.common.HLayoutManager;
 import com.common.base.BaseActivity;
 import com.common.utils.TestDataUtil;
 import com.common.utils.ToastUtil;
-import com.common.widget.AsyncScrollLayout;
+import com.common.widget.table.widget.AsyncScrollLayout;
 import com.common.widget.refresh.FooterFunction;
 import com.common.widget.refresh.HeaderFunction;
 import com.common.widget.refresh.RefreshLayout;

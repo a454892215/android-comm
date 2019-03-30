@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.common.widget.AsyncScrollLayout
+    <com.common.widget.table.widget.AsyncScrollLayout
         android:id="@+id/async_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,13 +14,13 @@
         android:focusable="true"
         android:splitMotionEvents="false">
 
-        <com.common.widget.HRecyclerView
+        <com.common.widget.table.widget.HRecyclerView
             android:id="@+id/recycler_view_1"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:scrollbars="none" />
 
-        <com.common.widget.HRecyclerView
+        <com.common.widget.table.widget.HRecyclerView
             android:id="@+id/recycler_view_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,5 +28,5 @@
             android:overScrollMode="always"
             android:scrollbars="vertical"/>
 
-    </com.common.widget.AsyncScrollLayout>
+    </com.common.widget.table.widget.AsyncScrollLayout>
 </com.common.widget.refresh.RefreshLayout>

@@ -8,7 +8,7 @@ import com.common.adapter.common.RecyclerViewUtil;
 import com.common.base.BaseActivity;
 import com.common.helper.RefreshHelper;
 import com.common.utils.TestDataUtil;
-import com.common.widget.AsyncScrollLayout;
+import com.common.widget.table.widget.AsyncScrollLayout;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 
