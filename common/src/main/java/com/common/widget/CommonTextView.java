@@ -32,7 +32,7 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
     private int rightLineColor;
 
     private Paint linePaint;
-    private final boolean leftLineEnable;
+    private boolean leftLineEnable;
     private boolean rightLineEnable;
     private boolean topLineEnable;
     private boolean bottomLineEnable;
@@ -51,14 +51,29 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
 
     public CommonTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        initAttr(context, attrs, defStyleAttr);
+        linePaint = new Paint();
+        linePaint.setAntiAlias(true);
+        linePaint.setDither(true);
+        if (clipRadius > 0) {
+            this.setClipToOutline(true);
+            this.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
+                    outline.setRoundRect(rect, clipRadius);
+                }
+            });
+        }
 
+    }
+
+    private void initAttr(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonTextView, defStyleAttr, 0);
-
         topLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_top_line_enable, false);
         bottomLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_bottom_line_enable, false);
         rightLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_right_line_enable, false);
         leftLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_left_line_enable, false);
-
 
         topLineColor = typedArray.getColor(R.styleable.CommonTextView_top_line_color, Color.BLACK);
         bottomLineColor = typedArray.getColor(R.styleable.CommonTextView_bottom_line_color, Color.BLACK);
@@ -71,22 +86,7 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
         rightLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_right_line_stroke_width, dp_1);
         leftLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_left_line_stroke_width, dp_1);
 
-
-        linePaint = new Paint();
-        linePaint.setAntiAlias(true);
-        linePaint.setDither(true);
-
         clipRadius = typedArray.getDimension(R.styleable.CommonTextView_clip_radius, 0);
-        if (clipRadius > 0) {
-            this.setClipToOutline(true);
-            this.setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
-                    outline.setRoundRect(rect, clipRadius);
-                }
-            });
-        }
         typedArray.recycle();
     }
 
