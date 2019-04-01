@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-import com.common.utils.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
