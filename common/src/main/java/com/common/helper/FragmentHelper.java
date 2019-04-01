@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.common.utils.CastUtil;
 import com.common.utils.LogUtil;
+import com.common.utils.MathUtil;
 
 public class FragmentHelper {
 
@@ -32,19 +33,31 @@ public class FragmentHelper {
         }
     }
 
-    private static void showFragment(FragmentManager fragmentManager, Fragment fragment, int id) {
+    private static void showFragment(FragmentManager fragmentManager, Fragment fragment, int layoutId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (fragment.isAdded()) {
             transaction.show(fragment);
         } else {
-            transaction.add(id, fragment, fragment.getClass().getName());
+            transaction.add(layoutId, fragment, fragment.getClass().getName());
         }
         transaction.commit();
     }
 
-    public static void onSwitchFragment(FragmentManager fragmentManager, Class[] fragmentArr, int position, int contentViewId) {
+    private static void addFragment(FragmentManager fragmentManager, Fragment fragment, int layoutId) {
+        if (!fragment.isAdded()) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.add(layoutId, fragment, fragment.getClass().getName()).hide(fragment).commit();
+        }
+    }
+
+    public static void onSwitchFragment(FragmentManager fragmentManager, Class[] fragmentArr, int position, int contentViewId, boolean isPreLoad) {
         FragmentHelper.hideAllShowingFragments(fragmentManager, fragmentArr);
         Fragment fragment = FragmentHelper.getInstance(fragmentManager, CastUtil.cast(fragmentArr[position]));
+        if (isPreLoad) {
+            int nextIndex = MathUtil.clamp(position + 1, 0, fragmentArr.length - 1);
+            Fragment instance = FragmentHelper.getInstance(fragmentManager, CastUtil.cast(fragmentArr[nextIndex]));
+            addFragment(fragmentManager, instance, contentViewId);
+        }
         FragmentHelper.showFragment(fragmentManager, fragment, contentViewId);
     }
 }

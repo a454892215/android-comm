@@ -13,6 +13,12 @@ public class MathUtil {
         return num;
     }
 
+    public static int clamp(int num, int min, int max) {
+        num = num < min ? min : num;
+        num = num > max ? max : num;
+        return num;
+    }
+
 
     public static float absClamp(float num, float min, float max) {
         if (num > 0) {
