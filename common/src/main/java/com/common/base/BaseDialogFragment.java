@@ -54,6 +54,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
         if (window != null) {
             window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.getDecorView().setPadding(0, 0, 0, 0);
             WindowManager.LayoutParams lp = window.getAttributes();
             lp.gravity = gravity;
             lp.width = width;
