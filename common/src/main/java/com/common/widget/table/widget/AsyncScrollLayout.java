@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import com.common.utils.ViewUtil;
 
@@ -31,12 +32,10 @@ public class AsyncScrollLayout extends LinearLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
                 for (int i = 0; i < asyncScrollGroupList.size(); i++) {
                     AsyncScrollGroup asyncScrollGroup = asyncScrollGroupList.get(i);
                     for (RecyclerView rv : asyncScrollGroup.syncedRVArr) {
-                        rv.dispatchTouchEvent(ev); //解决 自定义水平rv 第一次被动滚动时候 无效问题
-                        if (ViewUtil.isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
+                        if (isTouchPointInView(rv, ev.getRawX(), ev.getRawY()))
                             asyncScrollGroup.asyncScrollRecyclerView(rv);
                     }
                 }
@@ -53,7 +52,28 @@ public class AsyncScrollLayout extends LinearLayout {
         asyncScrollGroupList.add(asyncScrollGroup);
     }
 
-    private static class AsyncScrollGroup {
+    private View asyncScrollView;
+
+    public void setAsyncScrollView(View view) {
+        asyncScrollView = view;
+    }
+
+    private boolean isTouchPointInView(View view, float x, float y) {
+        if (view == null) {
+            return false;
+        }
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int left = location[0];
+        int top = location[1];
+        int right = left + view.getMeasuredWidth();
+        int bottom = top + view.getMeasuredHeight();
+        return y >= top && y <= bottom && x >= left
+                && x <= right;
+    }
+
+
+    private class AsyncScrollGroup {
         private RecyclerView lastScrollView; //记录上次主动滚动的RecyclerView
         private RecyclerView[] syncedRVArr;
 
@@ -83,8 +103,9 @@ public class AsyncScrollLayout extends LinearLayout {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if (asyncScrollView != null) asyncScrollView.scrollBy(dx, dy);
                 for (RecyclerView rv : syncedRVArr) {
-                    if (recyclerView != rv)  rv.scrollBy(dx, dy);
+                    if (recyclerView != rv) rv.scrollBy(dx, dy);
                 }
             }
         };

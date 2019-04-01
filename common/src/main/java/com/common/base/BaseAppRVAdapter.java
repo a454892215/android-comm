@@ -1,8 +1,6 @@
 package com.common.base;
 
 import android.content.Context;
-
-import com.common.R;
 import com.common.utils.LogUtil;
 
 import java.lang.reflect.Constructor;

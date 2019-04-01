@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.common.R;
-import com.common.comm.HLayoutManager;
 
 /**
  * Author: L
