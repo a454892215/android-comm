@@ -29,7 +29,6 @@ public class CustomViewTestActivity extends BaseAppActivity {
         FrameLayout flt_content = findViewById(R.id.flt_content);
         ViewUtil.onlyShowOneChildView(flt_content, 0);
         CommonTabLayout tab_layout = findViewById(R.id.tab_layout);
-        tab_layout.setIndicatorView(findViewById(R.id.flt_tab_indicator), Math.round(dp_1 * 100));
         tab_layout.setData(tabNames, R.layout.layout_tab_item, R.id.tv);
         tab_layout.setOnSelectChangedListener(position -> FragmentHelper.onSwitchFragment(fm, fragmentArr, position, R.id.flt_content));
         tab_layout.setCurrentPosition(0);

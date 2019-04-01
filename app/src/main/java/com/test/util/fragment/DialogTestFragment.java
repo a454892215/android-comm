@@ -23,11 +23,11 @@ public class DialogTestFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        LinearLayout tab_layout = findViewById(R.id.tab_layout);
-        int childCount = tab_layout.getChildCount();
+        LinearLayout llt_root = findViewById(R.id.llt_root);
+        int childCount = llt_root.getChildCount();
         FragmentManager fm = getChildFragmentManager();
         for (int i = 0; i < childCount; i++) {
-            View view = tab_layout.getChildAt(i);
+            View view = llt_root.getChildAt(i);
             int finalI = i;
             DialogFragment dialogFragment = (DialogFragment) FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[finalI]));//缓存模式 无懒加载
             view.setOnClickListener(v -> dialogFragment.show(fm, fragmentArr[finalI].getName()));

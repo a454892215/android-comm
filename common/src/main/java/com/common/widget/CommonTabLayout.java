@@ -10,6 +10,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,10 +109,24 @@ public class CommonTabLayout extends LinearLayout {
     View indicatorView;
     int indicatorWidth;
 
-    public void setIndicatorView(View indicatorView, int indicatorWidth) {
-        this.indicatorView = indicatorView;
-        this.indicatorWidth = indicatorWidth;
+
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        View childView = getChildAt(0);
+        if (childView != null) {
+            View parentView = (View) getParent();//设置水平indicator
+            View flt_tab_indicator = parentView.findViewById(R.id.flt_tab_indicator);
+            if (flt_tab_indicator != null) {
+                indicatorView = flt_tab_indicator;
+                indicatorWidth = childView.getWidth();
+                ViewGroup.LayoutParams lp = flt_tab_indicator.getLayoutParams();
+                lp.width = indicatorWidth;
+                flt_tab_indicator.setLayoutParams(lp);
+            }
+        }
     }
+
 
     public void setOnSelectChangedListener(OnSelectChangedListener listener) {
         this.listener = listener;
