@@ -68,7 +68,7 @@ public class TabLayout extends LinearLayout {
         removeAllViews();
         for (int i = 0; i < names.length; i++) {
             String name = names[i];
-            RelativeLayout rlt_item = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.group_item_tablayout, this, false);
+            RelativeLayout rlt_item = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.template_hor_scroll_tab_item_1, this, false);
             CommonTextView textView = rlt_item.findViewById(R.id.tv);
             RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) textView.getLayoutParams();
             lp.height = tb_height;

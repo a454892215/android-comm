@@ -9,7 +9,7 @@
 
     <include layout="@layout/include_header" />
 
-    <include layout="@layout/template_hor_scroll_tab" />
+    <include layout="@layout/template_hor_scroll_tab_1" />
 
     <FrameLayout
         android:id="@+id/flt_content"
