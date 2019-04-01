@@ -1,4 +1,4 @@
-package com.test.util.fragment;
+package com.test.util.custom_view.fragment;
 
 import com.common.base.BaseFragment;
 import com.common.utils.ToastUtil;

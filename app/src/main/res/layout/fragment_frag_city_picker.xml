@@ -22,4 +22,16 @@
         android:textSize="@dimen/sp_15"
         tools:ignore="HardcodedText,UnusedAttribute" />
 
+    <Button
+        android:id="@+id/btn_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center"
+        android:text="弹窗城市选择器"
+        android:background="#DFDFDF"
+        android:foreground="?selectableItemBackground"
+        android:textSize="@dimen/sp_15"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
 </LinearLayout>

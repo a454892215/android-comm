@@ -1,15 +1,16 @@
-package com.test.util;
+package com.test.util.custom_view;
 
 import android.os.Bundle;
 
 import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
+import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
-import com.test.util.fragment.CityPickerFragment;
-import com.test.util.fragment.DialogTestFragment;
-import com.test.util.fragment.RVAnimFragment;
-import com.test.util.fragment.TabLayoutFragment;
-import com.test.util.fragment.TrendChartFragment;
+import com.test.util.custom_view.fragment.CityPickerFragment;
+import com.test.util.custom_view.fragment.DialogTestFragment;
+import com.test.util.custom_view.fragment.RVAnimFragment;
+import com.test.util.custom_view.fragment.TabLayoutFragment;
+import com.test.util.custom_view.fragment.TrendChartFragment;
 
 public class CustomViewTestActivity extends BaseAppActivity {
 

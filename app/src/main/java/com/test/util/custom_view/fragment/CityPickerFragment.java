@@ -1,7 +1,6 @@
-package com.test.util.fragment;
+package com.test.util.custom_view.fragment;
 
 import android.view.View;
-import android.widget.Button;
 
 import com.common.base.BaseFragment;
 import com.common.utils.ToastUtil;
@@ -19,8 +18,8 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initView() {
         mCityPicker = findViewById(R.id.city_picker);
-        Button mBtnOk = findViewById(R.id.btn_ok);
-        mBtnOk.setOnClickListener(this);
+        findViewById(R.id.btn_ok).setOnClickListener(this);
+        findViewById(R.id.btn_dialog).setOnClickListener(this);
     }
 
     @Override
@@ -28,6 +27,9 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.btn_ok:
                 ToastUtil.showShort(activity, mCityPicker.getCurrentAreaName());
+                break;
+            case R.id.btn_dialog:
+
                 break;
         }
     }

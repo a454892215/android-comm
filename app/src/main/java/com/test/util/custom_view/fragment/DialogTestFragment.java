@@ -1,4 +1,4 @@
-package com.test.util.fragment;
+package com.test.util.custom_view.fragment;
 
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;

@@ -9,7 +9,7 @@ import com.common.base.BaseAppRVAdapter;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
-import com.test.util.CustomViewTestActivity;
+import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
 import com.test.util.XposedTestActivity;

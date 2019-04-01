@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CustomViewTestActivity" />
+        <activity android:name=".custom_view.CustomViewTestActivity" />
         <activity android:name=".XposedTestActivity" />
         <activity android:name=".ProcessLiveTestActivity" />
     </application>
