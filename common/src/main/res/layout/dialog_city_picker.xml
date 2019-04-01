@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#35B3EB"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:background="#B8B8B8">
+
+        <com.common.widget.CommonTextView
+            android:id="@+id/tv_no"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_pressed_bg_1"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:padding="@dimen/dp_8"
+            android:text="取消"
+            android:textSize="@dimen/sp_13" />
+
+        <com.common.widget.CommonTextView
+            android:id="@+id/tv_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/ripple_pressed_bg_1"
+            android:textColor="#333333"
+            android:gravity="center"
+            android:padding="@dimen/dp_8"
+            android:text="确定"
+            android:textSize="@dimen/sp_13" />
+    </RelativeLayout>
+
+    <com.common.widget.wheel.CityPickerView
+        android:id="@+id/city_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff" />
+</LinearLayout>
