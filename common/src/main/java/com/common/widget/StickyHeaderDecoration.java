@@ -1,5 +1,6 @@
 package com.common.widget;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,18 +14,23 @@ import com.common.R;
 import java.util.Arrays;
 import java.util.List;
 
-public class MyItemDecoration extends RecyclerView.ItemDecoration {
+public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
 
     private Paint bgPaint;
     private Paint bg2Paint;
     private Paint textPaint;
-    private int unit;
+    private int headerHeight;
 
     private Integer[] decorationPositions = {5, 10, 20, 30, 34, 55, 78}; //有序数组
     private String[] decorationNames = {"5-title", "10-title", "20-title", "30-title", "34-title", "55-title", "78-title"};
     private final List<Integer> decorPositionList;
+    private final float dp_1;
+    private final Rect headerRect;
+    private final Rect headerTopRect;
 
-    public MyItemDecoration() {
+    public StickyHeaderDecoration(Context context) {
+        dp_1 = context.getResources().getDimension(R.dimen.dp_1);
+        headerHeight = (int) (dp_1 * 25);
         this.bgPaint = new Paint();
         bgPaint.setColor(Color.YELLOW);
         bgPaint.setAntiAlias(true);
@@ -36,18 +42,20 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
         this.textPaint = new TextPaint();
         textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
-        textPaint.setTextSize(30);
+        textPaint.setTextSize(dp_1 * 13);
         decorPositionList = Arrays.asList(decorationPositions);
+
+        headerRect = new Rect();
+        headerTopRect = new Rect();
     }
 
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        if (unit == 0) unit = (int) view.getResources().getDimension(R.dimen.dp_1);
         int position = parent.getChildAdapterPosition(view);
         if (Arrays.asList(decorationPositions).contains(position)) {
-            outRect.set(0, unit * 20, 0, 0);
+            outRect.set(0, headerHeight, 0, 0);
         }
     }
 
@@ -55,17 +63,20 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
         int childCount = parent.getChildCount();
-        int top;
-
         for (int i = 0; i < childCount; i++) {
             View child = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(child);
             if (decorPositionList.contains(position)) {
-                top = child.getTop() - unit * 20;
-                c.drawRect(0, top, parent.getWidth(), child.getTop(), bgPaint);
+                headerRect.top = child.getTop() - headerHeight;
+                headerRect.bottom = child.getTop();
+                headerRect.left = 0;
+                headerRect.right = parent.getWidth();
+                c.drawRect(headerRect, bgPaint);
                 //获取相应位置的文本类容
                 int indexOfText = decorPositionList.indexOf(position);
-                c.drawText(decorationNames[indexOfText], unit * 20, child.getTop() - unit * 5, textPaint);
+                Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+                int baseline = (int) ((headerRect.bottom + headerRect.top - fontMetrics.bottom - fontMetrics.top) / 2);
+                c.drawText(decorationNames[indexOfText], dp_1 * 20, baseline, textPaint);
             }
         }
     }
@@ -74,27 +85,32 @@ public class MyItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
-        View child_top = parent.getChildAt(0);
-        int position = parent.getChildAdapterPosition(child_top);
+        int position = parent.getChildAdapterPosition(parent.getChildAt(0));
         //当前位置以上是否存在decoration
         if (position >= decorationPositions[0]) {
-            c.drawRect(0, 0, parent.getWidth(), unit * 20, bg2Paint);
-            int topNextPosition = getTopNextPosition(position);
-            int indexOfText = decorPositionList.indexOf(topNextPosition);
-            c.drawText(decorationNames[indexOfText], unit * 20, unit * 15, textPaint);
+            headerTopRect.left = 0;
+            headerTopRect.top = 0;
+            headerTopRect.right = parent.getWidth();
+            headerTopRect.bottom = headerHeight;
+            c.drawRect(headerTopRect, bg2Paint);
+            int topDecorPosition = getTopDecorPosition(position);
+            int indexOfText = decorPositionList.indexOf(topDecorPosition);
+            Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+            int baseline = (int) ((headerTopRect.bottom + headerTopRect.top - fontMetrics.bottom - fontMetrics.top) / 2);
+            c.drawText(decorationNames[indexOfText], dp_1 * 20, baseline, textPaint);
         }
     }
 
-    private int getTopNextPosition(int currentPosition) {
-        int topNextPosition = 0;
+    private int getTopDecorPosition(int currentPosition) {
+        int topDecorPosition = 0;
         for (int i = 0; i < decorPositionList.size(); i++) {
             Integer value = decorPositionList.get(i);
             if (currentPosition >= value) {
-                topNextPosition = value;
+                topDecorPosition = value;
             } else {
-                break;
+                return topDecorPosition;
             }
         }
-        return topNextPosition;
+        return topDecorPosition;
     }
 }
