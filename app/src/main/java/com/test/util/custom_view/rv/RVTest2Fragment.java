@@ -1,13 +1,11 @@
 package com.test.util.custom_view.rv;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseFragment;
 import com.common.helper.RVHelper;
 import com.common.test.TestEntity;
-import com.common.widget.refresh.OnRefreshListener;
 import com.common.widget.refresh.RefreshLayout;
 import com.test.util.R;
 import com.test.util.custom_view.adapter.RVTestAdapter;
@@ -30,10 +28,11 @@ public class RVTest2Fragment extends BaseFragment {
             list.remove(position);
             adapter.notifyItemRemoved(position);
             adapter.notifyItemRangeChanged(0, list.size());
-        },500));
+        }, 500));
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
-        refresh_layout.setOnRefreshListener(refreshLayout -> {
-            refresh_layout.postDelayed(() -> refresh_layout.notifyLoadFinish(),1000);
-        });
+        refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
+            refresh_layout.notifyLoadFinish();
+            RVHelper.notifyAdapterRefresh(TestEntity.getList(), rv);
+        }, 800));
     }
 }

@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
@@ -45,7 +46,7 @@ public class RefreshLayout extends LinearLayout {
     private static final String text_refreshing = "正在刷新...";
     private static final String text_refresh_finish = "刷新完成";
     private String key_refresh_last_update = "key_refresh_last_update_";
-    private static final String last_update_time_no_record = "上次更新 ...";
+    private static final String last_update_time_no_record = "上次更新   很久以前  ...";
     private static final String last_update_time_prefix = "上次更新";
 
     private static final String text_pull_up_load = "上拉加载更多";
@@ -400,11 +401,12 @@ public class RefreshLayout extends LinearLayout {
         } else {
             float rate = Math.abs(end - start) / height;
             rate = rate > 1 ? 1 : rate;
-            rate = rate < 0 ? 0 : rate;
-            during = Math.round(200 * rate);
+            rate = rate < 0.8f ? 0.8f : rate;
+            during = Math.round(250 * rate);
         }
         headerOrFooterAnim.setDuration(during);
         headerOrFooterAnim.addUpdateListener(animation -> scrollTo(0, (Integer) animation.getAnimatedValue()));
+        headerOrFooterAnim.setInterpolator(new DecelerateInterpolator());
         headerOrFooterAnim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -635,12 +637,14 @@ public class RefreshLayout extends LinearLayout {
             animUpdateState(getScrollY(), getScrollY(), load_state_finished, false);
         }
     }
+
     @SuppressWarnings("unused")
     public void notifyRefreshFinish() {
         if (refresh_state == refresh_state_refreshing) {
             animUpdateState(getScrollY(), getScrollY(), refresh_state_finished, true);
         }
     }
+
     @SuppressWarnings("unused")
     public void notifyLoadFinish() {
         notifyLoadMoreFinish();
