@@ -22,7 +22,7 @@ import com.test.util.base.BaseAppActivity;
  */
 public class MainActivity extends BaseAppActivity {
 
-    private String[] names = {"View 验证测试", "Xposed框架测试", "进程保活验证",};
+    private String[] names = {"View 相关", "Xposed框架", "进程保活",};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class, ProcessLiveTestActivity.class,};
 
 

@@ -1,33 +1,28 @@
 package com.test.util.custom_view.fragment;
 
-import android.support.v7.widget.RecyclerView;
-
 import com.common.base.BaseFragment;
-import com.common.helper.RVHelper;
-import com.common.test.TestEntity;
-import com.common.widget.StickyHeaderDecoration;
+import com.common.helper.FragmentHelper;
+import com.common.widget.CommonTabLayout;
 import com.test.util.R;
-import com.test.util.custom_view.adapter.RVTestAdapter;
-
-import java.util.Arrays;
+import com.test.util.custom_view.rv.RVTest1Fragment;
+import com.test.util.custom_view.rv.RVTest2Fragment;
 
 public class RVFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_rv_anim;
+        return R.layout.fragment_rv;
     }
 
     @Override
     protected void initView() {
-        RecyclerView rv = findViewById(R.id.rv);
-        Integer[] posArr = {5, 10, 20, 30, 34, 55, 78}; //有序数组
-        String[] decorNameArr = {"5-title", "10-title", "20-title", "30-title", "34-title", "55-title", "78-title"};
-        StickyHeaderDecoration decoration = new StickyHeaderDecoration(activity)
-                .setDecorPositionList(Arrays.asList(posArr))
-                .setDecorNameList(Arrays.asList(decorNameArr))
-                .setHeaderHeight((int) activity.dp_1 * 18)
-                .setHeaderBgColor(activity.getResources().getColor(R.color.light_purple));
-        rv.addItemDecoration(decoration);
-        RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
+        String[] tabNames = {"粘性头部", "RV动画"};
+        Class[] classArr = {RVTest1Fragment.class, RVTest2Fragment.class};
+
+
+        CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
+        tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
+        tab_layout_2.setOnSelectChangedListener(position -> FragmentHelper.onSwitchFragment(fm, classArr, position, R.id.flt_content, true));
+        tab_layout_2.setCurrentPosition(0);
+
     }
 }
