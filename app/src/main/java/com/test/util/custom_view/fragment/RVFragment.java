@@ -22,7 +22,11 @@ public class RVFragment extends BaseFragment {
         RecyclerView rv = findViewById(R.id.rv);
         Integer[] posArr = {5, 10, 20, 30, 34, 55, 78}; //有序数组
         String[] decorNameArr = {"5-title", "10-title", "20-title", "30-title", "34-title", "55-title", "78-title"};
-        rv.addItemDecoration(new StickyHeaderDecoration(activity).setDecorPositionList(Arrays.asList(posArr)).setDecorNameList(Arrays.asList(decorNameArr)));
+        StickyHeaderDecoration decoration = new StickyHeaderDecoration(activity)
+                .setDecorPositionList(Arrays.asList(posArr))
+                .setDecorNameList(Arrays.asList(decorNameArr))
+                .setHeaderBgColor(activity.getResources().getColor(R.color.light_purple));
+        rv.addItemDecoration(decoration);
         RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
     }
 }

@@ -132,11 +132,6 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
     @SuppressWarnings("unused")
     public StickyHeaderDecoration setHeaderBgColor(int bgColor) {
         headerPaint.setColor(bgColor);
-        return this;
-    }
-
-    @SuppressWarnings("unused")
-    public StickyHeaderDecoration setTopHeaderBgColor(int bgColor) {
         topHeaderPaint.setColor(bgColor);
         return this;
     }

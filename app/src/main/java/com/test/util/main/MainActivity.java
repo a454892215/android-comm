@@ -9,6 +9,7 @@ import com.common.base.BaseAppRVAdapter;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.test.util.Constant;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseAppActivity {
         adapter.setOnItemClick((itemView, position) -> {
             if (FastClickUtil.isFastClick()) return;
             Intent intent = new Intent(activity, classArr[position]);
-            intent.putExtra("title", names[position]);
+            intent.putExtra(Constant.KEY_HEADER_TITLE, names[position]);
             startActivity(intent);
         });
     }

@@ -2,11 +2,13 @@ package com.test.util.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.base.BaseActivity;
+import com.test.util.Constant;
 import com.test.util.R;
 
 public abstract class BaseAppActivity extends BaseActivity implements View.OnClickListener {
@@ -18,6 +20,9 @@ public abstract class BaseAppActivity extends BaseActivity implements View.OnCli
         if (iv_back != null) {
             iv_back.setOnClickListener(this);
         }
+        String title = getIntent().getStringExtra(Constant.KEY_HEADER_TITLE);
+        if (!TextUtils.isEmpty(title)) setTitle(title);
+
     }
 
     @Override
