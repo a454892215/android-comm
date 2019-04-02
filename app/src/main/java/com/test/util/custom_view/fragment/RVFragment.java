@@ -9,6 +9,8 @@ import com.common.widget.StickyHeaderDecoration;
 import com.test.util.R;
 import com.test.util.custom_view.adapter.RVTestAdapter;
 
+import java.util.Arrays;
+
 public class RVFragment extends BaseFragment {
     @Override
     protected int getLayoutId() {
@@ -18,7 +20,9 @@ public class RVFragment extends BaseFragment {
     @Override
     protected void initView() {
         RecyclerView rv = findViewById(R.id.rv);
-        rv.addItemDecoration(new StickyHeaderDecoration(activity));
+        Integer[] posArr = {5, 10, 20, 30, 34, 55, 78}; //有序数组
+        String[] decorNameArr = {"5-title", "10-title", "20-title", "30-title", "34-title", "55-title", "78-title"};
+        rv.addItemDecoration(new StickyHeaderDecoration(activity).setDecorPositionList(Arrays.asList(posArr)).setDecorNameList(Arrays.asList(decorNameArr)));
         RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
     }
 }
