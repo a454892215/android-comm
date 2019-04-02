@@ -80,7 +80,6 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
         }
     }
 
-
     @Override
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDrawOver(c, parent, state);
@@ -90,7 +89,13 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
             headerTopRect.left = 0;
             headerTopRect.top = 0;
             headerTopRect.right = parent.getWidth();
-            headerTopRect.bottom = headerHeight;
+            //碰顶条件
+            View child_1 = parent.getChildAt(1);
+            int child_2_position = parent.getChildAdapterPosition(child_1);
+            if (decorPositionList.contains(child_2_position) && child_1.getTop() < headerHeight * 2) {
+                headerTopRect.top = child_1.getTop() - headerHeight * 2;
+            }
+            headerTopRect.bottom = headerTopRect.top + headerHeight;
             c.drawRect(headerTopRect, topHeaderPaint);
             int topDecorPosition = getTopDecorPosition(position);
             int indexOfText = decorPositionList.indexOf(topDecorPosition);
@@ -145,6 +150,11 @@ public class StickyHeaderDecoration extends RecyclerView.ItemDecoration {
     @SuppressWarnings("unused")
     public StickyHeaderDecoration setDecorNameList(List<String> decorNameList) {
         this.decorNameList = decorNameList;
+        return this;
+    }
+
+    public StickyHeaderDecoration setHeaderHeight(int headerHeight) {
+        this.headerHeight = headerHeight;
         return this;
     }
 }
