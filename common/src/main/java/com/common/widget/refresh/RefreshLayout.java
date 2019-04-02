@@ -500,6 +500,7 @@ public class RefreshLayout extends LinearLayout {
 
     private View[] targetViewArr;
 
+    @SuppressWarnings("unused")
     public void setTargetView(View... targetView) {
         targetViewArr = targetView;
     }
@@ -552,6 +553,7 @@ public class RefreshLayout extends LinearLayout {
     /**
      * 只支持RecyclerView
      */
+    @SuppressWarnings("unused")
     public void setAutoUpScrollEnableOnLoadMoreFinish(boolean enable) {
         isAutoUpScroll = enable;
     }
@@ -629,10 +631,19 @@ public class RefreshLayout extends LinearLayout {
     }
 
     public void notifyLoadMoreFinish() {
-        animUpdateState(getScrollY(), getScrollY(), load_state_finished, false);
+        if (load_state == load_state_loading) {
+            animUpdateState(getScrollY(), getScrollY(), load_state_finished, false);
+        }
     }
-
+    @SuppressWarnings("unused")
     public void notifyRefreshFinish() {
-        animUpdateState(getScrollY(), getScrollY(), refresh_state_finished, false);
+        if (refresh_state == refresh_state_refreshing) {
+            animUpdateState(getScrollY(), getScrollY(), refresh_state_finished, true);
+        }
+    }
+    @SuppressWarnings("unused")
+    public void notifyLoadFinish() {
+        notifyLoadMoreFinish();
+        notifyRefreshFinish();
     }
 }
