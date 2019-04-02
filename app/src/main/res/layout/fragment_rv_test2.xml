@@ -6,11 +6,8 @@
     android:orientation="vertical"
     tools:ignore="HardcodedText">
 
-    <com.common.widget.CommonTextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="RV动画"
-        android:textColor="#333333"
-        android:textSize="@dimen/sp_15" />
+        android:layout_height="match_parent" />
 </LinearLayout>

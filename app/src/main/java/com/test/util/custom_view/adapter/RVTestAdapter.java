@@ -16,7 +16,7 @@ public class RVTestAdapter extends BaseAppRVAdapter {
 
 
     public RVTestAdapter(Context context, List<Map<String, String>> list) {
-        super(context, R.layout.adapter_main_tv, list);
+        super(context, R.layout.adapter_tv, list);
     }
 
     @Override
@@ -24,7 +24,6 @@ public class RVTestAdapter extends BaseAppRVAdapter {
         super.onBindViewHolder(holder, position);
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         CommonTextView tv = (CommonTextView) holder.itemView;
-        tv.setBackgroundColor(Color.GRAY);
         String name = list.get(position).get("name");
         tv.setText(name);
     }
