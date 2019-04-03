@@ -7,11 +7,9 @@ import com.common.base.BaseFragment;
 import com.common.helper.RVHelper;
 import com.common.test.TestEntity;
 import com.common.widget.refresh.RefreshLayout;
+import com.common.widget.rv.BaseItemAnimator;
 import com.test.util.R;
 import com.test.util.custom_view.adapter.RVTestAdapter;
-
-import java.util.List;
-import java.util.Map;
 
 public class RVTest2Fragment extends BaseFragment {
     @Override
@@ -22,13 +20,14 @@ public class RVTest2Fragment extends BaseFragment {
     @Override
     protected void initView() {
         RecyclerView rv = findViewById(R.id.rv);
+        BaseItemAnimator animator = new BaseItemAnimator();
+        animator.setChangeDuration(10);
+        rv.setItemAnimator(animator);
+
         BaseAppRVAdapter adapter = RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
-        adapter.setOnItemClick((view, position) -> rv.postDelayed(() -> {
-            List<Map<String, String>> list = adapter.getList();
-            list.remove(position);
-            adapter.notifyItemRemoved(position);
-            adapter.notifyItemRangeChanged(0, list.size());
-        }, 500));
+        adapter.setOnItemClick((view, position) -> rv.post(() -> {
+            adapter.notifyItemRangeChanged(position, 2);
+        }));
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
         refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
             refresh_layout.notifyLoadFinish();
