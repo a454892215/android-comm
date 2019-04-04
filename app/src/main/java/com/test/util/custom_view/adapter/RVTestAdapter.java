@@ -1,7 +1,6 @@
 package com.test.util.custom_view.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 
 import com.common.base.BaseAppRVAdapter;
@@ -16,7 +15,7 @@ public class RVTestAdapter extends BaseAppRVAdapter {
 
 
     public RVTestAdapter(Context context, List<Map<String, String>> list) {
-        super(context, R.layout.adapter_tv, list);
+        super(context, R.layout.adapter_tv_2, list);
     }
 
     @Override
