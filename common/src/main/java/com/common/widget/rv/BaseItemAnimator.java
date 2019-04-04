@@ -28,6 +28,7 @@ public class BaseItemAnimator extends SimpleItemAnimator {
 
     @Override
     public boolean animateMove(RecyclerView.ViewHolder holder, int fromX, int fromY, int toX, int toY) {
+        LogUtil.d("======animateMove============tv:");
         return false;
     }
 
