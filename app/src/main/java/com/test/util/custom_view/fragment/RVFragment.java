@@ -6,6 +6,7 @@ import com.common.widget.CommonTabLayout;
 import com.test.util.R;
 import com.test.util.custom_view.rv.RVTest1Fragment;
 import com.test.util.custom_view.rv.RVTest2Fragment;
+import com.test.util.custom_view.rv.RVTest3Fragment;
 
 public class RVFragment extends BaseFragment {
     @Override
@@ -15,8 +16,8 @@ public class RVFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        String[] tabNames = {"粘性头部", "RV动画"};
-        Class[] classArr = {RVTest1Fragment.class, RVTest2Fragment.class};
+        String[] tabNames = {"粘性头部", "底入动画", "滑动删除"};
+        Class[] classArr = {RVTest1Fragment.class, RVTest2Fragment.class, RVTest3Fragment.class};
 
 
         CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);

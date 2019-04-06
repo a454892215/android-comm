@@ -22,7 +22,9 @@
             android:name="xposedminversion"
             android:value="53" />
 
-        <activity android:name=".main.MainActivity">
+        <activity
+            android:name=".main.MainActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,9 +32,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".custom_view.CustomViewTestActivity" />
-        <activity android:name=".XposedTestActivity" />
-        <activity android:name=".ProcessLiveTestActivity" />
+        <activity
+            android:name=".custom_view.CustomViewTestActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <activity
+            android:name=".XposedTestActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <activity
+            android:name=".ProcessLiveTestActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
     </application>
 
 </manifest>
