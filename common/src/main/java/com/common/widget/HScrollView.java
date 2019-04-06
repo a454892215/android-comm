@@ -19,7 +19,7 @@ import com.scwang.smartrefresh.layout.util.DensityUtil;
  * 2018/12/26
  * Description:
  */
-public class HorizontalScrollView extends FrameLayout {
+public class HScrollView extends FrameLayout {
 
     private VelocityTracker velocityTracker;
     private ValueAnimator anim;
@@ -27,15 +27,15 @@ public class HorizontalScrollView extends FrameLayout {
     private Scroller mScroller;
     private int maxVelocity;
 
-    public HorizontalScrollView(Context context) {
+    public HScrollView(Context context) {
         this(context, null);
     }
 
-    public HorizontalScrollView(Context context, @Nullable AttributeSet attrs) {
+    public HScrollView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
     }
 
-    public HorizontalScrollView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HScrollView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
         mScroller = new Scroller(context);
