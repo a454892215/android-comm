@@ -69,21 +69,20 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
 
     private void initAttr(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonTextView, defStyleAttr, 0);
-        topLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_top_line_enable, false);
-        bottomLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_bottom_line_enable, false);
-        rightLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_right_line_enable, false);
-        leftLineEnable = typedArray.getBoolean(R.styleable.CommonTextView_left_line_enable, false);
-
         topLineColor = typedArray.getColor(R.styleable.CommonTextView_top_line_color, Color.BLACK);
         bottomLineColor = typedArray.getColor(R.styleable.CommonTextView_bottom_line_color, Color.BLACK);
         rightLineColor = typedArray.getColor(R.styleable.CommonTextView_right_line_color, Color.BLACK);
         leftLineColor = typedArray.getColor(R.styleable.CommonTextView_left_line_color, Color.BLACK);
 
-        float dp_1 = getResources().getDimension(R.dimen.dp_1);
-        topLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_top_line_height, dp_1);
-        bottomLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_bottom_line_height, dp_1);
-        rightLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_right_line_stroke_width, dp_1);
-        leftLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_left_line_stroke_width, dp_1);
+        topLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_top_line_height, 0);
+        bottomLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_bottom_line_height, 0);
+        rightLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_right_line_stroke_width, 0);
+        leftLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_left_line_stroke_width, 0);
+
+        topLineEnable = topLineStrokeWidth != 0;
+        bottomLineEnable = bottomLineStrokeWidth != 0;
+        rightLineEnable = rightLineStrokeWidth != 0;
+        leftLineEnable = leftLineStrokeWidth != 0;
 
         clipRadius = typedArray.getDimension(R.styleable.CommonTextView_clip_radius, 0);
         typedArray.recycle();

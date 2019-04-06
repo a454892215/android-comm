@@ -3,19 +3,15 @@
     <declare-styleable name="CommonTextView">
         <attr name="top_line_height" format="dimension|reference" />                         
         <attr name="top_line_color" format="color|reference" />          
-        <attr name="top_line_enable" format="boolean" />   
                 
         <attr name="bottom_line_height" format="dimension|reference" />                         
-        <attr name="bottom_line_color" format="color|reference" />          
-        <attr name="bottom_line_enable" format="boolean" />  
+        <attr name="bottom_line_color" format="color|reference" />            
                     
         <attr name="left_line_stroke_width" format="dimension|reference" />                         
         <attr name="left_line_color" format="color|reference" />          
-        <attr name="left_line_enable" format="boolean" />  
 
         <attr name="right_line_stroke_width" format="dimension|reference" />                         
         <attr name="right_line_color" format="color|reference" />          
-        <attr name="right_line_enable" format="boolean" />  
 
         <attr name="clip_radius" format="dimension|reference" />       
     </declare-styleable>

@@ -7,7 +7,7 @@ import com.common.helper.RVHelper;
 import com.common.test.TestEntity;
 import com.common.widget.refresh.RefreshLayout;
 import com.test.util.R;
-import com.test.util.custom_view.adapter.RVTestAdapter;
+import com.test.util.custom_view.rv.adapter.SwipeTestAdapter;
 
 public class RVTest3Fragment extends BaseFragment {
     @Override
@@ -18,11 +18,12 @@ public class RVTest3Fragment extends BaseFragment {
     @Override
     protected void initView() {
         RecyclerView rv = findViewById(R.id.rv);
-        RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
+        RVHelper.initRV(activity, TestEntity.getList(), rv, SwipeTestAdapter.class);
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
         refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
             refresh_layout.notifyLoadFinish();
             RVHelper.notifyAdapterRefresh(TestEntity.getList(), rv);
         }, 800));
     }
+
 }

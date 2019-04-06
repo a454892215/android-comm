@@ -2,6 +2,7 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
+    <color name="red_1">#fe5722</color>
     <color name="sky_blue">#5598FC</color>
     <color name="light_purple">#74559b</color>
     <color name="light_purple_2">#3374559b</color>

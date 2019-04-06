@@ -9,7 +9,6 @@
     android:background="#22ff0000"
     android:textSize="@dimen/sp_15"
     android:textColor="#666666"
-    app:bottom_line_enable="true"
     app:bottom_line_color="#ffff00"
     app:bottom_line_height="@dimen/dp_1"
     android:text="我是前景textView gaga"
