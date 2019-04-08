@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.common.widget.MyHorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.common.widget.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:scrollbars="none">
 
-    <com.common.widget.SwipeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <com.common.widget.CommonTextView
             android:id="@+id/tv_1"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/dp_360"
             android:layout_height="@dimen/dp_65"
             android:gravity="center"
             android:maxLines="1"
@@ -24,10 +25,11 @@
             tools:ignore="HardcodedText" />
 
         <com.common.widget.CommonTextView
-            android:id="@+id/tv_delete"
+            android:id="@+id/tv_action_1"
             android:layout_width="@dimen/dp_65"
             android:layout_height="match_parent"
             android:background="@color/red_1"
+            android:foreground="@drawable/ripple_pressed_bg_1"
             android:gravity="center"
             android:maxLines="1"
             android:text="删除"
@@ -35,8 +37,8 @@
             android:textSize="@dimen/sp_15"
             app:bottom_line_color="#9E9E9E"
             app:bottom_line_height="@dimen/dp_1"
-            tools:ignore="HardcodedText" />
-    </com.common.widget.SwipeLayout>
+            tools:ignore="HardcodedText,UnusedAttribute" />
+    </LinearLayout>
 
-</com.common.widget.MyHorizontalScrollView>
+</com.common.widget.SwipeLayout>
 

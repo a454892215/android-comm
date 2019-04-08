@@ -4,4 +4,5 @@
     <item name="key_item_click" type="id" />
     <item name="key_rv_scroll_listener" type="id" />
     <item name="key_tag_obj" type="id" />
+    <item name="key_tag_swipe_open_view" type="id" />
 </resources>

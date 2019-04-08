@@ -33,4 +33,19 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
     public interface OnScrollViewListener {
         void onScrollChanged(MyHorizontalScrollView scrollView, int x, int y, int oldx, int oldy);
     }
+
+    @Override
+    public void fling(int velocity) {
+        super.fling(velocity / damping);
+    }
+
+    int damping = 1;
+
+    public void stopFling() {
+        damping = 1000000;
+    }
+
+    public void restartFling() {
+        damping = 1;
+    }
 }
