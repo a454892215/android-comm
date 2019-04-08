@@ -4,12 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
-import com.common.R;
-
 public class SwipeLayout extends HorizontalScrollView {
-    private int canScrollMaxValue;
+
+
+    private static int canScrollMaxValue;
 
     public SwipeLayout(Context context) {
         this(context, null);
@@ -28,7 +29,9 @@ public class SwipeLayout extends HorizontalScrollView {
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
-                canScrollMaxValue = getChildAt(0).getWidth() - getWidth();
+                if (canScrollMaxValue == 0) {
+                    canScrollMaxValue = getChildAt(0).getWidth() - getWidth();
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 postDelayed(() -> {
@@ -39,15 +42,9 @@ public class SwipeLayout extends HorizontalScrollView {
                     } else if (getScrollX() < canScrollMaxValue) {
                         smoothScrollTo(canScrollMaxValue, 0);
                     }
-                    //隐藏上一个
+                    //隐藏其他展开的View
                     if (!isScrollBack) {
-                        View parent = (View) getParent();
-                        Object obj = parent.getTag(R.id.key_tag_swipe_open_view);
-                        if (obj != this && obj instanceof HorizontalScrollView) {
-                            HorizontalScrollView last_hsv = (HorizontalScrollView) obj;
-                            last_hsv.smoothScrollTo(0, 0);
-                        }
-                        parent.setTag(R.id.key_tag_swipe_open_view, this);
+                        closeOtherSwipeView();
                     }
                 }, 100);
                 break;
@@ -55,5 +52,17 @@ public class SwipeLayout extends HorizontalScrollView {
         return super.dispatchTouchEvent(ev);
     }
 
-
+    private void closeOtherSwipeView() {
+        Object parent_obj = getParent();
+        if (parent_obj instanceof ViewGroup) {
+            ViewGroup parent = (ViewGroup) parent_obj;
+            int childCount = parent.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View child = parent.getChildAt(i);
+                if (child instanceof SwipeLayout && child != this && child.getScrollX() == canScrollMaxValue) {
+                    ((SwipeLayout) child).smoothScrollTo(0, 0);
+                }
+            }
+        }
+    }
 }
