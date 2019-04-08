@@ -27,6 +27,7 @@ public class SwipeTestAdapter extends BaseAppRVAdapter {
             list.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, list.size() - position);
+            holder.itemView.setScrollX(0);
         });
         String name = list.get(position).get("name");
         tv.setText(name);
