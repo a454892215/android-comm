@@ -16,6 +16,10 @@
         <attr name="clip_radius" format="dimension|reference" />       
     </declare-styleable>
 
+    <declare-styleable name="CommonTabLayout">
+        <attr name="radius" format="dimension|reference" />                             
+    </declare-styleable>
+
     <declare-styleable name="MarqueeView">
         <attr name="marqueeview_repet_type" format="enum">
             <enum name="repet_oncetime" value="0" />

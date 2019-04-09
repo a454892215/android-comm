@@ -1,11 +1,15 @@
 package com.common.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Outline;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +41,19 @@ public class CommonTabLayout extends LinearLayout {
     public CommonTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonTabLayout, defStyleAttr, 0);
+        float clipRadius = typedArray.getDimension(R.styleable.CommonTabLayout_radius, 0);
+        typedArray.recycle();
+        if (clipRadius > 0) {
+            this.setClipToOutline(true);
+            this.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    Rect rect = new Rect(0, 0, view.getWidth(), view.getHeight());
+                    outline.setRoundRect(rect, clipRadius);
+                }
+            });
+        }
     }
 
 
