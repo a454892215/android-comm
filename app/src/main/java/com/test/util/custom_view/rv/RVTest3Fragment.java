@@ -19,12 +19,12 @@ public class RVTest3Fragment extends BaseFragment {
     @Override
     protected void initView() {
         RecyclerView rv = findViewById(R.id.rv);
-        RVHelper.initVerticalRV(activity, TestEntity.getList(), rv, SwipeTestAdapter.class);
+        RVHelper.initVerticalRV(activity, TestEntity.getList(20), rv, SwipeTestAdapter.class);
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
         refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
             SwipeLayout.clearOPenPosition(rv);
             refresh_layout.notifyLoadFinish();
-            RVHelper.notifyAdapterRefresh(TestEntity.getList(), rv);
+            RVHelper.notifyAdapterRefresh(TestEntity.getList(20), rv);
         }, 800));
     }
 
