@@ -28,6 +28,6 @@ public class RVTest1Fragment extends BaseFragment {
                 .setHeaderHeight((int) activity.dp_1 * 18)
                 .setHeaderBgColor(activity.getResources().getColor(R.color.light_purple));
         rv.addItemDecoration(decoration);
-        RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
+        RVHelper.initVerticalRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
     }
 }

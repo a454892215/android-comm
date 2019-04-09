@@ -21,7 +21,7 @@ public class RVTest2Fragment extends BaseFragment {
         RecyclerView rv = findViewById(R.id.rv);
         BottomSlideInAniDecoration aniDecoration = new BottomSlideInAniDecoration();
         rv.addItemDecoration(aniDecoration);
-        RVHelper.initRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
+        RVHelper.initVerticalRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
         refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
             refresh_layout.notifyLoadFinish();

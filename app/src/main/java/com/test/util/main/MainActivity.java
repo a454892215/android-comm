@@ -36,7 +36,7 @@ public class MainActivity extends BaseAppActivity {
         super.onCreate(savedInstanceState);
         setTitle("API验证");
         RecyclerView rv = findViewById(R.id.recycler_view);
-        BaseAppRVAdapter adapter = RVHelper.initRV(activity, DataHelper.getMapList(names), rv, MainAdapter.class);
+        BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, DataHelper.getMapList(names), rv, MainAdapter.class);
         adapter.setOnItemClick((itemView, position) -> {
             if (FastClickUtil.isFastClick()) return;
             Intent intent = new Intent(activity, classArr[position]);

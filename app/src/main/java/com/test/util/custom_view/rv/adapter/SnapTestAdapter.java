@@ -25,12 +25,6 @@ public class SnapTestAdapter extends BaseAppRVAdapter {
         super.onBindViewHolder(holder, position);
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         CommonTextView tv = ViewHolder.get(holder.itemView, R.id.tv_1);
-        ViewHolder.get(holder.itemView, R.id.tv_action_1).setOnClickListener(v -> {
-            list.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, list.size() - position);
-            holder.itemView.setScrollX(0);
-        });
         String name = list.get(position).get("name");
         tv.setText(name);
         holder.itemView.setBackgroundColor(context.getResources().getColor(colors[position % colors.length]));
