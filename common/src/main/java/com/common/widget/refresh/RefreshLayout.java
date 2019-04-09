@@ -349,8 +349,6 @@ public class RefreshLayout extends LinearLayout {
                     }
                     break;
                 case load_state_mutex:
-                    animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
-                    break;
                 case load_state_only_display:
                     animUpdateState(getScrollY(), 0, no_handle_state, false);//滚动到关闭位置
                     break;
