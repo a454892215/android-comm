@@ -108,7 +108,7 @@ public class SwipeLayout extends HorizontalScrollView {
         for (int i = 0; i < childCount; i++) {
             View child = rv.getChildAt(i);
             if (child instanceof SwipeLayout) {
-                ((SwipeLayout) child).smoothScrollTo(0, 0);
+                child.scrollTo(0, 0);
             }
         }
         rv.setTag(R.id.key_tag_open_position, -2);
