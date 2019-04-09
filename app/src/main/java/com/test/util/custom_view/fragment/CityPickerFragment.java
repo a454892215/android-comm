@@ -1,9 +1,16 @@
 package com.test.util.custom_view.fragment;
 
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Shader;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 
 import com.common.base.BaseFragment;
 import com.common.utils.ToastUtil;
+import com.common.widget.CommonTextView;
+import com.common.widget.table.BgSpan;
 import com.common.widget.wheel.CityPickerDialogFragment;
 import com.common.widget.wheel.CityPickerView;
 import com.test.util.R;
@@ -23,7 +30,13 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
         findViewById(R.id.btn_ok).setOnClickListener(this);
         findViewById(R.id.btn_dialog).setOnClickListener(this);
         cityPickerDialogFragment = new CityPickerDialogFragment();
-        cityPickerDialogFragment.setOnConfirmListener(() -> ToastUtil.showShort(activity,cityPickerDialogFragment.getCityPicker().getCurrentAreaName()));
+        cityPickerDialogFragment.setOnConfirmListener(() -> ToastUtil.showShort(activity, cityPickerDialogFragment.getCityPicker().getCurrentAreaName()));
+
+        CommonTextView tv = findViewById(R.id.tv);
+        tv.setLinearGradient(new LinearGradient(0, 0, 0, tv.getPaint().getTextSize(),
+                Color.parseColor("#ff0000"), Color.parseColor("#c19c68"), Shader.TileMode.CLAMP));
+        tv.setText(BgSpan.getStrokeSpan("我是动态设置的文字", getResources().getColor(R.color.red_1),
+                Color.WHITE, activity.dp_1, activity.dp_1, activity.dp_1 * 5, activity.dp_1));
     }
 
     @Override

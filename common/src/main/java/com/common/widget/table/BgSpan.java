@@ -1,8 +1,11 @@
 package com.common.widget.table;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.style.ReplacementSpan;
 
 /**
@@ -23,11 +26,30 @@ public class BgSpan extends ReplacementSpan {
     private boolean isStroke = false;
     private float strokeWidth;
 
+    public BgSpan(int bgColor, int textColor) {
+        super();
+        this.bgColor = bgColor;
+        this.textColor = textColor;
+        this.size = size;
+        this.rectRadius = rectRadius;
+    }
+
     public BgSpan(int bgColor, int textColor, float radius) {
         super();
         this.bgColor = bgColor;
         this.textColor = textColor;
         this.radius = radius;
+    }
+
+    public static SpannableStringBuilder getStrokeSpan(String text, int bgColor, int textColor, float verPadding, float horPadding, float rectRadius, float strokeWidth) {
+        BgSpan bgSpan = new BgSpan(bgColor, textColor)
+                .setPadding(verPadding, horPadding)
+                .setRectRadius(rectRadius)
+                .setStrokeWidth(strokeWidth);
+        text = text + " ";
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        builder.setSpan(bgSpan, 0, text.length() - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        return builder;
     }
 
     @SuppressWarnings("unused")

@@ -20,7 +20,7 @@ public class CustomViewTestActivity extends BaseAppActivity {
     }
 
     Class[] fragmentArr = {TabLayoutFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class, RVFragment.class};
-    String[] tabNames = {"Tab和速度", "城市选择", "DialogTest", "Chart", "RV相关"};
+    String[] tabNames = {"Tab和速度", "Picker和TV", "DialogTest", "Chart", "RV相关"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,4 @@ public class CustomViewTestActivity extends BaseAppActivity {
         tab_layout.setOnSelectChangedListener(position -> FragmentHelper.onSwitchFragment(fm, fragmentArr, position, R.id.flt_content, true));
         tab_layout.setCurrentPosition(0);
     }
-
-
 }
