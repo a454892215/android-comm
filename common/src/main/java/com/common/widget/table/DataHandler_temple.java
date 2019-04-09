@@ -67,7 +67,7 @@ public class DataHandler_temple extends DataHandlerOfNumTrend {
             text = text.trim();
             text = " " + text + " ";
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            builder.setSpan(new BgSpan(chart_red, Color.WHITE, roundBgRadius), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+           // builder.setSpan(new BgSpan(chart_red, Color.WHITE, roundBgRadius), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             return builder;
         }
         return null;
