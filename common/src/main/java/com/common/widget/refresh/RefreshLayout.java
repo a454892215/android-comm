@@ -327,10 +327,8 @@ public class RefreshLayout extends LinearLayout {
                     }
                     break;
                 case refresh_state_mutex:
-                    animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
-                    break;
                 case refresh_state_only_display:
-                    animUpdateState(getScrollY(), 0, no_handle_state, true);//滚动到关闭位置
+                    animUpdateState(getScrollY(), 0, no_handle_state, true);
                     break;
             }
         }
@@ -609,10 +607,11 @@ public class RefreshLayout extends LinearLayout {
     private OnLoadMoreFinishedResetListener onLoadMoreFinishedResetListener;
     private OnRefreshFinishedResetListener onRefreshFinishedResetListener;
 
+
     public void setOnRefreshListener(OnRefreshListener onRefreshListener) {
         this.onRefreshListener = onRefreshListener;
         StackTraceElement element = Thread.currentThread().getStackTrace()[3];
-        key_refresh_last_update = key_refresh_last_update + element.getClassName() + element.getLineNumber();
+        key_refresh_last_update = key_refresh_last_update + element.getClassName() + "_" + element.getMethodName();
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
