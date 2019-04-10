@@ -244,7 +244,9 @@ public class RefreshLayout extends LinearLayout {
                 break;
         }
         boolean consume = true;
-        if (!isIntercept && Math.abs(getScrollY())< min_scroll_unit*10) consume = super.dispatchTouchEvent(ev);
+        if (!isIntercept && Math.abs(getScrollY()) < min_scroll_unit * 10) {
+            consume = super.dispatchTouchEvent(ev);
+        }
         return consume;
     }
 
