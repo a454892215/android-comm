@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 
 import com.common.R;
-import com.common.utils.DensityUtils;
 
 public class SwipeLayout extends HorizontalScrollView {
 
