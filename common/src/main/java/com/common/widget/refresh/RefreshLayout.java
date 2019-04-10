@@ -184,8 +184,6 @@ public class RefreshLayout extends LinearLayout {
     private static final int orientation_vertical = 1;
     private static final int orientation_horizontal = 2;
 
-    boolean isIntercept = false;
-
     private int pointerId = -1;
     private boolean pointerIdIsChange = false;
 
@@ -203,7 +201,6 @@ public class RefreshLayout extends LinearLayout {
                 xScrollSum = 0;
                 yScrollSum = 0;
                 compute_times = 0;
-                isIntercept = false;
                 targetView = findTargetView(startX, startY);
                 if (targetView == null) LogUtil.e("下拉刷新控件，没有发现目标ViewGroup");
                 pointerIdIsChange = false;
@@ -239,12 +236,11 @@ public class RefreshLayout extends LinearLayout {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                isIntercept = false;
                 onUpAnimUpdatePosition();
                 break;
         }
         boolean consume = true;
-        if (!isIntercept && Math.abs(getScrollY()) < min_scroll_unit * 10) {
+        if (getScrollY() == 0) {
             consume = super.dispatchTouchEvent(ev);
         }
         return consume;
@@ -259,9 +255,6 @@ public class RefreshLayout extends LinearLayout {
             }
             if (getScrollY() > 0) {// footer出来了 隐藏
                 touchScroll(Math.round(-dy));
-                isIntercept = true;
-            } else {
-                isIntercept = false;
             }
             onMoveUpdateState();
         } else if (dy < 0) {//向上滑
@@ -273,9 +266,6 @@ public class RefreshLayout extends LinearLayout {
 
             if (getScrollY() < 0) {  //如果头已经出来 隐藏头
                 touchScroll(Math.round(-dy));
-                isIntercept = true;
-            } else {
-                isIntercept = false;
             }
             onMoveUpdateState();
         }
