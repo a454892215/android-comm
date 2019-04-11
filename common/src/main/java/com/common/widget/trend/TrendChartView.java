@@ -88,7 +88,7 @@ public class TrendChartView extends View {
         while (measure.nextContour()) {
             float length = measure.getLength();
             pathTotalLength += length;
-            LogUtil.debug("PathMeasure  length:" + length + "  pathTotalLength:" + pathTotalLength + " i:" + i++);
+           // LogUtil.debug("PathMeasure  length:" + length + "  pathTotalLength:" + pathTotalLength + " i:" + i++);
         }
     }
 

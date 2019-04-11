@@ -7,8 +7,41 @@
     tools:ignore="HardcodedText"
     tools:showIn="@layout/activity_custom_view_test">
 
-    <com.common.widget.trend.TrendChartView
-        android:id="@+id/trend_chart"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.common.widget.CommonTabLayout
+                android:id="@+id/tab_layout_1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_35"
+                android:orientation="horizontal"
+                tools:ignore="HardcodedText" />
+
+            <FrameLayout
+                android:id="@+id/flt_tab_indicator"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_2"
+                android:layout_marginTop="@dimen/dp_m_2"
+                android:paddingStart="@dimen/dp_5"
+                android:paddingEnd="@dimen/dp_5">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#5598FC" />
+            </FrameLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <FrameLayout
+        android:id="@+id/flt_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

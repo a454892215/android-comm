@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.R;
+import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,22 +127,32 @@ public class CommonTabLayout extends LinearLayout {
     View indicatorView;
     int indicatorWidth;
 
-
     @Override
-    public void onWindowFocusChanged(boolean hasWindowFocus) {
-        super.onWindowFocusChanged(hasWindowFocus);
-        View childView = getChildAt(0);
-        if (childView != null) {
-            View parentView = (View) getParent();//设置水平indicator
-            View flt_tab_indicator = parentView.findViewById(R.id.flt_tab_indicator);
-            if (flt_tab_indicator != null) {
-                indicatorView = flt_tab_indicator;
-                indicatorWidth = childView.getWidth();
-                ViewGroup.LayoutParams lp = flt_tab_indicator.getLayoutParams();
-                lp.width = indicatorWidth;
-                flt_tab_indicator.setLayoutParams(lp);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        post(() -> {
+            View childView = getChildAt(0);
+            if (childView != null && indicatorViewId != 0) {
+                View parentView = (View) getParent();//设置水平indicator
+                View flt_tab_indicator = parentView.findViewById(indicatorViewId);
+                if (flt_tab_indicator != null) {
+                    indicatorView = flt_tab_indicator;
+                    indicatorWidth = childView.getMeasuredWidth();
+                    ViewGroup.LayoutParams lp = flt_tab_indicator.getLayoutParams();
+                    lp.width = indicatorWidth;
+                    flt_tab_indicator.setLayoutParams(lp);
+                } else {
+                    LogUtil.e("=======flt_tab_indicator 为 null================");
+                }
             }
-        }
+        });
+
+    }
+
+    private int indicatorViewId;
+
+    public void setIndicatorViewId(int indicatorViewId) {
+        this.indicatorViewId = indicatorViewId;
     }
 
 
