@@ -1,7 +1,4 @@
-package com.common.comm.update;
-
-
-import android.text.TextUtils;
+package com.common.comm.version_update;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,19 +14,17 @@ import java.security.NoSuchAlgorithmException;
  * Description: No
  */
 
-public final class Md5Utils {
+final class Md5Utils {
 
     private Md5Utils() {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-    public static String getFileMD5(File file) {
+    static String getFileMD5(File file) {
         if (!file.exists()) {
             return "";
         }
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream(file);
+        try (FileInputStream in = new FileInputStream(file)) {
             FileChannel channel = in.getChannel();
             MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -37,27 +32,20 @@ public final class Md5Utils {
             return bytes2Hex(md.digest());
         } catch (NoSuchAlgorithmException | IOException e) {
             e.printStackTrace();
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException ignored) {
-                }
-            }
         }
         return "";
     }
 
-    /**
+    /*
      * 验证文件是否有效【通过MD5值比较】
      *
      * @param md5  如果md5值为空，则不进行校验，直接为true
      * @param file 需要校验的文件
      * @return 文件是否有效
      */
-    public static boolean isFileValid(String md5, File file) {
+   /* public static boolean isFileValid(String md5, File file) {
         return TextUtils.isEmpty(md5) || md5.equals(com.xuexiang.xupdate.utils.Md5Utils.getFileMD5(file));
-    }
+    }*/
 
     /**
      * 一个byte转为2个hex字符

@@ -1,11 +1,11 @@
-package com.common.comm.update;
+package com.common.comm.version_update;
 
 /**
  * Author: L
  * CreateDate: 2018/9/1 8:26
  * Description: No
  */
-
+@SuppressWarnings("unused")
 public class VersionUpdateEntity {
     /**
      * msg : success
@@ -35,7 +35,7 @@ public class VersionUpdateEntity {
         this.code = code;
     }
 
-    public DataBean getData() {
+    DataBean getData() {
         return data;
     }
 
@@ -52,14 +52,6 @@ public class VersionUpdateEntity {
     }
 
     public static class DataBean {
-        /**
-         * flag : 1
-         * time : 1535706107986
-         * version : 1.0.0
-         * content : 初始化版本上线
-         * url : http://www.baidu.com
-         */
-
         private String flag;
         private long time;
         private String version;
@@ -76,7 +68,7 @@ public class VersionUpdateEntity {
             this.size = size;
         }
 
-        public String getMd5() {
+        String getMd5() {
             return md5;
         }
 
@@ -85,9 +77,7 @@ public class VersionUpdateEntity {
         }
 
 
-
-
-        public String getFlag() {
+        String getFlag() {
             return flag;
         }
 
@@ -119,7 +109,7 @@ public class VersionUpdateEntity {
             this.content = content;
         }
 
-        public String getUrl() {
+        String getUrl() {
             return url;
         }
 

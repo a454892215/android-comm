@@ -11,8 +11,9 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:src="@mipmap/bg_update_top" />
+        android:adjustViewBounds="true"
+        android:src="@mipmap/bg_update_top"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="match_parent"

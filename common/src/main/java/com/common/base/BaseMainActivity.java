@@ -1,6 +1,6 @@
 package com.common.base;
 
-import com.common.comm.update.VersionUpdateHelper;
+import com.common.comm.version_update.VersionUpdateHelper;
 import com.common.utils.LogUtil;
 
 public abstract class BaseMainActivity extends BaseActivity {

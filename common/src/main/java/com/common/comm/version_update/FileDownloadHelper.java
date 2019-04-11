@@ -1,4 +1,4 @@
-package com.common.comm.update;
+package com.common.comm.version_update;
 
 import com.common.utils.LogUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
@@ -13,9 +13,9 @@ import java.io.File;
  * Description: No
  */
 
-public class FileDownloadHelper {
+class FileDownloadHelper {
 
-    public static void load(String fileUrl, String fileFullName, OnFileDownloadListener onFileDownloadListener) {
+     static void load(String fileUrl, String fileFullName, OnFileDownloadListener onFileDownloadListener) {
         FileDownloader.getImpl()
                 .create(fileUrl)
                 .setWifiRequired(false)

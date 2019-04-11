@@ -1,4 +1,4 @@
-package com.common.comm.update;
+package com.common.comm.version_update;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -142,7 +142,7 @@ public class VersionUpdateHelper {
         OnFileDownloadListener listener = new OnFileDownloadListener() {
             @Override
             public void onStart() {
-                HProgressDialogUtils.showHorizontalProgressDialog(activity, "下载进度", false);
+                HProgressDialogUtils.showHorizontalProgressDialog(activity);
             }
 
             @Override
@@ -151,7 +151,7 @@ public class VersionUpdateHelper {
             }
 
             @Override
-            public boolean onCompleted(File file) {
+            public void onCompleted(File file) {
                 HProgressDialogUtils.cancel();
                 String fileMD5 = Md5Utils.getFileMD5(file);
                 boolean isSameMd5 = !TextUtils.isEmpty(md5) && md5.equals(fileMD5);
@@ -159,7 +159,6 @@ public class VersionUpdateHelper {
                 LogUtil.d("文件下载完毕，下载文件的路径是：" + absolutePath + " 下载文件的md5是否和期待值相同：" + isSameMd5);
                 //安装刚刚下载完毕的apk 不进行md5值验证
                 installJustDownloadFinishedApk(file, absolutePath, activity);
-                return false;
             }
 
             @Override
