@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:ignore="HardcodedText"
-    tools:showIn="@layout/activity_custom_view_test">
+    tools:ignore="HardcodedText">
 
     <HorizontalScrollView
         android:layout_width="match_parent"
@@ -29,8 +28,8 @@
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_2"
                 android:layout_marginTop="@dimen/dp_m_2"
-                android:paddingStart="@dimen/dp_5"
-                android:paddingEnd="@dimen/dp_5">
+                android:paddingStart="@dimen/dp_35"
+                android:paddingEnd="@dimen/dp_35">
 
                 <View
                     android:layout_width="match_parent"
