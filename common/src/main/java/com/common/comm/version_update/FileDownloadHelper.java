@@ -68,16 +68,9 @@ class FileDownloadHelper {
 
             @Override
             protected void warn(BaseDownloadTask task) {
-                continueDownLoad(task);//如果存在了相同的任务，那么就继续下载
-                LogUtil.d("存在相同的下载任务");
+                LogUtil.d(" warn taskId:"+task.getId());
             }
         }).start();
     }
 
-    private static void continueDownLoad(BaseDownloadTask task) {
-        while (task.getSmallFileSoFarBytes() != task.getSmallFileTotalBytes()) {
-         //   int percent = (int) ((double) task.getSmallFileSoFarBytes() / (double) task.getSmallFileTotalBytes() * 100);
-            //  textView.setText("("+percent+"%"+")");
-        }
-    }
 }
