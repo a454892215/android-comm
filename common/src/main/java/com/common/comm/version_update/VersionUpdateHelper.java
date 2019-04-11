@@ -89,6 +89,7 @@ public class VersionUpdateHelper {
                     apkIsDownloaded = true;
                     LogUtil.d("已经下载完毕的apk文件路径是：" + apkFile.getAbsolutePath());
                 } else {
+                    apkIsDownloaded = false;
                     LogUtil.e("apk文件虽然还存在 但是md5值验证失败，准备提示下载");
                 }
             }
@@ -130,6 +131,7 @@ public class VersionUpdateHelper {
             try {
                 ApkInstallUtils.install(activity, apkFile);
             } catch (Exception e) {
+                VersionUpdateHelper.isForceUpdate = false;
                 LogUtil.e("安装新版本Apk失败");
                 ToastUtil.showShort(activity, "安装新版本Apk失败");
                 e.printStackTrace();
