@@ -10,6 +10,7 @@ import com.common.utils.LogUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class AssertsResourceLoader {
 
@@ -103,7 +104,7 @@ public class AssertsResourceLoader {
             byte[] buff = new byte[available];
             int read = in.read(buff);
             if (read > 0) {
-                text = new String(buff, "utf-8");
+                text = new String(buff, StandardCharsets.UTF_8);
             } else {
                 LogUtil.e("读取asserts资源异常");
             }

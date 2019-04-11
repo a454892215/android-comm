@@ -1,6 +1,8 @@
 package com.common.comm.version_update;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
@@ -139,20 +141,23 @@ public class VersionUpdateHelper {
 
 
     private void downloadApk(BaseActivity activity, String apkUrl, String md5) {
+
         OnFileDownloadListener listener = new OnFileDownloadListener() {
+            ProgressDialog dialog;
+
             @Override
             public void onStart() {
-                HProgressDialogUtils.showHorizontalProgressDialog(activity);
+                dialog = showProgressDialog(activity);
             }
 
             @Override
             public void onProgress(float progress, long total) {
-                HProgressDialogUtils.setProgress(Math.round(progress / total * 100));
+                if (dialog != null) dialog.setProgress(Math.round(progress / total * 100));
             }
 
             @Override
             public void onCompleted(File file) {
-                HProgressDialogUtils.cancel();
+                if (dialog != null && dialog.isShowing()) dialog.dismiss();
                 String fileMD5 = Md5Utils.getFileMD5(file);
                 boolean isSameMd5 = !TextUtils.isEmpty(md5) && md5.equals(fileMD5);
                 String absolutePath = file.getAbsolutePath();
@@ -163,13 +168,23 @@ public class VersionUpdateHelper {
 
             @Override
             public void onError(Throwable throwable) {
-                HProgressDialogUtils.cancel();
+                if (dialog != null && dialog.isShowing()) dialog.dismiss();
                 LogUtil.e("下载新版本apk文件发生错误");
                 ToastUtil.showShort(activity, "下载新版本apk文件发生错误");
             }
         };
         String downloadFileSaveFullPath = getDownloadFileSaveFullPath(activity);
         FileDownloadHelper.load(apkUrl, downloadFileSaveFullPath, listener);
+    }
+
+    private ProgressDialog showProgressDialog(Activity activity) {
+        ProgressDialog dialog = new ProgressDialog(activity);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setCanceledOnTouchOutside(false);
+        //dialog.setProgressNumberFormat("%2dMB/%1dMB");
+        dialog.setMessage("下载进度");
+        dialog.show();
+        return dialog;
     }
 
     private void installJustDownloadFinishedApk(File file, String absolutePath, BaseActivity activity) {
