@@ -6,4 +6,7 @@
     <color name="sky_blue">#5598FC</color>
     <color name="light_purple">#74559b</color>
     <color name="light_purple_2">#3374559b</color>
+
+    <color name="text_color_1">#1a1a1a</color>
+    <color name="text_color_4">#878787</color>
 </resources>
