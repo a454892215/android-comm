@@ -28,8 +28,8 @@
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_2"
                 android:layout_marginTop="@dimen/dp_m_2"
-                android:paddingStart="@dimen/dp_35"
-                android:paddingEnd="@dimen/dp_35">
+                android:paddingStart="@dimen/dp_40"
+                android:paddingEnd="@dimen/dp_40">
 
                 <View
                     android:layout_width="match_parent"

@@ -3,9 +3,11 @@ package com.common;
 import android.app.Application;
 import android.graphics.Typeface;
 
+import com.common.utils.LogUtil;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.tencent.smtt.sdk.QbSdk;
 
 /**
  * Author:  L
@@ -25,8 +27,25 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initLogger();
+        initX5WebView();
         registerActivityLifecycleCallbacks(new ActivityCallbacks());
-      //  sTypeface = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
+        //  sTypeface = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
+    }
+
+    private void initX5WebView() {
+        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
+            @Override
+            public void onViewInitFinished(boolean isSuccess) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                LogUtil.d(" X5WebView 是否成功： " + isSuccess);
+            }
+
+            @Override
+            public void onCoreInitFinished() {
+            }
+        };
+        //x5内核初始化接口
+        QbSdk.initX5Environment(getApplicationContext(), cb);
     }
 
     private void initLogger() {

@@ -10,6 +10,7 @@ import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.test.util.Constant;
+import com.test.util.X5WebTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
@@ -22,8 +23,8 @@ import com.test.util.base.BaseAppActivity;
  */
 public class MainActivity extends BaseAppActivity {
 
-    private String[] names = {"View 相关", "Xposed框架", "进程保活",};
-    private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class, ProcessLiveTestActivity.class,};
+    private String[] names = {"View 相关", "Xposed框架", "进程保活", "X5WebView"};
+    private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class, ProcessLiveTestActivity.class, X5WebTestActivity.class};
 
 
     @Override
