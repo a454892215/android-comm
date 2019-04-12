@@ -28,13 +28,14 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static int bottomVirtualKeyHeight;
     private View contentView;
     public float dp_1;
+    protected boolean isSetLayoutId = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = this;
         fm = getSupportFragmentManager();
-        setContentView(getLayoutId());
+        if (isSetLayoutId) setContentView(getLayoutId());
         contentView = findViewById(android.R.id.content);
         dp_1 = getResources().getDimension(R.dimen.dp_1);
     }

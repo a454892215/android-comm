@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_40">
+
+    <ImageView
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:padding="@dimen/dp_8"
+        android:src="@drawable/icon_browser"
+        tools:ignore="ContentDescription" />
+
+    <com.common.widget.CommonEditText
+        android:id="@+id/et"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textSize="@dimen/sp_11" />
+
+    <ImageView
+        android:id="@+id/iv_search"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:background="?selectableItemBackground"
+        android:padding="@dimen/dp_5"
+        android:src="@drawable/icon_search"
+        tools:ignore="ContentDescription" />
+
+</LinearLayout>
