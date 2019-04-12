@@ -28,9 +28,9 @@ public class X5WebView extends WebView {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public void initWebViewSettings(BaseActivity activity) {
+    public void initWebViewSettings(BaseActivity activity, MyWebViewClient.OnUrlChangeListener onUrlChangeListner) {
         try {
-            setWebViewClient(new MyWebViewClient(activity));
+            setWebViewClient(new MyWebViewClient(activity, onUrlChangeListner));
             setWebChromeClient(new WebChromeClient());
             WebSettings webSetting = this.getSettings();
             webSetting.setJavaScriptEnabled(true);

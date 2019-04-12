@@ -17,15 +17,18 @@ import com.tencent.smtt.sdk.WebViewClient;
 
 public class MyWebViewClient extends WebViewClient {
 
-    MyWebViewClient(BaseActivity activity) {
+    MyWebViewClient(BaseActivity activity, OnUrlChangeListener onUrlChangeListner) {
         this.activity = activity;
+        this.onUrlChangeListner = onUrlChangeListner;
     }
 
     private BaseActivity activity;
+    private OnUrlChangeListener onUrlChangeListner;
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
         if (url == null) return false;
+        onUrlChangeListner.onUrlChangeListener(url);
         try {
             if (!url.startsWith("http:") && !url.startsWith("https:")) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -59,15 +62,15 @@ public class MyWebViewClient extends WebViewClient {
     }
 
     @Override
-    public void onPageFinished(WebView webView, String s) {
-        super.onPageFinished(webView, s);
-        LogUtil.d("===========onPageFinished=============");
+    public void onPageFinished(WebView webView, String url) {
+        super.onPageFinished(webView, url);
+        LogUtil.d("===========onPageFinished=============:"+url);
     }
 
     @Override
-    public void onPageStarted(WebView webView, String s, Bitmap bitmap) {
-        super.onPageStarted(webView, s, bitmap);
-        LogUtil.d("===========onPageStarted=============");
+    public void onPageStarted(WebView webView, String url, Bitmap bitmap) {
+        super.onPageStarted(webView, url, bitmap);
+        LogUtil.d("===========onPageStarted=============url:"+url);
     }
 
     @Override
@@ -104,5 +107,9 @@ public class MyWebViewClient extends WebViewClient {
     public WebResourceResponse shouldInterceptRequest(WebView webView, String s) {
         //  LogUtil.d("===========shouldInterceptRequest=============" + s);
         return super.shouldInterceptRequest(webView, s);
+    }
+
+    public interface OnUrlChangeListener {
+        void onUrlChangeListener(String url);
     }
 }

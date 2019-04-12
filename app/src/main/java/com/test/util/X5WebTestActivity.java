@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.common.widget.CommonEditText;
+import com.common.x5_web.MyWebViewClient;
 import com.common.x5_web.X5WebView;
 import com.test.util.base.BaseAppActivity;
 
@@ -23,7 +24,6 @@ public class X5WebTestActivity extends BaseAppActivity {
             String url = et.getText().toString();
             if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:")) {
                 url = "http:" + url;
-                et.setText(url);
             }
             if (!TextUtils.isEmpty(url)) {
                 web_view.loadUrl(url);
@@ -32,7 +32,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         });
 
         web_view = findViewById(R.id.web_view);
-        web_view.initWebViewSettings(this);
+        web_view.initWebViewSettings(this, et::setText);
         web_view.loadUrl("http://baidu.com");
         web_view.requestFocus();
     }

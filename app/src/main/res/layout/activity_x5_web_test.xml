@@ -14,24 +14,27 @@
             android:layout_width="@dimen/dp_40"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:padding="@dimen/dp_5"
+            android:padding="@dimen/dp_8"
             android:src="@drawable/icon_browser"
             tools:ignore="ContentDescription" />
 
         <com.common.widget.CommonEditText
             android:id="@+id/et"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:imeOptions="actionSearch"/>
+            android:layout_weight="1"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textSize="@dimen/sp_11" />
 
         <ImageView
             android:id="@+id/iv_search"
             android:layout_width="@dimen/dp_40"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:padding="@dimen/dp_5"
             android:background="?selectableItemBackground"
+            android:padding="@dimen/dp_5"
             android:src="@drawable/icon_search"
             tools:ignore="ContentDescription" />
 
