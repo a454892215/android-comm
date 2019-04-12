@@ -1,8 +1,9 @@
 package com.test.util;
 
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 
-import com.common.widget.X5WebView;
+import com.common.x5_web.X5WebView;
 import com.test.util.base.BaseAppActivity;
 
 public class X5WebTestActivity extends BaseAppActivity {
@@ -12,9 +13,13 @@ public class X5WebTestActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFormat(PixelFormat.TRANSLUCENT);//网页中的视频，上屏幕的时候，可能出现闪烁的情况
         setTitle("X5WebView测试");
+
         web_view = findViewById(R.id.web_view);
-        web_view.loadUrl("https://www.baidu.com");
+        web_view.initWebViewSettings(this);
+        web_view.loadUrl("http://baidu.com");
+        web_view.requestFocus();
     }
 
     @Override
