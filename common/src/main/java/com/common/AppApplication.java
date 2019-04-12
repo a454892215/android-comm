@@ -1,7 +1,6 @@
 package com.common;
 
 import android.app.Application;
-import android.graphics.Typeface;
 
 import com.common.utils.LogUtil;
 import com.orhanobut.logger.AndroidLogAdapter;
@@ -16,8 +15,6 @@ import com.tencent.smtt.sdk.QbSdk;
  */
 
 public class AppApplication extends Application {
-
-    public static Typeface sTypeface;  //字体样式
 
    /* public AppApplication(Application application, int tinkerFlags, boolean tinkerLoadVerifyFlag, long applicationStartElapsedTime, long applicationStartMillisTime, Intent tinkerResultIntent) {
         super(application, tinkerFlags, tinkerLoadVerifyFlag, applicationStartElapsedTime, applicationStartMillisTime, tinkerResultIntent);
