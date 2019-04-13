@@ -32,6 +32,7 @@ public class X5WebView extends WebView {
         try {
             setWebViewClient(new MyWebViewClient(activity, onUrlChangeListner));
             setWebChromeClient(new MyWebChromeClient());
+            setDownloadListener(new MyDownloadListener(activity));
             WebSettings webSetting = this.getSettings();
             webSetting.setJavaScriptEnabled(true);
             webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
