@@ -7,8 +7,30 @@
     tools:ignore="HardcodedText"
     tools:showIn="@layout/activity_custom_view_test">
 
-    <com.common.widget.trend.TrendChartView
-        android:id="@+id/trend_chart"
+    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <com.common.widget.CommonTabLayout
+            android:id="@+id/tab_layout_2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_35"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <com.common.widget.refresh.RefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:footer_function="only_display"
+        app:header_function="refresh"
+        app:header_text_size="@dimen/sp_12">
+
+        <com.common.widget.table.widget.CustomTableView
+            android:id="@+id/table_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:splitMotionEvents="false" />
+    </com.common.widget.refresh.RefreshLayout>
 </LinearLayout>

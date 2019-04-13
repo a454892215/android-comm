@@ -26,7 +26,9 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
     private float leftLineStrokeWidth;
     private float rightLineStrokeWidth;
 
+
     private int topLineColor;
+
     private int bottomLineColor;
     private int leftLineColor;
     private int rightLineColor;
@@ -121,7 +123,7 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
 
         super.onDraw(canvas);
     }
-
+    @SuppressWarnings("unused")
     public void setClipRadius(float radius) {
         this.clipRadius = radius;
     }
@@ -131,4 +133,33 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
         this.mLinearGradient = linearGradient;
     }
 
+    @SuppressWarnings("unused")
+    public void setTopLineColor(int topLineColor) {
+        this.topLineColor = topLineColor;
+    }
+
+    public void setRightLineColor(int rightLineColor) {
+        this.rightLineColor = rightLineColor;
+    }
+
+    public void setBottomLineColor(int bottomLineColor) {
+        this.bottomLineColor = bottomLineColor;
+    }
+
+    @SuppressWarnings("unused")
+    public void setTopLineStrokeWidth(float topLineStrokeWidth) {
+        this.topLineStrokeWidth = topLineStrokeWidth;
+    }
+
+    public void setBottomLineStrokeWidth(float bottomLineStrokeWidth) {
+        this.bottomLineStrokeWidth = bottomLineStrokeWidth;
+    }
+    @SuppressWarnings("unused")
+    public void setLeftLineStrokeWidth(float leftLineStrokeWidth) {
+        this.leftLineStrokeWidth = leftLineStrokeWidth;
+    }
+
+    public void setRightLineStrokeWidth(float rightLineStrokeWidth) {
+        this.rightLineStrokeWidth = rightLineStrokeWidth;
+    }
 }

@@ -1,14 +1,8 @@
 package com.test.util.custom_view.fragment;
 
-import android.graphics.Point;
-
 import com.common.base.BaseFragment;
-import com.common.widget.trend.TrendChartView;
+import com.common.widget.CommonTabLayout;
 import com.test.util.R;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class TrendChartFragment_1 extends BaseFragment {
 
@@ -19,12 +13,16 @@ public class TrendChartFragment_1 extends BaseFragment {
 
     @Override
     protected void initView() {
-        TrendChartView trend_chart = findViewById(R.id.trend_chart);
-        List<Point> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            int unit_x = 20;
-            list.add(new Point(unit_x * i + unit_x, new Random().nextInt(100) + 20));
-        }
-        trend_chart.setCoordinateList(list);
+        String[] tabNames = {"组合走势图1", "组合走势图2", "组合走势图3", "组合走势图4"};
+
+
+        CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
+        tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
+        tab_layout_2.setOnSelectChangedListener(position -> {
+
+        });
+
+
+       // tab_layout_2.setCurrentPosition(0);
     }
 }

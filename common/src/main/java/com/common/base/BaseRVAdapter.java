@@ -28,8 +28,8 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
     private int emptyLayoutId = R.layout.adater_empty_view;
     protected final float dp_1;
 
-    public BaseRVAdapter(Context activity, int itemLayoutId, List<T> list) {
-        this.context = activity;
+    public BaseRVAdapter(Context context, int itemLayoutId, List<T> list) {
+        this.context = context;
         dp_1 = context.getResources().getDimension(R.dimen.dp_1);
         if (list != null) this.list.addAll(list);
         this.layout_id_type_1 = itemLayoutId;

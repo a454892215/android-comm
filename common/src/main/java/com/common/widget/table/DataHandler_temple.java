@@ -8,7 +8,6 @@ import android.text.TextUtils;
 
 import com.common.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import java.util.Map;
  * CreateDate: 2019/1/5 9:46
  */
 @SuppressWarnings("unused")
-public class DataHandler_temple extends DataHandlerOfNumTrend {
+public class DataHandler_temple extends DataHandler {
     public DataHandler_temple(Context context) {
         super(context);
         isRemovePrefix_0 = false;
@@ -25,10 +24,10 @@ public class DataHandler_temple extends DataHandlerOfNumTrend {
 
     @Override
     public List<List<RowCell>> handleData(List<Map<String, String>> list) {
-        String[] keys_1 = {key_resultInfo, "kd", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"};
-        String[] names_1 = {"号码", "度量", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
+        String[] keys_1 = {"", "kd", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"};
+        String[] headRightTitle = {"号码", "度量", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
         int[] rightWidths = getTableRightWidthList();
-        return getResultData(list, keys_1, names_1, rightWidths);
+        return null;
     }
 
     private int[] getTableRightWidthList() {
@@ -39,27 +38,6 @@ public class DataHandler_temple extends DataHandlerOfNumTrend {
                 width_2, width_2, width_2, width_2, width_2, width_2};
     }
 
-    @Override
-    protected int getTextColor(int position) {
-        switch (position) {
-            case 0:
-                return chart_red;
-        }
-        return text_color_1;
-    }
-
-    @Override
-    public ArrayList<CoordinateEntity> computeCoordinate(int currentPointCount) {
-        ArrayList<CoordinateEntity> coordinateList = new ArrayList<>();
-        int size = trendPointList.size();
-        for (int position = 0; position < size; position++) {
-            int column_value = Integer.parseInt(trendPointList.get(position));
-            float x = right_widths[0] + right_widths[1] + (column_value - 1) * right_widths[3] + right_widths[3] * 0.5f;
-            float y = (currentPointCount + position) * cellHeight + cellHeight * 0.5f;
-            coordinateList.add(new CoordinateEntity(x, y));
-        }
-        return coordinateList;
-    }
 
     @Override
     protected SpannableStringBuilder getSpan(int position, String text) {
@@ -67,7 +45,7 @@ public class DataHandler_temple extends DataHandlerOfNumTrend {
             text = text.trim();
             text = " " + text + " ";
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
-           // builder.setSpan(new BgSpan(chart_red, Color.WHITE, roundBgRadius), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+             builder.setSpan(new BgSpan( Color.RED, Color.WHITE), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             return builder;
         }
         return null;
