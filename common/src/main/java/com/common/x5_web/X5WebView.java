@@ -7,9 +7,8 @@ import android.util.AttributeSet;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
+import com.common.utils.ToastUtil;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension;
-import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
-import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 
@@ -31,7 +30,7 @@ public class X5WebView extends WebView {
     public void initWebViewSettings(BaseActivity activity, MyWebViewClient.OnUrlChangeListener onUrlChangeListner) {
         try {
             setWebViewClient(new MyWebViewClient(activity, onUrlChangeListner));
-            setWebChromeClient(new WebChromeClient());
+            setWebChromeClient(new MyWebChromeClient());
             WebSettings webSetting = this.getSettings();
             webSetting.setJavaScriptEnabled(true);
             webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -44,8 +43,7 @@ public class X5WebView extends WebView {
             webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
             webSetting.setSavePassword(true);
             webSetting.setDisplayZoomControls(false);
-            // String appCachePath = getContext().getApplicationContext().getCacheDir().getAbsolutePath();
-            //   webSetting.setAppCachePath(appCachePath);
+            webSetting.setAppCachePath(getContext().getApplicationContext().getCacheDir().getAbsolutePath());
             webSetting.setAllowContentAccess(true);
             webSetting.setAllowFileAccessFromFileURLs(true);
             webSetting.setAllowUniversalAccessFromFileURLs(true);
@@ -54,12 +52,12 @@ public class X5WebView extends WebView {
             webSetting.setAppCacheEnabled(true);
             webSetting.setDatabaseEnabled(true);
             webSetting.setDomStorageEnabled(true);
-            webSetting.setGeolocationEnabled(true);
+            webSetting.setGeolocationEnabled(true);//地理地位
             webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
             webSetting.setPluginsEnabled(true);
             webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
             webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
-            getSettingsExtension().setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension
+           // getSettingsExtension().setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension
 
             IX5WebViewExtension extension = getX5WebViewExtension();
             if (extension != null) {
@@ -69,6 +67,7 @@ public class X5WebView extends WebView {
                 data.putInt("DefaultVideoScreen", 1); //1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
                 extension.invokeMiscMethod("setVideoParams", data);
             } else {
+                ToastUtil.showShort(activity,"X5浏览器异常");
                 LogUtil.e("=================== X5WebView extension 是 null");
             }
         } catch (Exception e) {

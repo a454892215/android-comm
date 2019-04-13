@@ -28,7 +28,9 @@ public class MyWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
         if (url == null) return false;
-        onUrlChangeListner.onUrlChangeListener(url);
+        if (onUrlChangeListner != null) {
+            onUrlChangeListner.onUrlChangeListener(url);
+        }
         try {
             if (!url.startsWith("http:") && !url.startsWith("https:")) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -64,13 +66,13 @@ public class MyWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView webView, String url) {
         super.onPageFinished(webView, url);
-        LogUtil.d("===========onPageFinished=============:"+url);
+        LogUtil.d("===========onPageFinished=============:" + url);
     }
 
     @Override
     public void onPageStarted(WebView webView, String url, Bitmap bitmap) {
         super.onPageStarted(webView, url, bitmap);
-        LogUtil.d("===========onPageStarted=============url:"+url);
+        LogUtil.d("===========onPageStarted=============url:" + url);
     }
 
     @Override
