@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_60"
+    android:gravity="center_vertical"
+    android:background="#ffcccc"
+    tools:ignore="HardcodedText">
+
+    <com.common.widget.CommonTextView
+        android:id="@+id/tv_go_home"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:gravity="center"
+        android:background="?selectableItemBackground"
+        android:textSize="@dimen/sp_15"
+        android:textColor="#333333"
+        android:text="首页" />
+
+</LinearLayout>
