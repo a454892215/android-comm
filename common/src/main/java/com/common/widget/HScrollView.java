@@ -172,7 +172,7 @@ public class HScrollView extends FrameLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         maxScrollWidth = getChildAt(0).getWidth() - getWidth();
-        LogUtil.debug("onLayout maxScrollWidth:" + maxScrollWidth + "  ");
+        LogUtil.d("onLayout maxScrollWidth:" + maxScrollWidth + "  ");
     }
 
     @Override

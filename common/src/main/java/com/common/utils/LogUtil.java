@@ -12,17 +12,10 @@ import com.orhanobut.logger.Logger;
 
 public class LogUtil {
 
-    private static boolean isDebug = BuildConfig.IS_DEBUG;
-
     private static final String TAG = "LLpp,LOGGER: ";
 
     public static void d(String msg) {
-        if (isDebug)
-            Log.d(TAG, msg);
-
-    }
-
-    public static void debug(String msg) {
+        boolean isDebug = BuildConfig.IS_DEBUG;
         if (isDebug) {
             if (!TextUtils.isEmpty(msg)) {
                 int length = msg.length();
@@ -33,12 +26,6 @@ public class LogUtil {
                     Logger.d(TAG + i + "  text:  " + unicodeToUTF_8(msg.substring(i * count, end)));
                 }
             }
-        }
-    }
-
-    public static void json(String msg) {
-        if (isDebug) {
-            Logger.json(unicodeToUTF_8(msg));
         }
     }
 

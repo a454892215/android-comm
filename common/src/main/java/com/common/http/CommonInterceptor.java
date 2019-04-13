@@ -2,10 +2,8 @@ package com.common.http;
 
 import android.support.annotation.NonNull;
 
-import com.common.AppApplication;
 import com.common.BuildConfig;
 import com.common.utils.LogUtil;
-import com.common.utils.SharedPreUtils;
 
 import java.nio.charset.Charset;
 
@@ -57,7 +55,7 @@ public class CommonInterceptor implements Interceptor {
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
                 Buffer buffer = source.buffer();
                 String text = buffer.clone().readString(Charset.forName("UTF-8"));
-                LogUtil.debug("Response: threadId:" + threadId + " method :" + method + "  message:" + response.message()
+                LogUtil.d("Response: threadId:" + threadId + " method :" + method + "  message:" + response.message()
                         + " url:" + response.request().url() + " code:" + response.code() + " 响应内容：" + text);
             }
         } catch (Exception e) {
@@ -84,7 +82,7 @@ public class CommonInterceptor implements Interceptor {
                 requestBody.writeTo(buffer);
                 body = buffer.readString(Charset.forName("UTF-8"));
             }
-            LogUtil.debug("Request: threadId:" + threadId + " method:" + method + " url:" + request.url().uri() + "  body:" + body + " header:" + headerBuilder);
+            LogUtil.d("Request: threadId:" + threadId + " method:" + method + " url:" + request.url().uri() + "  body:" + body + " header:" + headerBuilder);
         } catch (Exception e) {
             e.printStackTrace();
             LogUtil.e(" LLpp: " + e.toString());

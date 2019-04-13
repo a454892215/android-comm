@@ -43,7 +43,7 @@ public class LoggerInterceptor implements Interceptor {
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
                 Buffer buffer = source.buffer();
                 String string = buffer.clone().readString(Charset.forName("UTF-8"));
-                LogUtil.debug("Response: threadId:" + threadId + " code:" + response.code() + ' ' + response.message() + " url:" + response.request().url() + string);
+                LogUtil.d("Response: threadId:" + threadId + " code:" + response.code() + ' ' + response.message() + " url:" + response.request().url() + string);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,9 +60,9 @@ public class LoggerInterceptor implements Interceptor {
                 Buffer buffer = new Buffer();
                 requestBody.writeTo(buffer);
                 String body = buffer.readString(Charset.forName("UTF-8"));
-                LogUtil.debug("Request: threadId:" + threadId + " method:" + request.method() + "  " + request.url().uri() + body + " header:" + headers);
+                LogUtil.d("Request: threadId:" + threadId + " method:" + request.method() + "  " + request.url().uri() + body + " header:" + headers);
             } else {
-                LogUtil.debug("Request: threadId:" + threadId + " method:" + request.url().uri() + "  header:" + headers);
+                LogUtil.d("Request: threadId:" + threadId + " method:" + request.url().uri() + "  header:" + headers);
             }
         } catch (Exception e) {
             e.printStackTrace();

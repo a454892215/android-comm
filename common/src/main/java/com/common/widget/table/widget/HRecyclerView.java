@@ -30,7 +30,7 @@ public class HRecyclerView extends RecyclerView {
     public HRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
-        // LogUtil.debug("=========min_scroll_unit:" + min_scroll_unit);
+        // LogUtil.d("=========min_scroll_unit:" + min_scroll_unit);
     }
 
     private float startX;

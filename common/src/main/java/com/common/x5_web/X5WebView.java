@@ -7,8 +7,9 @@ import android.util.AttributeSet;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
-import com.common.utils.ToastUtil;
+import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension;
+import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 
@@ -57,7 +58,13 @@ public class X5WebView extends WebView {
             webSetting.setPluginsEnabled(true);
             webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
             webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
-           // getSettingsExtension().setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension
+            IX5WebSettingsExtension settingsExtension = getSettingsExtension();
+            if (settingsExtension != null) {
+                settingsExtension.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension
+                settingsExtension.setDayOrNight(true);
+                settingsExtension.setReadModeWebView(true);
+            }
+
 
             IX5WebViewExtension extension = getX5WebViewExtension();
             if (extension != null) {
@@ -67,7 +74,6 @@ public class X5WebView extends WebView {
                 data.putInt("DefaultVideoScreen", 1); //1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
                 extension.invokeMiscMethod("setVideoParams", data);
             } else {
-                ToastUtil.showShort(activity,"X5浏览器异常");
                 LogUtil.e("=================== X5WebView extension 是 null");
             }
         } catch (Exception e) {

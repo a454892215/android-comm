@@ -374,14 +374,14 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             resultHeight = (int) (2 * resultHeight / Math.PI);
         }
         if (isDebug)
-            LogUtil.debug("Wheel's content size is (" + resultWidth + ":" + resultHeight + ")");
+            LogUtil.d("Wheel's content size is (" + resultWidth + ":" + resultHeight + ")");
 
         // 考虑内边距对尺寸的影响
         // Consideration padding influence the view sizes
         resultWidth += getPaddingLeft() + getPaddingRight();
         resultHeight += getPaddingTop() + getPaddingBottom();
         if (isDebug)
-            LogUtil.debug("Wheel's size is (" + resultWidth + ":" + resultHeight + ")");
+            LogUtil.d("Wheel's size is (" + resultWidth + ":" + resultHeight + ")");
 
         // 考虑父容器对尺寸的影响
         // Consideration sizes of parent can influence the view sizes
@@ -410,7 +410,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
         mRectDrawn.set(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(),
                 getHeight() - getPaddingBottom());
         if (isDebug)
-            LogUtil.debug("Wheel's drawn rect size is (" + mRectDrawn.width() + ":" +
+            LogUtil.d("Wheel's drawn rect size is (" + mRectDrawn.width() + ":" +
                     mRectDrawn.height() + ") and location is (" + mRectDrawn.left + ":" +
                     mRectDrawn.top + ")");
 
@@ -726,7 +726,7 @@ public class WheelPicker extends View implements IWheelPicker, Runnable {
             int position = (-mScrollOffsetY / mItemHeight + mSelectedItemPosition) % mData.size();
             position = position < 0 ? position + mData.size() : position;
             if (isDebug)
-                LogUtil.debug(position + ":" + mData.get(position) + ":" + mScrollOffsetY);
+                LogUtil.d(position + ":" + mData.get(position) + ":" + mScrollOffsetY);
             mCurrentItemPosition = position;
             if (null != mOnItemSelectedListener)
                 mOnItemSelectedListener.onItemSelected(this, mData.get(position), position);

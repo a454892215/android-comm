@@ -37,7 +37,7 @@ public class HLayoutManager extends LinearLayoutManager {
             int itemWidth = getDecoratedMeasuredWidth(view);
             canScrollWidth = itemWidth - horizontalContentWidth;
             canScrollWidth = canScrollWidth < 0 ? 0 : canScrollWidth;
-            // LogUtil.debug("canScrollWidth:" + canScrollWidth + " itemWidth:" + itemWidth + "  horizontalContentWidth:" + horizontalContentWidth);
+            // LogUtil.d("canScrollWidth:" + canScrollWidth + " itemWidth:" + itemWidth + "  horizontalContentWidth:" + horizontalContentWidth);
         }
     }
 

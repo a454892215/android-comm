@@ -55,12 +55,12 @@ public class LineView extends View {
     List<CoordinateEntity> coordinateList = new ArrayList<>();
 
     public void addData(List<CoordinateEntity> coordinateList) {
-        //  LogUtil.debug("coordinateList:"+coordinateList);
+        //  LogUtil.d("coordinateList:"+coordinateList);
         if (coordinateList != null) {
             this.coordinateList.addAll(coordinateList);
             size = this.coordinateList.size();
             currentPointCount = size;
-            //LogUtil.debug("现在的画线数据是coordinateList："+coordinateList);
+            //LogUtil.d("现在的画线数据是coordinateList："+coordinateList);
             invalidate();
         }
     }
