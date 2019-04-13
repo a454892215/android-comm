@@ -2,7 +2,9 @@ package com.common;
 
 import android.app.Application;
 
-import com.common.utils.LogUtil;
+import com.common.x5_web.MyPreInitCallback;
+import com.common.x5_web.MyTbsListener;
+import com.common.x5_web.MyTbsLogClient;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
@@ -30,19 +32,10 @@ public class AppApplication extends Application {
     }
 
     private void initX5WebView() {
-        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-            @Override
-            public void onViewInitFinished(boolean isSuccess) {
-                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
-                LogUtil.d(" X5WebView 是否成功： " + isSuccess);
-            }
-
-            @Override
-            public void onCoreInitFinished() {
-            }
-        };
-        //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(), cb);
+        QbSdk.setTbsLogClient(new MyTbsLogClient(this));
+        QbSdk.setDownloadWithoutWifi(true);
+        QbSdk.setTbsListener(new MyTbsListener());
+        QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
     }
 
     private void initLogger() {
