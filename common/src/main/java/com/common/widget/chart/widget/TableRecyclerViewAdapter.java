@@ -1,4 +1,4 @@
-package com.common.widget.table.widget;
+package com.common.widget.chart.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import com.common.base.BaseRVAdapter;
 import com.common.base.BaseViewHolder;
 import com.common.widget.CommonTextView;
-import com.common.widget.table.RowCell;
+import com.common.widget.chart.RowCell;
 
 import java.util.List;
 

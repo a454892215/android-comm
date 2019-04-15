@@ -1,4 +1,4 @@
-package com.common.widget.table.widget;
+package com.common.widget.chart.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package com.common.widget.table;
+package com.common.widget.chart;
 
 import android.text.SpannableStringBuilder;
 

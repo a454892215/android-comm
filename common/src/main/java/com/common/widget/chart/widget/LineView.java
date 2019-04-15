@@ -1,4 +1,4 @@
-package com.common.widget.table.widget;
+package com.common.widget.chart.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.common.R;
-import com.common.widget.table.CoordinateEntity;
+import com.common.widget.chart.CoordinateEntity;
 
 import java.util.ArrayList;
 import java.util.List;

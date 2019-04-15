@@ -1,4 +1,4 @@
-package com.common.widget.table.widget;
+package com.common.widget.chart.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.common.R;
-import com.common.widget.table.CoordinateEntity;
-import com.common.widget.table.RowCell;
+import com.common.widget.chart.CoordinateEntity;
+import com.common.widget.chart.RowCell;
 
 import java.util.List;
 

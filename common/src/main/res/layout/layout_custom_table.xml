@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.common.widget.table.widget.AsyncScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.common.widget.chart.widget.AsyncScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/async_scroll_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
 
-        <com.common.widget.table.widget.HRecyclerView
+        <com.common.widget.chart.widget.HRecyclerView
             android:id="@+id/table_rv_header_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
 
-        <com.common.widget.table.widget.HRecyclerView
+        <com.common.widget.chart.widget.HRecyclerView
             android:id="@+id/table_rv_body_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,4 +43,4 @@
         <include layout="@layout/layout_custom_table_line_view" />
 
     </RelativeLayout>
-</com.common.widget.table.widget.AsyncScrollLayout>
+</com.common.widget.chart.widget.AsyncScrollLayout>
