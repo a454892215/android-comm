@@ -1,6 +1,7 @@
 package com.common.widget.table;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 
@@ -11,26 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Author:  L
- * CreateDate: 2019/1/5 9:46
- * Description: 走势图处理
- */
+public class DataHandler implements IDataHandler {
+    protected int dp_1;
 
-public class DataHandler {
-    private int cellHeight;
-    private Context context;
-    private int dp_1;
-
-
-    boolean isRemovePrefix_0 = false;
-    List<String> trendPointList = new ArrayList<>();
-    int[] right_widths;
+    private List<String> trendPointList = new ArrayList<>();
 
     DataHandler(Context context) {
-        this.context = context;
         dp_1 = Math.round(context.getResources().getDimension(R.dimen.dp_1));
-        cellHeight = dp_1 * 35;
     }
 
     @SuppressWarnings("unused")
@@ -38,6 +26,7 @@ public class DataHandler {
         return null;
     }
 
+    @SuppressWarnings("unused")
     @NonNull
     List<List<RowCell>> getResultData(List<String> dataArr[]) {
         trendPointList.clear();
@@ -56,46 +45,59 @@ public class DataHandler {
     private RowCell getRowCell(List<String> names, int rowIndex, int type) {
         RowCell rowCell = new RowCell();
         rowCell.list = new ArrayList<>();
-        rowCell.rowBgColor = getRowBColor(type,rowIndex);
+        rowCell.rowBgColor = getRowBColor(type, rowIndex);
         for (int i = 0; i < names.size(); i++) {
             String name = names.get(i);
-            RowCell.TableCellEntity entity = new RowCell.TableCellEntity(getWidth(type,rowIndex), cellHeight);
-            entity.lineColor = getLineColor(type,rowIndex);
-            entity.lineStrokeSize = getLineStrokeSize(type,rowIndex);
-            entity.span = getSpan(i, name);
+            RowCell.TableCellEntity entity = new RowCell.TableCellEntity(getCellWidth(type, rowIndex, i), getLineHeight(type, rowIndex));
+            entity.lineColor = getLineColor(type, rowIndex);
+            entity.lineStrokeSize = getLineStrokeSize(type, rowIndex);
+            entity.span = getSpan(type, rowIndex, i, name);
             rowCell.list.add(entity);
         }
         return rowCell;
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<CoordinateEntity> computeCoordinate(int currentPointCount) {
         ArrayList<CoordinateEntity> coordinateList = new ArrayList<>();
         int size = trendPointList.size();
         for (int position = 0; position < size; position++) {
             int column_value = Integer.parseInt(trendPointList.get(position));
-            float x = right_widths[0] + (column_value) * right_widths[3] + right_widths[3] * 0.5f;
-            float y = (currentPointCount + position) * cellHeight + cellHeight * 0.5f;
+            float x = 0; // right_widths[0] + (column_value) * right_widths[3] + right_widths[3] * 0.5f;
+            float y = 0;// (currentPointCount + position) * cellHeight + cellHeight * 0.5f;
             coordinateList.add(new CoordinateEntity(x, y));
         }
         return coordinateList;
     }
 
-    protected SpannableStringBuilder getSpan(int position, String text) {
+    @Override
+    public SpannableStringBuilder getSpan(int type, int rowIndex, int position, String text) {
         return null;
     }
 
-    protected int getWidth(int type, int rowIndex) {
-        return 100;
+    @Override
+    public int getCellWidth(int type, int rowIndex, int position) {
+        return dp_1 * 50;
     }
 
-    protected int getRowBColor(int type, int rowIndex) {
-        return 100;
+    @Override
+    public int getRowBColor(int type, int rowIndex) {
+        return Color.TRANSPARENT;
     }
 
-    protected int getLineColor(int type, int rowIndex) {
-        return 100;
+    @Override
+    public int getLineColor(int type, int rowIndex) {
+        return Color.GRAY;
     }
-    protected int getLineStrokeSize(int type, int rowIndex) {
-        return 100;
+
+    @Override
+    public int getLineStrokeSize(int type, int rowIndex) {
+        return dp_1;
     }
+
+    @Override
+    public int getLineHeight(int type, int rowIndex) {
+        return dp_1 * 35;
+    }
+
 }

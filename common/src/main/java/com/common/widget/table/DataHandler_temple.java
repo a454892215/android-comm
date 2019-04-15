@@ -6,20 +6,13 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 
-import com.common.R;
-
 import java.util.List;
 import java.util.Map;
 
-/**
- * Author:  L
- * CreateDate: 2019/1/5 9:46
- */
 @SuppressWarnings("unused")
 public class DataHandler_temple extends DataHandler {
     public DataHandler_temple(Context context) {
         super(context);
-        isRemovePrefix_0 = false;
     }
 
     @Override
@@ -31,24 +24,23 @@ public class DataHandler_temple extends DataHandler {
     }
 
     private int[] getTableRightWidthList() {
-        int width = Math.round(context.getResources().getDimension(R.dimen.dp_100));
-        int width_1 = Math.round(context.getResources().getDimension(R.dimen.dp_40));
-        int width_2 = Math.round(context.getResources().getDimension(R.dimen.dp_31));
+        int width = dp_1 * 100;
+        int width_1 = dp_1 * 40;
+        int width_2 = dp_1 * 30;
         return new int[]{width, width_1, width_2, width_2, width_2, width_2, width_2,
                 width_2, width_2, width_2, width_2, width_2, width_2};
     }
 
 
     @Override
-    protected SpannableStringBuilder getSpan(int position, String text) {
+    public SpannableStringBuilder getSpan(int type, int rowIndex, int position, String text) {
         if (position > 1 && !TextUtils.isEmpty(text)) {
             text = text.trim();
             text = " " + text + " ";
             SpannableStringBuilder builder = new SpannableStringBuilder(text);
-             builder.setSpan(new BgSpan( Color.RED, Color.WHITE), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new BgSpan(Color.RED, Color.WHITE), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             return builder;
         }
         return null;
     }
-
 }
