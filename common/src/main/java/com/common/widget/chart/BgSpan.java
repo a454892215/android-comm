@@ -3,9 +3,8 @@ package com.common.widget.chart;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.style.ReplacementSpan;
+
 
 /**
  * Author:  L
@@ -23,21 +22,15 @@ public class BgSpan extends ReplacementSpan {
     private boolean isStroke = false;
     private float strokeWidth;
 
-    BgSpan(int bgColor, int textColor) {
+    private BgSpan(int textColor, int bgColor) {
         super();
-        this.bgColor = bgColor;
         this.textColor = textColor;
+        this.bgColor = bgColor;
+
     }
 
-    public static SpannableStringBuilder getStrokeSpan(String text, int bgColor, int textColor, float verPadding, float horPadding, float rectRadius, float strokeWidth) {
-        BgSpan bgSpan = new BgSpan(bgColor, textColor)
-                .setPadding(verPadding, horPadding)
-                .setRectRadius(rectRadius)
-                .setStrokeWidth(strokeWidth);
-        text = text + " ";
-        SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        builder.setSpan(bgSpan, 0, text.length() - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        return builder;
+    public static BgSpan getSpan(int bgColor, int textColor) {
+        return new BgSpan(bgColor, textColor);
     }
 
     private BgSpan setPadding(float verticalPadding, float horizontalPadding) {

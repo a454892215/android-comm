@@ -19,18 +19,19 @@
             android:orientation="horizontal" />
     </HorizontalScrollView>
 
-    <com.common.widget.refresh.RefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.common.widget.chart.widget.CustomTableView
+        android:id="@+id/table_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:splitMotionEvents="false" />
+  <!--  <com.common.widget.refresh.RefreshLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:footer_function="only_display"
+        app:footer_function="forbid_scroll"
         app:header_function="refresh"
         app:header_text_size="@dimen/sp_12">
 
-        <com.common.widget.chart.widget.CustomTableView
-            android:id="@+id/table_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:splitMotionEvents="false" />
-    </com.common.widget.refresh.RefreshLayout>
+
+    </com.common.widget.refresh.RefreshLayout>-->
 </LinearLayout>

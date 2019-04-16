@@ -31,8 +31,8 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
         CommonTextView tv = findViewById(R.id.tv);
        /* tv.setLinearGradient(new LinearGradient(0, 0, 0, tv.getPaint().getTextSize(),
                 Color.parseColor("#ff0000"), Color.parseColor("#c19c68"), Shader.TileMode.CLAMP));*/
-        tv.setText(BgSpan.getStrokeSpan("我是动态设置的文字", getResources().getColor(R.color.red_1),
-                Color.WHITE, activity.dp_1, activity.dp_1 * 3, activity.dp_1 * 5, activity.dp_1));
+       // tv.setText(BgSpan.getStrokeSpan("我是动态设置的文字", getResources().getColor(R.color.red_1),
+           //     Color.WHITE, activity.dp_1, activity.dp_1 * 3, activity.dp_1 * 5, activity.dp_1));
     }
 
     @Override

@@ -3,11 +3,8 @@ package com.common.widget.chart;
 import android.text.SpannableStringBuilder;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public interface IDataHandler {
-    List<List<RowCell>> handleData(List<Map<String, String>> list);
 
     ArrayList<CoordinateEntity> computeCoordinate(int currentPointCount);
 

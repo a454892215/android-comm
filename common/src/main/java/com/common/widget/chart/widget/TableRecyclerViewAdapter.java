@@ -2,8 +2,12 @@ package com.common.widget.chart.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.common.R;
 import com.common.base.BaseRVAdapter;
 import com.common.base.BaseViewHolder;
 import com.common.widget.CommonTextView;
@@ -38,12 +42,11 @@ class TableRecyclerViewAdapter extends BaseRVAdapter<RowCell> {
             CommonTextView tvCellView = (CommonTextView) llt_content.getChildAt(i);
             RowCell.TableCellEntity entity = cellList.get(i);
             if (tvCellView == null) {
-                tvCellView = new CommonTextView(context);
+                tvCellView = (CommonTextView) LayoutInflater.from(context).inflate(R.layout.table_item_llt_cell,llt_content,false);
                 llt_content.addView(tvCellView, new LinearLayout.LayoutParams(entity.cellWidth, entity.cellHeight));
             }
             rowWidth += entity.cellWidth;
             tvCellView.setText(entity.span);
-
             tvCellView.setRightLineColor(entity.lineColor);
             tvCellView.setBottomLineColor(entity.lineColor);
             tvCellView.setRightLineStrokeWidth(dp_1);

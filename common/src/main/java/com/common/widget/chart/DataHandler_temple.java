@@ -4,10 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 
+import com.common.utils.CastUtil;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("unused")
 public class DataHandler_temple extends DataHandler {
@@ -15,32 +16,41 @@ public class DataHandler_temple extends DataHandler {
         super(context);
     }
 
-    @Override
-    public List<List<RowCell>> handleData(List<Map<String, String>> list) {
-        String[] keys_1 = {"", "kd", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"};
-        String[] headRightTitle = {"号码", "度量", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
-        int[] rightWidths = getTableRightWidthList();
-        return null;
-    }
-
-    private int[] getTableRightWidthList() {
-        int width = dp_1 * 100;
-        int width_1 = dp_1 * 40;
-        int width_2 = dp_1 * 30;
-        return new int[]{width, width_1, width_2, width_2, width_2, width_2, width_2,
-                width_2, width_2, width_2, width_2, width_2, width_2};
+    public List<List<RowCell>> handleData() {
+        String arr[] = new String[6];
+        List<List<String>> dataArr[] = CastUtil.cast(new ArrayList[4]);
+        dataArr[0] = getTestData(1, 1);
+        dataArr[1] = getTestData(1, 10);
+        dataArr[2] = getTestData(100, 1);
+        dataArr[3] = getTestData(100, 10);
+        return getResultData(dataArr);
     }
 
 
     @Override
     public SpannableStringBuilder getSpan(int type, int rowIndex, int position, String text) {
-        if (position > 1 && !TextUtils.isEmpty(text)) {
-            text = text.trim();
-            text = " " + text + " ";
-            SpannableStringBuilder builder = new SpannableStringBuilder(text);
-            builder.setSpan(new BgSpan(Color.RED, Color.WHITE), 1, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return builder;
+        text = text.trim();
+        text = text + " ";
+        SpannableStringBuilder builder = new SpannableStringBuilder(text);
+        int textColor = type != 3 ? Color.RED : Color.BLACK;
+        builder.setSpan(BgSpan.getSpan(textColor, Color.TRANSPARENT), 0, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return builder;
+    }
+
+    private List<List<String>> getTestData(int row, int column) {
+        List<List<String>> list = new ArrayList<>();
+        for (int i = 0; i < row; i++) {//行数
+            List<String> rowList = new ArrayList<>();
+            for (int j = 0; j < column; j++) { //列数
+                rowList.add("行号" + i + " 列号" + j);
+            }
+            list.add(rowList);
         }
-        return null;
+        return list;
+    }
+
+    @Override
+    public int getCellWidth(int type, int rowIndex, int position) {
+        return dp_1 * 80;
     }
 }

@@ -123,6 +123,7 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
 
         super.onDraw(canvas);
     }
+
     @SuppressWarnings("unused")
     public void setClipRadius(float radius) {
         this.clipRadius = radius;
@@ -149,17 +150,22 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
     @SuppressWarnings("unused")
     public void setTopLineStrokeWidth(float topLineStrokeWidth) {
         this.topLineStrokeWidth = topLineStrokeWidth;
+        topLineEnable = true;
     }
 
     public void setBottomLineStrokeWidth(float bottomLineStrokeWidth) {
         this.bottomLineStrokeWidth = bottomLineStrokeWidth;
+        bottomLineEnable = true;
     }
+
     @SuppressWarnings("unused")
     public void setLeftLineStrokeWidth(float leftLineStrokeWidth) {
         this.leftLineStrokeWidth = leftLineStrokeWidth;
+        leftLineEnable = true;
     }
 
     public void setRightLineStrokeWidth(float rightLineStrokeWidth) {
         this.rightLineStrokeWidth = rightLineStrokeWidth;
+        rightLineEnable = true;
     }
 }

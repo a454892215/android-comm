@@ -2,7 +2,12 @@ package com.test.util.custom_view.fragment;
 
 import com.common.base.BaseFragment;
 import com.common.widget.CommonTabLayout;
+import com.common.widget.chart.DataHandler_temple;
+import com.common.widget.chart.RowCell;
+import com.common.widget.chart.widget.CustomTableView;
 import com.test.util.R;
+
+import java.util.List;
 
 public class TrendChartFragment_1 extends BaseFragment {
 
@@ -21,8 +26,11 @@ public class TrendChartFragment_1 extends BaseFragment {
         tab_layout_2.setOnSelectChangedListener(position -> {
 
         });
-
-
-       // tab_layout_2.setCurrentPosition(0);
+        CustomTableView table_view = findViewById(R.id.table_view);
+        DataHandler_temple dataHandler_temple = new DataHandler_temple(activity);
+        List<List<RowCell>> lists = dataHandler_temple.handleData();
+        table_view.setHeaderData(lists.get(0), lists.get(1));
+        table_view.setBodyData(lists.get(2), lists.get(3));
+        // tab_layout_2.setCurrentPosition(0);
     }
 }
