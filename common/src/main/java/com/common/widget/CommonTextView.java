@@ -134,7 +134,10 @@ public class CommonTextView extends android.support.v7.widget.AppCompatTextView 
         this.mLinearGradient = linearGradient;
     }
 
-    @SuppressWarnings("unused")
+    public void setLeftLineColor(int leftLineColor) {
+        this.leftLineColor = leftLineColor;
+    }
+
     public void setTopLineColor(int topLineColor) {
         this.topLineColor = topLineColor;
     }

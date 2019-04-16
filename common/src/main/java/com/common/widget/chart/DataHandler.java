@@ -49,6 +49,12 @@ public abstract class DataHandler implements IDataHandler {
             RowCell.TableCellEntity entity = new RowCell.TableCellEntity(getCellWidth(type, rowIndex, i), getLineHeight(type, rowIndex));
             entity.lineColor = getLineColor(type, rowIndex);
             entity.lineStrokeSize = getLineStrokeSize(type, rowIndex);
+            if ((type == 0 || type == 1) && rowIndex == 0) {
+                entity.topLineStrokeSize = getLineStrokeSize(type, rowIndex);
+            }
+            if ((type == 0 || type == 2) && i == 0) {
+                entity.leftLineStrokeSize = getLineStrokeSize(type, rowIndex);
+            }
             entity.span = getSpan(type, rowIndex, i, name);
             rowCell.list.add(entity);
         }

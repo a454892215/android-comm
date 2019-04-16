@@ -2,7 +2,6 @@ package com.common.widget.chart.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -49,9 +48,13 @@ class TableRecyclerViewAdapter extends BaseRVAdapter<RowCell> {
             tvCellView.setText(entity.span);
             tvCellView.setRightLineColor(entity.lineColor);
             tvCellView.setBottomLineColor(entity.lineColor);
-            tvCellView.setRightLineStrokeWidth(dp_1);
-            tvCellView.setBottomLineStrokeWidth(dp_1);
+            tvCellView.setTopLineColor(entity.lineColor);
+            tvCellView.setLeftLineColor(entity.lineColor);
 
+            tvCellView.setRightLineStrokeWidth(entity.lineStrokeSize);
+            tvCellView.setBottomLineStrokeWidth(entity.lineStrokeSize);
+            tvCellView.setTopLineStrokeWidth(entity.topLineStrokeSize);
+            tvCellView.setLeftLineStrokeWidth(entity.leftLineStrokeSize);
         }
         ViewGroup.LayoutParams lp = llt_content.getLayoutParams();
         if (lp.width != rowWidth) {
