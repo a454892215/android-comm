@@ -31,13 +31,16 @@ public class DataHandler_temple extends DataHandler {
 
     @Override
     public SpannableStringBuilder getSpan(int type, int rowIndex, int position, String text) {
+        if (type == 3) {
+            if (new Random().nextInt(4) != 3) return null;
+        }
         text = text.trim();
         text = text + " ";
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         int textColor = type != 3 ? Color.BLACK : Color.parseColor("#ffffff");
         int bgColor = type != 3 ? Color.TRANSPARENT : Color.parseColor(colors[new Random().nextInt(colors.length)]);
         BgSpan span = BgSpan.getSpan(textColor, bgColor);
-        //  span.setRectRadius(dp_1 * 3);
+        span.setRectRadius(dp_1 * 3);
         builder.setSpan(span, 0, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
     }
