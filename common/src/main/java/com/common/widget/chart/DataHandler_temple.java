@@ -32,7 +32,7 @@ public class DataHandler_temple extends DataHandler {
         text = text.trim();
         text = text + " ";
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
-        int textColor = type != 3 ? Color.RED : Color.BLACK;
+        int textColor = type != 3 ? Color.BLACK : Color.parseColor("#333333");
         builder.setSpan(BgSpan.getSpan(textColor, Color.TRANSPARENT), 0, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
     }

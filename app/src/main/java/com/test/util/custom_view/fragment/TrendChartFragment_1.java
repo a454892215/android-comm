@@ -28,6 +28,7 @@ public class TrendChartFragment_1 extends BaseFragment {
 
         });
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
+        refresh_layout.setNotInterceptEvent(true);
         CustomTableView table_view = findViewById(R.id.table_view);
         refresh_layout.setTargetView(table_view.table_rv_body_left, table_view.table_rv_body_right);
         refresh_layout.setOnRefreshListener(refreshLayout -> refreshLayout.postDelayed(refreshLayout::notifyLoadFinish, 500));

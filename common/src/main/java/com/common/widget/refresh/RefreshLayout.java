@@ -187,6 +187,7 @@ public class RefreshLayout extends LinearLayout {
     private int pointerId = -1;
     private boolean pointerIdIsChange = false;
 
+    private boolean notInterceptEvent = false;
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if ((load_state == load_state_finished || refresh_state == refresh_state_finished)) {
@@ -240,7 +241,7 @@ public class RefreshLayout extends LinearLayout {
                 break;
         }
         boolean consume = true;
-        if (getScrollY() == 0) {
+        if (getScrollY() == 0 || notInterceptEvent) {
             consume = super.dispatchTouchEvent(ev);
         }
         return consume;
@@ -590,6 +591,11 @@ public class RefreshLayout extends LinearLayout {
             LogUtil.e("非法状态");
         }
     }
+
+    public void setNotInterceptEvent(boolean notInterceptEvent) {
+        this.notInterceptEvent = notInterceptEvent;
+    }
+
 
     private OnRefreshListener onRefreshListener;
 
