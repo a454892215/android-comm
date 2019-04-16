@@ -75,6 +75,6 @@
     </style>
 
     <style name="ThemeOverlay" parent="android:ThemeOverlay.Material">
-        <item name="android:colorEdgeEffect">@color/sky_blue</item>
+        <item name="android:colorEdgeEffect">#039cfc</item>
     </style>
 </resources>

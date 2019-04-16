@@ -29,23 +29,23 @@ public class BgSpan extends ReplacementSpan {
 
     }
 
-    public static BgSpan getSpan(int bgColor, int textColor) {
+    static BgSpan getSpan(int bgColor, int textColor) {
         return new BgSpan(bgColor, textColor);
     }
 
-    private BgSpan setPadding(float verticalPadding, float horizontalPadding) {
+    BgSpan setPadding(float verticalPadding, float horizontalPadding) {
         this.verticalPadding = verticalPadding;
         this.horizontalPadding = horizontalPadding;
         return this;
     }
 
-    private BgSpan setRectRadius(float rectRadius) {
+    BgSpan setRectRadius(float rectRadius) {
         this.rectRadius = rectRadius;
         return this;
     }
 
 
-    private BgSpan setStrokeWidth(float strokeWidth) {
+    BgSpan setStrokeWidth(float strokeWidth) {
         this.isStroke = true;
         this.strokeWidth = strokeWidth;
         return this;
