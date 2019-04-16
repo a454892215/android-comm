@@ -13,12 +13,14 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/table_rv_header_left"
+            android:theme="@style/ThemeOverlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
 
         <com.common.widget.chart.widget.HRecyclerView
             android:id="@+id/table_rv_header_right"
+            android:theme="@style/ThemeOverlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:overScrollMode="never" />
@@ -30,12 +32,14 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/table_rv_body_left"
+            android:theme="@style/ThemeOverlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" />
 
         <com.common.widget.chart.widget.HRecyclerView
             android:id="@+id/table_rv_body_right"
+            android:theme="@style/ThemeOverlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/table_rv_body_left" />

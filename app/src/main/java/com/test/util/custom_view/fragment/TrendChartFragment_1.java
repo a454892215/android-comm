@@ -5,8 +5,6 @@ import com.common.widget.CommonTabLayout;
 import com.common.widget.chart.DataHandler_temple;
 import com.common.widget.chart.RowCell;
 import com.common.widget.chart.widget.CustomTableView;
-import com.common.widget.refresh.OnLoadMoreListener;
-import com.common.widget.refresh.OnRefreshListener;
 import com.common.widget.refresh.RefreshLayout;
 import com.test.util.R;
 
