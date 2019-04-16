@@ -5,6 +5,9 @@ import com.common.widget.CommonTabLayout;
 import com.common.widget.chart.DataHandler_temple;
 import com.common.widget.chart.RowCell;
 import com.common.widget.chart.widget.CustomTableView;
+import com.common.widget.refresh.OnLoadMoreListener;
+import com.common.widget.refresh.OnRefreshListener;
+import com.common.widget.refresh.RefreshLayout;
 import com.test.util.R;
 
 import java.util.List;
@@ -26,7 +29,11 @@ public class TrendChartFragment_1 extends BaseFragment {
         tab_layout_2.setOnSelectChangedListener(position -> {
 
         });
+        RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
         CustomTableView table_view = findViewById(R.id.table_view);
+        refresh_layout.setTargetView(table_view.table_rv_body_left, table_view.table_rv_body_right);
+        refresh_layout.setOnRefreshListener(refreshLayout -> refreshLayout.postDelayed(refreshLayout::notifyLoadFinish, 500));
+        refresh_layout.setOnLoadMoreListener(refreshLayout -> refreshLayout.postDelayed(refreshLayout::notifyLoadFinish, 500));
         DataHandler_temple dataHandler_temple = new DataHandler_temple(activity);
         List<List<RowCell>> lists = dataHandler_temple.handleData();
         table_view.setHeaderData(lists.get(0), lists.get(1));
