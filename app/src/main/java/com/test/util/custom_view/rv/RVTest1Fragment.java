@@ -25,7 +25,7 @@ public class RVTest1Fragment extends BaseFragment {
         StickyHeaderDecoration decoration = new StickyHeaderDecoration(activity)
                 .setDecorPositionList(Arrays.asList(posArr))
                 .setDecorNameList(Arrays.asList(decorNameArr))
-                .setHeaderHeight((int) activity.dp_1 * 18)
+                .setHeaderHeight(Math.round(activity.dp_1 * 18))
                 .setHeaderBgColor(activity.getResources().getColor(R.color.light_purple));
         rv.addItemDecoration(decoration);
         RVHelper.initVerticalRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
