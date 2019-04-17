@@ -24,6 +24,7 @@ public class RVTest4Fragment extends BaseFragment {
         new PagerSnapHelper().attachToRecyclerView(rv);
         RVHelper.initHorizontalRV(activity, TestEntity.getList(), rv, SnapTestAdapter.class);
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
+        refresh_layout.setInterceptEventOnScrolled(true);
         refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
             refresh_layout.notifyLoadFinish();
             RVHelper.notifyAdapterRefresh(TestEntity.getList(), rv);

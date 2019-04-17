@@ -186,15 +186,18 @@ public class RefreshLayout extends LinearLayout {
 
     private int pointerId = -1;
     private boolean pointerIdIsChange = false;
+    private float dy = 0;
 
-    private boolean notInterceptEvent = false;
+    private boolean isInterceptEventOnScrolled = false;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if ((load_state == load_state_finished || refresh_state == refresh_state_finished)) {
             return true;
         }
         int actionIndex = ev.getActionIndex();
-        switch (ev.getActionMasked()) {
+        int actionMasked = ev.getActionMasked();
+        switch (actionMasked) {
             case MotionEvent.ACTION_DOWN:
                 startX = ev.getRawX();
                 startY = ev.getRawY();
@@ -216,7 +219,7 @@ public class RefreshLayout extends LinearLayout {
                     float currentX = ev.getRawX();
                     float currentY = ev.getRawY();
                     float dx = currentX - startX;
-                    float dy = currentY - startY;
+                    dy = currentY - startY;
                     if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit &&
                             Math.abs(yScrollSum) < min_scroll_unit)) {//第一个条件限制最大次数 ，避免首几次数据有误
                         xScrollSum += dx;
@@ -241,8 +244,18 @@ public class RefreshLayout extends LinearLayout {
                 break;
         }
         boolean consume = true;
-        if (getScrollY() == 0 || notInterceptEvent) {
+        boolean isDispatch_1 = actionMasked == MotionEvent.ACTION_UP
+                || actionMasked == MotionEvent.ACTION_CANCEL
+                || actionMasked == MotionEvent.ACTION_DOWN;
+        boolean isDispatch_2 = !(getScrollY() > 0 && dy > 0); // 脚出来了且向下滑，不分发事件
+        if (isDispatch_1) {
             consume = super.dispatchTouchEvent(ev);
+        } else {
+            if (getScrollY() == 0) {
+                consume = super.dispatchTouchEvent(ev);
+            } else {
+                if (isDispatch_2 && !isInterceptEventOnScrolled) consume = super.dispatchTouchEvent(ev);
+            }
         }
         return consume;
     }
@@ -592,10 +605,10 @@ public class RefreshLayout extends LinearLayout {
         }
     }
 
-    public void setNotInterceptEvent(boolean notInterceptEvent) {
-        this.notInterceptEvent = notInterceptEvent;
-    }
 
+    public void setInterceptEventOnScrolled(boolean interceptEventOnScrolled) {
+        isInterceptEventOnScrolled = interceptEventOnScrolled;
+    }
 
     private OnRefreshListener onRefreshListener;
 

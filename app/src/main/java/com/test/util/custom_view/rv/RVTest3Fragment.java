@@ -21,6 +21,7 @@ public class RVTest3Fragment extends BaseFragment {
         RecyclerView rv = findViewById(R.id.rv);
         RVHelper.initVerticalRV(activity, TestEntity.getList(20), rv, SwipeTestAdapter.class);
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
+       // refresh_layout.setInterceptEventOnScrolled(true);
         refresh_layout.setOnRefreshListener(refreshLayout -> refresh_layout.postDelayed(() -> {
             SwipeLayout.clearOPenPosition(rv);
             refresh_layout.notifyLoadFinish();
