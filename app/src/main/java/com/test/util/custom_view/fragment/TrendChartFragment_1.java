@@ -3,6 +3,7 @@ package com.test.util.custom_view.fragment;
 import com.common.base.BaseFragment;
 import com.common.widget.CommonTabLayout;
 import com.common.widget.chart.DataHandler_temple;
+import com.common.widget.chart.IDataHandler;
 import com.common.widget.chart.RowCell;
 import com.common.widget.chart.widget.CustomTableView;
 import com.common.widget.refresh.RefreshLayout;
@@ -25,8 +26,8 @@ public class TrendChartFragment_1 extends BaseFragment {
         CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
         tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
         tab_layout_2.setOnSelectChangedListener(position -> {
-            DataHandler_temple dataHandler_temple = new DataHandler_temple(activity);
-            List<List<RowCell>> lists = dataHandler_temple.handleData();
+            IDataHandler dataHandler = new DataHandler_temple(activity);
+            List<List<RowCell>> lists = dataHandler.handleData();
             table_view.setHeaderData(lists.get(0), lists.get(1));
             table_view.setBodyData(lists.get(2), lists.get(3));
         });

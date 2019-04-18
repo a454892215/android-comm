@@ -3,9 +3,12 @@ package com.common.widget.chart;
 import android.text.SpannableStringBuilder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IDataHandler {
 
+
+    List<List<RowCell>> handleData();
     ArrayList<CoordinateEntity> computeCoordinate(int currentPointCount);
 
     SpannableStringBuilder getSpan(int type, int rowIndex, int position, String text);

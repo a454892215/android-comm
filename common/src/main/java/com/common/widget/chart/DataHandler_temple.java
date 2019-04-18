@@ -11,14 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@SuppressWarnings("unused")
 public class DataHandler_temple extends DataHandler {
     public DataHandler_temple(Context context) {
         super(context);
     }
 
     public List<List<RowCell>> handleData() {
-        String arr[] = new String[6];
         List<List<String>> dataArr[] = CastUtil.cast(new ArrayList[4]);
         dataArr[0] = getTestData(1, 1);
         dataArr[1] = getTestData(1, 10);
