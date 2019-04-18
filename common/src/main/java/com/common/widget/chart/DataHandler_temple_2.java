@@ -18,10 +18,10 @@ public class DataHandler_temple_2 extends DataHandler {
 
     public List<List<RowCell>> handleData() {
         List<List<String>> dataArr[] = CastUtil.cast(new ArrayList[4]);
-        dataArr[0] = getTestData(1, 1);
-        dataArr[1] = getTestData(1, 10);
-        dataArr[2] = getTestData(100, 1);
-        dataArr[3] = getTestData(100, 10);
+        dataArr[0] = getTestData(1, 1, 0);
+        dataArr[1] = getTestData(1, 10, 1);
+        dataArr[2] = getTestData(100, 1, 2);
+        dataArr[3] = getTestData(100, 10, 3);
         return getResultData(dataArr);
     }
 
@@ -39,16 +39,22 @@ public class DataHandler_temple_2 extends DataHandler {
         int bgColor = type != 3 ? Color.TRANSPARENT : Color.parseColor(colors[new Random().nextInt(colors.length)]);
         BgSpan span = BgSpan.getSpan(textColor, bgColor);
         span.setRectRadius(dp_1 * 3);
+        span.setPadding(0, dp_1 * 5);
         builder.setSpan(span, 0, text.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return builder;
     }
 
-    private List<List<String>> getTestData(int row, int column) {
+    private List<List<String>> getTestData(int row, int column, int type) {
         List<List<String>> list = new ArrayList<>();
         for (int i = 0; i < row; i++) {//行数
             List<String> rowList = new ArrayList<>();
             for (int j = 0; j < column; j++) { //列数
-                rowList.add(" 列号" + j);
+                if (type == 3) {
+                    rowList.add("" + j);
+                } else {
+                    rowList.add("标题" + j);
+                }
+
             }
             list.add(rowList);
         }
@@ -57,7 +63,7 @@ public class DataHandler_temple_2 extends DataHandler {
 
     @Override
     public int getCellWidth(int type, int rowIndex, int position) {
-        return Math.round(dp_1 * 50);
+        return type == 0 || type == 2 ? Math.round(dp_1 * 50) : Math.round(dp_1 * 35);
     }
 
     @Override

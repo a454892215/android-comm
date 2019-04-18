@@ -29,7 +29,7 @@ public class TrendChartFragment_1 extends BaseFragment {
     @Override
     protected void initView() {
         String[] tabNames = {"组合走势图1", "组合走势图2", "组合走势图3", "组合走势图4"};
-        Class dataHandlerArr[] = {DataHandler_temple.class, DataHandler_temple.class, DataHandler_temple.class, DataHandler_temple_2.class,};
+        Class dataHandlerArr[] = {DataHandler_temple.class, DataHandler_temple_2.class, DataHandler_temple.class, DataHandler_temple_2.class,};
         FrameLayout flt_content = findViewById(R.id.flt_content);
         CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
         tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
