@@ -89,41 +89,17 @@ public class CustomTableView extends FrameLayout {
         }
     }
 
-    private TableRecyclerViewAdapter leftHeaderAdapter;
-    private TableRecyclerViewAdapter rightHeaderAdapter;
-    private TableRecyclerViewAdapter leftBodyAdapter;
-    private TableRecyclerViewAdapter rightBodyAdapter;
 
-
-    private void setAdapter(List<RowCell> data, RecyclerView recyclerView) {
-        TableRecyclerViewAdapter adapter = new TableRecyclerViewAdapter(context, R.layout.table_item_llt_line, data);
-        if (recyclerView == table_rv_body_right) {
-            rightBodyAdapter = adapter;
-         //   adapter.setDrawingBottomLineEnable(drawingBottomLineEnable);
+    private void setAdapter(List<RowCell> data, RecyclerView rv) {
+        TableRecyclerViewAdapter adapter = (TableRecyclerViewAdapter) rv.getAdapter();
+        if (adapter == null) {
+            adapter = new TableRecyclerViewAdapter(context, R.layout.table_item_llt_line, data);
+            rv.setAdapter(adapter);
+        } else {
+            adapter.getList().clear();
+            adapter.getList().addAll(data);
+            adapter.notifyDataSetChanged();
         }
-        if (recyclerView == table_rv_body_left) {
-            leftBodyAdapter = adapter;
-          //  adapter.setDrawingBottomLineEnable(drawingBottomLineEnable);
-        }
-        if (recyclerView == table_rv_header_left) leftHeaderAdapter = adapter;
-        if (recyclerView == table_rv_header_right) rightHeaderAdapter = adapter;
-        recyclerView.setAdapter(adapter);
-    }
-
-    public TableRecyclerViewAdapter getLeftHeaderAdapter() {
-        return leftHeaderAdapter;
-    }
-
-    public TableRecyclerViewAdapter getRightHeaderAdapter() {
-        return rightHeaderAdapter;
-    }
-
-    public TableRecyclerViewAdapter getRightBodyAdapter() {
-        return rightBodyAdapter;
-    }
-
-    public TableRecyclerViewAdapter getLeftBodyAdapter() {
-        return leftBodyAdapter;
     }
 
     public LineView getLineView() {
@@ -143,9 +119,4 @@ public class CustomTableView extends FrameLayout {
         custom_line_view.setLineRadius(lineRadius);
     }
 
-    boolean drawingBottomLineEnable = false;
-
-    public void setIsDrawingBottomLine(boolean enable) {
-        drawingBottomLineEnable = enable;
-    }
 }
