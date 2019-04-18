@@ -27,7 +27,7 @@ public class SwipeTestAdapter extends BaseAppRVAdapter {
         ViewHolder.get(holder.itemView, R.id.tv_action_1).setOnClickListener(v -> {
             list.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, list.size() - position);
+            notifyItemRangeChanged(0, list.size());
         });
         String name = list.get(position).get("name");
         tv.setText(name);
