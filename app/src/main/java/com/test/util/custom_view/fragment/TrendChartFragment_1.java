@@ -1,8 +1,13 @@
 package com.test.util.custom_view.fragment;
 
+import android.content.Context;
+
 import com.common.base.BaseFragment;
+import com.common.utils.CastUtil;
+import com.common.utils.InstanceUtil;
 import com.common.widget.CommonTabLayout;
 import com.common.widget.chart.DataHandler_temple;
+import com.common.widget.chart.DataHandler_temple_2;
 import com.common.widget.chart.IDataHandler;
 import com.common.widget.chart.RowCell;
 import com.common.widget.chart.widget.CustomTableView;
@@ -21,15 +26,17 @@ public class TrendChartFragment_1 extends BaseFragment {
     @Override
     protected void initView() {
         String[] tabNames = {"组合走势图1", "组合走势图2", "组合走势图3", "组合走势图4"};
-
+        Class dataHandlerArr[] = {DataHandler_temple.class, DataHandler_temple.class, DataHandler_temple.class, DataHandler_temple_2.class,};
         CustomTableView table_view = findViewById(R.id.table_view);
         CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
         tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
         tab_layout_2.setOnSelectChangedListener(position -> {
-            IDataHandler dataHandler = new DataHandler_temple(activity);
-            List<List<RowCell>> lists = dataHandler.handleData();
-            table_view.setHeaderData(lists.get(0), lists.get(1));
-            table_view.setBodyData(lists.get(2), lists.get(3));
+            IDataHandler dataHandler = InstanceUtil.getInstance(CastUtil.cast(dataHandlerArr[position]), new Class[]{Context.class}, new Object[]{activity});
+            if (dataHandler != null) {
+                List<List<RowCell>> lists = dataHandler.handleData();
+                table_view.setHeaderData(lists.get(0), lists.get(1));
+                table_view.setBodyData(lists.get(2), lists.get(3));
+            }
         });
         tab_layout_2.setCurrentPosition(0);
         RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);

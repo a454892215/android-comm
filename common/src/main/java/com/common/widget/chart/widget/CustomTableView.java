@@ -90,11 +90,11 @@ public class CustomTableView extends FrameLayout {
     }
 
 
-    private void setAdapter(List<RowCell> data, RecyclerView rv) {
-        TableRecyclerViewAdapter adapter = (TableRecyclerViewAdapter) rv.getAdapter();
+    private void setAdapter(List<RowCell> data, RecyclerView recyclerView) {
+        TableRecyclerViewAdapter adapter = (TableRecyclerViewAdapter) recyclerView.getAdapter();
         if (adapter == null) {
             adapter = new TableRecyclerViewAdapter(context, R.layout.table_item_llt_line, data);
-            rv.setAdapter(adapter);
+            recyclerView.setAdapter(adapter);
         } else {
             adapter.getList().clear();
             adapter.getList().addAll(data);
@@ -118,5 +118,4 @@ public class CustomTableView extends FrameLayout {
     public void setLineRadius(float lineRadius) {
         custom_line_view.setLineRadius(lineRadius);
     }
-
 }

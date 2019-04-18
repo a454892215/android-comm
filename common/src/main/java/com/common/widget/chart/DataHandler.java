@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class DataHandler implements IDataHandler {
-    protected int dp_1;
+    protected float dp_1;
 
     private List<String> trendPointList = new ArrayList<>();
 
     DataHandler(Context context) {
-        dp_1 = Math.round(context.getResources().getDimension(R.dimen.dp_1));
+        dp_1 =context.getResources().getDimension(R.dimen.dp_1);
     }
 
     /**
@@ -79,7 +79,7 @@ public abstract class DataHandler implements IDataHandler {
 
     @Override
     public int getCellWidth(int type, int rowIndex, int position) {
-        return dp_1 * 50;
+        return Math.round(dp_1 * 50);
     }
 
     @Override
@@ -94,12 +94,12 @@ public abstract class DataHandler implements IDataHandler {
 
     @Override
     public int getLineStrokeSize(int type, int rowIndex) {
-        return dp_1;
+        return Math.round(dp_1);
     }
 
     @Override
     public int getLineHeight(int type, int rowIndex) {
-        return dp_1 * 35;
+        return Math.round(dp_1 * 35);
     }
 
 }

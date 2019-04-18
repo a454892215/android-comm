@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class DataHandler_temple extends DataHandler {
-    public DataHandler_temple(Context context) {
+public class DataHandler_temple_2 extends DataHandler {
+    public DataHandler_temple_2(Context context) {
         super(context);
     }
 
@@ -48,7 +48,7 @@ public class DataHandler_temple extends DataHandler {
         for (int i = 0; i < row; i++) {//行数
             List<String> rowList = new ArrayList<>();
             for (int j = 0; j < column; j++) { //列数
-                rowList.add("行号" + i + " 列号" + j);
+                rowList.add(" 列号" + j);
             }
             list.add(rowList);
         }
@@ -57,7 +57,7 @@ public class DataHandler_temple extends DataHandler {
 
     @Override
     public int getCellWidth(int type, int rowIndex, int position) {
-        return Math.round(dp_1 * 80);
+        return Math.round(dp_1 * 50);
     }
 
     @Override
