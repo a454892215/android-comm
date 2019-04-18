@@ -25,9 +25,13 @@ public class SwipeTestAdapter extends BaseAppRVAdapter {
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         CommonTextView tv = ViewHolder.get(holder.itemView, R.id.tv_1);
         ViewHolder.get(holder.itemView, R.id.tv_action_1).setOnClickListener(v -> {
-            list.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(0, list.size());
+            holder.itemView.scrollTo(0, 0);
+            holder.itemView.postDelayed(() -> {
+                list.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(0, list.size());
+            },120);
+
         });
         String name = list.get(position).get("name");
         tv.setText(name);
