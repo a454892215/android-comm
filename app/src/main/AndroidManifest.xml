@@ -24,6 +24,7 @@
 
         <activity
             android:name=".main.MainActivity"
+            android:theme="@style/AppTheme.SplashTheme"
             android:configChanges="screenSize|keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,6 +46,7 @@
         <activity
             android:name=".X5WebTestActivity"
             android:alwaysRetainTaskState="true"
+            android:theme="@style/AppTheme.SplashTheme"
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:exported="false"

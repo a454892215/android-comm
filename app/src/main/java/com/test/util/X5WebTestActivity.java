@@ -42,10 +42,10 @@ public class X5WebTestActivity extends BaseAppActivity {
         progress_bar = findViewById(R.id.progress_bar);
         findViewById(R.id.iv_search).setOnClickListener(v -> {
             String url = et_url_info.getText().toString();
-            if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:")) {
+            if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:") && url.contains(".")) {
                 url = "http:" + url;
             }
-            if (!TextUtils.isEmpty(url)) {
+            if (!TextUtils.isEmpty(url) && url.startsWith("http:") || url.startsWith("https:")) {
                 web_view.loadUrl(url);
             }
 
@@ -100,9 +100,9 @@ public class X5WebTestActivity extends BaseAppActivity {
         public void onProgressChanged(int progress) {
             super.onProgressChanged(progress);
             progress_bar.setProgress(progress);
-            if(progress == 100){
+            if (progress == 100) {
                 progress_bar.setVisibility(View.INVISIBLE);
-            }else{
+            } else {
                 progress_bar.setVisibility(View.VISIBLE);
             }
             LogUtil.d("=============progress:" + progress);
