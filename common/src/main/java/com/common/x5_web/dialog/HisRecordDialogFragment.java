@@ -54,7 +54,7 @@ public class HisRecordDialogFragment extends BaseDialogFragment {
         updateUI();
     }
 
-    private void updateUI() {
+    public void updateUI() {
         FindMultiExecutor<HistoryRecordEntity> allAsync = LitePal.findAllAsync(HistoryRecordEntity.class);
         allAsync.listen(entityList -> {
             ArrayList<Map<String, String>> list = new ArrayList<>();

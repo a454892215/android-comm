@@ -47,7 +47,7 @@ public class MyWebViewClient extends WebViewClient {
         entity.setUrl(url);
         entity.setTitle(view.getTitle());
         boolean save = entity.save();
-        LogUtil.d("================保存历史记录是否成功：" + save + " title:" + view.getTitle());
+      //  LogUtil.d("================保存历史记录是否成功：" + save + " url:" + url);
         view.loadUrl(url);//防止加载网页时调起系统浏览器
         return true;
     }
@@ -71,15 +71,9 @@ public class MyWebViewClient extends WebViewClient {
     }
 
     @Override
-    public void onPageFinished(WebView webView, String url) {
-        super.onPageFinished(webView, url);
-        LogUtil.d("===========onPageFinished=============:" + url);
-    }
-
-    @Override
     public void onPageStarted(WebView webView, String url, Bitmap bitmap) {
         super.onPageStarted(webView, url, bitmap);
-     //   LogUtil.d("===========onPageStarted=============url:" + url);
+        LogUtil.d("===========onPageStarted=============url:" + url);
     }
 
     @Override

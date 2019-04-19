@@ -123,6 +123,8 @@ public class X5WebTestActivity extends BaseAppActivity {
                 if (hisRecordDialog == null) {
                     hisRecordDialog = new HisRecordDialogFragment();
                     hisRecordDialog.setOnClickHistoryUrl(url -> web_view.loadUrl(url));
+                }else{
+                    hisRecordDialog.updateUI();
                 }
                 hisRecordDialog.show(fm, hisRecordDialog.getClass().getName());
                 break;
