@@ -1,8 +1,5 @@
 package com.common.x5_web;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.view.View;
 
@@ -13,7 +10,6 @@ import com.tencent.smtt.export.external.interfaces.JsPromptResult;
 import com.tencent.smtt.export.external.interfaces.JsResult;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
 
 public class MyWebChromeClient extends WebChromeClient {
@@ -21,7 +17,7 @@ public class MyWebChromeClient extends WebChromeClient {
         this.webViewInfoCallBack = webViewInfoCallBack;
     }
 
-    WebViewInfoCallBack webViewInfoCallBack;
+    private WebViewInfoCallBack webViewInfoCallBack;
 
     @Override
     public boolean onJsTimeout() {
@@ -29,10 +25,21 @@ public class MyWebChromeClient extends WebChromeClient {
         return super.onJsTimeout();
     }
 
+
     @Override
-    public void onProgressChanged(WebView webView, int i) {
-        super.onProgressChanged(webView, i);
-        //   LogUtil.d("==============onProgressChanged============");
+    public void onProgressChanged(WebView webView, int progress) {
+        super.onProgressChanged(webView, progress);
+        if (webViewInfoCallBack != null) webViewInfoCallBack.onProgressChanged(progress);
+      /*  if (progress < 70) {
+            if (webViewInfoCallBack != null) webViewInfoCallBack.onProgressChanged(progress);
+        } else {
+            if (webViewInfoCallBack != null) {
+                MyCountDownTimer myCountDownTimer = new MyCountDownTimer(10, 25);
+                myCountDownTimer.setOnTickListener((time, count) -> webViewInfoCallBack.onProgressChanged(70 + 30 * (count / 10)));
+                myCountDownTimer.start();
+            }
+        }*/
+
     }
 
     @Override
@@ -60,12 +67,6 @@ public class MyWebChromeClient extends WebChromeClient {
     }
 
     @Override
-    public void onReachedMaxAppCacheSize(long l, long l1, WebStorage.QuotaUpdater quotaUpdater) {
-        super.onReachedMaxAppCacheSize(l, l1, quotaUpdater);
-        LogUtil.d("==============onReachedMaxAppCacheSize============");
-    }
-
-    @Override
     public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissionsCallback callback) {
         callback.invoke(origin, true, false);
         super.onGeolocationPermissionsShowPrompt(origin, callback);
@@ -81,7 +82,7 @@ public class MyWebChromeClient extends WebChromeClient {
     @Override
     public void onReceivedTitle(WebView webView, String title) {
         super.onReceivedTitle(webView, title);
-        if(webViewInfoCallBack != null)webViewInfoCallBack.onReceivedTitle(title);
+        if (webViewInfoCallBack != null) webViewInfoCallBack.onReceivedTitle(title);
     }
 
 }

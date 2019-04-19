@@ -3,9 +3,12 @@ package com.test.util;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.ProgressBar;
 
+import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
@@ -15,6 +18,7 @@ public class X5WebTestActivity extends BaseAppActivity {
 
     private X5WebView web_view;
     private CommonEditText et_url_info;
+    private ProgressBar progress_bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class X5WebTestActivity extends BaseAppActivity {
 
     private void setBrowserHeader() {
         et_url_info = findViewById(R.id.et);
+        progress_bar = findViewById(R.id.progress_bar);
         findViewById(R.id.iv_search).setOnClickListener(v -> {
             String url = et_url_info.getText().toString();
             if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:")) {
@@ -89,6 +94,18 @@ public class X5WebTestActivity extends BaseAppActivity {
         public void onReceivedTitle(String title) {
             super.onReceivedTitle(title);
             et_url_info.setText(title);
+        }
+
+        @Override
+        public void onProgressChanged(int progress) {
+            super.onProgressChanged(progress);
+            progress_bar.setProgress(progress);
+            if(progress == 100){
+                progress_bar.setVisibility(View.INVISIBLE);
+            }else{
+                progress_bar.setVisibility(View.VISIBLE);
+            }
+            LogUtil.d("=============progress:" + progress);
         }
     }
 

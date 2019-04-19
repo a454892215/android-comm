@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="5dip" />
+            <stroke
+                android:width="@dimen/dp_0_2"
+                android:color="#eeeeee" />
+            <gradient
+                android:angle="270"
+                android:centerColor="#eeeeee"
+                android:centerY="0.75"
+                android:endColor="#eeeeee"
+                android:startColor="#eeeeee" />
+            <size android:height="10dp" />
+        </shape>
+    </item>
+
+    <!--<item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <corners android:radius="@dimen/dp_5" />
+                <gradient
+                    android:angle="270"
+                    android:centerColor="#CCAB59"
+                    android:centerY="0.75"
+                    android:endColor="#5E462D"
+                    android:startColor="#413022" />
+            </shape>
+        </clip>
+    </item>-->
+
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <corners android:radius="@dimen/dp_5" />
+                <gradient
+                    android:angle="270"
+                    android:centerColor="#47A2CA"
+                    android:centerY="0.75"
+                    android:endColor="#47A2CA"
+                    android:startColor="#47A2CA" />
+            </shape>
+        </clip>
+
+    </item>
+</layer-list>
+
