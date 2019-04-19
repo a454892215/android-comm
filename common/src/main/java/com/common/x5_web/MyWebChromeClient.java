@@ -1,5 +1,8 @@
 package com.common.x5_web;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.view.View;
 
@@ -14,6 +17,12 @@ import com.tencent.smtt.sdk.WebStorage;
 import com.tencent.smtt.sdk.WebView;
 
 public class MyWebChromeClient extends WebChromeClient {
+    MyWebChromeClient(WebViewInfoCallBack webViewInfoCallBack) {
+        this.webViewInfoCallBack = webViewInfoCallBack;
+    }
+
+    WebViewInfoCallBack webViewInfoCallBack;
+
     @Override
     public boolean onJsTimeout() {
         LogUtil.d("==============onJsTimeout============");
@@ -23,7 +32,7 @@ public class MyWebChromeClient extends WebChromeClient {
     @Override
     public void onProgressChanged(WebView webView, int i) {
         super.onProgressChanged(webView, i);
-     //   LogUtil.d("==============onProgressChanged============");
+        //   LogUtil.d("==============onProgressChanged============");
     }
 
     @Override
@@ -68,4 +77,11 @@ public class MyWebChromeClient extends WebChromeClient {
         super.onGeolocationPermissionsHidePrompt();
         LogUtil.d("==============onGeolocationPermissionsHidePrompt============");
     }
+
+    @Override
+    public void onReceivedTitle(WebView webView, String title) {
+        super.onReceivedTitle(webView, title);
+        if(webViewInfoCallBack != null)webViewInfoCallBack.onReceivedTitle(title);
+    }
+
 }

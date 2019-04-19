@@ -7,12 +7,14 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 
 import com.common.widget.CommonEditText;
+import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
 import com.test.util.base.BaseAppActivity;
 
 public class X5WebTestActivity extends BaseAppActivity {
 
     private X5WebView web_view;
+    private CommonEditText et_url_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,16 +27,16 @@ public class X5WebTestActivity extends BaseAppActivity {
         setBrowserHeader();
         setBrowserFooter();
         web_view = findViewById(R.id.web_view);
-        web_view.initWebViewSettings(this, null);
+        web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
         web_view.loadUrl("https://www.hao123.com");
         web_view.requestFocus();
         // setContentView(web_view);
     }
 
     private void setBrowserHeader() {
-        CommonEditText et = findViewById(R.id.et);
+        et_url_info = findViewById(R.id.et);
         findViewById(R.id.iv_search).setOnClickListener(v -> {
-            String url = et.getText().toString();
+            String url = et_url_info.getText().toString();
             if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:")) {
                 url = "http:" + url;
             }
@@ -81,4 +83,13 @@ public class X5WebTestActivity extends BaseAppActivity {
             android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
+
+    private class MyWebViewInfoCallBack extends WebViewInfoCallBack {
+        @Override
+        public void onReceivedTitle(String title) {
+            super.onReceivedTitle(title);
+            et_url_info.setText(title);
+        }
+    }
+
 }

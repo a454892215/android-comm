@@ -17,19 +17,19 @@ import com.tencent.smtt.sdk.WebViewClient;
 
 public class MyWebViewClient extends WebViewClient {
 
-    MyWebViewClient(BaseActivity activity, OnUrlChangeListener onUrlChangeListner) {
+    MyWebViewClient(BaseActivity activity, WebViewInfoCallBack webViewInfoCallBack) {
         this.activity = activity;
-        this.onUrlChangeListner = onUrlChangeListner;
+        this.webViewInfoCallBack = webViewInfoCallBack;
     }
 
     private BaseActivity activity;
-    private OnUrlChangeListener onUrlChangeListner;
+    private WebViewInfoCallBack webViewInfoCallBack;
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
+      //  LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
         if (url == null) return false;
-        if (onUrlChangeListner != null) {
-            onUrlChangeListner.onUrlChangeListener(url);
+        if (webViewInfoCallBack != null) {
+            webViewInfoCallBack.onUrlChange(url);
         }
         try {
             if (!url.startsWith("http:") && !url.startsWith("https:")) {
@@ -111,7 +111,4 @@ public class MyWebViewClient extends WebViewClient {
         return super.shouldInterceptRequest(webView, s);
     }
 
-    public interface OnUrlChangeListener {
-        void onUrlChangeListener(String url);
-    }
 }
