@@ -7,6 +7,8 @@ import android.os.Message;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
+import com.common.x5_web.entity.BookmarkEntity;
+import com.common.x5_web.entity.HistoryRecordEntity;
 import com.tencent.smtt.export.external.interfaces.ClientCertRequest;
 import com.tencent.smtt.export.external.interfaces.HttpAuthHandler;
 import com.tencent.smtt.export.external.interfaces.SslError;
@@ -26,7 +28,7 @@ public class MyWebViewClient extends WebViewClient {
     private WebViewInfoCallBack webViewInfoCallBack;
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
-      //  LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
+        //  LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
         if (url == null) return false;
         if (webViewInfoCallBack != null) {
             webViewInfoCallBack.onUrlChange(url);
@@ -40,7 +42,12 @@ public class MyWebViewClient extends WebViewClient {
         } catch (Exception e) { //防止crash (如果手机上没有安装处理某个scheme开头的url的APP, 会导致crash)
             return true;//没有安装该app时，返回true，表示拦截自定义链接，但不跳转，避免弹出上面的错误页面
         }
-
+        HistoryRecordEntity entity = new HistoryRecordEntity();
+        entity.setTime(System.currentTimeMillis());
+        entity.setUrl(url);
+        entity.setTitle(view.getTitle());
+        boolean save = entity.save();
+        LogUtil.d("================保存历史记录是否成功：" + save + " title:" + view.getTitle());
         view.loadUrl(url);//防止加载网页时调起系统浏览器
         return true;
     }
@@ -72,7 +79,7 @@ public class MyWebViewClient extends WebViewClient {
     @Override
     public void onPageStarted(WebView webView, String url, Bitmap bitmap) {
         super.onPageStarted(webView, url, bitmap);
-        LogUtil.d("===========onPageStarted=============url:" + url);
+     //   LogUtil.d("===========onPageStarted=============url:" + url);
     }
 
     @Override

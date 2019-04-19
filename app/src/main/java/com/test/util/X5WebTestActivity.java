@@ -12,6 +12,7 @@ import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
+import com.common.x5_web.dialog.HisRecordDialogFragment;
 import com.test.util.base.BaseAppActivity;
 
 public class X5WebTestActivity extends BaseAppActivity {
@@ -19,6 +20,9 @@ public class X5WebTestActivity extends BaseAppActivity {
     private X5WebView web_view;
     private CommonEditText et_url_info;
     private ProgressBar progress_bar;
+
+    private String home_url = "https://www.hao123.com";
+    private HisRecordDialogFragment hisRecordDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         setBrowserFooter();
         web_view = findViewById(R.id.web_view);
         web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
-        web_view.loadUrl("https://www.hao123.com");
+        web_view.loadUrl(home_url);
         web_view.requestFocus();
         // setContentView(web_view);
     }
@@ -53,8 +57,12 @@ public class X5WebTestActivity extends BaseAppActivity {
     }
 
     private void setBrowserFooter() {
-        findViewById(R.id.tv_go_home).setOnClickListener(v -> web_view.loadUrl("http://www.baidu.com"));
-
+        findViewById(R.id.tv_go_home).setOnClickListener(this);
+        findViewById(R.id.tv_refresh).setOnClickListener(this);
+        findViewById(R.id.tv_go_forward).setOnClickListener(this);
+        findViewById(R.id.tv_go_back).setOnClickListener(this);
+        findViewById(R.id.tv_bookmark).setOnClickListener(this);
+        findViewById(R.id.tv_go_his).setOnClickListener(this);
     }
 
     @Override
@@ -86,6 +94,38 @@ public class X5WebTestActivity extends BaseAppActivity {
             web_view.destroy();
             super.onDestroy();
             android.os.Process.killProcess(android.os.Process.myPid());
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.tv_go_home:
+                web_view.loadUrl(home_url);
+                break;
+            case R.id.tv_refresh:
+                web_view.reload();
+                break;
+            case R.id.tv_go_forward:
+                if (web_view.canGoForward()) {
+                    web_view.goForward();
+                }
+                break;
+            case R.id.tv_go_back:
+                if (web_view.canGoBack()) {
+                    web_view.goBack();
+                }
+                break;
+            case R.id.tv_bookmark:
+                break;
+            case R.id.tv_go_his:
+                if (hisRecordDialog == null) {
+                    hisRecordDialog = new HisRecordDialogFragment();
+                    hisRecordDialog.setOnClickHistoryUrl(url -> web_view.loadUrl(url));
+                }
+                hisRecordDialog.show(fm, hisRecordDialog.getClass().getName());
+                break;
         }
     }
 

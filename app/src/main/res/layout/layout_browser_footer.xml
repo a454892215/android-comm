@@ -56,7 +56,7 @@
         android:textSize="@dimen/sp_15" />
 
     <com.common.widget.CommonTextView
-        android:id="@+id/tv_go_remark"
+        android:id="@+id/tv_bookmark"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="@dimen/dp_40"

@@ -10,6 +10,8 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.smtt.sdk.QbSdk;
 
+import org.litepal.LitePal;
+
 /**
  * Author:  L
  * CreateDate: 2018/12/17 16:47
@@ -28,6 +30,7 @@ public class AppApplication extends Application {
         initLogger();
         initX5WebView();
         registerActivityLifecycleCallbacks(new ActivityCallbacks());
+        LitePal.initialize(this);
         //  sTypeface = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
     }
 

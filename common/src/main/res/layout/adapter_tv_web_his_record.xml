@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.common.widget.CommonTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="@dimen/sp_13"
+    android:padding="@dimen/dp_5"
+    android:textColor="#333333"
+    android:maxLines="2"
+    android:ellipsize="end"
+    android:background="?selectableItemBackground"
+    tools:ignore="HardcodedText" />
