@@ -26,7 +26,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         setBrowserFooter();
         web_view = findViewById(R.id.web_view);
         web_view.initWebViewSettings(this, null);
-        web_view.loadUrl("http://www.baidu.com");
+        web_view.loadUrl("https://www.hao123.com");
         web_view.requestFocus();
         // setContentView(web_view);
     }
@@ -78,7 +78,7 @@ public class X5WebTestActivity extends BaseAppActivity {
             web_view.removeAllViews();
             web_view.destroy();
             super.onDestroy();
-            //  android.os.Process.killProcess(android.os.Process.myPid());
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 }
