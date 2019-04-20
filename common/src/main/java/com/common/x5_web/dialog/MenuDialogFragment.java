@@ -17,10 +17,11 @@ public class MenuDialogFragment extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setAnimStyle(R.style.dialog_anim_bottom).setGravity(Gravity.BOTTOM);
+        setAnimStyle(R.style.dialog_anim_right);
+        setDimeAmount(0f).setGravity(Gravity.BOTTOM);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        setDimeAmount(0.1f);
+
     }
 
     @Override
