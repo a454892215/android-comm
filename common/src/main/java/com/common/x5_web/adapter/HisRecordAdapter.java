@@ -7,6 +7,8 @@ import com.common.R;
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
 import com.common.utils.CastUtil;
+import com.common.utils.LogUtil;
+import com.common.utils.ViewHolder;
 import com.common.widget.CommonTextView;
 import com.common.x5_web.entity.HistoryRecordEntity;
 
@@ -28,6 +30,18 @@ public class HisRecordAdapter extends BaseAppRVAdapter {
         HistoryRecordEntity entity = CastUtil.cast(list.get(position));
         tv_title.setText(entity.getTitle());
         tv_url.setText(entity.getUrl());
+
+        ViewHolder.get(holder.itemView, R.id.tv_action_1).setOnClickListener(v -> {
+            holder.itemView.scrollTo(0, 0);
+            holder.itemView.postDelayed(() -> {
+                HistoryRecordEntity entity_del = CastUtil.cast(list.get(position));
+                entity_del.delete();
+                list.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(0, list.size());
+            }, 110);
+
+        });
     }
 
 }

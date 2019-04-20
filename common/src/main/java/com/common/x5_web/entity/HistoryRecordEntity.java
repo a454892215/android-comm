@@ -1,11 +1,13 @@
 package com.common.x5_web.entity;
 
+import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 public class HistoryRecordEntity extends LitePalSupport {
 
     private String title;
     private String url;
+    @Column(unique = true)
     private long time;
 
     public String getTitle() {
