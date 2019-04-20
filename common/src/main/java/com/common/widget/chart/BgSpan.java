@@ -71,6 +71,13 @@ public class BgSpan extends ReplacementSpan {
         }
         canvas.drawRoundRect(x - horizontalPadding, top - verticalPadding,
                 x + textWidth + horizontalPadding, bottom + verticalPadding, rectRadius, rectRadius, paint);
+
+       /* if (size != 0) {
+            float textCX = x + textWidth - textWidth / 2f;
+            float textCY = bottom / 2f;
+            canvas.drawRoundRect(textCX - size / 2f, textCY - size / 2f,
+                    textCX + size / 2f, textCY + size / 2f, rectRadius, rectRadius, paint);
+        }*/
         paint.setColor(this.textColor);
         paint.setStrokeWidth(originStrokeWidth);
         canvas.drawText(text, start, end, x, y, paint);
