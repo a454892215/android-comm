@@ -14,6 +14,7 @@ public class SwipeLayout extends HorizontalScrollView {
 
 
     private static int canScrollMaxValue;
+    private long downTime;
 
     public SwipeLayout(Context context) {
         this(context, null);
@@ -32,11 +33,15 @@ public class SwipeLayout extends HorizontalScrollView {
         int action = ev.getAction();
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+                downTime = System.currentTimeMillis();
                 if (canScrollMaxValue == 0) {
                     canScrollMaxValue = getChildAt(0).getWidth() - getWidth();
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if (getScrollX() == 0 && System.currentTimeMillis() - downTime < 200) {
+                    performClick();
+                }
                 postDelayed(() -> {
                     boolean isScrollBack = false;
                     if (getScrollX() < canScrollMaxValue / 2) {
