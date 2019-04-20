@@ -32,4 +32,12 @@ public class BookmarkEntity extends LitePalSupport {
         this.time = time;
     }
 
+    @Override
+    public String toString() {
+        return "BookmarkEntity{" +
+                "title='" + title + '\'' +
+                ", url='" + url + '\'' +
+                ", time=" + time +
+                '}';
+    }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
+import com.common.utils.CastUtil;
 import com.common.utils.ViewHolder;
 import com.common.widget.CommonTextView;
 import com.test.util.R;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 public class SwipeTestAdapter extends BaseAppRVAdapter {
 
-    public SwipeTestAdapter(Context activity, List<Map<String, String>> list) {
+    public SwipeTestAdapter(Context activity, List<Object> list) {
         super(activity, R.layout.adapter_swipte_test, list);
     }
 
@@ -33,7 +34,8 @@ public class SwipeTestAdapter extends BaseAppRVAdapter {
             },120);
 
         });
-        String name = list.get(position).get("name");
+        Map<String,String> map = CastUtil.cast(list.get(position));
+        String name =map.get("name");
         tv.setText(name);
     }
 }

@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
+import com.common.utils.CastUtil;
 import com.common.widget.CommonTextView;
 import com.test.util.R;
 
@@ -14,7 +15,7 @@ import java.util.Map;
 public class RVTestAdapter extends BaseAppRVAdapter {
 
 
-    public RVTestAdapter(Context context, List<Map<String, String>> list) {
+    public RVTestAdapter(Context context, List<Object> list) {
         super(context, R.layout.adapter_tv_2, list);
     }
 
@@ -23,7 +24,8 @@ public class RVTestAdapter extends BaseAppRVAdapter {
         super.onBindViewHolder(holder, position);
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         CommonTextView tv = (CommonTextView) holder.itemView;
-        String name = list.get(position).get("name");
+        Map<String, String> map = CastUtil.cast(list.get(position));
+        String name = map.get("name");
         tv.setText(name);
     }
 

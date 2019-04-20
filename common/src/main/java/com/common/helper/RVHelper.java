@@ -19,7 +19,7 @@ public class RVHelper {
         return adapter;
     }
 
-    public static BaseAppRVAdapter initHorizontalRV(BaseActivity activity, List<Map<String, String>> list, RecyclerView rv, Class<? extends BaseAppRVAdapter> typeClass) {
+    public static BaseAppRVAdapter initHorizontalRV(BaseActivity activity, List<?> list, RecyclerView rv, Class<? extends BaseAppRVAdapter> typeClass) {
         BaseAppRVAdapter adapter = BaseAppRVAdapter.getInstance(activity, list, typeClass);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -28,7 +28,7 @@ public class RVHelper {
         return adapter;
     }
 
-    public static void notifyAdapterRefresh(List<Map<String, String>> list, RecyclerView rv) {
+    public static void notifyAdapterRefresh(List<?> list, RecyclerView rv) {
         BaseAppRVAdapter adapter = (BaseAppRVAdapter) rv.getAdapter();
         if (adapter != null) {
             adapter.getList().clear();

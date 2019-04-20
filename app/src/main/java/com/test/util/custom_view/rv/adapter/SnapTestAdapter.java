@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
+import com.common.utils.CastUtil;
 import com.common.utils.ViewHolder;
 import com.common.widget.CommonTextView;
 import com.test.util.R;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class SnapTestAdapter extends BaseAppRVAdapter {
 
-    public SnapTestAdapter(Context activity, List<Map<String, String>> list) {
+    public SnapTestAdapter(Context activity, List<Object> list) {
         super(activity, R.layout.adapter_snap_test, list);
     }
 
@@ -25,7 +26,8 @@ public class SnapTestAdapter extends BaseAppRVAdapter {
         super.onBindViewHolder(holder, position);
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         CommonTextView tv = ViewHolder.get(holder.itemView, R.id.tv_1);
-        String name = list.get(position).get("name");
+        Map<String, String> map = CastUtil.cast(list.get(position));
+        String name = map.get("name");
         tv.setText(name);
         holder.itemView.setBackgroundColor(context.getResources().getColor(colors[position % colors.length]));
     }

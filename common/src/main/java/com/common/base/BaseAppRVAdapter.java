@@ -5,15 +5,14 @@ import com.common.utils.LogUtil;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
-import java.util.Map;
 
-public class BaseAppRVAdapter extends BaseRVAdapter<Map<String, String>> {
+public class BaseAppRVAdapter extends BaseRVAdapter<Object> {
 
-    public BaseAppRVAdapter(Context activity, int itemLayoutId, List<Map<String, String>> list) {
+    public BaseAppRVAdapter(Context activity, int itemLayoutId, List<Object> list) {
         super(activity, itemLayoutId, list);
     }
 
-    public static BaseAppRVAdapter getInstance(Context context, List<Map<String, String>> list, Class<? extends BaseAppRVAdapter> typeClass) {
+    public static BaseAppRVAdapter getInstance(Context context, List<?> list, Class<? extends BaseAppRVAdapter> typeClass) {
         BaseAppRVAdapter adapter = null;
         try {
             Class[] parameterTypes = {Context.class, List.class};
