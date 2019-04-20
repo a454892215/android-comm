@@ -3,7 +3,6 @@ package com.common.x5_web.dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.WindowManager;
 
 import com.common.R;
@@ -13,9 +12,7 @@ import com.common.helper.RVHelper;
 import com.common.listener.OnClickListener;
 import com.common.utils.CastUtil;
 import com.common.x5_web.adapter.BookmarkAdapter;
-import com.common.x5_web.adapter.HisRecordAdapter;
 import com.common.x5_web.entity.BookmarkEntity;
-import com.common.x5_web.entity.HistoryRecordEntity;
 
 import org.litepal.LitePal;
 import org.litepal.crud.async.FindMultiExecutor;
@@ -31,7 +28,8 @@ public class BookmarkDialogFragment extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setAnimStyle(R.style.dialog_anim_bottom).setGravity(Gravity.BOTTOM);
+        setAnimStyle(R.style.dialog_anim_right);
+        setDimeAmount(0f);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.MATCH_PARENT);
     }
