@@ -7,7 +7,6 @@ import com.common.R;
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
 import com.common.utils.CastUtil;
-import com.common.utils.LogUtil;
 import com.common.utils.ViewHolder;
 import com.common.widget.CommonTextView;
 import com.common.x5_web.entity.HistoryRecordEntity;
