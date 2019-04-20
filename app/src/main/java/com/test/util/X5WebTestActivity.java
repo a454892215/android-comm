@@ -12,7 +12,6 @@ import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
-import com.common.x5_web.dialog.HisDialogFragment;
 import com.common.x5_web.dialog.MenuDialogFragment;
 import com.test.util.base.BaseAppActivity;
 
@@ -23,7 +22,6 @@ public class X5WebTestActivity extends BaseAppActivity {
     private ProgressBar progress_bar;
 
     private String home_url = "https://www.hao123.com";
-    private HisDialogFragment hisRecordDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,7 @@ public class X5WebTestActivity extends BaseAppActivity {
             }
 
         });
+        et_url_info.setSelectAllOnFocus(true);
     }
 
     private void setBrowserFooter() {
@@ -145,10 +144,6 @@ public class X5WebTestActivity extends BaseAppActivity {
             }
             LogUtil.d("=============progress:" + progress);
         }
-    }
-
-    public X5WebView getWebView() {
-        return web_view;
     }
 
 }
