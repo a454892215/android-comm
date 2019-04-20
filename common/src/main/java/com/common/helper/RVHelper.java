@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class RVHelper {
 
-    public static BaseAppRVAdapter initVerticalRV(BaseActivity activity, List<Map<String, String>> list, RecyclerView rv, Class<? extends BaseAppRVAdapter> typeClass) {
+    public static BaseAppRVAdapter initVerticalRV(BaseActivity activity, List<?> list, RecyclerView rv, Class<? extends BaseAppRVAdapter> typeClass) {
         BaseAppRVAdapter adapter = BaseAppRVAdapter.getInstance(activity, list, typeClass);
         rv.setLayoutManager(new LinearLayoutManager(activity));
         rv.setAdapter(adapter);
