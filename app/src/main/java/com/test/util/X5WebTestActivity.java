@@ -12,7 +12,8 @@ import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
-import com.common.x5_web.dialog.HisRecordDialogFragment;
+import com.common.x5_web.dialog.HisDialogFragment;
+import com.common.x5_web.dialog.MenuDialogFragment;
 import com.test.util.base.BaseAppActivity;
 
 public class X5WebTestActivity extends BaseAppActivity {
@@ -22,7 +23,7 @@ public class X5WebTestActivity extends BaseAppActivity {
     private ProgressBar progress_bar;
 
     private String home_url = "https://www.hao123.com";
-    private HisRecordDialogFragment hisRecordDialog;
+    private HisDialogFragment hisRecordDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +62,8 @@ public class X5WebTestActivity extends BaseAppActivity {
         findViewById(R.id.tv_refresh).setOnClickListener(this);
         findViewById(R.id.tv_go_forward).setOnClickListener(this);
         findViewById(R.id.tv_go_back).setOnClickListener(this);
-        findViewById(R.id.tv_bookmark).setOnClickListener(this);
-        findViewById(R.id.tv_go_his).setOnClickListener(this);
+        findViewById(R.id.tv_menu).setOnClickListener(this);
+        // findViewById(R.id.tv_go_his).setOnClickListener(this);
     }
 
     @Override
@@ -117,17 +118,12 @@ public class X5WebTestActivity extends BaseAppActivity {
                     web_view.goBack();
                 }
                 break;
-            case R.id.tv_bookmark:
+            case R.id.tv_menu:
+                MenuDialogFragment menuDialog = new MenuDialogFragment();
+                menuDialog.setWebView(web_view);
+                menuDialog.show(fm, menuDialog.getClass().getName());
                 break;
-            case R.id.tv_go_his:
-                if (hisRecordDialog == null) {
-                    hisRecordDialog = new HisRecordDialogFragment();
-                    hisRecordDialog.setOnClickHistoryUrl(url -> web_view.loadUrl(url));
-                }else{
-                    hisRecordDialog.updateUI();
-                }
-                hisRecordDialog.show(fm, hisRecordDialog.getClass().getName());
-                break;
+
         }
     }
 
@@ -149,6 +145,10 @@ public class X5WebTestActivity extends BaseAppActivity {
             }
             LogUtil.d("=============progress:" + progress);
         }
+    }
+
+    public X5WebView getWebView() {
+        return web_view;
     }
 
 }

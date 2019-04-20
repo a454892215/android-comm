@@ -10,23 +10,23 @@ import com.common.R;
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseDialogFragment;
 import com.common.helper.RVHelper;
+import com.common.listener.OnClickListener;
 import com.common.utils.CastUtil;
+import com.common.x5_web.adapter.BookmarkAdapter;
 import com.common.x5_web.adapter.HisRecordAdapter;
+import com.common.x5_web.entity.BookmarkEntity;
 import com.common.x5_web.entity.HistoryRecordEntity;
 
 import org.litepal.LitePal;
 import org.litepal.crud.async.FindMultiExecutor;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
-public class HisRecordDialogFragment extends BaseDialogFragment {
+public class BookmarkDialogFragment extends BaseDialogFragment {
 
     private RecyclerView rv;
 
-    private OnClickHistoryUrl onClickHistoryUrl;
+    private OnClickListener onClickListener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,26 +38,26 @@ public class HisRecordDialogFragment extends BaseDialogFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.dialog_fra_web_his_record;
+        return R.layout.dialog_fra_web_bookmark;
     }
 
     @Override
     protected void initView() {
         rv = findViewById(R.id.rv);
-        BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, null, rv, HisRecordAdapter.class);
+        BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, null, rv, BookmarkAdapter.class);
         adapter.setOnItemClick((view, position) -> {
-            HistoryRecordEntity entity = CastUtil.cast(adapter.getList().get(position));
+            BookmarkEntity entity = CastUtil.cast(adapter.getList().get(position));
             String url = entity.getUrl();
-            if (onClickHistoryUrl != null) {
+            if (onClickListener != null) {
                 dismiss();
-                onClickHistoryUrl.onClickHistoryUrl(url);
+                onClickListener.onClick(url);
             }
         });
         updateUI();
     }
 
     public void updateUI() {
-        FindMultiExecutor<HistoryRecordEntity> allAsync = LitePal.findAllAsync(HistoryRecordEntity.class);
+        FindMultiExecutor<BookmarkEntity> allAsync = LitePal.findAllAsync(BookmarkEntity.class);
         allAsync.listen(entityList -> {
             Collections.reverse(entityList);
             RVHelper.notifyAdapterRefresh(entityList, rv);
@@ -65,12 +65,9 @@ public class HisRecordDialogFragment extends BaseDialogFragment {
     }
 
 
-    public void setOnClickHistoryUrl(OnClickHistoryUrl onClickHistoryUrl) {
-        this.onClickHistoryUrl = onClickHistoryUrl;
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
     }
 
-    public interface OnClickHistoryUrl {
-        void onClickHistoryUrl(String url);
-    }
 
 }

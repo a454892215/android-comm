@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,11 +27,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
     private int gravity = Gravity.CENTER;
 
     private int animStyle;
+    protected FragmentManager fm;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.comm_dialog);
+        fm = getChildFragmentManager();
     }
 
     @Nullable
