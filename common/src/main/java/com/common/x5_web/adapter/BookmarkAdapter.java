@@ -8,6 +8,7 @@ import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseViewHolder;
 import com.common.utils.CastUtil;
 import com.common.widget.CommonTextView;
+import com.common.x5_web.entity.BookmarkEntity;
 import com.common.x5_web.entity.HistoryRecordEntity;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class BookmarkAdapter extends BaseAppRVAdapter {
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         CommonTextView tv_title = holder.itemView.findViewById(R.id.tv_title);
         CommonTextView tv_url = holder.itemView.findViewById(R.id.tv_url);
-        HistoryRecordEntity entity = CastUtil.cast(list.get(position));
+        BookmarkEntity entity = CastUtil.cast(list.get(position));
         tv_title.setText(entity.getTitle());
         tv_url.setText(entity.getUrl());
     }
