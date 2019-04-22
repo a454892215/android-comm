@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 
 import com.common.utils.LogUtil;
-import com.common.utils.SystemUtils;
 import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
@@ -44,7 +43,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         progress_bar = findViewById(R.id.progress_bar);
         View iv_url_clear = findViewById(R.id.iv_url_clear);
         iv_url_clear.setOnClickListener(v -> et_url_info.setText(""));
-        findViewById(R.id.iv_search).setOnClickListener(v -> goUrl(et_url_info.getText().toString()));
+        findViewById(R.id.iv_search).setOnClickListener(v -> web_view.goUrl(et_url_info.getText().toString(),activity));
         et_url_info.setOnFocusChangeListener((v, hasFocus) -> {
             String url = web_view.getUrl();
             et_url_info.setText(url);
@@ -58,21 +57,11 @@ public class X5WebTestActivity extends BaseAppActivity {
         });
         et_url_info.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                goUrl(et_url_info.getText().toString());
+                web_view.goUrl(et_url_info.getText().toString(),activity);
                 return true;
             }
             return false;
         });
-    }
-
-    private void goUrl(String url) {
-        if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:") && url.contains(".")) {
-            url = "http:" + url;
-        }
-        if (!TextUtils.isEmpty(url) && url.startsWith("http:") || url.startsWith("https:")) {
-            SystemUtils.hideSoftKeyboard(activity);
-            web_view.loadUrl(url);
-        }
     }
 
     private void setBrowserFooter() {

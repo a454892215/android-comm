@@ -1,12 +1,15 @@
 package com.common.x5_web;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
+import com.common.utils.SystemUtils;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension;
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
@@ -90,6 +93,17 @@ public class X5WebView extends WebView {
             return true;
         }
         return false;
+    }
+
+    public void goUrl(String url, Activity activity) {
+        if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:") && url.contains(".")) {
+            url = "http:" + url;
+        }
+        if (!TextUtils.isEmpty(url) && url.startsWith("http:") || url.startsWith("https:")) {
+            SystemUtils.hideSoftKeyboard(activity);
+            loadUrl(url);
+            requestFocus();
+        }
     }
 
 }
