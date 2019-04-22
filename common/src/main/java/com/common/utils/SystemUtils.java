@@ -1,17 +1,16 @@
 package com.common.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.common.base.BaseActivity;
-
-/**
- * Created by dl on 2019/3/5.
- */
 
 public class SystemUtils {
 
@@ -45,4 +44,15 @@ public class SystemUtils {
         return isConnected;
     }
 
+    public static void hideSoftKeyboard(Activity activity) {
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager im = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+            if (im != null) {
+                im.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            } else {
+                LogUtil.e("=========InputMethodManager = null==============");
+            }
+        }
+    }
 }

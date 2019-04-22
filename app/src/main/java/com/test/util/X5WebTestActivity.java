@@ -6,9 +6,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 
 import com.common.utils.LogUtil;
+import com.common.utils.SystemUtils;
 import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
@@ -25,12 +27,9 @@ public class X5WebTestActivity extends BaseAppActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // isSetLayoutId = false;
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);//网页中的视频，上屏幕的时候，可能出现闪烁的情况
         setTitle("X5WebView测试");
-        // setBrowserHeader();
-        // web_view = new X5WebView(this);
         setBrowserHeader();
         setBrowserFooter();
         web_view = findViewById(R.id.web_view);
@@ -45,23 +44,35 @@ public class X5WebTestActivity extends BaseAppActivity {
         progress_bar = findViewById(R.id.progress_bar);
         View iv_url_clear = findViewById(R.id.iv_url_clear);
         iv_url_clear.setOnClickListener(v -> et_url_info.setText(""));
-        findViewById(R.id.iv_search).setOnClickListener(v -> {
-            String url = et_url_info.getText().toString();
-            if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:") && url.contains(".")) {
-                url = "http:" + url;
-            }
-            if (!TextUtils.isEmpty(url) && url.startsWith("http:") || url.startsWith("https:")) {
-                web_view.loadUrl(url);
-            }
-
-        });
+        findViewById(R.id.iv_search).setOnClickListener(v -> goUrl(et_url_info.getText().toString()));
         et_url_info.setOnFocusChangeListener((v, hasFocus) -> {
+            String url = web_view.getUrl();
+            et_url_info.setText(url);
             if (hasFocus) {
                 iv_url_clear.setVisibility(View.VISIBLE);
             } else {
+                String title = web_view.getTitle();
+                if (!TextUtils.isEmpty(title)) et_url_info.setText(title);
                 iv_url_clear.setVisibility(View.INVISIBLE);
             }
         });
+        et_url_info.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                goUrl(et_url_info.getText().toString());
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void goUrl(String url) {
+        if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:") && url.contains(".")) {
+            url = "http:" + url;
+        }
+        if (!TextUtils.isEmpty(url) && url.startsWith("http:") || url.startsWith("https:")) {
+            SystemUtils.hideSoftKeyboard(activity);
+            web_view.loadUrl(url);
+        }
     }
 
     private void setBrowserFooter() {
@@ -70,7 +81,6 @@ public class X5WebTestActivity extends BaseAppActivity {
         findViewById(R.id.tv_go_forward).setOnClickListener(this);
         findViewById(R.id.tv_go_back).setOnClickListener(this);
         findViewById(R.id.tv_menu).setOnClickListener(this);
-        // findViewById(R.id.tv_go_his).setOnClickListener(this);
     }
 
     @Override
