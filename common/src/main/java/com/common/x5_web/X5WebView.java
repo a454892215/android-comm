@@ -10,6 +10,8 @@ import android.util.AttributeSet;
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
+import com.common.x5_web.entity.BookmarkEntity;
+import com.common.x5_web.entity.SearchRecordEntity;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension;
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
@@ -103,6 +105,17 @@ public class X5WebView extends WebView {
             SystemUtils.hideSoftKeyboard(activity);
             loadUrl(url);
             requestFocus();
+            postDelayed(() -> {
+                SearchRecordEntity entity = new SearchRecordEntity();
+                entity.setTitle(getTitle());
+                entity.setUrl(getUrl());
+                entity.setTime(System.currentTimeMillis());
+                boolean save = entity.save();
+                if (!save) {
+                    LogUtil.e("保存搜索记录失败");
+                }
+            }, 700);
+
         }
     }
 
