@@ -29,7 +29,6 @@ public class MyWebViewClient extends WebViewClient {
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         //  LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
         view.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        if (url == null) return false;
         if (webViewInfoCallBack != null) {
             webViewInfoCallBack.onUrlChange(url);
         }

@@ -43,6 +43,8 @@ public class X5WebTestActivity extends BaseAppActivity {
     private void setBrowserHeader() {
         et_url_info = findViewById(R.id.et);
         progress_bar = findViewById(R.id.progress_bar);
+        View iv_url_clear = findViewById(R.id.iv_url_clear);
+        iv_url_clear.setOnClickListener(v -> et_url_info.setText(""));
         findViewById(R.id.iv_search).setOnClickListener(v -> {
             String url = et_url_info.getText().toString();
             if (!TextUtils.isEmpty(url) && !url.startsWith("http:") && !url.startsWith("https:") && url.contains(".")) {
@@ -53,7 +55,13 @@ public class X5WebTestActivity extends BaseAppActivity {
             }
 
         });
-        et_url_info.setSelectAllOnFocus(true);
+        et_url_info.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                iv_url_clear.setVisibility(View.VISIBLE);
+            } else {
+                iv_url_clear.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private void setBrowserFooter() {

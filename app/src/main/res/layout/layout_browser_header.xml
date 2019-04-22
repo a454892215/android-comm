@@ -18,15 +18,37 @@
             android:src="@drawable/icon_browser"
             tools:ignore="ContentDescription" />
 
-        <com.common.widget.CommonEditText
-            android:id="@+id/et"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:imeOptions="actionSearch"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textSize="@dimen/sp_11" />
+            android:layout_weight="1">
+
+            <com.common.widget.CommonEditText
+                android:id="@+id/et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:imeOptions="actionSearch"
+                android:paddingEnd="@dimen/dp_25"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="@dimen/sp_11"
+                tools:ignore="RtlSymmetry" />
+
+            <ImageView
+                android:id="@+id/iv_url_clear"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/dp_5"
+                android:adjustViewBounds="true"
+                android:visibility="invisible"
+                android:background="?selectableItemBackground"
+                android:src="@mipmap/ic_close"
+                android:padding="@dimen/dp_5"
+                tools:ignore="ContentDescription" />
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/iv_search"
@@ -41,9 +63,9 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_2"
         android:max="100"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/layer_progress_bar_1"/>
+        android:progressDrawable="@drawable/layer_progress_bar_1" />
 </LinearLayout>
