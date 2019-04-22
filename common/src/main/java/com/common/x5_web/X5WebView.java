@@ -58,7 +58,7 @@ public class X5WebView extends WebView {
             webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
             webSetting.setPluginsEnabled(true);
             webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
-            webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
+            webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
             IX5WebSettingsExtension settingsExtension = getSettingsExtension();
             if (settingsExtension != null) {
                 settingsExtension.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);//extension
@@ -81,6 +81,15 @@ public class X5WebView extends WebView {
             e.printStackTrace();
             LogUtil.d("发生异常==============" + e);
         }
+    }
+
+    public boolean onWebBack() {
+        if (canGoBack()) {
+            getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            goBack();
+            return true;
+        }
+        return false;
     }
 
 }

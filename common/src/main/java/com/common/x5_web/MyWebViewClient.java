@@ -12,6 +12,7 @@ import com.tencent.smtt.export.external.interfaces.HttpAuthHandler;
 import com.tencent.smtt.export.external.interfaces.SslError;
 import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
@@ -27,6 +28,7 @@ public class MyWebViewClient extends WebViewClient {
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
         //  LogUtil.d("===========shouldOverrideUrlLoading=============url:" + url);
+        view.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         if (url == null) return false;
         if (webViewInfoCallBack != null) {
             webViewInfoCallBack.onUrlChange(url);

@@ -21,7 +21,7 @@ public class X5WebTestActivity extends BaseAppActivity {
     private CommonEditText et_url_info;
     private ProgressBar progress_bar;
 
-    private String home_url = "https://www.hao123.com";
+    private String home_url = "https://hao.360.cn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +67,7 @@ public class X5WebTestActivity extends BaseAppActivity {
 
     @Override
     public void onBackPressed() {
-        if (web_view != null && web_view.canGoBack()) {
-            web_view.goBack();
-            return;
-        }
+        if (web_view.onWebBack()) return;
         super.onBackPressed();
     }
 
@@ -113,9 +110,7 @@ public class X5WebTestActivity extends BaseAppActivity {
                 }
                 break;
             case R.id.tv_go_back:
-                if (web_view.canGoBack()) {
-                    web_view.goBack();
-                }
+                web_view.onWebBack();
                 break;
             case R.id.tv_menu:
                 MenuDialogFragment menuDialog = new MenuDialogFragment();
