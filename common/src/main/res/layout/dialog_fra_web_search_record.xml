@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical"
     tools:ignore="HardcodedText">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"
-        android:layout_marginTop="@dimen/dp_50"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_300" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

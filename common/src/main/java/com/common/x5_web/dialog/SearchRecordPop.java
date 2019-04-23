@@ -1,35 +1,32 @@
 package com.common.x5_web.dialog;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.WindowManager;
 
 import com.common.R;
+import com.common.base.BaseActivity;
 import com.common.base.BaseAppRVAdapter;
-import com.common.base.BaseDialogFragment;
+import com.common.base.BasePop;
 import com.common.helper.RVHelper;
 import com.common.listener.OnClickListener;
 import com.common.utils.CastUtil;
+import com.common.utils.LogUtil;
 import com.common.x5_web.adapter.SearchRecordAdapter;
 import com.common.x5_web.entity.SearchRecordEntity;
 
-public class SearchRecordDialogFragment extends BaseDialogFragment {
+import org.litepal.LitePal;
+import org.litepal.crud.async.FindMultiExecutor;
 
-    private RecyclerView rv;
+import java.util.Collections;
+
+public class SearchRecordPop extends BasePop {
 
     private OnClickListener onClickListener;
+    private RecyclerView rv;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setAnimStyle(R.style.dialog_anim_right);
-        setDimeAmount(0f);
-        setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        setGravity(Gravity.TOP);
+    public SearchRecordPop(BaseActivity activity) {
+        super(activity);
     }
+
 
     @Override
     protected int getLayoutId() {
@@ -51,7 +48,13 @@ public class SearchRecordDialogFragment extends BaseDialogFragment {
         updateUI();
     }
 
-    public void updateUI() {
+    private void updateUI() {
+        FindMultiExecutor<SearchRecordEntity> allAsync = LitePal.findAllAsync(SearchRecordEntity.class);
+        allAsync.listen(entityList -> {
+            LogUtil.d("=======SearchRecordEntity=======entityList:" + entityList.size());
+            Collections.reverse(entityList);
+            RVHelper.notifyAdapterRefresh(entityList, rv);
+        });
     }
 
     public void setOnClickListener(OnClickListener onClickListener) {

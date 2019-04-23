@@ -13,6 +13,7 @@ import android.widget.PopupWindow;
 
 import com.common.R;
 import com.common.helper.PopWindowHelper;
+import com.common.listener.OnBackPressedListener;
 import com.common.utils.DensityUtils;
 
 /**
@@ -22,7 +23,7 @@ import com.common.utils.DensityUtils;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    protected BaseActivity activity;
+    protected BaseActivity activity = this;
     private boolean isShowing;
     protected FragmentManager fm;
     public static int bottomVirtualKeyHeight;
@@ -33,7 +34,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = this;
         fm = getSupportFragmentManager();
         if (isSetLayoutId) setContentView(getLayoutId());
         contentView = findViewById(android.R.id.content);
@@ -86,4 +86,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         PopWindowHelper.dismissPop(loadingPop);
     }
 
+    private OnBackPressedListener onBackPressedListener;
+
+    @Override
+    public void onBackPressed() {
+        if (onBackPressedListener != null && onBackPressedListener.onBack()) return;
+        super.onBackPressed();
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        this.onBackPressedListener = onBackPressedListener;
+    }
 }

@@ -110,7 +110,7 @@ public class X5WebView extends WebView {
                 entity.setTitle(getTitle());
                 entity.setUrl(getUrl());
                 entity.setTime(System.currentTimeMillis());
-                boolean save = entity.save();
+                boolean save = entity.saveOrUpdate();
                 if (!save) {
                     LogUtil.e("保存搜索记录失败");
                 }

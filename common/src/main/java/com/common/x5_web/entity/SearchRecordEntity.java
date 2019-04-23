@@ -8,7 +8,6 @@ public class SearchRecordEntity extends LitePalSupport {
     private String title;
     @Column(unique = true)
     private String url;
-    @Column(unique = true)
     private long time;
 
     public String getTitle() {
