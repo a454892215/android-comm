@@ -11,6 +11,9 @@ import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
 import com.common.utils.DensityUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Author:  L
  * Description: No
@@ -80,15 +83,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         loadingDialogFragment.dismiss();
     }
 
-    private OnBackPressedListener onBackPressedListener;
+    private List<OnBackPressedListener> onBackPressedListenerList = new ArrayList<>();
 
     @Override
-    public void onBackPressed() {
-        if (onBackPressedListener != null && onBackPressedListener.onBack()) return;
+    public final void onBackPressed() {
+        if (onBackPressedListenerList.size() > 0) {
+            for (int i = 0; i < onBackPressedListenerList.size(); i++) {
+              if(onBackPressedListenerList.get(i).onBack()) return;
+            }
+        }
         super.onBackPressed();
     }
 
-    public void setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-        this.onBackPressedListener = onBackPressedListener;
+    public void addOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
+        onBackPressedListenerList.add(onBackPressedListener);
     }
 }

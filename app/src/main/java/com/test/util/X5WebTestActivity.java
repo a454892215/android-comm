@@ -36,9 +36,10 @@ public class X5WebTestActivity extends BaseAppActivity {
         web_view = findViewById(R.id.web_view);
         web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
         searchRecordPop = new SearchRecordPop(activity);
-        searchRecordPop.setOnClickListener(url-> web_view.goUrl(url[0],activity));
+        searchRecordPop.setOnClickListener(url -> web_view.goUrl(url[0], activity));
         web_view.loadUrl(home_url);
         web_view.requestFocus();
+        addOnBackPressedListener(() -> web_view.onWebBack());
     }
 
     private void setBrowserHeader() {
@@ -48,7 +49,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         iv_url_clear.setOnClickListener(v -> et_url_info.setText(""));
         findViewById(R.id.iv_search).setOnClickListener(v -> {
             web_view.goUrl(et_url_info.getText().toString(), activity);
-            if(searchRecordPop.isShowing()) searchRecordPop.dismiss();
+            if (searchRecordPop.isShowing()) searchRecordPop.dismiss();
         });
         et_url_info.setOnFocusChangeListener((v, hasFocus) -> {
             String url = web_view.getUrl();
@@ -65,7 +66,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         et_url_info.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 web_view.goUrl(et_url_info.getText().toString(), activity);
-                if(searchRecordPop.isShowing()) searchRecordPop.dismiss();
+                if (searchRecordPop.isShowing()) searchRecordPop.dismiss();
                 return true;
             }
             return false;
@@ -78,12 +79,6 @@ public class X5WebTestActivity extends BaseAppActivity {
         findViewById(R.id.tv_go_forward).setOnClickListener(this);
         findViewById(R.id.tv_go_back).setOnClickListener(this);
         findViewById(R.id.tv_menu).setOnClickListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (web_view.onWebBack()) return;
-        super.onBackPressed();
     }
 
     @Override

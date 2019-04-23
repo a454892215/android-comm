@@ -14,7 +14,7 @@ public abstract class BasePop {
 
     public BasePop(BaseActivity activity) {
         this.activity = activity;
-        activity.setOnBackPressedListener(() -> {
+        activity.addOnBackPressedListener(() -> {
             if (rootView != null && rootView.getParent() != null) {
                 dismiss();
                 return true;
