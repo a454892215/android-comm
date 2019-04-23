@@ -13,6 +13,8 @@ import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebView;
 
+import org.litepal.LitePal;
+
 public class MyWebChromeClient extends WebChromeClient {
     MyWebChromeClient(WebViewInfoCallBack webViewInfoCallBack) {
         this.webViewInfoCallBack = webViewInfoCallBack;
@@ -81,6 +83,14 @@ public class MyWebChromeClient extends WebChromeClient {
         boolean save = entity.save();
         if (!save) {
             LogUtil.e("保存数据到数据库失败");
+        }
+        int count = LitePal.count(HistoryRecordEntity.class);
+        LogUtil.d("=========HistoryRecordEntity========count:" + count);
+        if (count > 5000) {
+            for (int i = 0; i < count - 5000; i++) {
+                HistoryRecordEntity first = LitePal.findFirst(HistoryRecordEntity.class);
+                first.delete();
+            }
         }
     }
 
