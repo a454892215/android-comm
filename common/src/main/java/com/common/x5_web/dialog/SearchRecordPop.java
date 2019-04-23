@@ -45,10 +45,10 @@ public class SearchRecordPop extends BasePop {
                 onClickListener.onClick(url);
             }
         });
-        updateUI();
     }
 
-    private void updateUI() {
+    @Override
+    protected void updateView() {
         FindMultiExecutor<SearchRecordEntity> allAsync = LitePal.findAllAsync(SearchRecordEntity.class);
         allAsync.listen(entityList -> {
             LogUtil.d("=======SearchRecordEntity=======entityList:" + entityList.size());

@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 public abstract class BasePop {
 
     private View rootView;
+    private ViewGroup contentView;
 
     public BasePop(BaseActivity activity) {
         this.activity = activity;
@@ -20,36 +21,33 @@ public abstract class BasePop {
             }
             return false;
         });
+        if (rootView == null) {
+            contentView = activity.findViewById(android.R.id.content);
+            rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
+        }
+        initView();
     }
 
     protected BaseActivity activity;
 
     @SuppressWarnings("unused")
     public void show() {
-        ViewGroup contentView = activity.findViewById(android.R.id.content);
-        if (rootView == null) {
-            rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
-        }
         if (rootView.getParent() == null) {
             contentView.addView(rootView);
-            initView();
+            updateView();
         }
     }
 
     public void showAsDropDown(View anchorView) {
-        int[] location_anchor = new int[2];
-        int[] location_content = new int[2];
-        anchorView.getLocationOnScreen(location_anchor);
-        ViewGroup contentView = activity.findViewById(android.R.id.content);
-        contentView.getLocationOnScreen(location_content);
-        if (rootView == null) {
-            rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
-        }
-        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) rootView.getLayoutParams();
-        lp.topMargin = location_anchor[1] + anchorView.getHeight() - location_content[1];
         if (rootView.getParent() == null) {
+            int[] location_anchor = new int[2];
+            int[] location_content = new int[2];
+            anchorView.getLocationOnScreen(location_anchor);
+            contentView.getLocationOnScreen(location_content);
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) rootView.getLayoutParams();
+            lp.topMargin = location_anchor[1] + anchorView.getHeight() - location_content[1];
             contentView.addView(rootView, lp);
-            initView();
+            updateView();
         }
     }
 
@@ -67,6 +65,9 @@ public abstract class BasePop {
     protected abstract int getLayoutId();
 
     protected abstract void initView();
+
+    protected void updateView() {
+    }
 
     public <T extends View> T findViewById(int id) {
         return rootView.findViewById(id);

@@ -24,7 +24,7 @@ public class X5WebTestActivity extends BaseAppActivity {
     private ProgressBar progress_bar;
 
     private String home_url = "https://hao.360.cn";
-    private SearchRecordPop searchRecordPop = new SearchRecordPop(activity);
+    private SearchRecordPop searchRecordPop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         setBrowserFooter();
         web_view = findViewById(R.id.web_view);
         web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
+        searchRecordPop = new SearchRecordPop(activity);
         searchRecordPop.setOnClickListener(url-> web_view.goUrl(url[0],activity));
         web_view.loadUrl(home_url);
         web_view.requestFocus();
