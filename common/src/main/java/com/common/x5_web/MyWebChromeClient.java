@@ -85,7 +85,6 @@ public class MyWebChromeClient extends WebChromeClient {
             LogUtil.e("保存数据到数据库失败");
         }
         int count = LitePal.count(HistoryRecordEntity.class);
-        LogUtil.d("=========HistoryRecordEntity========count:" + count);
         if (count > 5000) {
             for (int i = 0; i < count - 5000; i++) {
                 HistoryRecordEntity first = LitePal.findFirst(HistoryRecordEntity.class);
