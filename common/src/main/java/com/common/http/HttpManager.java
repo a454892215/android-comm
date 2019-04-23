@@ -53,7 +53,7 @@ public class HttpManager {
             ToastUtil.showShort(activity, "请检测网络是否连接");
             return;
         }
-        if (activity != null && isShowLoading) activity.showDefaultLoadingPop();
+        if (activity != null && isShowLoading) activity.showDefaultLoadingView();
         observable.subscribeOn(Schedulers.io())//IO线程加载数据
                 .observeOn(AndroidSchedulers.mainThread())//主线程显示数据
                 .subscribe(new Subscriber<ResponseBody>() {
@@ -65,7 +65,7 @@ public class HttpManager {
                     public void onError(Throwable e) {
                         httpCallback.onFail();
                         if (activity != null && isShowLoading) {
-                            activity.dismissDefaultLoadingPop();
+                            activity.dismissDefaultLoadingView();
                         }
 
                         LogUtil.e("Http=====:" + e.toString());
@@ -77,7 +77,7 @@ public class HttpManager {
                             String text = responseBody.string();
                             httpCallback.onSuccess(text);
                             if (activity != null && isShowLoading) {
-                                activity.dismissDefaultLoadingPop();
+                                activity.dismissDefaultLoadingView();
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

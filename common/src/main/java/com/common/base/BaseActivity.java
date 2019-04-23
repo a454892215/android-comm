@@ -1,18 +1,13 @@
 package com.common.base;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 
 import com.common.R;
-import com.common.helper.PopWindowHelper;
+import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
 import com.common.utils.DensityUtils;
 
@@ -30,6 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private View contentView;
     public float dp_1;
     protected boolean isSetLayoutId = true;
+    private LoadingDialogFragment loadingDialogFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,18 +68,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (bottomVirtualKeyHeight > dp_1 * 100) bottomVirtualKeyHeight = Math.round(dp_1 * 100);
     }
 
-    protected PopupWindow loadingPop;
 
-    public void showDefaultLoadingPop() {
-        if (loadingPop == null) {
-            @SuppressLint("InflateParams") View pop_view = LayoutInflater.from(activity).inflate(R.layout.common_loading_layout, null);
-            loadingPop = PopWindowHelper.getPopWindow(pop_view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, true);
+    public void showDefaultLoadingView() {
+        if (loadingDialogFragment == null) {
+            loadingDialogFragment = new LoadingDialogFragment();
         }
-        PopWindowHelper.show(this, loadingPop, Gravity.CENTER);
+        loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
     }
 
-    public void dismissDefaultLoadingPop() {
-        PopWindowHelper.dismissPop(loadingPop);
+    public void dismissDefaultLoadingView() {
+        loadingDialogFragment.dismiss();
     }
 
     private OnBackPressedListener onBackPressedListener;
