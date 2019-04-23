@@ -15,7 +15,7 @@ public class HLayoutManager extends LinearLayoutManager {
 
     private int canScrollWidth;
 
-    public HLayoutManager(Context context) {
+    HLayoutManager(Context context) {
         super(context);
     }
     @SuppressWarnings("unused")
@@ -41,13 +41,13 @@ public class HLayoutManager extends LinearLayoutManager {
         }
     }
 
-    public void setMyOrientation(int orientation) {
+    void setMyOrientation(int orientation) {
         this.orientation = orientation;
     }
 
     private int orientation = HLayoutManager.ALL;
 
-    public static final int ALL = 2;
+    static final int ALL = 2;
 
     @Override
     public boolean canScrollHorizontally() {
