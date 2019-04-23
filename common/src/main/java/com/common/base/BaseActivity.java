@@ -67,8 +67,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void setBottomVirtualKeyHeight() {
         int contentViewHeight = contentView.getHeight();
         int realScreenHeight = DensityUtils.getRealScreenHeight(this);
-        bottomVirtualKeyHeight = realScreenHeight - contentViewHeight;
-        if (bottomVirtualKeyHeight > dp_1 * 100) bottomVirtualKeyHeight = Math.round(dp_1 * 100);
+        int[] location_content = new int[2];
+        contentView.getLocationOnScreen(location_content);
+        bottomVirtualKeyHeight = realScreenHeight - contentViewHeight - location_content[1];
     }
 
 
