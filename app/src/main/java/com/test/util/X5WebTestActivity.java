@@ -14,6 +14,7 @@ import com.common.widget.CommonEditText;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
 import com.common.x5_web.dialog.MenuDialogFragment;
+import com.common.x5_web.dialog.SearchRecordDialogFragment;
 import com.test.util.base.BaseAppActivity;
 
 public class X5WebTestActivity extends BaseAppActivity {
@@ -23,6 +24,7 @@ public class X5WebTestActivity extends BaseAppActivity {
     private ProgressBar progress_bar;
 
     private String home_url = "https://hao.360.cn";
+    private SearchRecordDialogFragment searchRecordDialog = new SearchRecordDialogFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,6 @@ public class X5WebTestActivity extends BaseAppActivity {
         web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
         web_view.loadUrl(home_url);
         web_view.requestFocus();
-        // setContentView(web_view);
     }
 
     private void setBrowserHeader() {
@@ -43,12 +44,13 @@ public class X5WebTestActivity extends BaseAppActivity {
         progress_bar = findViewById(R.id.progress_bar);
         View iv_url_clear = findViewById(R.id.iv_url_clear);
         iv_url_clear.setOnClickListener(v -> et_url_info.setText(""));
-        findViewById(R.id.iv_search).setOnClickListener(v -> web_view.goUrl(et_url_info.getText().toString(),activity));
+        findViewById(R.id.iv_search).setOnClickListener(v -> web_view.goUrl(et_url_info.getText().toString(), activity));
         et_url_info.setOnFocusChangeListener((v, hasFocus) -> {
             String url = web_view.getUrl();
             et_url_info.setText(url);
             if (hasFocus) {
                 iv_url_clear.setVisibility(View.VISIBLE);
+                searchRecordDialog.show(fm, searchRecordDialog.getClass().getName());
             } else {
                 String title = web_view.getTitle();
                 if (!TextUtils.isEmpty(title)) et_url_info.setText(title);
@@ -57,7 +59,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         });
         et_url_info.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                web_view.goUrl(et_url_info.getText().toString(),activity);
+                web_view.goUrl(et_url_info.getText().toString(), activity);
                 return true;
             }
             return false;
