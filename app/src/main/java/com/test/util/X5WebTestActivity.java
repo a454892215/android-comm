@@ -4,8 +4,6 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 
