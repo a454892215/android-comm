@@ -89,15 +89,6 @@ public class X5WebTestActivity extends BaseAppActivity {
     @Override
     protected void onDestroy() {
         if (web_view != null) {
-            ViewParent parent = web_view.getParent();
-            if (parent instanceof ViewGroup) {
-                ((ViewGroup) parent).removeView(web_view);
-            }
-            web_view.stopLoading();
-            web_view.getSettings().setJavaScriptEnabled(false);
-            web_view.clearHistory();
-            web_view.clearView();
-            web_view.removeAllViews();
             web_view.destroy();
             super.onDestroy();
             android.os.Process.killProcess(android.os.Process.myPid());

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
@@ -117,6 +119,19 @@ public class X5WebView extends WebView {
             }, 700);
 
         }
+    }
+
+    public void destroy() {
+        ViewParent parent = getParent();
+        if (parent instanceof ViewGroup) {
+            ((ViewGroup) parent).removeView(this);
+        }
+        stopLoading();
+        getSettings().setJavaScriptEnabled(false);
+        clearHistory();
+        clearView();
+        removeAllViews();
+        destroy();
     }
 
 }
