@@ -131,7 +131,6 @@ public class X5WebView extends WebView {
         clearHistory();
         clearView();
         removeAllViews();
-        destroy();
     }
 
 }
