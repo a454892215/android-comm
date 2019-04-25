@@ -80,6 +80,7 @@ public class HttpManager {
                                 activity.dismissDefaultLoadingView();
                             }
                         } catch (Exception e) {
+                            ToastUtil.showShort(activity, "请求数据完毕后处理异常：" + e);
                             e.printStackTrace();
                             LogUtil.e("Http:===requestData====:" + e.toString());
                         }
