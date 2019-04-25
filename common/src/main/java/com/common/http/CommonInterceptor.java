@@ -23,17 +23,6 @@ public class CommonInterceptor implements Interceptor {
         Response response = null;
         try {
             Request request = chain.request();
-            if (request.url().toString().endsWith("/config")) {
-                request = request.newBuilder()
-                        .header("Content-Type", "application/json")
-                        .header("Connection", "Keep-Alive")
-                        .build();
-            } else {
-                request = request.newBuilder()
-                    //    .header("Authorization", newSession)
-                      //  .header("Accept", "application/x.tg.v2+json")
-                        .build();
-            }
             if (BuildConfig.IS_DEBUG) logRequestInfo(request);
             response = chain.proceed(request);
             if (BuildConfig.IS_DEBUG) logResponseInfo(response);

@@ -9,5 +9,5 @@ package com.common.http;
 public interface HttpCallback {
     void onSuccess(String text);
 
-    void onFail();
+    void onFail(Throwable e);
 }

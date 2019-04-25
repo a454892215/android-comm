@@ -66,8 +66,8 @@ public class VersionUpdateHelper {
             }
 
             @Override
-            public void onFail() {
-                LogUtil.e("请求更新接口 ");
+            public void onFail(Throwable e) {
+                LogUtil.e("请求更新接口失败");
             }
         });
     }

@@ -63,7 +63,7 @@ public class HttpManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        httpCallback.onFail();
+                        httpCallback.onFail(e);
                         if (activity != null && isShowLoading) {
                             activity.dismissDefaultLoadingView();
                         }
