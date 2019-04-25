@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 27
@@ -6,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         flavorDimensions "1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk { abiFilters "armeabi" }
@@ -30,6 +31,15 @@ android {
     compileOptions {
         sourceCompatibility 1.8
         targetCompatibility 1.8
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: uri('../repository'))
+        pom.groupId = "com.common"// 唯一标识（通常为模块包名，也可以任意）
+        pom.artifactId = "Common" // 项目名称（通常为类库模块名称，也可以任意）
+        pom.version = "1.0.0"
     }
 }
 
