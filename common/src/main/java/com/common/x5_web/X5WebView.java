@@ -9,10 +9,8 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
-import com.common.x5_web.entity.BookmarkEntity;
 import com.common.x5_web.entity.SearchRecordEntity;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebViewExtension;
@@ -35,7 +33,7 @@ public class X5WebView extends WebView {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public void initWebViewSettings(BaseActivity activity, WebViewInfoCallBack webViewInfoCallBack) {
+    public void initWebViewSettings(Activity activity, WebViewInfoCallBack webViewInfoCallBack) {
         try {
             setWebViewClient(new MyWebViewClient(activity, webViewInfoCallBack));
             setWebChromeClient(new MyWebChromeClient(webViewInfoCallBack));

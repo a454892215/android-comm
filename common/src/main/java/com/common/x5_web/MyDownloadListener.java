@@ -1,16 +1,16 @@
 package com.common.x5_web;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
-import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.tencent.smtt.sdk.DownloadListener;
 
 public class MyDownloadListener implements DownloadListener {
-    private BaseActivity activity;
+    private Activity activity;
 
-    MyDownloadListener(BaseActivity activity) {
+    MyDownloadListener(Activity activity) {
         this.activity = activity;
     }
 

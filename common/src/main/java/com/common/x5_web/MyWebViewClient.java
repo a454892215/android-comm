@@ -1,11 +1,11 @@
 package com.common.x5_web;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Message;
 
-import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.tencent.smtt.export.external.interfaces.ClientCertRequest;
 import com.tencent.smtt.export.external.interfaces.HttpAuthHandler;
@@ -18,12 +18,12 @@ import com.tencent.smtt.sdk.WebViewClient;
 
 public class MyWebViewClient extends WebViewClient {
 
-    MyWebViewClient(BaseActivity activity, WebViewInfoCallBack webViewInfoCallBack) {
+    MyWebViewClient(Activity activity, WebViewInfoCallBack webViewInfoCallBack) {
         this.activity = activity;
         this.webViewInfoCallBack = webViewInfoCallBack;
     }
 
-    private BaseActivity activity;
+    private Activity activity;
     private WebViewInfoCallBack webViewInfoCallBack;
 
     public boolean shouldOverrideUrlLoading(WebView view, String url) {
