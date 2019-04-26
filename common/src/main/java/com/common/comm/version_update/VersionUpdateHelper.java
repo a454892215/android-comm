@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.helper.GsonHelper;
-import com.common.http.interface_.HttpCallback;
+import com.common.http.inter.HttpCallback;
 import com.common.http.HttpUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;

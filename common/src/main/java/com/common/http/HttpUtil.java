@@ -1,8 +1,10 @@
 package com.common.http;
 
+import android.app.Activity;
+
 import com.common.base.BaseActivity;
-import com.common.http.interface_.HttpCallback;
-import com.common.http.interface_.IHttpUtil;
+import com.common.http.inter.HttpCallback;
+import com.common.http.inter.IHttpUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.utils.ToastUtil;
@@ -15,35 +17,36 @@ import rx.schedulers.Schedulers;
 
 public class HttpUtil implements IHttpUtil {
 
-    protected BaseActivity activity;
+    protected Activity activity;
 
     private boolean showLoadingEnable;
     private boolean checkNetworkEnable = true;
     private boolean successExcToastEnable = true;
     private boolean failToastEnable = true;
 
-    public HttpUtil(BaseActivity activity) {
+    public HttpUtil(Activity activity) {
         this.activity = activity;
     }
 
+    @Override
     public HttpUtil successExcToastEnable(boolean enable) {
         this.successExcToastEnable = enable;
         return this;
     }
 
-
+    @Override
     public HttpUtil failToastEnable(boolean enable) {
         this.failToastEnable = enable;
         return this;
     }
 
-
+    @Override
     public HttpUtil showLoadingEnable(boolean enable) {
         this.showLoadingEnable = enable;
         return this;
     }
 
-
+    @Override
     public HttpUtil checkNetworkEnable(boolean enable) {
         this.checkNetworkEnable = enable;
         return this;
@@ -61,8 +64,12 @@ public class HttpUtil implements IHttpUtil {
     }
 
 
-    private void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
-        if (activity != null && showLoadingEnable) activity.showDefaultLoadingView();
+    public void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
+        if (activity != null && showLoadingEnable) {
+            if (activity instanceof BaseActivity) {
+                ((BaseActivity) activity).showDefaultLoadingView();
+            }
+        }
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ResponseBody>() {
@@ -86,7 +93,9 @@ public class HttpUtil implements IHttpUtil {
     public void onRequestSuccess(ResponseBody responseBody, HttpCallback httpCallback) {
         try {
             if (activity != null && showLoadingEnable) {
-                activity.dismissDefaultLoadingView();
+                if (activity instanceof BaseActivity) {
+                    ((BaseActivity) activity).dismissDefaultLoadingView();
+                }
             }
             String text = responseBody.string();
             httpCallback.onSuccess(text);
@@ -102,7 +111,9 @@ public class HttpUtil implements IHttpUtil {
     @Override
     public void onRequestError(Throwable e, HttpCallback httpCallback) {
         if (activity != null && showLoadingEnable) {
-            activity.dismissDefaultLoadingView();
+            if (activity instanceof BaseActivity) {
+                ((BaseActivity) activity).dismissDefaultLoadingView();
+            }
         }
         if (failToastEnable) ToastUtil.showShort(activity, "请求异常：" + e);
         LogUtil.e("Http=====:" + e.toString());

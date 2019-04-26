@@ -39,7 +39,7 @@ uploadArchives {
         repository(url: uri('../repository'))
         pom.groupId = "com.common"// 唯一标识（通常为模块包名，也可以任意）
         pom.artifactId = "Common" // 项目名称（通常为类库模块名称，也可以任意）
-        pom.version = "1.0.0"
+        pom.version = "1.0.1"
     }
 }
 

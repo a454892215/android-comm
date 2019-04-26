@@ -1,4 +1,4 @@
-package com.common.http.interface_;
+package com.common.http.inter;
 
 import com.common.http.HttpUtil;
 
@@ -7,7 +7,6 @@ import rx.Observable;
 
 @SuppressWarnings("unused")
 public interface IHttpUtil {
-
     HttpUtil showLoadingEnable(boolean isShowLoading);
 
     HttpUtil checkNetworkEnable(boolean enable);
@@ -17,6 +16,8 @@ public interface IHttpUtil {
     HttpUtil failToastEnable(boolean enable);
 
     void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback);
+
+    void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback);
 
     void onRequestError(Throwable e, HttpCallback httpCallback);
 

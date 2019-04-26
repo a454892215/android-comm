@@ -1,4 +1,4 @@
-package com.common.http.interface_;
+package com.common.http.inter;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
