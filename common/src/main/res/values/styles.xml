@@ -4,10 +4,6 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.SplashTheme" parent="CommonAppTheme">
-        <item name="android:windowBackground">@mipmap/bg_splash</item>
-    </style>
-
     <declare-styleable name="CommonEditText">
         <attr name="hint_size" format="dimension|reference" />
         <attr name="hint_color" format="color|reference" />
