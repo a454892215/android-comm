@@ -40,6 +40,9 @@ public class HttpUtil implements IHttpUtil {
         return this;
     }
 
+    /**
+     * 此功能只有 传入的activity继承Common中的BaseActivity才生效
+     */
     @Override
     public HttpUtil showLoadingEnable(boolean enable) {
         this.showLoadingEnable = enable;
