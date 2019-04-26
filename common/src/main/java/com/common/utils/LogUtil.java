@@ -12,7 +12,7 @@ public class LogUtil {
     private static final String TAG = "LLpp,LOGGER: ";
     private static boolean enable = false;
 
-    public static void LogEnable(boolean enable) {
+    public static void logEnable(boolean enable) {
         LogUtil.enable = enable;
     }
 
