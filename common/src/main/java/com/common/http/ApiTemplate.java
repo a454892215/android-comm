@@ -13,7 +13,7 @@ import rx.Observable;
  * Description: No
  */
 
-public interface Api {
+public interface ApiTemplate {
     @POST("path/num")
     Observable<ResponseBody> getNumObservable(@Body Map<String, String> params);
 

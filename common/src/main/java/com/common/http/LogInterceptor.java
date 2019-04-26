@@ -2,7 +2,6 @@ package com.common.http;
 
 import android.support.annotation.NonNull;
 
-import com.common.BuildConfig;
 import com.common.utils.LogUtil;
 
 import java.nio.charset.Charset;
@@ -16,18 +15,22 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 
-public class CommonInterceptor implements Interceptor {
+public class LogInterceptor implements Interceptor {
+    private boolean logEnable;
+
+    LogInterceptor(boolean logEnable) {
+        this.logEnable = logEnable;
+    }
 
     @Override
     public Response intercept(@NonNull Chain chain) {
         Response response = null;
         try {
             Request request = chain.request();
-            if (BuildConfig.IS_DEBUG) logRequestInfo(request);
+            if (logEnable) logRequestInfo(request);
             response = chain.proceed(request);
-            if (BuildConfig.IS_DEBUG) logResponseInfo(response);
+            if (logEnable) logResponseInfo(response);
         } catch (Exception e) {
-            e.printStackTrace();
             e.printStackTrace();
             LogUtil.e("loggerInterceptor 异常=========: " + e.toString());
         }
@@ -60,9 +63,11 @@ public class CommonInterceptor implements Interceptor {
             Headers headers = request.headers();
             Object[] header_keys = headers.names().toArray();
             StringBuilder headerBuilder = new StringBuilder();
-            for (Object header_key1 : header_keys) {
-                String header_key = (String) header_key1;
-                headerBuilder.append(header_key).append(":").append(headers.get(header_key)).append("   ");
+            if (header_keys != null) {
+                for (Object header_key1 : header_keys) {
+                    String header_key = (String) header_key1;
+                    headerBuilder.append(header_key).append(":").append(headers.get(header_key)).append("   ");
+                }
             }
             String method = request.method();
             String body = "";

@@ -29,7 +29,7 @@ import javax.net.ssl.X509TrustManager;
  * Description: Https相关的工具类
  */
 
-class HttpsUtils {
+class HttpSSLSetting {
 
     static class SSLParams {
          SSLSocketFactory sSLSocketFactory;

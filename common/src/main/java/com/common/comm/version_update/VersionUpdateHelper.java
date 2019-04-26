@@ -18,7 +18,7 @@ import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.helper.GsonHelper;
 import com.common.http.HttpCallback;
-import com.common.http.HttpManager;
+import com.common.http.HttpUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
 import com.common.utils.ToastUtil;
@@ -43,7 +43,7 @@ public class VersionUpdateHelper {
     public static boolean isForceUpdate = false;
 
     public void checkVersionUpdateInfo(Observable<ResponseBody> versionUpdateObservable, BaseActivity activity, boolean isShowToast) {
-        HttpManager.requestData(versionUpdateObservable, new HttpCallback() {
+        new HttpUtil(activity).requestData(versionUpdateObservable, new HttpCallback() {
             @Override
             public void onSuccess(String result) {
                 VersionUpdateEntity entity = GsonHelper.getEntity(result, VersionUpdateEntity.class);
