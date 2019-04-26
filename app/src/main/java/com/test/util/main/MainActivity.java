@@ -9,6 +9,7 @@ import com.common.base.BaseAppRVAdapter;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.common.utils.LogUtil;
 import com.test.util.Constant;
 import com.test.util.X5WebTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
@@ -36,6 +37,7 @@ public class MainActivity extends BaseAppActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("API验证");
+        LogUtil.d("===MainActivity================");
         RecyclerView rv = findViewById(R.id.recycler_view);
         BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, DataHelper.getMapList(names), rv, MainAdapter.class);
         adapter.setOnItemClick((itemView, position) -> {

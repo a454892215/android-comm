@@ -3,9 +3,6 @@ package com.common.utils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.common.BuildConfig;
-import com.orhanobut.logger.Logger;
-
 /**
  * Description: 日志工具类
  */
@@ -13,24 +10,28 @@ import com.orhanobut.logger.Logger;
 public class LogUtil {
 
     private static final String TAG = "LLpp,LOGGER: ";
+    private static boolean enable = false;
+
+    public static void LogEnable(boolean enable) {
+        LogUtil.enable = enable;
+    }
 
     public static void d(String msg) {
-        boolean isDebug = BuildConfig.IS_DEBUG;
-        if (isDebug) {
+        if (enable) {
             if (!TextUtils.isEmpty(msg)) {
                 int length = msg.length();
                 int count = 1024 * 3;
                 int times = length / count + 1;
                 for (int i = 0; i < times; i++) {
                     int end = (i + 1) * count > msg.length() ? msg.length() : (i + 1) * count;
-                    Logger.d(TAG + i + "  text:  " + unicodeToUTF_8(msg.substring(i * count, end)));
+                    Log.d(TAG + getLineNum(), "  text:  " + unicodeToUTF_8(msg.substring(i * count, end)));
                 }
             }
         }
     }
 
     public static void e(String msg) {
-        Logger.e("LLpp====" + unicodeToUTF_8(msg));
+        Log.e(TAG + getLineNum(), unicodeToUTF_8(msg));
     }
 
     private static String unicodeToUTF_8(String src) {
@@ -54,5 +55,10 @@ public class LogUtil {
             }
         }
         return out.toString();
+    }
+
+    private static String getLineNum() {
+        StackTraceElement ste = new Throwable().getStackTrace()[2];
+        return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ") " +ste.getMethodName()+"()";
     }
 }
