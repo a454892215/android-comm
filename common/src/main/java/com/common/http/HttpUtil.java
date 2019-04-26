@@ -1,6 +1,8 @@
 package com.common.http;
 
 import com.common.base.BaseActivity;
+import com.common.http.interface_.HttpCallback;
+import com.common.http.interface_.IHttpUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.utils.ToastUtil;

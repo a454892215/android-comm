@@ -1,4 +1,4 @@
-package com.common.http;
+package com.common.http.other;
 
 import android.support.annotation.NonNull;
 
@@ -18,7 +18,7 @@ import okio.BufferedSource;
 public class LogInterceptor implements Interceptor {
     private boolean logEnable;
 
-    LogInterceptor(boolean logEnable) {
+    public LogInterceptor(boolean logEnable) {
         this.logEnable = logEnable;
     }
 

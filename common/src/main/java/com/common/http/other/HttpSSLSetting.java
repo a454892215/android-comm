@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.common.http;
+package com.common.http.other;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -29,14 +29,14 @@ import javax.net.ssl.X509TrustManager;
  * Description: Https相关的工具类
  */
 
-class HttpSSLSetting {
+public class HttpSSLSetting {
 
-    static class SSLParams {
-         SSLSocketFactory sSLSocketFactory;
-         X509TrustManager trustManager;
+    public static class SSLParams {
+        public SSLSocketFactory sSLSocketFactory;
+        public X509TrustManager trustManager;
     }
 
-     static SSLParams getSslSocketFactory() {
+    public static SSLParams getSslSocketFactory() {
         return getSslSocketFactoryBase(null);
     }
 

@@ -1,4 +1,6 @@
-package com.common.http;
+package com.common.http.interface_;
+
+import com.common.http.HttpUtil;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
