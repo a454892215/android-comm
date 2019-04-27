@@ -97,6 +97,11 @@ static String getGitInfo(p1) {
 
 dependencies {
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
     implementation project(':common')
     //provided 有错就替换为 compileOnly
     compileOnly 'de.robv.android.xposed:api:82'
