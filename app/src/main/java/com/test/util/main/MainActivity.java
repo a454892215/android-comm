@@ -27,7 +27,6 @@ public class MainActivity extends BaseAppActivity {
     private String[] names = {"View 相关", "Xposed框架", "进程保活", "X5WebView"};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class, ProcessLiveTestActivity.class, X5WebTestActivity.class};
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
