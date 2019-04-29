@@ -24,17 +24,17 @@ public class FragmentHelper {
         return fragment;
     }
 
-    private static void hideAllShowingFragments(FragmentManager fragmentManager, Class[] fragmentArr) {
+    private static void hideAllShowingFragments(FragmentManager fm, Class[] fragmentArr) {
         for (Class aFragmentArr : fragmentArr) {
-            Fragment fragment = fragmentManager.findFragmentByTag(aFragmentArr.getName());
+            Fragment fragment = fm.findFragmentByTag(aFragmentArr.getName());
             if (fragment != null && fragment.isVisible()) {
-                fragmentManager.beginTransaction().hide(fragment).commit();
+                fm.beginTransaction().hide(fragment).commit();
             }
         }
     }
 
-    private static void showFragment(FragmentManager fragmentManager, Fragment fragment, int layoutId) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+    private static void showFragment(FragmentManager fm, Fragment fragment, int layoutId) {
+        FragmentTransaction transaction = fm.beginTransaction();
         if (fragment.isAdded()) {
             transaction.show(fragment);
         } else {
@@ -43,21 +43,21 @@ public class FragmentHelper {
         transaction.commit();
     }
 
-    private static void addFragment(FragmentManager fragmentManager, Fragment fragment, int layoutId) {
+    private static void addFragment(FragmentManager fm, Fragment fragment, int layoutId) {
         if (!fragment.isAdded()) {
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            FragmentTransaction transaction = fm.beginTransaction();
             transaction.add(layoutId, fragment, fragment.getClass().getName()).hide(fragment).commit();
         }
     }
 
-    public static void onSwitchFragment(FragmentManager fragmentManager, Class[] fragmentArr, int position, int contentViewId, boolean isPreLoad) {
-        FragmentHelper.hideAllShowingFragments(fragmentManager, fragmentArr);
-        Fragment fragment = FragmentHelper.getInstance(fragmentManager, CastUtil.cast(fragmentArr[position]));
+    public static void onSwitchFragment(FragmentManager fm, Class[] fragmentArr, int position, int contentViewId, boolean isPreLoad) {
+        FragmentHelper.hideAllShowingFragments(fm, fragmentArr);
+        Fragment fragment = FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[position]));
         if (isPreLoad) {
             int nextIndex = MathUtil.clamp(position + 1, 0, fragmentArr.length - 1);
-            Fragment instance = FragmentHelper.getInstance(fragmentManager, CastUtil.cast(fragmentArr[nextIndex]));
-            addFragment(fragmentManager, instance, contentViewId);
+            Fragment instance = FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[nextIndex]));
+            addFragment(fm, instance, contentViewId);
         }
-        FragmentHelper.showFragment(fragmentManager, fragment, contentViewId);
+        FragmentHelper.showFragment(fm, fragment, contentViewId);
     }
 }
