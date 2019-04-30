@@ -45,14 +45,40 @@
         android:gravity="center"
         android:background="#cccccc"
         app:clip_radius="@dimen/dp_5"
-        app:bottom_line_color="#2DBFFF"
+        app:bottom_line_color="#F44336"
         app:bottom_line_height="@dimen/dp_3"
-        app:right_line_color="#2DBFFF"
+        app:right_line_color="#E91E63"
         app:right_line_stroke_width="@dimen/dp_3"
-        app:top_line_color="#2DBFFF"
+        app:top_line_color="#9C27B0"
         app:top_line_height="@dimen/dp_3"
-        app:left_line_color="#2dbfff"
+        app:left_line_color="#673AB7"
         app:left_line_stroke_width="@dimen/dp_3"
         tools:ignore="HardcodedText" />
+
+    <com.common.widget.CommonTextView
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:text="23"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:foreground="@drawable/shape_round_bg_color"
+        android:background="#8BCBFD"
+        app:clip_radius="@dimen/dp_5"
+        tools:ignore="HardcodedText,UnusedAttribute" />
+
+    <com.common.widget.CommonTextView
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:text="23"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:background="@drawable/layer_bg_gradient_border"
+        tools:ignore="HardcodedText,UnusedAttribute" />
 
 </LinearLayout>

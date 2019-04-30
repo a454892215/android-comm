@@ -1,12 +1,10 @@
 package com.test.util.custom_view.fragment;
 
-import android.graphics.Color;
 import android.view.View;
 
 import com.common.base.BaseFragment;
 import com.common.utils.ToastUtil;
 import com.common.widget.CommonTextView;
-import com.common.widget.chart.BgSpan;
 import com.common.widget.wheel.CityPickerDialogFragment;
 import com.common.widget.wheel.CityPickerView;
 import com.test.util.R;
@@ -46,4 +44,5 @@ public class CityPickerFragment extends BaseFragment implements View.OnClickList
                 break;
         }
     }
+
 }
