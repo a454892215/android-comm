@@ -1,5 +1,6 @@
 package com.common.widget.trend;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,13 +8,16 @@ import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
-import android.graphics.Point;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.common.R;
-import com.common.utils.LogUtil;
+import com.common.widget.trend.listener.ScaleGestureListener;
+import com.common.widget.trend.listener.SimpleGestureListener;
 
 import java.util.List;
 
@@ -26,8 +30,12 @@ import java.util.List;
 public class TrendChartView extends View {
     private Paint linePaint;
     private Path trendPath;
-    private int dp_1;
+    private float dp_1;
     private float joinRadius;
+    private float xUnitLenght;
+    private float yUnitLenght;
+    private ScaleGestureDetector scaleGestureDetector;
+    private GestureDetector gestureDetector;
 
     public TrendChartView(Context context) {
         this(context, null);
@@ -39,7 +47,8 @@ public class TrendChartView extends View {
 
     public TrendChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        dp_1 = Math.round(context.getResources().getDimension(R.dimen.dp_1));
+        dp_1 = context.getResources().getDimension(R.dimen.dp_1);
+        xUnitLenght = yUnitLenght = dp_1 * 5;
         joinRadius = dp_1 * 4;
         float strokeWidth = dp_1 * 2;
 
@@ -54,6 +63,11 @@ public class TrendChartView extends View {
         linePaint.setStrokeCap(Paint.Cap.ROUND);
         linePaint.setPathEffect(new CornerPathEffect(dp_1 * 20));
         trendPath = new Path();
+
+        ScaleGestureListener listener = new ScaleGestureListener();
+        scaleGestureDetector = new ScaleGestureDetector(context, listener);
+        SimpleGestureListener simpleGestureListener = new SimpleGestureListener(this);
+        gestureDetector = new GestureDetector(context, simpleGestureListener);
     }
 
     @Override
@@ -70,34 +84,30 @@ public class TrendChartView extends View {
         int size = list.size();
         for (int i = 0; i < size; i++) {
             Point point_1 = list.get(i);
-            int x_dp_p1 = point_1.x * dp_1;
-            int y_dp_p1 = point_1.y * dp_1;
+            float x_dp_p1 = point_1.x * dp_1;
+            float y_dp_p1 = point_1.y * dp_1;
             trendPath.moveTo(x_dp_p1, y_dp_p1);
             trendPath.addCircle(x_dp_p1, y_dp_p1, joinRadius, Path.Direction.CW);
-            if (i != size - 1) {
-                startPoint.set(x_dp_p1, y_dp_p1);
-                endPoint.set(list.get(i + 1).x * dp_1, list.get(i + 1).y * dp_1);
-                Point[] linePoint = getStartAndEndCoordinateOfLine(startPoint, endPoint, joinRadius);
-                trendPath.moveTo(linePoint[0].x, linePoint[0].y);
-                trendPath.lineTo(linePoint[1].x, linePoint[1].y);
-            }
         }
         PathMeasure measure = new PathMeasure(trendPath, false);
-        int pathTotalLength = 0;
-        int i = 1;
-        while (measure.nextContour()) {
-            float length = measure.getLength();
-            pathTotalLength += length;
-           // LogUtil.d("PathMeasure  length:" + length + "  pathTotalLength:" + pathTotalLength + " i:" + i++);
-        }
+
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        scaleGestureDetector.onTouchEvent(event);
+        return true;
     }
 
     /**
      * Calculate the start and end coordinates of the line
      */
-    private Point[] getStartAndEndCoordinateOfLine(Point circleCenterP1, Point circleCenterP2, float joinRadius) {
+
+/*    private Point[] getStartAndEndCoordinateOfLine(Point circleCenterP1, Point circleCenterP2, float joinRadius) {
         Point[] points_1 = CoordinateComputeHelper.getIntersection(circleCenterP1, circleCenterP2, circleCenterP1, joinRadius);
         Point[] points_2 = CoordinateComputeHelper.getIntersection(circleCenterP1, circleCenterP2, circleCenterP2, joinRadius);
         return new Point[]{points_1[1], points_2[0]};
-    }
+    }*/
 }

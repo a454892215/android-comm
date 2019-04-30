@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class LogUtil {
 
-    private static final String TAG = "LLpp,LOGGER: ";
+    private static final String TAG = "LLpp: ";
     private static boolean enable = false;
 
     public static void logEnable(boolean enable) {

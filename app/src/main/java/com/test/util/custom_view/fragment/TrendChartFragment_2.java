@@ -1,8 +1,7 @@
 package com.test.util.custom_view.fragment;
 
-import android.graphics.Point;
-
 import com.common.base.BaseFragment;
+import com.common.widget.trend.Point;
 import com.common.widget.trend.TrendChartView;
 import com.test.util.R;
 
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Random;
 
 public class TrendChartFragment_2 extends BaseFragment {
-    String[] tabsNames = {"走势图一", "走势图二"};
 
     @Override
     protected int getLayoutId() {
@@ -22,7 +20,7 @@ public class TrendChartFragment_2 extends BaseFragment {
     protected void initView() {
         TrendChartView trend_chart = findViewById(R.id.trend_chart);
         List<Point> list = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             int unit_x = 20;
             list.add(new Point(unit_x * i + unit_x, new Random().nextInt(100) + 20));
         }

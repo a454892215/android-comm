@@ -1,7 +1,5 @@
 package com.common.widget.trend;
 
-import android.graphics.Point;
-
 /**
  * Author:  L
  * CreateDate: 2019/1/29 9:27
@@ -10,10 +8,10 @@ import android.graphics.Point;
 
 class CoordinateComputeHelper {
     /**
-     * Intersection of line and circle
+     * Intersection of a line and a circle
      */
     static Point[] getIntersection(Point start, Point end, Point cC, float r) {
-        float k = (start.y - end.y) / (float) (start.x - end.x);
+        float k = (start.y - end.y) / (start.x - end.x);
         float b = start.y - k * start.x;
         float c = -cC.x;
         float d = -cC.y;
