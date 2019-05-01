@@ -16,6 +16,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 
 import com.common.R;
+import com.common.utils.LogUtil;
 import com.common.widget.trend.listener.ScaleGestureListener;
 import com.common.widget.trend.listener.SimpleGestureListener;
 
@@ -30,12 +31,13 @@ import java.util.List;
 public class TrendChartView extends View {
     private Paint linePaint;
     private Path trendPath;
-    private float dp_1;
     private float joinRadius;
-    private float xUnitLenght;
-    private float yUnitLenght;
+    private float xUnitLength;
+    private float yUnitLength;
+    private float maxVisibleWidth;
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
+    private float dp_1;
 
     public TrendChartView(Context context) {
         this(context, null);
@@ -45,10 +47,16 @@ public class TrendChartView extends View {
         this(context, attrs, -1);
     }
 
+
+    public float getMaxVisibleWidth() {
+        return maxVisibleWidth;
+    }
+
     public TrendChartView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         dp_1 = context.getResources().getDimension(R.dimen.dp_1);
-        xUnitLenght = yUnitLenght = dp_1 * 5;
+        xUnitLength = dp_1 * 50;
+        yUnitLength = dp_1;
         joinRadius = dp_1 * 4;
         float strokeWidth = dp_1 * 2;
 
@@ -79,17 +87,23 @@ public class TrendChartView extends View {
     }
 
     public void setCoordinateList(List<Point> list) {
-        Point startPoint = new Point();
-        Point endPoint = new Point();
         int size = list.size();
+        float startX = dp_1 * 15;
+        maxVisibleWidth = (size - 1) * (xUnitLength - joinRadius * 2) + startX;
+        LogUtil.d("===================maxVisibleWidth:" + maxVisibleWidth + "  xUnitLength:" + xUnitLength);
         for (int i = 0; i < size; i++) {
             Point point_1 = list.get(i);
-            float x_dp_p1 = point_1.x * dp_1;
-            float y_dp_p1 = point_1.y * dp_1;
+            float x_dp_p1;
+            if (i == 0) {
+                x_dp_p1 = startX;
+            } else {
+                x_dp_p1 = startX + xUnitLength;
+            }
+            float y_dp_p1 = point_1.y * yUnitLength;
+            startX = x_dp_p1;
             trendPath.moveTo(x_dp_p1, y_dp_p1);
             trendPath.addCircle(x_dp_p1, y_dp_p1, joinRadius, Path.Direction.CW);
         }
-        PathMeasure measure = new PathMeasure(trendPath, false);
 
     }
 

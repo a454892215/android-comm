@@ -21,8 +21,7 @@ public class TrendChartFragment_2 extends BaseFragment {
         TrendChartView trend_chart = findViewById(R.id.trend_chart);
         List<Point> list = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            int unit_x = 20;
-            list.add(new Point(unit_x * i + unit_x, new Random().nextInt(100) + 20));
+            list.add(new Point(i, new Random().nextInt(100) + 20));
         }
         trend_chart.setCoordinateList(list);
     }
