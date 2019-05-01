@@ -76,7 +76,7 @@ public class TrendChartView extends View {
         linePaint.setColor(Color.RED);
         //  linePaint.setStrokeJoin(Paint.Join.ROUND);
         //  linePaint.setStrokeCap(Paint.Cap.ROUND);
-        linePaint.setPathEffect(new CornerPathEffect(dp_1 * 20));
+        linePaint.setPathEffect(new CornerPathEffect(dp_1 * 2));
         trendPath = new Path();
 
         ScaleGestureListener listener = new ScaleGestureListener();
@@ -113,7 +113,14 @@ public class TrendChartView extends View {
         maxCanScrollWidth = (size - 1) * (xUnitLength) + startX + endPointMargin - width;
         maxCanScrollWidth = maxCanScrollWidth > 0 ? maxCanScrollWidth : 0;
         LogUtil.d("===================maxCanScrollWidth:" + maxCanScrollWidth + "  xUnitLength:" + xUnitLength);
-        for (int i = 0; i < size; i++) {
+        trendPath.reset();
+        trendPath.addArc(200, 200, 200 + 200, 400, 0, 359.9f);
+        trendPath.arcTo(400, 200, 400 + 200, 400, 180, 359.9f,false);
+        //trendPath.close();
+        //  trendPath.lineTo(400, 542);
+        //  trendPath.close();
+        //  trendPath.rQuadTo(dp_1 * 180, dp_1 * 110,dp_1 * 0, dp_1 * 50);//第一点位控制点，第二终点
+/*        for (int i = 0; i < size; i++) {
             Point point_1 = list.get(i);
             float x_dp_p1;
             if (i == 0) {
@@ -129,7 +136,7 @@ public class TrendChartView extends View {
                 trendPath.lineTo(x_dp_p1, y_dp_p1);
             }
             //  trendPath.addCircle(x_dp_p1, y_dp_p1, joinRadius, Path.Direction.CW);
-        }
+        }*/
         startAnimDraw();
     }
 
