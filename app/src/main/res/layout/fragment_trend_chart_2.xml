@@ -11,5 +11,14 @@
         android:id="@+id/trend_chart"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_200"
-        android:background="#ffcccc"/>
+        android:background="#ffcccc" />
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/sp_15"
+        android:padding="@dimen/dp_10"
+        android:text="重新绘制"/>
+
 </LinearLayout>

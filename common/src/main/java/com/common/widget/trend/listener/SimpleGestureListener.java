@@ -3,7 +3,6 @@ package com.common.widget.trend.listener;
 import android.animation.ValueAnimator;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.animation.DecelerateInterpolator;
 
 import com.common.utils.LogUtil;
 import com.common.widget.trend.TrendChartView;
@@ -51,8 +50,8 @@ public class SimpleGestureListener extends GestureDetector.SimpleOnGestureListen
             dx = -view.getScrollX();
         }
 
-        if (view.getScrollX() + dx >= view.getMaxVisibleWidth()) {
-            dx = Math.round(view.getMaxVisibleWidth() - view.getScrollX());
+        if (view.getScrollX() + dx >= view.getMaxCanScrollWidth()) {
+            dx = Math.round(view.getMaxCanScrollWidth() - view.getScrollX());
         }
         view.scrollBy(dx, 0);
     }
@@ -64,7 +63,7 @@ public class SimpleGestureListener extends GestureDetector.SimpleOnGestureListen
         stopFlingAnim();
         flingAnimator = ValueAnimator.ofFloat(distanceX, 0);
         flingAnimator.setDuration(flingDuring);
-        flingAnimator.setInterpolator(new DecelerateInterpolator());
+        //flingAnimator.setInterpolator(new DecelerateInterpolator());
         flingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             private float lastTargetDistance;
 

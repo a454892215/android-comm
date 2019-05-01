@@ -18,11 +18,20 @@ public class TrendChartFragment_2 extends BaseFragment {
 
     @Override
     protected void initView() {
+
         TrendChartView trend_chart = findViewById(R.id.trend_chart);
         List<Point> list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 35; i++) {
             list.add(new Point(i, new Random().nextInt(100) + 20));
         }
         trend_chart.setCoordinateList(list);
+
+      /*  RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
+        refresh_layout.setOnRefreshListener(refreshLayout -> {
+            refresh_layout.postDelayed(refresh_layout::notifyLoadFinish,200);
+        });*/
+        findViewById(R.id.btn).setOnClickListener(v->{
+            trend_chart.startAnimDraw();
+        });
     }
 }
