@@ -1,7 +1,15 @@
 package com.test.util.pose;
 
+
+import android.app.Activity;
+import android.os.Bundle;
+
+import com.common.utils.ToastUtil;
+import com.test.util.BuildConfig;
+
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -11,19 +19,65 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * Description: No
  */
 
-public class XPosedTest  implements IXposedHookLoadPackage {
+public class XPosedTest implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        if (lpparam.packageName.equals("com.test.util")) {
+        XPLogUtil.log("packageName: " + lpparam.packageName);
+    //    onTestApp(lpparam);
+        onGageIo(lpparam);
+    }
+
+    private void onGageIo(XC_LoadPackage.LoadPackageParam lpparam) {
+    //    if (lpparam.packageName.equals("com.test.kd")) {
+            XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    Activity activity = (Activity) param.thisObject;
+
+                    activity.runOnUiThread(()->{
+                        ToastUtil.showLong(activity, "我是hook的toast3:"+activity.getClass().getSimpleName());
+                    });
+                    XPLogUtil.log("activity:" + activity);
+                }
+            });
+     //   }
+
+
+    }
+
+    private void onTestApp(XC_LoadPackage.LoadPackageParam lpparam) throws ClassNotFoundException {
+        if (lpparam.packageName.equals("com.test.product_1")) {
             Class clazz = lpparam.classLoader.loadClass("com.test.util.XposedTestActivity");
             XposedHelpers.findAndHookMethod(clazz, "getText", new XC_MethodHook() {
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
                 }
+
                 protected void afterHookedMethod(MethodHookParam param) {
-                    param.setResult("你被劫持了 ！");
+                    param.setResult("你被劫持了 ！2" + BuildConfig.app_info);
                 }
             });
+            XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    Activity activity = (Activity) param.thisObject;
+                    ToastUtil.showLong(activity, "我是hook的toast");
+                    XPLogUtil.log("activity:" + activity);
+                }
+            });
+
         }
     }
 }

@@ -16,7 +16,7 @@ public class XposedTestActivity extends BaseAppActivity {
     }
 
     public String getText() {
-        return "我没有被劫持";
+        return "我没有被劫持gaga2";
     }
 
     @Override
