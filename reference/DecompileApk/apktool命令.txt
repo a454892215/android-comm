@@ -1,0 +1,7 @@
+
+
+java -jar apktool.jar d app.apk   //apk反编译
+
+java -jar apktool.jar b app   //app重新打包：会在app目录生成dist和build目录（生成前或可删除manifest的test配置）
+
+使用360加固重新签名 安装
