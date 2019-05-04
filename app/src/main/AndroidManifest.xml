@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/CommonAppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
+        android:allowBackup="false"
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <meta-data
             android:name="xposedmodule"
