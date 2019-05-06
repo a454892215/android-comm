@@ -8,6 +8,7 @@ import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
 import com.test.util.custom_view.fragment.CityPickerFragment;
 import com.test.util.custom_view.fragment.DialogTestFragment;
+import com.test.util.custom_view.fragment.FloatWinTestFragment;
 import com.test.util.custom_view.fragment.RVFragment;
 import com.test.util.custom_view.fragment.TabLayoutFragment;
 import com.test.util.custom_view.fragment.TrendChartFragment;
@@ -19,8 +20,8 @@ public class CustomViewTestActivity extends BaseAppActivity {
         return R.layout.activity_custom_view_test;
     }
 
-    Class[] fragmentArr = {TabLayoutFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class, RVFragment.class};
-    String[] tabNames = {"Tab和速度", "Picker和TV", "DialogTest", "Chart", "RV相关"};
+    Class[] fragmentArr = {TabLayoutFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class, RVFragment.class, FloatWinTestFragment.class};
+    String[] tabNames = {"Tab和速度", "Picker和TV", "DialogTest", "Chart", "RV相关", "悬浮窗"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
