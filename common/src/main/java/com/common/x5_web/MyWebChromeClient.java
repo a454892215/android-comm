@@ -1,9 +1,11 @@
 package com.common.x5_web;
 
 import android.net.Uri;
+import android.os.Message;
 import android.view.View;
 
 import com.common.utils.LogUtil;
+import com.common.x5_web.dialog.WindowWebDialogFragment;
 import com.common.x5_web.entity.HistoryRecordEntity;
 import com.tencent.smtt.export.external.interfaces.GeolocationPermissionsCallback;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
@@ -93,4 +95,13 @@ public class MyWebChromeClient extends WebChromeClient {
         }
     }
 
+    @Override
+    public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+        WindowWebDialogFragment dialogFragment = new WindowWebDialogFragment();
+        dialogFragment.setWebChromeClient(this);
+        dialogFragment.setWebViewTransport((WebView.WebViewTransport) resultMsg.obj);
+        view.postDelayed(resultMsg::sendToTarget, 200);
+       // dialogFragment.show(view.getContext().getSupportFragmentManager(), dialogFragment.getClass().getName());
+        return true;
+    }
 }
