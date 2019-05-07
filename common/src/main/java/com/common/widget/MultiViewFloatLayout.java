@@ -16,6 +16,7 @@ import com.common.R;
 import com.common.utils.DensityUtils;
 import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
+import com.common.widget.comm.TouchEventHelper;
 
 /**
  * Author:  L
@@ -30,6 +31,7 @@ public class MultiViewFloatLayout extends FrameLayout {
     private float width;
     private float height;
     private ViewDragHelper viewDragHelper;
+    private TouchEventHelper touchEventHelper;
 
     public MultiViewFloatLayout(Context context) {
         this(context, null);
@@ -46,53 +48,8 @@ public class MultiViewFloatLayout extends FrameLayout {
         dp_1 = getResources().getDimension(R.dimen.dp_1);
         width = DensityUtils.getWidth(context);
         height = DensityUtils.getHeight(context);
-        viewDragHelper = ViewDragHelper.create(this, new ViewDragHelper.Callback() {
-            @Override
-            public boolean tryCaptureView(@NonNull View view, int i) {
-                orientation = 0;
-                return true;
-            }
-
-            @Override
-            public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
-                if (orientation == 0) orientation = 1;
-                if (orientation == 1) return left;
-                return child.getLeft();
-            }
-
-            @Override
-            public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
-                if (orientation == 0) orientation = 2;
-                if (orientation == 2) {
-                    postDelayed(() -> verticalScrollAllChildView(dy), 30);
-                }
-                return child.getTop();
-            }
-
-            @Override
-            public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
-                //  super.onViewReleased(releasedChild, xvel, yvel);
-                int currentLeft = releasedChild.getLeft();
-                int left = Math.round((getWidth() - releasedChild.getWidth()) / 2f);
-                if (currentLeft < -releasedChild.getWidth() / 2) {
-                    left = -releasedChild.getWidth();
-                }
-                if (currentLeft > getWidth() - releasedChild.getWidth() / 2) {
-                    left = getWidth();
-                }
-                viewDragHelper.settleCapturedViewAt(left, releasedChild.getTop());
-                invalidate();
-                if (orientation == 2) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
-                    animator.setDuration(200);
-                    animator.addUpdateListener(animation -> {
-                        float value = (float) animation.getAnimatedValue();
-                        verticalScrollAllChildView(Math.round(value * (yvel / 1000) * 9));
-                    });
-                    animator.start();
-                }
-            }
-        });
+        touchEventHelper = new TouchEventHelper(context);
+        viewDragHelper = ViewDragHelper.create(this, new CallBack());
     }
 
     private void verticalScrollAllChildView(int dy) {
@@ -108,6 +65,12 @@ public class MultiViewFloatLayout extends FrameLayout {
                 // LogUtil.d("===============index:" + i + " newDy:" + newDy);
             }
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        touchEventHelper.getTouchOrientation(event, ori -> orientation = ori);
+        return super.dispatchTouchEvent(event);
     }
 
     @Override
@@ -165,5 +128,51 @@ public class MultiViewFloatLayout extends FrameLayout {
     public interface OnSelectChangedListener {
         void OnSelectChanged(int position);
     }*/
+
+
+    private class CallBack extends ViewDragHelper.Callback {
+        @Override
+        public boolean tryCaptureView(@NonNull View view, int i) {
+            return true;
+        }
+
+        @Override
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
+            if (orientation == TouchEventHelper.orientation_horizontal) return left;
+            return child.getLeft();
+        }
+
+        @Override
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
+            if (orientation == TouchEventHelper.orientation_vertical) {
+                postDelayed(() -> verticalScrollAllChildView(dy), 30);
+            }
+            return child.getTop();
+        }
+
+        @Override
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
+            //  super.onViewReleased(releasedChild, xvel, yvel);
+            int currentLeft = releasedChild.getLeft();
+            int left = Math.round((getWidth() - releasedChild.getWidth()) / 2f);
+            if (currentLeft < -releasedChild.getWidth() / 2) {
+                left = -releasedChild.getWidth();
+            }
+            if (currentLeft > getWidth() - releasedChild.getWidth() / 2) {
+                left = getWidth();
+            }
+            viewDragHelper.settleCapturedViewAt(left, releasedChild.getTop());
+            invalidate();
+            if (orientation == TouchEventHelper.orientation_vertical) {
+                ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
+                animator.setDuration(200);
+                animator.addUpdateListener(animation -> {
+                    float value = (float) animation.getAnimatedValue();
+                    verticalScrollAllChildView(Math.round(value * (yvel / 1000) * 9));
+                });
+                animator.start();
+            }
+        }
+    }
 
 }
