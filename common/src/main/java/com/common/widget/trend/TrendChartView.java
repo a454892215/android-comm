@@ -160,7 +160,7 @@ public class TrendChartView extends View {
                 dst.reset();
                 boolean segment = pathMeasure.getSegment(0, end, dst, true);
                 lastStart = end;
-                LogUtil.d("============end:" + end + "  segment:" + segment);
+            //    LogUtil.d("============end:" + end + "  segment:" + segment);
                 TrendChartView.this.invalidate();
             }
         });

@@ -14,7 +14,6 @@ import android.widget.FrameLayout;
 
 import com.common.R;
 import com.common.utils.DensityUtils;
-import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 import com.common.widget.comm.TouchEventHelper;
 
@@ -60,11 +59,8 @@ public class MultiViewFloatLayout extends FrameLayout {
             float minTop = (int) view.getTag(R.id.key_tag_position);
             float newDy = dy * ((i + 1f) / childCount);
             float newTop = view.getTop() + newDy;
-            float top_scrolling = MathUtil.clamp(newTop, minTop, minTop + dp_1 * 80 * (i + 0.2f));
+            float top_scrolling = MathUtil.clamp(newTop, minTop, minTop + dp_1 * 50 * (i + 0.2f));
             view.setTop(Math.round(top_scrolling));
-            if (i == 0) {
-                LogUtil.d("=================newDy:" + newDy + "   top_scrolling:" + top_scrolling);
-            }
         }
     }
 
@@ -90,10 +86,10 @@ public class MultiViewFloatLayout extends FrameLayout {
 
     @Override
     public void computeScroll() {
+        if (System.currentTimeMillis() - removeViewTime < 250) return;
         if (viewDragHelper != null && viewDragHelper.continueSettling(true)) {
             invalidate();
         }
-        if (System.currentTimeMillis() - removeViewTime < 1000) return;
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
@@ -102,7 +98,7 @@ public class MultiViewFloatLayout extends FrameLayout {
             if (left == -view.getWidth() || left == getWidth()) {
                 removeView(view);
                 removeViewTime = System.currentTimeMillis();
-                LogUtil.d("=============left:" + left + "   view.getWidth" + view.getWidth() + "  i:" + i);
+                onChildViewCountChanged();
             }
         }
     }
@@ -110,6 +106,10 @@ public class MultiViewFloatLayout extends FrameLayout {
     @Override
     public void onViewAdded(View child) {
         super.onViewAdded(child);
+        onChildViewCountChanged();
+    }
+
+    private void onChildViewCountChanged() {
         int childCount = getChildCount();
         float scale = 0.6f;
         float initMarginTop = dp_1 * 30;
@@ -158,16 +158,18 @@ public class MultiViewFloatLayout extends FrameLayout {
         @Override
         public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             //  super.onViewReleased(releasedChild, xvel, yvel);
-            int currentLeft = releasedChild.getLeft();
-            int left = Math.round((getWidth() - releasedChild.getWidth()) / 2f);
-            if (currentLeft < -releasedChild.getWidth() / 2) {
-                left = -releasedChild.getWidth();
+            if (orientation == TouchEventHelper.orientation_horizontal) {
+                int currentLeft = releasedChild.getLeft();
+                int left = Math.round((getWidth() - releasedChild.getWidth()) / 2f);
+                if (currentLeft < -releasedChild.getWidth() / 5) {
+                    left = -releasedChild.getWidth();
+                }
+                if (currentLeft > getWidth() - releasedChild.getWidth() / 5 * 4) {
+                    left = getWidth();
+                }
+                viewDragHelper.settleCapturedViewAt(left, releasedChild.getTop());
+                invalidate();
             }
-            if (currentLeft > getWidth() - releasedChild.getWidth() / 2) {
-                left = getWidth();
-            }
-            viewDragHelper.settleCapturedViewAt(left, releasedChild.getTop());
-            invalidate();
             if (orientation == TouchEventHelper.orientation_vertical) {
                 ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
                 animator.setDuration(200);
