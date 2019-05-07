@@ -32,6 +32,7 @@ public class MultiViewFloatLayout extends FrameLayout {
     private float height;
     private ViewDragHelper viewDragHelper;
     private TouchEventHelper touchEventHelper;
+    private long removeViewTime;
 
     public MultiViewFloatLayout(Context context) {
         this(context, null);
@@ -52,17 +53,17 @@ public class MultiViewFloatLayout extends FrameLayout {
         viewDragHelper = ViewDragHelper.create(this, new CallBack());
     }
 
-    private void verticalScrollAllChildView(int dy) {
+    private void verticalScrollAllChildView(float dy) {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
-            if (i != 0) {
-                float minTop = (int) view.getTag(R.id.key_tag_position);
-                float newDy = dy * i / (childCount - 1f);
-                float newTop = view.getTop() + newDy;
-                float top_scrolling = MathUtil.clamp(newTop, minTop, minTop + dp_1 * 80 * i);
-                view.setTop(Math.round(top_scrolling));
-                // LogUtil.d("===============index:" + i + " newDy:" + newDy);
+            float minTop = (int) view.getTag(R.id.key_tag_position);
+            float newDy = dy * ((i + 1f) / childCount);
+            float newTop = view.getTop() + newDy;
+            float top_scrolling = MathUtil.clamp(newTop, minTop, minTop + dp_1 * 80 * (i + 0.2f));
+            view.setTop(Math.round(top_scrolling));
+            if (i == 0) {
+                LogUtil.d("=================newDy:" + newDy + "   top_scrolling:" + top_scrolling);
             }
         }
     }
@@ -86,17 +87,21 @@ public class MultiViewFloatLayout extends FrameLayout {
         return true;
     }
 
+
     @Override
     public void computeScroll() {
         if (viewDragHelper != null && viewDragHelper.continueSettling(true)) {
             invalidate();
         }
+        if (System.currentTimeMillis() - removeViewTime < 1000) return;
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
+            if (view == null) return;
             int left = view.getLeft();
             if (left == -view.getWidth() || left == getWidth()) {
                 removeView(view);
+                removeViewTime = System.currentTimeMillis();
                 LogUtil.d("=============left:" + left + "   view.getWidth" + view.getWidth() + "  i:" + i);
             }
         }
