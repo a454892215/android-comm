@@ -111,10 +111,11 @@ public class MultiViewFloatLayout extends FrameLayout {
                 float value = (float) animation.getAnimatedValue();
                 LayoutParams lp = (LayoutParams) view.getLayoutParams();
                 lp.gravity = Gravity.CENTER_HORIZONTAL;
-                lp.width = Math.round(origin_width + (target_width - origin_width) * value);
-                lp.height = Math.round(origin_height + (target_height - origin_height) * value);
+                //  lp.width = Math.round(origin_width + (target_width - origin_width) * value);
+                //   lp.height = Math.round(origin_height + (target_height - origin_height) * value);
                 lp.topMargin = Math.round(origin_top + (finalTarget_top - origin_top) * value);
-
+                view.setScaleX((origin_width + (target_width - origin_width) * value) / origin_width);
+                view.setScaleY((origin_height + (target_height - origin_height) * value) / origin_height);
                 view.setTag(R.id.key_tag_position, lp.topMargin + getPaddingTop());
                 view.setLayoutParams(lp);
             });
@@ -130,21 +131,11 @@ public class MultiViewFloatLayout extends FrameLayout {
         int childCount = getChildCount();
         if (childCount > 0) {
             View selectedView = getChildAt(childCount - 1);//获取最上面的View
-            int originWidth = selectedView.getWidth();
-            int originHeight = selectedView.getHeight();
-            int originTop = selectedView.getTop();
-            ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
-            animator.setDuration(250);
-            animator.addUpdateListener(animation -> {
-                float value = (float) animation.getAnimatedValue();
-                LayoutParams lp = (LayoutParams) selectedView.getLayoutParams();
-                lp.gravity = Gravity.CENTER_HORIZONTAL;
-                lp.width = Math.round(originWidth + (width - originWidth) * value);
-                lp.height = Math.round(originHeight + (height - originHeight) * value);
-                lp.topMargin = Math.round(originTop + (0 - originTop) * value);
-                selectedView.setLayoutParams(lp);
-            });
-            animator.start();
+            LayoutParams lp = (LayoutParams) selectedView.getLayoutParams();
+            lp.topMargin =0;
+            selectedView.setLayoutParams(lp);
+            selectedView.animate().setDuration(200).scaleX(1).start();
+            selectedView.animate().setDuration(200).scaleY(1).start();
             postDelayed(() -> isWindowMode = false, 270);
 
         }
