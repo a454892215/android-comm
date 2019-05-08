@@ -97,11 +97,8 @@ public class MyWebChromeClient extends WebChromeClient {
 
     @Override
     public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
-        WindowWebDialogFragment dialogFragment = new WindowWebDialogFragment();
-        dialogFragment.setWebChromeClient(this);
-        dialogFragment.setWebViewTransport((WebView.WebViewTransport) resultMsg.obj);
-        view.postDelayed(resultMsg::sendToTarget, 200);
-       // dialogFragment.show(view.getContext().getSupportFragmentManager(), dialogFragment.getClass().getName());
+        webViewInfoCallBack.onCreateWindow(view, isDialog, isUserGesture, resultMsg);
+        // dialogFragment.show(view.getContext().getSupportFragmentManager(), dialogFragment.getClass().getName());
         return true;
     }
 }

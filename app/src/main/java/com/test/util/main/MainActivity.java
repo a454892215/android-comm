@@ -11,7 +11,7 @@ import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 import com.test.util.Constant;
-import com.test.util.X5WebTestActivity;
+import com.test.util.x5web.X5WebTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;

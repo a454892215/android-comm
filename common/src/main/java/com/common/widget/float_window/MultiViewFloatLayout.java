@@ -86,7 +86,7 @@ public class MultiViewFloatLayout extends FrameLayout {
 
     private float unitMarginTop;
 
-    private static final float minWidthScale = 0.6f;
+    private static final float minWidthScale = 0.8f;
 
     private boolean isWindowMode = false;
 

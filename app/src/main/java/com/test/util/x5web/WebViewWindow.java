@@ -1,13 +1,15 @@
-package com.test.util;
+package com.test.util.x5web;
 
-import android.graphics.PixelFormat;
-import android.os.Bundle;
+import android.os.Message;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
 
+import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
 import com.common.widget.float_window.MultiViewFloatLayout;
@@ -15,33 +17,35 @@ import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
 import com.common.x5_web.dialog.MenuDialogFragment;
 import com.common.x5_web.dialog.SearchRecordPop;
-import com.test.util.base.BaseAppActivity;
+import com.tencent.smtt.sdk.WebView;
+import com.test.util.R;
 
-public class X5WebTestActivity extends BaseAppActivity {
-
+public class WebViewWindow implements View.OnClickListener {
+    private final FragmentManager fm;
     private X5WebView web_view;
     private CommonEditText et_url_info;
     private ProgressBar progress_bar;
 
     private String home_url = "https://hao.360.cn";
     private SearchRecordPop searchRecordPop;
+    private View rootView;
+    private BaseActivity activity;
     private MultiViewFloatLayout multi_view_float;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getWindow().setFormat(PixelFormat.TRANSLUCENT);//网页中的视频，上屏幕的时候，可能出现闪烁的情况
-        setTitle("X5WebView测试");
-        setBrowserHeader();
-        setBrowserFooter();
-        multi_view_float = findViewById(R.id.multi_view);
+    WebViewWindow(View itemView, BaseActivity activity, MultiViewFloatLayout multi_view_float) {
+        rootView = itemView;
+        this.multi_view_float = multi_view_float;
+        this.activity = activity;
+        fm = activity.getSupportFragmentManager();
         web_view = findViewById(R.id.web_view);
-        web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
+        web_view.initWebViewSettings(activity, new MyWebViewInfoCallBack());
         searchRecordPop = new SearchRecordPop(activity);
         searchRecordPop.setOnClickListener(url -> web_view.goUrl(url[0], activity));
         web_view.loadUrl(home_url);
         web_view.requestFocus();
-        addOnBackPressedListener(() -> web_view.onWebBack());
+        setBrowserHeader();
+        setBrowserFooter();
+        activity.addOnBackPressedListener(() -> web_view.onWebBack());
     }
 
     private void setBrowserHeader() {
@@ -91,22 +95,7 @@ public class X5WebTestActivity extends BaseAppActivity {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_x5_web_test;
-    }
-
-    @Override
-    protected void onDestroy() {
-        if (web_view != null) {
-            web_view.destroy();
-            super.onDestroy();
-            android.os.Process.killProcess(android.os.Process.myPid());
-        }
-    }
-
-    @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_go_home:
                 web_view.loadUrl(home_url);
@@ -152,6 +141,23 @@ public class X5WebTestActivity extends BaseAppActivity {
             }
             LogUtil.d("=============progress:" + progress);
         }
+
+        @Override
+        public boolean onCreateWindow(WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+            View item_view = LayoutInflater.from(activity).inflate(R.layout.layout_x5web_item, multi_view_float, false);
+            multi_view_float.addView(item_view);
+            X5WebView web_view = item_view.findViewById(R.id.web_view);
+            WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+            transport.setWebView(web_view);
+            web_view.setWebChromeClient(view.getWebChromeClient());
+            resultMsg.sendToTarget();
+            new WebViewWindow(item_view, activity, multi_view_float);
+            return true;
+        }
+    }
+
+    public <T extends View> T findViewById(int id) {
+        return rootView.findViewById(id);
     }
 
 }
