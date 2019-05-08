@@ -6,7 +6,6 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -25,7 +24,6 @@ import com.common.widget.comm.TouchEventHelper;
 
 public class MultiViewFloatLayout extends FrameLayout {
 
-    //  OnSelectChangedListener listener;
     private float dp_1;
     private float width;
     private float height;
@@ -109,15 +107,10 @@ public class MultiViewFloatLayout extends FrameLayout {
             float finalTarget_top = target_top;
             animator.addUpdateListener(animation -> {
                 float value = (float) animation.getAnimatedValue();
-                LayoutParams lp = (LayoutParams) view.getLayoutParams();
-                lp.gravity = Gravity.CENTER_HORIZONTAL;
-                //  lp.width = Math.round(origin_width + (target_width - origin_width) * value);
-                //   lp.height = Math.round(origin_height + (target_height - origin_height) * value);
-                lp.topMargin = Math.round(origin_top + (finalTarget_top - origin_top) * value);
                 view.setScaleX((origin_width + (target_width - origin_width) * value) / origin_width);
                 view.setScaleY((origin_height + (target_height - origin_height) * value) / origin_height);
-                view.setTag(R.id.key_tag_position, lp.topMargin + getPaddingTop());
-                view.setLayoutParams(lp);
+                view.setTranslationY(Math.round(origin_top + (finalTarget_top - origin_top) * value));
+                view.setTag(R.id.key_tag_position, view.getTranslationY() + getPaddingTop());
             });
             animator.start();
             if (i > childCount - 4) { //最后三张
@@ -131,11 +124,9 @@ public class MultiViewFloatLayout extends FrameLayout {
         int childCount = getChildCount();
         if (childCount > 0) {
             View selectedView = getChildAt(childCount - 1);//获取最上面的View
-            LayoutParams lp = (LayoutParams) selectedView.getLayoutParams();
-            lp.topMargin =0;
-            selectedView.setLayoutParams(lp);
             selectedView.animate().setDuration(200).scaleX(1).start();
             selectedView.animate().setDuration(200).scaleY(1).start();
+            selectedView.animate().setDuration(200).translationY(0).start();
             postDelayed(() -> isWindowMode = false, 270);
 
         }
@@ -194,7 +185,6 @@ public class MultiViewFloatLayout extends FrameLayout {
             onHorScrollEnd();
         }
 
-
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (orientation == TouchEventHelper.orientation_vertical) {
@@ -202,7 +192,6 @@ public class MultiViewFloatLayout extends FrameLayout {
             }
             return true;
         }
-
 
         private void horizontalScroll(float distanceDX) {
             if (targetView != null) {
@@ -216,17 +205,13 @@ public class MultiViewFloatLayout extends FrameLayout {
                 for (int i = 0; i < childCount; i++) {
                     View view = getChildAt(i);
                     float newDy = distanceDY * ((i + 1f) / childCount);
-                    LayoutParams lp = (LayoutParams) view.getLayoutParams();
-                    lp.topMargin = lp.topMargin + Math.round(-newDy);
+                    float transY = view.getTranslationY() + Math.round(-newDy);
                     float minTopMargin = 0;
                     float maxTopMargin = height * 10;
                     if (i > childCount - 4) {//最后三张
                         minTopMargin = (i - childCount + 3) * unitMarginTop;// (i - childCount + 3) => 0 1 2
                     }
-                    lp.topMargin = Math.round(MathUtil.clamp(lp.topMargin, minTopMargin, maxTopMargin));
-                    //   float scale = MathUtil.clamp(lp.topMargin / (float) lp.height, 0, 1);// 0 -> 1
-                    //   lp.width = Math.round(minWidth + (maxWidth - minWidth) * scale);
-                    view.setLayoutParams(lp);
+                    view.setTranslationY(MathUtil.clamp(transY, minTopMargin, maxTopMargin));
                 }
             }
         }
