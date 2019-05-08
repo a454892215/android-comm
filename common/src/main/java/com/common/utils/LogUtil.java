@@ -59,6 +59,6 @@ public class LogUtil {
 
     private static String getLineNum() {
         StackTraceElement ste = new Throwable().getStackTrace()[2];
-        return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ") " +ste.getMethodName()+"()";
+        return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ") ";
     }
 }

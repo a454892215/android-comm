@@ -84,12 +84,10 @@ public class MultiViewFloatLayout extends FrameLayout {
             View view = getChildAt(i);
             float origin_width = view.getWidth() == 0 ? this.width : view.getWidth();
             float origin_height = view.getHeight() == 0 ? this.height : view.getHeight();
-            int origin_top = view.getTop() == 0 ? getTop() : view.getTop();
+            int origin_top = view.getTop() == 0 ? getPaddingTop() : view.getTop() - getPaddingTop();
             float target_width = this.width * scale;
             float target_height = this.height * scale;
             float target_top = initMarginTop * i;
-
-            // LogUtil.d("=================origin_top:" + origin_top + "   target_top:" + target_top);
             ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
             animator.setDuration(250);
             animator.addUpdateListener(animation -> {
@@ -99,6 +97,7 @@ public class MultiViewFloatLayout extends FrameLayout {
                 lp.width = Math.round(origin_width + (target_width - origin_width) * value);
                 lp.height = Math.round(origin_height + (target_height - origin_height) * value);
                 lp.topMargin = Math.round(origin_top + (target_top - origin_top) * value);
+
                 view.setTag(R.id.key_tag_position, lp.topMargin + getPaddingTop());
                 view.setLayoutParams(lp);
             });
@@ -171,10 +170,18 @@ public class MultiViewFloatLayout extends FrameLayout {
         private void verticalScroll(float distanceDY) {
             if (targetView != null) {
                 int childCount = getChildCount();
+                if (childCount > 0) {
+                    View child_0 = getChildAt(0);
+                    LayoutParams lp = (LayoutParams) child_0.getLayoutParams();
+                    if (lp.topMargin > dp_1 * 80 && distanceDY < 0) return;
+                    if (lp.topMargin <= 0 && distanceDY > 0) return;
+                }
                 for (int i = 0; i < childCount; i++) {
                     View view = getChildAt(i);
                     float newDy = distanceDY * ((i + 1f) / childCount);
-                    view.offsetTopAndBottom(Math.round(-newDy));
+                    LayoutParams lp = (LayoutParams) view.getLayoutParams();
+                    lp.topMargin = lp.topMargin + Math.round(-newDy);
+                    view.setLayoutParams(lp);
                 }
             }
         }
@@ -213,10 +220,10 @@ public class MultiViewFloatLayout extends FrameLayout {
                 int currentLeft = targetView.getLeft();
                 int left = Math.round((getWidth() - targetView.getWidth()) / 2f);
                 if (currentLeft < -targetView.getWidth() / 5) {
-                    left = -targetView.getWidth();
+                    left = -targetView.getWidth() - Math.round(dp_1 * 5);
                 }
                 if (currentLeft > getWidth() - targetView.getWidth() / 5 * 4) {
-                    left = getWidth();
+                    left = getWidth() + Math.round(dp_1 * 5);
                 }
                 float dx = left - currentLeft;
                 ValueAnimator animator = ValueAnimator.ofFloat(dx, 0);
@@ -247,7 +254,7 @@ public class MultiViewFloatLayout extends FrameLayout {
                 View view = getChildAt(i);
                 if (view == null) return;
                 int left = view.getLeft();
-                if (left == -view.getWidth() || left == getWidth()) {
+                if (left <= -view.getWidth() || left >= getWidth()) {
                     removeView(view);
                     onChildViewCountChanged();
                 }
