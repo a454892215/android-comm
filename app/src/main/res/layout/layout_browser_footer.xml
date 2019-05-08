@@ -67,4 +67,16 @@
         android:textColor="#333333"
         android:textSize="@dimen/sp_15" />
 
+    <com.common.widget.CommonTextView
+        android:id="@+id/tv_window"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_weight="1"
+        android:background="?selectableItemBackground"
+        android:gravity="center"
+        android:text="窗口"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_15" />
+
 </LinearLayout>

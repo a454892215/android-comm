@@ -2,6 +2,7 @@ package com.test.util;
 
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -9,6 +10,7 @@ import android.widget.ProgressBar;
 
 import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
+import com.common.widget.float_window.MultiViewFloatLayout;
 import com.common.x5_web.WebViewInfoCallBack;
 import com.common.x5_web.X5WebView;
 import com.common.x5_web.dialog.MenuDialogFragment;
@@ -23,6 +25,7 @@ public class X5WebTestActivity extends BaseAppActivity {
 
     private String home_url = "https://hao.360.cn";
     private SearchRecordPop searchRecordPop;
+    private MultiViewFloatLayout multi_view_float;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         setTitle("X5WebView测试");
         setBrowserHeader();
         setBrowserFooter();
+        multi_view_float = findViewById(R.id.multi_view);
         web_view = findViewById(R.id.web_view);
         web_view.initWebViewSettings(this, new MyWebViewInfoCallBack());
         searchRecordPop = new SearchRecordPop(activity);
@@ -46,7 +50,10 @@ public class X5WebTestActivity extends BaseAppActivity {
         View iv_url_clear = findViewById(R.id.iv_url_clear);
         iv_url_clear.setOnClickListener(v -> et_url_info.setText(""));
         findViewById(R.id.iv_search).setOnClickListener(v -> {
-            web_view.goUrl(et_url_info.getText().toString(), activity);
+            Editable text = et_url_info.getText();
+            if (text != null) {
+                web_view.goUrl(text.toString(), activity);
+            }
             if (searchRecordPop.isShowing()) searchRecordPop.dismiss();
         });
         et_url_info.setOnFocusChangeListener((v, hasFocus) -> {
@@ -63,7 +70,10 @@ public class X5WebTestActivity extends BaseAppActivity {
         });
         et_url_info.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                web_view.goUrl(et_url_info.getText().toString(), activity);
+                Editable text = et_url_info.getText();
+                if (text != null) {
+                    web_view.goUrl(text.toString(), activity);
+                }
                 if (searchRecordPop.isShowing()) searchRecordPop.dismiss();
                 return true;
             }
@@ -77,6 +87,7 @@ public class X5WebTestActivity extends BaseAppActivity {
         findViewById(R.id.tv_go_forward).setOnClickListener(this);
         findViewById(R.id.tv_go_back).setOnClickListener(this);
         findViewById(R.id.tv_menu).setOnClickListener(this);
+        findViewById(R.id.tv_window).setOnClickListener(this);
     }
 
     @Override
@@ -115,6 +126,9 @@ public class X5WebTestActivity extends BaseAppActivity {
                 MenuDialogFragment menuDialog = new MenuDialogFragment();
                 menuDialog.setWebView(web_view);
                 menuDialog.show(fm, menuDialog.getClass().getName());
+                break;
+            case R.id.tv_window:
+                multi_view_float.switchWindowMode();
                 break;
 
         }

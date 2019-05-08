@@ -49,9 +49,10 @@ public class MultiViewFloatLayout extends FrameLayout {
         unitMarginTop = dp_1 * 30;
         width = DensityUtils.getWidth(context);
         height = DensityUtils.getHeight(context);
-        minWidth = minWidthScale * width;
-        maxWidth = maxWidthScale * width;
         touchEventHelper = new TouchEventHelper(context);
+        touchEventHelper.setOnClickListener(param -> {
+            if (isWindowMode) switchWindowMode();
+        });
         simpleGestureListener = new SimpleGestureListener();
         gestureDetector = new GestureDetector(context, simpleGestureListener);
     }
@@ -59,7 +60,11 @@ public class MultiViewFloatLayout extends FrameLayout {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         touchEventHelper.getTouchOrientation(event, ori -> orientation = ori);
-        return super.dispatchTouchEvent(event);
+        boolean isResume = true;
+        if (!isWindowMode) {
+            isResume = super.dispatchTouchEvent(event);
+        }
+        return isResume;
     }
 
 
@@ -67,30 +72,25 @@ public class MultiViewFloatLayout extends FrameLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            simpleGestureListener.onUp();
+            if (isWindowMode) {
+                simpleGestureListener.onUp();
+            }
         }
-        gestureDetector.onTouchEvent(event);
+        if (isWindowMode) {
+            gestureDetector.onTouchEvent(event);
+        }
         return true;
-    }
-
-
-    @Override
-    public void onViewAdded(View child) {
-        super.onViewAdded(child);
-        onChildViewCountChanged();
     }
 
     private float unitMarginTop;
 
     private static final float minWidthScale = 0.6f;
-    private static final float maxWidthScale = 0.8f;
-    private float minWidth;
-    private float maxWidth;
 
-    private void onChildViewCountChanged() {
+    private boolean isWindowMode = false;
+
+    private void openWindowMode() {
         int childCount = getChildCount();
         float scale = minWidthScale;
-
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
             float origin_width = view.getWidth() == 0 ? this.width : view.getWidth();
@@ -120,6 +120,39 @@ public class MultiViewFloatLayout extends FrameLayout {
             if (i > childCount - 4) { //最后三张
                 scale = scale * 1.1f;
             }
+        }
+        postDelayed(() -> isWindowMode = true, 270);
+    }
+
+    public void closeWindowMode() {
+        int childCount = getChildCount();
+        if (childCount > 0) {
+            View selectedView = getChildAt(childCount - 1);//获取最上面的View
+            int originWidth = selectedView.getWidth();
+            int originHeight = selectedView.getHeight();
+            int originTop = selectedView.getTop();
+            ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
+            animator.setDuration(250);
+            animator.addUpdateListener(animation -> {
+                float value = (float) animation.getAnimatedValue();
+                LayoutParams lp = (LayoutParams) selectedView.getLayoutParams();
+                lp.gravity = Gravity.CENTER_HORIZONTAL;
+                lp.width = Math.round(originWidth + (width - originWidth) * value);
+                lp.height = Math.round(originHeight + (height - originHeight) * value);
+                lp.topMargin = Math.round(originTop + (0 - originTop) * value);
+                selectedView.setLayoutParams(lp);
+            });
+            animator.start();
+            postDelayed(() -> isWindowMode = false, 270);
+
+        }
+    }
+
+    public void switchWindowMode() {
+        if (isWindowMode) {
+            closeWindowMode();
+        } else {
+            openWindowMode();
         }
     }
 
@@ -198,8 +231,8 @@ public class MultiViewFloatLayout extends FrameLayout {
                         minTopMargin = (i - childCount + 3) * unitMarginTop;// (i - childCount + 3) => 0 1 2
                     }
                     lp.topMargin = Math.round(MathUtil.clamp(lp.topMargin, minTopMargin, maxTopMargin));
-                 //   float scale = MathUtil.clamp(lp.topMargin / (float) lp.height, 0, 1);// 0 -> 1
-                 //   lp.width = Math.round(minWidth + (maxWidth - minWidth) * scale);
+                    //   float scale = MathUtil.clamp(lp.topMargin / (float) lp.height, 0, 1);// 0 -> 1
+                    //   lp.width = Math.round(minWidth + (maxWidth - minWidth) * scale);
                     view.setLayoutParams(lp);
                 }
             }
@@ -275,7 +308,7 @@ public class MultiViewFloatLayout extends FrameLayout {
                 int left = view.getLeft();
                 if (left <= -view.getWidth() || left >= getWidth()) {
                     removeView(view);
-                    onChildViewCountChanged();
+                    openWindowMode();
                 }
             }
         }
