@@ -48,7 +48,7 @@ public class MultiViewFloatLayout extends FrameLayout {
         dp_1 = getResources().getDimension(R.dimen.dp_1);
         unitMarginTop = dp_1 * 30;
         width = DensityUtils.getWidth(context);
-        height = DensityUtils.getHeight(context);
+        postDelayed(() -> height = getHeight(), 200);
         touchEventHelper = new TouchEventHelper(context);
         touchEventHelper.setOnClickListener(param -> {
             if (isWindowMode) switchWindowMode();
@@ -63,6 +63,8 @@ public class MultiViewFloatLayout extends FrameLayout {
         boolean isResume = true;
         if (!isWindowMode) {
             isResume = super.dispatchTouchEvent(event);
+        } else {
+            onTouchEvent(event);
         }
         return isResume;
     }
