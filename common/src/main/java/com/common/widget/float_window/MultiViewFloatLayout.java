@@ -1,6 +1,5 @@
 package com.common.widget.float_window;
 
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -10,9 +9,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.common.R;
 import com.common.utils.LogUtil;
 import com.common.utils.ViewUtil;
+import com.common.widget.comm.OffsetHelper;
 import com.common.widget.comm.TouchEventHelper;
 
 /**
@@ -23,8 +22,6 @@ import com.common.widget.comm.TouchEventHelper;
 
 public class MultiViewFloatLayout extends FrameLayout {
 
-    private float dp_1;
-    private float height;
     private TouchEventHelper touchEventHelper;
     private GestureDetector gestureDetector;
     private SimpleGestureListener simpleGestureListener;
@@ -41,8 +38,6 @@ public class MultiViewFloatLayout extends FrameLayout {
 
     public MultiViewFloatLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        dp_1 = getResources().getDimension(R.dimen.dp_1);
-        postDelayed(() -> height = getHeight(), 200);
         touchEventHelper = new TouchEventHelper(context);
         touchEventHelper.setOnClickListener(param -> {
             if (isWindowMode) switchWindowMode((MotionEvent) param);
@@ -154,8 +149,13 @@ public class MultiViewFloatLayout extends FrameLayout {
                 targetView.animate().setDuration(0).translationXBy(-distanceX).start();
             }
             if (orientation == TouchEventHelper.orientation_vertical && targetView != null) {
-                LogUtil.d("================distanceY:" + distanceY);
-                targetView.offsetTopAndBottom(-(int)distanceY);
+                LogUtil.d("================getTop:" + targetView.getTop());
+                targetView.offsetTopAndBottom(-(int) distanceY);
+
+                int childCount = getChildCount();
+                for (int i = childCount - 1; i > -1; i--) {
+                    View child = getChildAt(i);
+                }
             }
             return true;
         }
@@ -168,24 +168,9 @@ public class MultiViewFloatLayout extends FrameLayout {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (orientation == TouchEventHelper.orientation_vertical) {
                 final int flingDuring = 200;
-                float distanceAllY = velocityY * (flingDuring / 2000f);
+                float dy = velocityY * (flingDuring / 2000f);
                 if (targetView != null) {
-                    ValueAnimator animator = ValueAnimator.ofFloat(distanceAllY, 0);
-                    animator.setDuration(flingDuring);
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        private float lastTargetDistance;
-
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator animation) {
-                            float value = (float) animation.getAnimatedValue();//表示目标距离还剩多少
-                            if (lastTargetDistance != 0) {
-                                float distanceDX = value - lastTargetDistance;
-                                targetView.offsetTopAndBottom(Math.round(-distanceDX));
-                            }
-                            lastTargetDistance = value;
-                        }
-                    });
-                    animator.start();
+                    OffsetHelper.offsetTopAndBottom(targetView, dy, flingDuring);
                 }
             }
             return true;
@@ -214,7 +199,6 @@ public class MultiViewFloatLayout extends FrameLayout {
                 float translationX = view.getTranslationX();
                 if (translationX <= -view.getWidth() || translationX >= getWidth()) {
                     removeView(view);
-                    LogUtil.d("=============onScrollEnd=============:" + translationX);
                     openWindowMode();
                 }
             }
