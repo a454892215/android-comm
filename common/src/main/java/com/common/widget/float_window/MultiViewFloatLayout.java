@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.common.R;
+import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 import com.common.utils.ViewUtil;
 import com.common.widget.comm.TouchEventHelper;
@@ -199,9 +200,10 @@ public class MultiViewFloatLayout extends FrameLayout {
             for (int i = 0; i < childCount; i++) {
                 View view = getChildAt(i);
                 if (view == null) return;
-                int left = view.getLeft();
-                if (left <= -view.getWidth() || left >= getWidth()) {
+                float translationX = view.getTranslationX();
+                if (translationX <= -view.getWidth() || translationX >= getWidth()) {
                     removeView(view);
+                    LogUtil.d("=============onScrollEnd=============:"+translationX);
                     openWindowMode();
                 }
             }

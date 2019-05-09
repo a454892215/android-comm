@@ -42,7 +42,7 @@ public class WebViewWindow implements View.OnClickListener {
         searchRecordPop = new SearchRecordPop(activity);
         searchRecordPop.setOnClickListener(url -> web_view.goUrl(url[0], activity));
         web_view.loadUrl(home_url);
-        web_view.requestFocus();
+        //web_view.requestFocus();
         setBrowserHeader();
         setBrowserFooter();
         activity.addOnBackPressedListener(() -> web_view.onWebBack());
