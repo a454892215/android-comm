@@ -117,7 +117,7 @@ public class WebViewWindow implements View.OnClickListener {
                 menuDialog.show(fm, menuDialog.getClass().getName());
                 break;
             case R.id.tv_window:
-                multi_view_float.switchWindowMode();
+                multi_view_float.switchWindowMode(null);
                 break;
 
         }

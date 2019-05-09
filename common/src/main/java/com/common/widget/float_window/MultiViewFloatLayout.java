@@ -45,7 +45,7 @@ public class MultiViewFloatLayout extends FrameLayout {
         postDelayed(() -> height = getHeight(), 200);
         touchEventHelper = new TouchEventHelper(context);
         touchEventHelper.setOnClickListener(param -> {
-            if (isWindowMode) switchWindowMode();
+            if (isWindowMode) switchWindowMode((MotionEvent) param);
         });
         simpleGestureListener = new SimpleGestureListener();
         gestureDetector = new GestureDetector(context, simpleGestureListener);
@@ -77,7 +77,7 @@ public class MultiViewFloatLayout extends FrameLayout {
         return true;
     }
 
-    private static final float minWidthScale = 0.8f;
+    private static final float minWidthScale = 0.88f;
 
     private boolean isWindowMode = false;
 
@@ -86,13 +86,10 @@ public class MultiViewFloatLayout extends FrameLayout {
         float scale = minWidthScale;
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
-            // float target_top = 0;
-            // if (i > childCount - 4) target_top = (i - childCount + 3) * unitMarginTop;
             view.animate().setDuration(200).scaleX(scale).start();
             view.animate().setDuration(200).scaleY(scale).start();
-            // view.animate().setDuration(200).translationY(target_top).start();
-            // view.setTag(R.id.key_tag_position, target_top + getPaddingTop());
-            if (i > childCount - 4) scale = scale * 1.1f; // (i - childCount + 3) => 0 1 2 last 3
+            if (i > childCount - 4) scale = scale * 0.92f; // (i - childCount + 3) => 0 1 2 last 3
+            if (scale <= 0.6) scale = 0.6f;
         }
         postDelayed(() -> isWindowMode = true, 220);
     }
@@ -100,7 +97,13 @@ public class MultiViewFloatLayout extends FrameLayout {
     public void closeWindowMode() {
         int childCount = getChildCount();
         if (childCount > 0) {
-            View selectedView = getChildAt(childCount - 1);//获取最上面的View
+            View selectedView;
+            if (targetView != null) {
+                selectedView = targetView;
+            } else {
+                selectedView = getChildAt(childCount - 1);//获取最上面的View
+            }
+            selectedView.bringToFront();
             selectedView.animate().setDuration(200).scaleX(1).start();
             selectedView.animate().setDuration(200).scaleY(1).start();
             selectedView.animate().setDuration(200).translationY(0).start();
@@ -109,31 +112,38 @@ public class MultiViewFloatLayout extends FrameLayout {
         }
     }
 
-    public void switchWindowMode() {
+    public void switchWindowMode(MotionEvent ev) {
         if (isWindowMode) {
+            setTargetView(ev);
             closeWindowMode();
         } else {
             openWindowMode();
         }
     }
 
-    private class SimpleGestureListener extends GestureDetector.SimpleOnGestureListener {
-        private View targetView;
+    private void setTargetView(MotionEvent e) {
+        if (e == null) return;
+        int childCount = getChildCount();
+        for (int i = childCount - 1; i >= 0; i--) {
+            View view = getChildAt(i);
+            if (ViewUtil.isTouchPointInView(view, e.getRawX(), e.getRawY())) {
+                targetView = view;
+                break;
+            } else {
+                targetView = null;
+            }
+        }
+    }
 
+    private View targetView;
+
+    private class SimpleGestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onDown(MotionEvent e) {
-            int childCount = getChildCount();
-            for (int i = childCount - 1; i >= 0; i--) {
-                View view = getChildAt(i);
-                if (ViewUtil.isTouchPointInView(view, e.getRawX(), e.getRawY())) {
-                    targetView = view;
-                    break;
-                } else {
-                    targetView = null;
-                }
-            }
+            setTargetView(e);
             return true;
         }
+
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -203,7 +213,7 @@ public class MultiViewFloatLayout extends FrameLayout {
                 float translationX = view.getTranslationX();
                 if (translationX <= -view.getWidth() || translationX >= getWidth()) {
                     removeView(view);
-                    LogUtil.d("=============onScrollEnd=============:"+translationX);
+                    LogUtil.d("=============onScrollEnd=============:" + translationX);
                     openWindowMode();
                 }
             }

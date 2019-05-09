@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.MotionEvent;
 
 import com.common.R;
-import com.common.listener.OnClickListener;
+import com.common.listener.OnClickListener2;
 import com.common.listener.OnOrientationChangedListener;
 
 public class TouchEventHelper {
@@ -71,15 +71,15 @@ public class TouchEventHelper {
                 boolean clickCondition_1 = clickTime < 200 && Math.abs(rawX - down_x) < min_scroll_unit * 5 && Math.abs(rawY - down_y) < min_scroll_unit * 5;
                 boolean clickCondition_2 = Math.abs(rawX - down_x) == 0 && Math.abs(rawY - down_y) == 0;
                 if (clickCondition_1 || clickCondition_2) {
-                    if (onClickListener != null) onClickListener.onClick();
+                    if (onClickListener != null) onClickListener.onClick(ev);
                 }
                 break;
         }
     }
 
-    private OnClickListener onClickListener;
+    private OnClickListener2 onClickListener;
 
-    public void setOnClickListener(OnClickListener onClickListener) {
+    public void setOnClickListener(OnClickListener2 onClickListener) {
         this.onClickListener = onClickListener;
     }
 
