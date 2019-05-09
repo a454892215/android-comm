@@ -1,5 +1,6 @@
 package com.common.widget.float_window;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -11,7 +12,6 @@ import android.widget.FrameLayout;
 
 import com.common.R;
 import com.common.utils.LogUtil;
-import com.common.utils.MathUtil;
 import com.common.utils.ViewUtil;
 import com.common.widget.comm.TouchEventHelper;
 
@@ -106,7 +106,6 @@ public class MultiViewFloatLayout extends FrameLayout {
             selectedView.bringToFront();
             selectedView.animate().setDuration(200).scaleX(1).start();
             selectedView.animate().setDuration(200).scaleY(1).start();
-            selectedView.animate().setDuration(200).translationY(0).start();
             postDelayed(() -> isWindowMode = false, 270);
 
         }
@@ -152,10 +151,11 @@ public class MultiViewFloatLayout extends FrameLayout {
                 return false;
             }
             if (orientation == TouchEventHelper.orientation_horizontal && targetView != null) {
-                targetView.setTranslationX(targetView.getTranslationX() - distanceX);
+                targetView.animate().setDuration(0).translationXBy(-distanceX).start();
             }
-            if (orientation == TouchEventHelper.orientation_vertical) {
-                verticalScroll(distanceY);
+            if (orientation == TouchEventHelper.orientation_vertical && targetView != null) {
+                LogUtil.d("================distanceY:" + distanceY);
+                targetView.offsetTopAndBottom(-(int)distanceY);
             }
             return true;
         }
@@ -168,26 +168,27 @@ public class MultiViewFloatLayout extends FrameLayout {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (orientation == TouchEventHelper.orientation_vertical) {
                 final int flingDuring = 200;
-                float distanceY = velocityY * (flingDuring / 2000f);
+                float distanceAllY = velocityY * (flingDuring / 2000f);
                 if (targetView != null) {
-                    targetView.animate().setDuration(flingDuring).translationY(distanceY).start();
+                    ValueAnimator animator = ValueAnimator.ofFloat(distanceAllY, 0);
+                    animator.setDuration(flingDuring);
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        private float lastTargetDistance;
+
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            float value = (float) animation.getAnimatedValue();//表示目标距离还剩多少
+                            if (lastTargetDistance != 0) {
+                                float distanceDX = value - lastTargetDistance;
+                                targetView.offsetTopAndBottom(Math.round(-distanceDX));
+                            }
+                            lastTargetDistance = value;
+                        }
+                    });
+                    animator.start();
                 }
             }
             return true;
-        }
-
-        private void verticalScroll(float distanceDY) {
-            if (targetView != null) {
-                int childCount = getChildCount();
-                for (int i = 0; i < childCount; i++) {
-                    View view = getChildAt(i);
-                    float newDy = distanceDY * ((i + 1f) / childCount);
-                    float transY = view.getTranslationY() + Math.round(-newDy);
-                    float minTopMargin = -dp_1 * 300;
-                    float maxTopMargin = height * 10;
-                    view.setTranslationY(MathUtil.clamp(transY, minTopMargin, maxTopMargin));
-                }
-            }
         }
 
         private void onHorScrollEnd() {

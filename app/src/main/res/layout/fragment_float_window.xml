@@ -1,55 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.common.widget.float_window.MultiViewFloatLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dp_20"
-    tools:ignore="HardcodedText">
+    android:orientation="vertical">
 
-    <TextView
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="窗口模式切换"
+        tools:ignore="HardcodedText" />
+
+    <com.common.widget.float_window.MultiViewFloatLayout
+        android:id="@+id/multi_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ff0000" />
+        android:paddingTop="@dimen/dp_20"
+        tools:ignore="HardcodedText">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#2196F3" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#009688" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff0000" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#FF9800" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#2196F3" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#CDDC39" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#009688" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#FFC107" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#FF9800" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#FF9800" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#CDDC39" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.6"
-        android:background="#FF5722" />
-</com.common.widget.float_window.MultiViewFloatLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#FFC107" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#FF9800" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:background="#FF5722" />
+    </com.common.widget.float_window.MultiViewFloatLayout>
+</LinearLayout>
