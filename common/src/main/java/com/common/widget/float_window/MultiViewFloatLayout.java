@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.common.R;
-import com.common.utils.DensityUtils;
 import com.common.utils.MathUtil;
 import com.common.utils.ViewUtil;
 import com.common.widget.comm.TouchEventHelper;
@@ -25,7 +24,6 @@ import com.common.widget.comm.TouchEventHelper;
 public class MultiViewFloatLayout extends FrameLayout {
 
     private float dp_1;
-    private float width;
     private float height;
     private TouchEventHelper touchEventHelper;
     private GestureDetector gestureDetector;
@@ -44,8 +42,7 @@ public class MultiViewFloatLayout extends FrameLayout {
     public MultiViewFloatLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         dp_1 = getResources().getDimension(R.dimen.dp_1);
-        unitMarginTop = dp_1 * 30;
-        width = DensityUtils.getWidth(context);
+       // float unitMarginTop = dp_1 * 30;
         postDelayed(() -> height = getHeight(), 200);
         touchEventHelper = new TouchEventHelper(context);
         touchEventHelper.setOnClickListener(param -> {
@@ -82,8 +79,6 @@ public class MultiViewFloatLayout extends FrameLayout {
         return true;
     }
 
-    private float unitMarginTop;
-
     private static final float minWidthScale = 0.8f;
 
     private boolean isWindowMode = false;
@@ -93,31 +88,15 @@ public class MultiViewFloatLayout extends FrameLayout {
         float scale = minWidthScale;
         for (int i = 0; i < childCount; i++) {
             View view = getChildAt(i);
-            float origin_width = view.getWidth() == 0 ? this.width : view.getWidth();
-            float origin_height = view.getHeight() == 0 ? this.height : view.getHeight();
-            int origin_top = view.getTop() == 0 ? getPaddingTop() : view.getTop() - getPaddingTop();
-            float target_width = this.width * scale;
-            float target_height = this.height * scale;
-            float target_top = 0;
-            if (i > childCount - 4) {//最后三张
-                target_top = (i - childCount + 3) * unitMarginTop;// (i - childCount + 3) => 0 1 2
-            }
-            ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
-            animator.setDuration(250);
-            float finalTarget_top = target_top;
-            animator.addUpdateListener(animation -> {
-                float value = (float) animation.getAnimatedValue();
-                view.setScaleX((origin_width + (target_width - origin_width) * value) / origin_width);
-                view.setScaleY((origin_height + (target_height - origin_height) * value) / origin_height);
-                view.setTranslationY(Math.round(origin_top + (finalTarget_top - origin_top) * value));
-                view.setTag(R.id.key_tag_position, view.getTranslationY() + getPaddingTop());
-            });
-            animator.start();
-            if (i > childCount - 4) { //最后三张
-                scale = scale * 1.1f;
-            }
+            // float target_top = 0;
+            // if (i > childCount - 4) target_top = (i - childCount + 3) * unitMarginTop;
+            view.animate().setDuration(200).scaleX(scale).start();
+            view.animate().setDuration(200).scaleY(scale).start();
+            // view.animate().setDuration(200).translationY(target_top).start();
+            // view.setTag(R.id.key_tag_position, target_top + getPaddingTop());
+            if (i > childCount - 4) scale = scale * 1.1f; // (i - childCount + 3) => 0 1 2 last 3
         }
-        postDelayed(() -> isWindowMode = true, 270);
+        postDelayed(() -> isWindowMode = true, 220);
     }
 
     public void closeWindowMode() {
@@ -206,11 +185,8 @@ public class MultiViewFloatLayout extends FrameLayout {
                     View view = getChildAt(i);
                     float newDy = distanceDY * ((i + 1f) / childCount);
                     float transY = view.getTranslationY() + Math.round(-newDy);
-                    float minTopMargin = 0;
+                    float minTopMargin = -dp_1 * 300;
                     float maxTopMargin = height * 10;
-                    if (i > childCount - 4) {//最后三张
-                        minTopMargin = (i - childCount + 3) * unitMarginTop;// (i - childCount + 3) => 0 1 2
-                    }
                     view.setTranslationY(MathUtil.clamp(transY, minTopMargin, maxTopMargin));
                 }
             }
