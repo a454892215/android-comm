@@ -50,9 +50,15 @@ public class OffsetHelper {
         for (int i = childCount - 1; i > -1; i--) {
             View child = viewGroup.getChildAt(i);
             //滑动速度在一定区间和滑动距离成正比 未实现
-            int newDy = Math.round(-distanceDX * ((i + 0.2f) / (childCount - 1f)));
+            float newDy = -distanceDX;
+            if (childCount != 1) {
+                newDy = Math.round(newDy * ((i + 0.2f) / (childCount - 1f)));
+            }
             if (newDy + child.getTop() < 0) newDy = -child.getTop();
-            child.offsetTopAndBottom(newDy);
+            if (viewGroup.getChildAt(0).getTop() > viewGroup.getHeight() / 2 && distanceDX < 0) {
+                return;
+            }
+            child.offsetTopAndBottom(Math.round(newDy));
         }
     }
 }
