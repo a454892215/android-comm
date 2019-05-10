@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.common.utils.LogUtil;
 import com.common.utils.ViewUtil;
 import com.common.widget.comm.OffsetHelper;
 import com.common.widget.comm.TouchEventHelper;
@@ -138,7 +137,6 @@ public class MultiViewFloatLayout extends FrameLayout {
             return true;
         }
 
-
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
             int pointerCount = e2.getPointerCount();
@@ -149,13 +147,7 @@ public class MultiViewFloatLayout extends FrameLayout {
                 targetView.animate().setDuration(0).translationXBy(-distanceX).start();
             }
             if (orientation == TouchEventHelper.orientation_vertical && targetView != null) {
-                LogUtil.d("================getTop:" + targetView.getTop());
-                targetView.offsetTopAndBottom(-(int) distanceY);
-
-                int childCount = getChildCount();
-                for (int i = childCount - 1; i > -1; i--) {
-                    View child = getChildAt(i);
-                }
+                OffsetHelper.scrollAllChildViewByLevel(distanceY, MultiViewFloatLayout.this);
             }
             return true;
         }
@@ -170,7 +162,7 @@ public class MultiViewFloatLayout extends FrameLayout {
                 final int flingDuring = 200;
                 float dy = velocityY * (flingDuring / 2000f);
                 if (targetView != null) {
-                    OffsetHelper.offsetTopAndBottom(targetView, dy, flingDuring);
+                    OffsetHelper.offsetTopAndBottom(MultiViewFloatLayout.this, dy, flingDuring);
                 }
             }
             return true;
@@ -181,10 +173,10 @@ public class MultiViewFloatLayout extends FrameLayout {
                 float translationX = targetView.getTranslationX();
                 float left = 0;
                 if (translationX < -targetView.getWidth() / 2) {
-                    left = -targetView.getWidth();
+                    left = -targetView.getWidth() - 30;
                 }
                 if (translationX > targetView.getWidth() / 2) {
-                    left = targetView.getWidth();
+                    left = targetView.getWidth() + 30;
                 }
                 targetView.animate().setDuration(200).translationX(left).start();
                 postDelayed(this::onScrollEnd, 220);
