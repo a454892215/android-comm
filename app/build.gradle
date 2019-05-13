@@ -43,7 +43,7 @@ android {
             debuggable true
         }
     }
-
+    flavorDimensions "tier", "minApi"
     productFlavors {
 
         product_1 {
@@ -51,6 +51,7 @@ android {
             applicationId "com.test.product_1"
             versionCode 101
             versionName "1.0.1"
+            dimension "tier"
             resValue "string", "app_name", "测试1"
             resValue "bool", "auto_updates", 'true'
         }
@@ -60,6 +61,7 @@ android {
             applicationId "com.test.product_2"
             versionCode 101
             versionName "1.0.1"
+            dimension "minApi"
             resValue "string", "app_name", "测试2"
             resValue "bool", "auto_updates", 'true'
         }
