@@ -46,6 +46,9 @@
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity
+            android:name=".JetpackTestActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+        <activity
             android:name=".x5web.X5WebTestActivity"
             android:alwaysRetainTaskState="true"
             android:theme="@style/AppTheme.SplashTheme"

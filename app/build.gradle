@@ -109,4 +109,7 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
     //如果需要引入文档，方便查看的话
     compileOnly 'de.robv.android.xposed:api:82:sources'
+      // ViewModel和LiveData依赖
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 }
