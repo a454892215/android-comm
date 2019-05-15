@@ -13,6 +13,7 @@ git remote show origin 查看指定远程url详情
 git branch --set-upstream-to origin/caipiaov1.1 给当前本地分支指定服务器跟踪分支
 git branch -vv 查看本地分支跟踪信息
 git checkout -b 本地分支名x origin/远程分支名x  
+git branch -d <branch_name> 删除非当前分支
 
 git rm --cached readme1.txt 取消已经跟踪的文件
 
@@ -52,3 +53,4 @@ git checkout -b branch_name tag_name 为tag版本代码创建指定分支
 
 git reset HEAD 如果后面什么都不跟的话 就是上一次add 里面的全部撤销了 
 git reset HEAD XXX/XXX/XXX.java 就是对某个文件进行撤销了
+git reset --hard commit_id     退到/进到 指定commit的sha码
