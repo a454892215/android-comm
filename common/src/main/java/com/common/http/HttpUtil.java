@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import com.common.base.BaseActivity;
 import com.common.http.inter.HttpCallback;
-import com.common.http.inter.IHttpUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.utils.ToastUtil;
@@ -15,7 +14,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class HttpUtil implements IHttpUtil {
+@SuppressWarnings("unused")
+public class HttpUtil {
 
     protected Activity activity;
 
@@ -28,13 +28,11 @@ public class HttpUtil implements IHttpUtil {
         this.activity = activity;
     }
 
-    @Override
     public HttpUtil successExcToastEnable(boolean enable) {
         this.successExcToastEnable = enable;
         return this;
     }
 
-    @Override
     public HttpUtil failToastEnable(boolean enable) {
         this.failToastEnable = enable;
         return this;
@@ -43,20 +41,17 @@ public class HttpUtil implements IHttpUtil {
     /**
      * 此功能只有 传入的activity继承Common中的BaseActivity才生效
      */
-    @Override
     public HttpUtil showLoadingEnable(boolean enable) {
         this.showLoadingEnable = enable;
         return this;
     }
 
-    @Override
     public HttpUtil checkNetworkEnable(boolean enable) {
         this.checkNetworkEnable = enable;
         return this;
     }
 
-    @Override
-    public void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
+    protected void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
         if (checkNetworkEnable) {
             if (!SystemUtils.isNetWorkConnected(activity)) {
                 ToastUtil.showShort(activity, "请检测网络是否连接");
@@ -67,7 +62,7 @@ public class HttpUtil implements IHttpUtil {
     }
 
 
-    public void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
+    protected void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
         if (activity != null && showLoadingEnable) {
             if (activity instanceof BaseActivity) {
                 ((BaseActivity) activity).showDefaultLoadingView();
@@ -92,8 +87,8 @@ public class HttpUtil implements IHttpUtil {
                 });
     }
 
-    @Override
-    public void onRequestSuccess(ResponseBody responseBody, HttpCallback httpCallback) {
+
+    protected void onRequestSuccess(ResponseBody responseBody, HttpCallback httpCallback) {
         try {
             if (activity != null && showLoadingEnable) {
                 if (activity instanceof BaseActivity) {
@@ -111,8 +106,7 @@ public class HttpUtil implements IHttpUtil {
         }
     }
 
-    @Override
-    public void onRequestError(Throwable e, HttpCallback httpCallback) {
+    protected void onRequestError(Throwable e, HttpCallback httpCallback) {
         if (activity != null && showLoadingEnable) {
             if (activity instanceof BaseActivity) {
                 ((BaseActivity) activity).dismissDefaultLoadingView();
