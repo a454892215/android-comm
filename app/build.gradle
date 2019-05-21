@@ -49,8 +49,8 @@ android {
         product_1 {
             /* 完成 no */
             applicationId "com.test.product_1"
-            versionCode 101
-            versionName "1.0.1"
+            versionCode 102
+            versionName "1.0.2"
             dimension "f1"
             resValue "string", "app_name", "测试1"
             resValue "bool", "auto_updates", 'true'
@@ -69,15 +69,15 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def appInfo = getAppInfo() + variant.name
+            def appInfo = "V" + variant.versionName + getAppInfo() + variant.name
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
             outputFileName = appInfo + ".apk"
         }
     }
 }
 
-def getAppInfo() {
-    return "V" + android.defaultConfig.versionName + "(" + android.defaultConfig.versionCode + ")" + getLastCommitInfo() + new Date().format('yy年MM月dd日HH时mm分ss秒')
+static def getAppInfo() {
+    return getLastCommitInfo() + new Date().format('yy年MM月dd日HH时mm分ss秒')
 }
 
 static def getLastCommitInfo() {
