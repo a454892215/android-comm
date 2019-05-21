@@ -9,6 +9,7 @@ import com.common.base.BaseAppRVAdapter;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.test.util.Constant;
 import com.test.util.JetpackTestActivity;
 import com.test.util.cryptocurrency.CoinMainActivity;

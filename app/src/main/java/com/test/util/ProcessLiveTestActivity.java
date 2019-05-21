@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import com.common.comm.MultiClick;
 import com.common.utils.ToastUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.test.util.base.BaseAppActivity;
 
 public class ProcessLiveTestActivity extends BaseAppActivity {
@@ -14,6 +15,7 @@ public class ProcessLiveTestActivity extends BaseAppActivity {
         Button btn = findViewById(R.id.btn);
         MultiClick multiClick = new MultiClick();
         btn.setOnClickListener(v -> {
+            CrashReport.testJavaCrash();
             if (multiClick.isToFastClickCondition()) {
                 ToastUtil.showLong(activity, getText());
             }

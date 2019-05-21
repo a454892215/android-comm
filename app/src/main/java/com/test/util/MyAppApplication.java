@@ -16,7 +16,7 @@ public class MyAppApplication extends AppApplication {
     public void onCreate() {
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
-        CrashReport.initCrashReport(getApplicationContext(), "注册时申请的APPID", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
     }
 
 
