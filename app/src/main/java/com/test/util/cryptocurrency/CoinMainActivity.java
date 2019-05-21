@@ -1,20 +1,18 @@
 package com.test.util.cryptocurrency;
 
 import android.os.Bundle;
-import android.widget.Button;
 
 import com.common.http.ApiCreator;
 import com.common.http.HttpUtil;
 import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
-import com.common.utils.ToastUtil;
 import com.test.util.BuildConfig;
 import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
 
-public class CoinEnterActivity extends BaseAppActivity {
+public class CoinMainActivity extends BaseAppActivity {
 
-    private static Api gateApi;
+    private static GateApi gateApi;
     private HttpUtil httpUtil;
 
     @Override
@@ -23,7 +21,7 @@ public class CoinEnterActivity extends BaseAppActivity {
         if (gateApi == null) {
             ApiCreator apiCreator = new ApiCreator();
             apiCreator.logEnable(BuildConfig.DEBUG);
-            gateApi = apiCreator.getApi(Api.baseUrl, Api.class);
+            gateApi = apiCreator.getApi(GateApi.baseUrl, GateApi.class);
         }
 
         httpUtil = new HttpUtil(this);
@@ -37,7 +35,7 @@ public class CoinEnterActivity extends BaseAppActivity {
 
 
     private void requestData() {
-        httpUtil.requestData(gateApi.getPairs(), new HttpCallback() {
+        httpUtil.requestData(gateApi.getCandleStick2(), new HttpCallback() {
             @Override
             public void onSuccess(String text) {
                 LogUtil.d("===================text:" + text);

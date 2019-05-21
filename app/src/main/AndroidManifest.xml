@@ -50,7 +50,7 @@
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity
-            android:name=".cryptocurrency.CoinEnterActivity"
+            android:name=".cryptocurrency.CoinMainActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
             android:name=".x5web.X5WebTestActivity"

@@ -51,7 +51,7 @@ public class HttpUtil {
         return this;
     }
 
-    protected void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
+    public void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
         if (checkNetworkEnable) {
             if (!SystemUtils.isNetWorkConnected(activity)) {
                 ToastUtil.showShort(activity, "请检测网络是否连接");
