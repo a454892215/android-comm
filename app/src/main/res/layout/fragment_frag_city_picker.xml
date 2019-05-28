@@ -81,4 +81,14 @@
         android:background="@drawable/layer_bg_gradient_border"
         tools:ignore="HardcodedText,UnusedAttribute" />
 
+    <com.common.widget.SwitchButton
+        android:id="@+id/switch_button_1"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_25"
+        app:sb_background="#5892ed"
+        app:sb_button_color="@color/white"
+        app:sb_checked_color="#5892ed"
+        app:sb_shadow_radius="0dp"
+        app:sb_show_indicator="false"
+        app:sb_uncheck_color="#5892ed" />
 </LinearLayout>
