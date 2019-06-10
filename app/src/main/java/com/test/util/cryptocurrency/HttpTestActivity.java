@@ -10,7 +10,7 @@ import com.test.util.BuildConfig;
 import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
 
-public class CoinMainActivity extends BaseAppActivity {
+public class HttpTestActivity extends BaseAppActivity {
 
     private static GateApi gateApi;
     private HttpUtil httpUtil;
