@@ -9,4 +9,5 @@
 
     <color name="text_color_1">#1a1a1a</color>
     <color name="text_color_4">#878787</color>
+    <color name="black_tran">#DA000000</color>
 </resources>
