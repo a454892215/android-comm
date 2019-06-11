@@ -1,8 +1,9 @@
 package com.common.dialog;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Gravity;
+
+import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.base.BaseDialogFragment;

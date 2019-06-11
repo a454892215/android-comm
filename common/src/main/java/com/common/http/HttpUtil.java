@@ -8,11 +8,10 @@ import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.utils.ToastUtil;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 @SuppressWarnings("unused")
 public class HttpUtil {
@@ -70,21 +69,8 @@ public class HttpUtil {
         }
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        onRequestError(e, httpCallback);
-                    }
-
-                    @Override
-                    public void onNext(ResponseBody responseBody) {
-                        onRequestSuccess(responseBody, httpCallback);
-                    }
-                });
+                .subscribe(responseBody -> onRequestSuccess(responseBody, httpCallback),
+                        throwable -> onRequestError(throwable, httpCallback));
     }
 
 

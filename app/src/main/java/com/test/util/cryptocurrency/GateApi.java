@@ -1,8 +1,8 @@
 package com.test.util.cryptocurrency;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;
-import rx.Observable;
 
 public interface GateApi {
 

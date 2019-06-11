@@ -1,6 +1,7 @@
 package com.common.utils;
 
 import android.content.Context;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,21 +10,85 @@ import android.widget.Toast;
 
 import com.common.R;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+
+
 /**
  * Description: Toast工具类
  */
 
 public class ToastUtil {
 
+    public static boolean isMainThread() {
+        return Looper.getMainLooper() == Looper.myLooper();
+    }
+
     public static void showShort(Context context, CharSequence message) {
+        if (!isMainThread()) {
+            Observable.just(1).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(integer -> {
+                        showShortToast(context, message);
+                    });
+            return;
+        }
+        showShortToast(context, message);
+    }
+
+    public static void showShort(Context context, int resId) {
+        if (!isMainThread()) {
+            Observable.just(1).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(integer -> {
+                        showShortToast(context, resId);
+                    });
+            return;
+        }
+        showShortToast(context, resId);
+    }
+
+
+    public static void showLong(Context context, CharSequence message) {
+        if (!isMainThread()) {
+            Observable.just(1).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(integer -> {
+                        showLongToast(context, message);
+                    });
+            return;
+        }
+        showLongToast(context, message);
+    }
+
+    public static void showLong(Context context, int resId) {
+        if (!isMainThread()) {
+            Observable.just(1).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(integer -> {
+                        showLongToast(context, resId);
+                    });
+            return;
+        }
+        showLongToast(context, resId);
+    }
+
+    private static void showShortToast(Context context, CharSequence message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 
+    private static void showShortToast(Context context, int resId) {
+        Toast toast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
 
-    public static void showLong(Context context, CharSequence message) {
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+    private static void showLongToast(Context context, CharSequence message) {
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    private static void showLongToast(Context context, int resId) {
+        Toast toast = Toast.makeText(context, resId, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }

@@ -13,6 +13,8 @@ import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatEditText;
+
 import com.common.R;
 
 
@@ -21,7 +23,7 @@ import com.common.R;
  * Description: No
  */
 
-public class CommonEditText extends android.support.v7.widget.AppCompatEditText {
+public class CommonEditText extends AppCompatEditText {
 
     private int bg_border_color;
     private float bg_border_thick;

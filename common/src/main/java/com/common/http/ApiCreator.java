@@ -14,7 +14,7 @@ import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -35,7 +35,7 @@ public class ApiCreator implements IApiCreator {
                 .baseUrl(baseUrl)
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(api);
     }
@@ -64,7 +64,6 @@ public class ApiCreator implements IApiCreator {
         builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
         return builder.build();
     }
-
 
 
     @Override

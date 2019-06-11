@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Environment;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +13,13 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.helper.GsonHelper;
-import com.common.http.inter.HttpCallback;
 import com.common.http.HttpUtil;
+import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
 import com.common.utils.ToastUtil;
@@ -28,8 +29,8 @@ import com.xuexiang.xupdate.utils.ApkInstallUtils;
 import java.io.File;
 import java.util.Objects;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
-import rx.Observable;
 
 /**
  * Author: L

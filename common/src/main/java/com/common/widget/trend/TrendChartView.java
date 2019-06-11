@@ -12,12 +12,13 @@ import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.utils.DensityUtils;

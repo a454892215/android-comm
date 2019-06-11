@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.common.R;
 
 /**
@@ -20,7 +22,7 @@ import com.common.R;
  * Description: No
  */
 
-public class CommonTextView extends android.support.v7.widget.AppCompatTextView {
+public class CommonTextView extends AppCompatTextView {
     private float topLineStrokeWidth;
     private float bottomLineStrokeWidth;
     private float leftLineStrokeWidth;

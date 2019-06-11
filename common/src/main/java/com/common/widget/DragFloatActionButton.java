@@ -7,12 +7,14 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.common.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DragFloatActionButton extends android.support.v7.widget.AppCompatImageView {
+public class DragFloatActionButton extends AppCompatImageView {
     private int parentHeight;
     private int parentWidth;
     private int lastX;

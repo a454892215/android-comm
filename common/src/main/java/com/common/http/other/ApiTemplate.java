@@ -2,10 +2,10 @@ package com.common.http.other;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-import rx.Observable;
 
 /**
  * Author:  L

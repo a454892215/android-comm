@@ -1,6 +1,6 @@
 package com.common.x5_web.dialog;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.base.BaseActivity;

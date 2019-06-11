@@ -1,7 +1,7 @@
 package com.common.x5_web.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.common.R;
 import com.common.base.BaseAppRVAdapter;

@@ -1,6 +1,6 @@
 package com.test.util.custom_view.rv;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseFragment;
 import com.common.helper.RVHelper;

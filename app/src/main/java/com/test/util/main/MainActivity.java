@@ -2,8 +2,9 @@ package com.test.util.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.helper.DataHelper;
@@ -11,13 +12,13 @@ import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.test.util.Constant;
 import com.test.util.JetpackTestActivity;
-import com.test.util.cryptocurrency.HttpTestActivity;
-import com.test.util.x5web.X5WebTestActivity;
-import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
 import com.test.util.XposedTestActivity;
 import com.test.util.base.BaseAppActivity;
+import com.test.util.cryptocurrency.HttpTestActivity;
+import com.test.util.custom_view.CustomViewTestActivity;
+import com.test.util.x5web.X5WebTestActivity;
 
 /**
  * Author: L
