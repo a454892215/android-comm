@@ -2,23 +2,23 @@ package com.test.util.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.test.util.Constant;
 import com.test.util.JetpackTestActivity;
-import com.test.util.cryptocurrency.CoinMainActivity;
-import com.test.util.x5web.X5WebTestActivity;
-import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
 import com.test.util.XposedTestActivity;
 import com.test.util.base.BaseAppActivity;
+import com.test.util.network.HttpTestActivity;
+import com.test.util.custom_view.CustomViewTestActivity;
+import com.test.util.x5web.X5WebTestActivity;
 
 /**
  * Author: L
@@ -26,9 +26,9 @@ import com.test.util.base.BaseAppActivity;
  */
 public class MainActivity extends BaseAppActivity {
 
-    private String[] names = {"View 相关", "Xposed框架", "进程保活", "X5WebView", "Android Jetpack", "K线图"};
+    private String[] names = {"View 相关", "Xposed框架", "进程保活", "X5WebView", "Android Jetpack", "http测试"};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class,
-            ProcessLiveTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, CoinMainActivity.class};
+            ProcessLiveTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, HttpTestActivity.class};
 
     @Override
     protected int getLayoutId() {

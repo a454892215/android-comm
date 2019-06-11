@@ -1,16 +1,17 @@
 package com.test.util.custom_view.fragment;
 
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.common.base.BaseFragment;
+import com.common.dialog.BottomDialogFragment;
+import com.common.dialog.CenterDialogFragment;
 import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.test.util.R;
-import com.common.dialog.BottomDialogFragment;
-import com.common.dialog.CenterDialogFragment;
 
 public class DialogTestFragment extends BaseFragment {
 

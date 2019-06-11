@@ -1,10 +1,11 @@
 package com.common.widget.chart.widget;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
 
 import com.common.R;
 import com.common.base.BaseRVAdapter;

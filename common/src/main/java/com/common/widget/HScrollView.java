@@ -2,13 +2,14 @@ package com.common.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
+
+import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.utils.LogUtil;

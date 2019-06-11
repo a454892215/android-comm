@@ -1,13 +1,14 @@
 package com.test.util.x5web;
 
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ProgressBar;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;

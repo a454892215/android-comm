@@ -13,6 +13,13 @@
         android:id="@+id/btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="加密货币K线图" />
+        android:text="测试" />
+
+    <ImageView
+        android:id="@+id/img_test"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200"
+        android:background="#22ff0000"
+        tools:ignore="ContentDescription" />
 
 </LinearLayout>

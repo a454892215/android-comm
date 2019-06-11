@@ -15,15 +15,20 @@
  */
 package com.common.http.other;
 
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+
+import okhttp3.OkHttpClient;
 
 /**
  * Description: Https相关的工具类
@@ -86,5 +91,19 @@ public class HttpSSLSetting {
             return new X509Certificate[]{};
         }
     };
+
+    public static OkHttpClient getOkHttpClient() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        //设置cookie
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        //手动创建一个OkHttpClient并设置超时时间
+        builder.connectTimeout(60, TimeUnit.SECONDS);
+        builder.writeTimeout(60, TimeUnit.SECONDS);
+        builder.readTimeout(60, TimeUnit.SECONDS);
+        HttpSSLSetting.SSLParams sslParams1 = HttpSSLSetting.getSslSocketFactory();
+        builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
+        return builder.build();
+    }
 
 }

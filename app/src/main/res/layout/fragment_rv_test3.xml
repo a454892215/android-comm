@@ -16,7 +16,7 @@
         app:header_function="refresh"
         app:header_text_size="@dimen/sp_12">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -1,6 +1,6 @@
 package com.common.http.other;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.common.utils.LogUtil;
 
