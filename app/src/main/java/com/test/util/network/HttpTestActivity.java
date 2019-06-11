@@ -1,4 +1,4 @@
-package com.test.util.cryptocurrency;
+package com.test.util.network;
 
 import android.os.Bundle;
 
@@ -6,6 +6,7 @@ import com.common.http.ApiCreator;
 import com.common.http.HttpUtil;
 import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
+import com.common.utils.ToastUtil;
 import com.test.util.BuildConfig;
 import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
@@ -25,7 +26,8 @@ public class HttpTestActivity extends BaseAppActivity {
         }
 
         httpUtil = new HttpUtil(this);
-        requestData();
+        httpUtil.showLoadingEnable(true);
+        findViewById(R.id.btn).setOnClickListener(v -> requestData());
     }
 
     @Override
@@ -39,6 +41,7 @@ public class HttpTestActivity extends BaseAppActivity {
             @Override
             public void onSuccess(String text) {
                 LogUtil.d("===================text:" + text);
+                ToastUtil.showShort(activity, "请求成功：" + text);
             }
 
             @Override
