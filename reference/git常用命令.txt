@@ -2,6 +2,9 @@ git config --list
 git log -10 --oneline
 git cherry-pick commitId 把指定提交 合并到当前分支
 
+git config  --global user.name 你的目标用户名；
+git config  --global user.email 你的目标邮箱名;
+
 git remote set-url origin http://...git 重新设置名为origin对应的远程仓库url
 git remote add 增加远程仓库URL
 git remote -v 查看远程配置
