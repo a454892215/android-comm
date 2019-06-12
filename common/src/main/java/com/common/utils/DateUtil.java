@@ -84,10 +84,17 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-       // LogUtil.d("===getTimeOfDay=== hour:" + hour);
+        // LogUtil.d("===getTimeOfDay=== hour:" + hour);
         for (int i = 0; i < time_of_day_2.length; i++) {
             if (hour < time_of_day_2[i]) return time_of_day_1[i];
         }
         return "";
+    }
+
+    /**
+     * 获取时间戳对应的年月日 时分秒
+     */
+    public static String getLongTime(Long value) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(value));
     }
 }

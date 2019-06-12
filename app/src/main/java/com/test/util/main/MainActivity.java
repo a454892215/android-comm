@@ -16,7 +16,7 @@ import com.test.util.ProcessLiveTestActivity;
 import com.test.util.R;
 import com.test.util.XposedTestActivity;
 import com.test.util.base.BaseAppActivity;
-import com.test.util.cryptocurrency.HttpTestActivity;
+import com.test.util.network.HttpTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.x5web.X5WebTestActivity;
 

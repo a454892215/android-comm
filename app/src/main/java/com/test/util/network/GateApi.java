@@ -1,4 +1,4 @@
-package com.test.util.cryptocurrency;
+package com.test.util.network;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;

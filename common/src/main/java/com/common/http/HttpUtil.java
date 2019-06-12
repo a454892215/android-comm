@@ -1,5 +1,6 @@
 package com.common.http;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import com.common.base.BaseActivity;
@@ -61,6 +62,7 @@ public class HttpUtil {
     }
 
 
+    @SuppressLint("CheckResult")
     protected void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
         if (activity != null && showLoadingEnable) {
             if (activity instanceof BaseActivity) {

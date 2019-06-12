@@ -80,7 +80,7 @@ public class VersionUpdateHelper {
         String title = String.format("是否升级到v%s版本？", newVersionName);
 
         //判断文件是否已经下载完毕：
-        String apkPath = SharedPreUtils.getString(activity, key_apk_download_path, "");
+        String apkPath = SharedPreUtils.getString(key_apk_download_path, "");
         if (!TextUtils.isEmpty(apkPath)) {
             apkFile = new File(apkPath);
             if (apkFile.exists()) {//下载的apk文件还存在
@@ -193,7 +193,7 @@ public class VersionUpdateHelper {
     private void installJustDownloadFinishedApk(File file, String absolutePath, BaseActivity activity) {
         try {
             ApkInstallUtils.install(activity, file);
-            SharedPreUtils.putString(activity, "key_apk_download_path", absolutePath);
+            SharedPreUtils.putString("key_apk_download_path", absolutePath);
         } catch (Exception e) {
             LogUtil.e("安装新版apk文件异常：取消强制更新" + e.toString());
             VersionUpdateHelper.isForceUpdate = false;

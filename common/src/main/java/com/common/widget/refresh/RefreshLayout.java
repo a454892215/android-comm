@@ -254,7 +254,8 @@ public class RefreshLayout extends LinearLayout {
             if (getScrollY() == 0) {
                 consume = super.dispatchTouchEvent(ev);
             } else {
-                if (isDispatch_2 && !isInterceptEventOnScrolled) consume = super.dispatchTouchEvent(ev);
+                if (isDispatch_2 && !isInterceptEventOnScrolled)
+                    consume = super.dispatchTouchEvent(ev);
             }
         }
         return consume;
@@ -303,7 +304,7 @@ public class RefreshLayout extends LinearLayout {
     }
 
     private void updateRecordTime() {
-        long lastTime = SharedPreUtils.getLong(context, key_refresh_last_update, 0);
+        long lastTime = SharedPreUtils.getLong(key_refresh_last_update, 0);
         if (lastTime == 0) {
             tv_header_date.setText(last_update_time_no_record);
         } else {
