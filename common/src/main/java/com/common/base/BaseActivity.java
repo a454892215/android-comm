@@ -2,6 +2,7 @@ package com.common.base;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置允许通过ActivityOptions.makeSceneTransitionAnimation发送或者接收Bundle
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+       //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         fm = getSupportFragmentManager();
         if (isSetLayoutId) setContentView(getLayoutId());
         contentView = findViewById(android.R.id.content);

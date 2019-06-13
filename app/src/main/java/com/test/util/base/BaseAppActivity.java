@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.base.BaseActivity;
+import com.jaeger.library.StatusBarUtil;
 import com.test.util.Constant;
 import com.test.util.R;
 
@@ -16,6 +17,7 @@ public abstract class BaseAppActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setTranslucentForImageView(this,0,null);
         ImageView iv_back = findViewById(R.id.iv_header_back);
         if (iv_back != null) {
             iv_back.setOnClickListener(this);
