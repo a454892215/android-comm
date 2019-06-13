@@ -110,7 +110,7 @@ public class TrendChartView extends View {
         int size = list.size();
         float startX = dp_1 * 15;
         float endPointMargin = dp_1 * 15;
-        float width = DensityUtils.getWidth(context);
+        float width = DensityUtils.getScreenWidth(context);
         maxCanScrollWidth = (size - 1) * (xUnitLength) + startX + endPointMargin - width;
         maxCanScrollWidth = maxCanScrollWidth > 0 ? maxCanScrollWidth : 0;
         LogUtil.d("===================maxCanScrollWidth:" + maxCanScrollWidth + "  xUnitLength:" + xUnitLength);
