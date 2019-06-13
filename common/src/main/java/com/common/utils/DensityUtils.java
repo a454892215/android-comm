@@ -37,12 +37,12 @@ public class DensityUtils {
     }
 
 
-    public static float getWidth(Context context) {
+    public static float getScreenWidth(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.widthPixels;
     }
 
-    public static float getHeight(Context context) {
+    public static float getScreenHeight(Context context) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         return dm.heightPixels;
     }
