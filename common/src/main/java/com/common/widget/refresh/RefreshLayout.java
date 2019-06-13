@@ -488,7 +488,7 @@ public class RefreshLayout extends LinearLayout {
             iv_header_right.setImageDrawable(progressDrawableTop);
             progressDrawableTop.start();
             if (onRefreshListener != null) onRefreshListener.onRefresh(RefreshLayout.this);
-            SharedPreUtils.putLong(context, key_refresh_last_update, System.currentTimeMillis());//保存现在时间
+            SharedPreUtils.putLong(key_refresh_last_update, System.currentTimeMillis());//保存现在时间
         } else if (end_state == refresh_state_finished && lastHeaderState != refresh_state_finished) {
             //解除 脚部禁止状态
             if (load_state == load_state_mutex) {

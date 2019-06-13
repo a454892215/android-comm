@@ -76,12 +76,6 @@ public class SharedPreUtils {
         editor.apply();
     }
 
-    public static void putLong(Context context, String key, long value) {
-        SharedPreferences.Editor editor = contextRef.get().getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
-        editor.putLong(key, value);
-        editor.apply();
-    }
-
     public static SharedPreferences.Editor getSpEditor() {
         return contextRef.get().getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
     }
