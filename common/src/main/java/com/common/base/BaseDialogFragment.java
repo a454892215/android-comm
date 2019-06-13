@@ -1,6 +1,7 @@
 package com.common.base;
 
 import android.os.Bundle;
+import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +21,13 @@ import com.common.utils.LogUtil;
 public abstract class BaseDialogFragment extends DialogFragment {
 
     protected BaseActivity activity;
-    private View rootView;
+    protected View rootView;
     private boolean canceledOnTouchOutside = true;
     private float dimeAmount = 0.7f;
     private int width = WindowManager.LayoutParams.WRAP_CONTENT;
     private int height = WindowManager.LayoutParams.WRAP_CONTENT;
     private int gravity = Gravity.CENTER;
-
+    protected int match_parent = WindowManager.LayoutParams.MATCH_PARENT;
     private int animStyle;
     protected FragmentManager fm;
     protected float dp_1;

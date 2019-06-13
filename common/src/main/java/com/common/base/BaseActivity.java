@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private boolean isShowing;
     protected FragmentManager fm;
     public static int bottomVirtualKeyHeight;
+    public static int contentViewHeight;
     private View contentView;
     public float dp_1;
     protected boolean isSetLayoutId = true;
@@ -61,12 +62,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        setBottomVirtualKeyHeight();
+        computeHeight();
     }
 
 
-    private void setBottomVirtualKeyHeight() {
-        int contentViewHeight = contentView.getHeight();
+    private void computeHeight() {
+        contentViewHeight = contentView.getHeight();
         int realScreenHeight = DensityUtils.getRealScreenHeight(this);
         int[] location_content = new int[2];
         contentView.getLocationOnScreen(location_content);

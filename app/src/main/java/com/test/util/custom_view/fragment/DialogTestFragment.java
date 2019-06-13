@@ -12,10 +12,11 @@ import com.common.dialog.CenterDialogFragment;
 import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.test.util.R;
+import com.test.util.custom_view.fragment.dialog.BottomDialogFragment_2;
 
 public class DialogTestFragment extends BaseFragment {
 
-  private  Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
+  private  Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class, BottomDialogFragment_2.class};
 
     @Override
     protected int getLayoutId() {
