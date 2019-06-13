@@ -3,6 +3,9 @@ package com.test.util.base;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import android.text.TextUtils;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +27,9 @@ public abstract class BaseAppActivity extends BaseActivity implements View.OnCli
         }
         String title = getIntent().getStringExtra(Constant.KEY_HEADER_TITLE);
         if (!TextUtils.isEmpty(title)) setTitle(title);
+
+        getWindow().setEnterTransition(new Slide(Gravity.BOTTOM).setDuration(600));
+        getWindow().setExitTransition(new Fade().setDuration(200));
 
     }
 

@@ -3,10 +3,7 @@ package com.test.util.main;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Explode;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.view.Gravity;
+
 import android.view.KeyEvent;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,8 +49,7 @@ public class MainActivity extends BaseAppActivity {
             intent.putExtra(Constant.KEY_HEADER_TITLE, names[position]);
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         });
-        getWindow().setExitTransition(new Fade().setDuration(1000));//传入新建的变换
-        getWindow().setEnterTransition(new Slide().setDuration(1000));
+
     }
 
     @Override

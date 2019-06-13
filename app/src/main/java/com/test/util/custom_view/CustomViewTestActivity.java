@@ -1,8 +1,6 @@
 package com.test.util.custom_view;
 
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Slide;
 
 import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
@@ -33,8 +31,5 @@ public class CustomViewTestActivity extends BaseAppActivity {
         tab_layout.setData(tabNames, R.layout.template_hor_scroll_tab_item_1, R.id.tv);
         tab_layout.setOnSelectChangedListener(position -> FragmentHelper.onSwitchFragment(fm, fragmentArr, position, R.id.flt_content, true));
         tab_layout.setCurrentPosition(0);
-
-        getWindow().setExitTransition(new Fade().setDuration(1000));//传入新建的变换
-        getWindow().setEnterTransition(new Slide().setDuration(1000));
     }
 }
