@@ -1,6 +1,8 @@
 package com.common;
 
 import android.app.Application;
+
+import com.common.utils.SharedPreUtils;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
 import com.common.x5_web.MyTbsLogClient;
@@ -21,6 +23,7 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initX5WebView();
+        SharedPreUtils.initSp(getApplicationContext());
         registerActivityLifecycleCallbacks(new ActivityCallbacks());
         LitePal.initialize(this);
     }

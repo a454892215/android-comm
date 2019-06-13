@@ -101,7 +101,10 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
 
         @Override
         public void onClick(View v) {
-            onItemClick.onItemClick(view, position);
+            if(onItemClick != null){
+                onItemClick.onItemClick(view, position);
+            }
+
         }
     }
 
