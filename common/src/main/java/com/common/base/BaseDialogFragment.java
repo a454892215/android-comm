@@ -1,7 +1,6 @@
 package com.common.base;
 
 import android.os.Bundle;
-import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

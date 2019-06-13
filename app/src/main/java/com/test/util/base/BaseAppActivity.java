@@ -31,6 +31,7 @@ public abstract class BaseAppActivity extends BaseActivity implements View.OnCli
         getWindow().setEnterTransition(new Slide(Gravity.BOTTOM).setDuration(600));
         getWindow().setExitTransition(new Fade().setDuration(200));
 
+
     }
 
     @Override
