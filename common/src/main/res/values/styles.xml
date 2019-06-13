@@ -2,6 +2,9 @@
 
     <style name="CommonAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowNoTitle">true</item>
+        <!-- 此颜色设置为透明，windowBackground则自动全屏 且不隐藏顶部状态栏图标-->
+        <item name="android:statusBarColor">@color/transparent</item>
+
         <item name="android:windowContentTransitions">true</item>
         <!--是否覆盖执行，其实可以理解成是否同步执行还是顺序执行-->
         <item name="android:windowAllowEnterTransitionOverlap">false</item>
