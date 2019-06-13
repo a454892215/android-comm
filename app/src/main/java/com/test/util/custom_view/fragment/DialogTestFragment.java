@@ -15,7 +15,7 @@ import com.test.util.R;
 
 public class DialogTestFragment extends BaseFragment {
 
-    Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
+  private  Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
 
     @Override
     protected int getLayoutId() {

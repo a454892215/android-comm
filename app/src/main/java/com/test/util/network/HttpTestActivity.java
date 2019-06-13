@@ -1,10 +1,8 @@
 package com.test.util.network;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.common.GlideApp;
 import com.common.http.ApiCreator;
 import com.common.http.HttpUtil;

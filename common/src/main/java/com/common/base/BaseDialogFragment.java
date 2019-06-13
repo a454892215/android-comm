@@ -29,18 +29,22 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     private int animStyle;
     protected FragmentManager fm;
+    protected float dp_1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.comm_dialog);
+        activity = (BaseActivity) getActivity();
+        if (activity != null) {
+            dp_1 = activity.getResources().getDimension(R.dimen.dp_1);
+        }
         fm = getChildFragmentManager();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (BaseActivity) getActivity();
         getDialog().setCanceledOnTouchOutside(canceledOnTouchOutside);
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
@@ -109,7 +113,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return this;
     }
 
-    public BaseDialogFragment setAnimStyle(int animStyle) {
+    protected BaseDialogFragment setAnimStyle(int animStyle) {
         this.animStyle = animStyle;
         return this;
     }
