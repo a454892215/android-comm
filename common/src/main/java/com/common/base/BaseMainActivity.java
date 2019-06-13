@@ -14,7 +14,9 @@ public abstract class BaseMainActivity extends BaseActivity {
         LogUtil.d("BaseMainActivity isHasInitCheckVersion:" + isHasInitCheckVersion + " isForceUpdate :" + VersionUpdateHelper.isForceUpdate);
         if (!isHasInitCheckVersion || VersionUpdateHelper.isForceUpdate) {
             isHasInitCheckVersion = true;
-            versionUpdateHelper.checkVersionUpdateInfo(null, this, false);
+           //TODO  请求是否存在新版本
+            versionUpdateHelper.onHasNewVersion(this,0,"1.1",
+                    "存在新版本是否更新？",false,null,null);
         }
     }
 }

@@ -17,9 +17,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.common.R;
 import com.common.base.BaseActivity;
-import com.common.helper.GsonHelper;
-import com.common.http.HttpUtil;
-import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
 import com.common.utils.ToastUtil;
@@ -28,9 +25,6 @@ import com.xuexiang.xupdate.utils.ApkInstallUtils;
 
 import java.io.File;
 import java.util.Objects;
-
-import io.reactivex.Observable;
-import okhttp3.ResponseBody;
 
 /**
  * Author: L
@@ -43,40 +37,21 @@ public class VersionUpdateHelper {
     private AlertDialog alertDialog;
     public static boolean isForceUpdate = false;
 
-    public void checkVersionUpdateInfo(Observable<ResponseBody> versionUpdateObservable, BaseActivity activity, boolean isShowToast) {
-        new HttpUtil(activity).requestData(versionUpdateObservable, new HttpCallback() {
-            @Override
-            public void onSuccess(String result) {
-                VersionUpdateEntity entity = GsonHelper.getEntity(result, VersionUpdateEntity.class);
-                if (entity != null) {
-                    VersionUpdateEntity.DataBean data = entity.getData();
-                    if (data != null) {
-                        String flag = data.getFlag();
-                        String content = "新版本大小：" + data.getSize() + "\n\n" + data.getContent();
-                        boolean isForceUpdate = "0".equals(flag);
-                        showUpdatePrompt(activity, data.getVersion(), content, data.getUrl(), isForceUpdate, data.getMd5());
-                    } else {
-                        if (isShowToast) {
-                            ToastUtil.showShort(activity, "已经是最新版本");
-                        }
-                    }
-                } else {
-                    LogUtil.e("获取版本信息，请求数据异常");
-                    ToastUtil.showShort(activity, "获取版本信息，请求数据异常");
-                }
-            }
-
-            @Override
-            public void onFail(Throwable e) {
-                LogUtil.e("请求更新接口失败");
-            }
-        });
+    public void onHasNewVersion(BaseActivity activity, long AppSize, String version, String newVersionHint, boolean isForceUpdate, String appUrl, String appMD5) {
+       if(TextUtils.isEmpty(appUrl)) return;
+        String content;
+        if (AppSize <= 0) {
+            content = newVersionHint;
+        } else {
+            content = "新版本大小：" + AppSize + "\n\n" + newVersionHint;
+        }
+        showUpdatePrompt(activity, version, content, appUrl, isForceUpdate, appMD5);
     }
 
     private boolean apkIsDownloaded = false; //apk是否已经下载
     private File apkFile;
 
-    private void showUpdatePrompt(BaseActivity activity, String newVersionName, String updateContent, String apkUrl, boolean isForceUpdate, String md5) {
+    private void showUpdatePrompt(BaseActivity activity, String newVersionName, String updateInfo, String apkUrl, boolean isForceUpdate, String md5) {
         String title = String.format("是否升级到v%s版本？", newVersionName);
 
         //判断文件是否已经下载完毕：
@@ -103,7 +78,7 @@ public class VersionUpdateHelper {
         CommonTextView btn_yes_2 = view.findViewById(R.id.btn_yes_2);
         CommonTextView btn_no_2 = view.findViewById(R.id.btn_no_2);
         tv_title.setText(title);
-        tv_content.setText(updateContent);
+        tv_content.setText(updateInfo);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setView(view);
         if (isForceUpdate) {
