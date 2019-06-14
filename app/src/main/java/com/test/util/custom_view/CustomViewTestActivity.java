@@ -21,7 +21,7 @@ public class CustomViewTestActivity extends BaseAppActivity {
     }
 
     Class[] fragmentArr = {TabLayoutFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class, RVFragment.class, FloatWinTestFragment.class};
-    String[] tabNames = {"Tab和速度", "Picker和TV", "DialogTest", "Chart", "RV相关", "悬浮窗"};
+    String[] tabNames = {"Tab和速度", "Picker和TV", "弹窗", "Chart", "RV相关", "悬浮窗"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
