@@ -14,11 +14,16 @@
         tools:ignore="UselessParent">
 
         <TextView
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_150"
+            android:layout_width="@dimen/dp_250"
+            android:layout_height="@dimen/dp_250"
             android:background="#EE4C84"
-            android:gravity="center"
-            android:text="我是文本"
+            android:text="我是文本,我是文本,我是文本，我是文本，我是文本，
+            我是文本，我是文本，我是文本我是文本,我是文本,我是文本，
+            我是文本，我是文本，我是文本，我是文本，我是文本，
+            我是文本,我是文本,我是文本，我是文本，我是文本，
+            我是文本，我是文本，我是文本我是文本,我是文本,
+            我是文本，我是文本，我是文本，我是文本，我是文本，
+            "
             android:textColor="#ffffff" />
 
         <com.common.widget.CommonEditText

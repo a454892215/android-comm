@@ -13,10 +13,11 @@ import com.common.utils.ViewAnimUtil;
 @SuppressWarnings("unused")
 public abstract class BaseDropPop {
 
-    private View rootView;
+    protected View rootView;
     private ViewGroup contentView;
 
-    private static final int bgAlpha = 0xaa;
+    protected int bgAlpha = 0xaa;
+    private View child_0;
 
     @SuppressLint("ClickableViewAccessibility")
     public BaseDropPop(BaseActivity activity) {
@@ -31,6 +32,7 @@ public abstract class BaseDropPop {
         if (rootView == null) {
             contentView = activity.findViewById(android.R.id.content);
             rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
+            child_0 = ((ViewGroup) rootView).getChildAt(0);
         }
         rootView.setOnTouchListener((v, event) -> {
             if (dismissEnableOnTouchOutside && event.getAction() == MotionEvent.ACTION_UP) {
@@ -38,6 +40,7 @@ public abstract class BaseDropPop {
             }
             return true;
         });
+        child_0.setOnTouchListener((v, event) -> true);
         initView();
     }
 
@@ -49,7 +52,6 @@ public abstract class BaseDropPop {
             int[] location_content = new int[2];
             anchorView.getLocationOnScreen(location_anchor);
             contentView.getLocationOnScreen(location_content);
-            View child_0 = ((ViewGroup) rootView).getChildAt(0);
             FrameLayout.LayoutParams child_0_lp = (FrameLayout.LayoutParams) child_0.getLayoutParams();
             child_0_lp.topMargin = location_anchor[1] + anchorView.getHeight() - location_content[1];
             child_0_lp.leftMargin = left;
@@ -69,14 +71,16 @@ public abstract class BaseDropPop {
         }
     }
 
-    protected void startEnterAnim() {
+    private void startEnterAnim() {
         ViewAnimUtil.startBgAlphaAnim(rootView, 0x00, bgAlpha, 300);
-        ViewAnimUtil.startAlphaAnim(rootView, 0, 1, 250);
+        child_0.startAnimation(ViewAnimUtil.getDownOpenAnim(300));
+       // ViewAnimUtil.startAlphaAnim(child_0, 0, 1, 250);
     }
 
-    protected void startExitAnim() {
+    private void startExitAnim() {
         ViewAnimUtil.startBgAlphaAnim(rootView, bgAlpha, 0x00, 300);
-        ViewAnimUtil.startAlphaAnim(rootView, 1, 0, 150);
+        child_0.startAnimation(ViewAnimUtil.getDownCloseAnim(300));
+      // ViewAnimUtil.startAlphaAnim(child_0, 1, 0, 150);
     }
 
     public boolean isShowing() {

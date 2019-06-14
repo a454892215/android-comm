@@ -27,7 +27,7 @@ public class DialogTestFragment extends BaseFragment {
     @Override
     protected void initView() {
         DropPop dropPop = new DropPop(activity);
-        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> dropPop.showAsDropDown(anchorView, Math.round(activity.dp_1 * 75)));
+        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> dropPop.showAsDropDown(anchorView, Math.round(activity.dp_1 * 55)));
         LinearLayout llt_root = findViewById(R.id.llt_content);
         int childCount = llt_root.getChildCount();
         FragmentManager fm = getChildFragmentManager();
