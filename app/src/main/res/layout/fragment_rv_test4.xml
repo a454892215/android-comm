@@ -11,15 +11,16 @@
     <com.common.widget.refresh.RefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:footer_function="only_display"
-        app:header_function="refresh"
+        android:layout_height="wrap_content"
+        app:footer_function="forbid_scroll"
+        app:header_function="forbid_scroll"
+        android:background="#99ff0000"
         app:header_text_size="@dimen/sp_12">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_200"
             android:splitMotionEvents="false"/>
     </com.common.widget.refresh.RefreshLayout>
 

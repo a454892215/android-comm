@@ -145,10 +145,13 @@ public class RefreshLayout extends LinearLayout {
 
         if ("load_more".equals(default_footer_function)) {
             setFooterFunction(FooterFunction.load_more);
+            footerView.setVisibility(View.VISIBLE);
         } else if ("forbid_scroll".equals(default_footer_function)) {
             setFooterFunction(FooterFunction.forbid_scroll);
+            footerView.setVisibility(View.GONE);
         } else if ("only_display".equals(default_footer_function)) {
             setFooterFunction(FooterFunction.only_display);
+            footerView.setVisibility(View.GONE);
         }
     }
 
