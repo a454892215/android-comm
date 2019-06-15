@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.utils.CastUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,9 +67,12 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
 
     }
 
+    protected boolean isLoopMode = false;
+
     @Override
     public int getItemCount() {
         int size = list.size();
+        if (isLoopMode && size > 0) size = Integer.MAX_VALUE;
         size = size == 0 ? 1 : size;
         return size;
     }
@@ -101,7 +105,7 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
 
         @Override
         public void onClick(View v) {
-            if(onItemClick != null){
+            if (onItemClick != null) {
                 onItemClick.onItemClick(view, position);
             }
 

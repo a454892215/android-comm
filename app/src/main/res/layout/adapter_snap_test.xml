@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <com.common.widget.CommonTextView
-        android:id="@+id/tv_1"
-        android:layout_width="@dimen/dp_320"
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="@dimen/dp_280"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="gaga"
-        android:textColor="#424242"
-        android:textSize="@dimen/sp_15"
-        app:bottom_line_color="#9E9E9E"
-        app:bottom_line_height="@dimen/dp_1"
-        tools:ignore="HardcodedText" />
+        android:scaleType="centerCrop"
+        android:padding="@dimen/dp_10"
+        tools:ignore="ContentDescription,HardcodedText" />
 </LinearLayout>
 
 

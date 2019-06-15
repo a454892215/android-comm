@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:footer_function="forbid_scroll"
         app:header_function="forbid_scroll"
-        android:background="#99ff0000"
+        android:background="#aaaaaa"
         app:header_text_size="@dimen/sp_12">
 
         <androidx.recyclerview.widget.RecyclerView
