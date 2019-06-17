@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.helper.RVHelper;
+import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 
 import java.util.List;
@@ -65,31 +66,40 @@ public class Banner extends FrameLayout {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-                if (leftOfCenterView == 0 && isHasIDLE && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    leftOfCenterView = recyclerView.getChildAt(1).getLeft();
-                    leftOfRightView = recyclerView.getChildAt(2).getLeft();
-                    onScrolled(recyclerView, 0, 0);
-                    // LogUtil.d("=====onScrollStateChanged:" + "  leftOfCenterView:" + leftOfCenterView + "  leftOfRightView:" + leftOfRightView);
+                try {
+                    if (leftOfCenterView == 0 && isHasIDLE && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        leftOfCenterView = recyclerView.getChildAt(1).getLeft();
+                        leftOfRightView = recyclerView.getChildAt(2).getLeft();
+                        onScrolled(recyclerView, 0, 0);
+                        // LogUtil.d("=====onScrollStateChanged:" + "  leftOfCenterView:" + leftOfCenterView + "  leftOfRightView:" + leftOfRightView);
+                    }
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) isHasIDLE = true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtil.e("============发生异常："+e);
                 }
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) isHasIDLE = true;
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (leftOfCenterView != 0) {
-                    int childCount = recyclerView.getChildCount();
-                    for (int i = 0; i < childCount; i++) {
-                        View child = recyclerView.getChildAt(i);
-                        float kjd = (child.getLeft() - leftOfCenterView); // 靠近度
-                        //靠近率 为0时，最靠近。值域[-1,1]
-                        float kjl = MathUtil.clamp(kjd / (leftOfRightView - leftOfCenterView), -1, 1);
-                        float scale = 1 - Math.abs(kjl); //缩放 [1,0]
-                        scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
-                        scale = MathUtil.clamp(scale, 0f, 1f);
-                        updateScaleView(child, scale);
-                        updateIndicator(child, kjd, urlList);
+                try {
+                    if (leftOfCenterView != 0) {
+                        int childCount = recyclerView.getChildCount();
+                        for (int i = 0; i < childCount; i++) {
+                            View child = recyclerView.getChildAt(i);
+                            float kjd = (child.getLeft() - leftOfCenterView); // 靠近度
+                            //靠近率 为0时，最靠近。值域[-1,1]
+                            float kjl = MathUtil.clamp(kjd / (leftOfRightView - leftOfCenterView), -1, 1);
+                            float scale = 1 - Math.abs(kjl); //缩放 [1,0]
+                            scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
+                            scale = MathUtil.clamp(scale, 0f, 1f);
+                            updateScaleView(child, scale);
+                            updateIndicator(child, kjd, urlList);
+                        }
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    LogUtil.e("============发生异常："+e);
                 }
 
             }

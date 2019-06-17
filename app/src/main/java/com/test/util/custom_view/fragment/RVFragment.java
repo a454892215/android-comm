@@ -17,7 +17,7 @@ public class RVFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        String[] tabNames = {"粘性头部", "底入动画", "滑动删除","SnapH"};
+        String[] tabNames = {"粘性头部", "底入动画", "滑动删除","轮播图"};
         Class[] classArr = {RVTest1Fragment.class, RVTest2Fragment.class, RVTest3Fragment.class, RVTest4Fragment.class};
 
 

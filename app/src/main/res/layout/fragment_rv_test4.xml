@@ -14,13 +14,12 @@
         android:layout_height="wrap_content"
         app:footer_function="forbid_scroll"
         app:header_function="forbid_scroll"
-        android:background="#aaaaaa"
         app:header_text_size="@dimen/sp_12">
 
         <com.common.widget.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
+            android:layout_height="@dimen/dp_160"
             android:splitMotionEvents="false"/>
     </com.common.widget.refresh.RefreshLayout>
 
