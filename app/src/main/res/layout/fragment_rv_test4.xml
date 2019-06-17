@@ -17,8 +17,8 @@
         android:background="#aaaaaa"
         app:header_text_size="@dimen/sp_12">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv"
+        <com.common.widget.banner.Banner
+            android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_200"
             android:splitMotionEvents="false"/>

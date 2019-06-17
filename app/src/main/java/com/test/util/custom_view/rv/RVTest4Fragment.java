@@ -1,19 +1,10 @@
 package com.test.util.custom_view.rv;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.common.base.BaseFragment;
-import com.common.helper.RVHelper;
-import com.common.utils.MathUtil;
-import com.common.widget.refresh.RefreshLayout;
+import com.common.widget.banner.Banner;
 import com.test.util.R;
-import com.test.util.custom_view.rv.adapter.SnapTestAdapter;
+
+import java.util.Arrays;
 
 public class RVTest4Fragment extends BaseFragment {
 
@@ -22,61 +13,16 @@ public class RVTest4Fragment extends BaseFragment {
         return R.layout.fragment_rv_test4;
     }
 
+    private static String[] imgUrl = {"http://img17.3lian.com/d/file/201702/21/8f8a5c670f68613382cb043d1ad2fe05.jpg"
+            , "http://img17.3lian.com/d/file/201702/21/1fa7ef2fbf14cb7640ea50de1914cd05.jpg"
+            , "http://img17.3lian.com/d/file/201702/21/44b2c79be750dcc69f919bc786cbd173.jpg"
+            , "http://img17.3lian.com/d/file/201702/21/834c9af2d7b02b74a1d9d44b527c53ff.jpg"
+            , "http://img17.3lian.com/d/file/201702/21/8c49c4da75a889cc3c4ceb211a2adaa3.jpg"};
+
     @Override
     protected void initView() {
-        RecyclerView rv = findViewById(R.id.rv);
-        //    new LinearSnapHelper().attachToRecyclerView(rv);
-        new PagerSnapHelper().attachToRecyclerView(rv);
-        RVHelper.initHorizontalRV(activity, null, rv, SnapTestAdapter.class);
-        rv.scrollToPosition(Integer.MAX_VALUE / 2 + 1);
-        rv.smoothScrollToPosition(Integer.MAX_VALUE / 2 + 2);
-        RefreshLayout refresh_layout = findViewById(R.id.refresh_layout);
-        refresh_layout.setInterceptEventOnScrolled(true);
-        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private float leftOfCenterView;
-            private float leftOfRightView;
-            private boolean isHasIDLE = false;
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-                if (leftOfCenterView == 0 && isHasIDLE && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    leftOfCenterView = recyclerView.getChildAt(1).getLeft();
-                    leftOfRightView = recyclerView.getChildAt(2).getLeft();
-                    onScrolled(recyclerView, 0, 0);
-                   // LogUtil.d("=====onScrollStateChanged:" + "  leftOfCenterView:" + leftOfCenterView + "  leftOfRightView:" + leftOfRightView);
-                }
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) isHasIDLE = true;
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                if (leftOfCenterView != 0) {
-                    int childCount = recyclerView.getChildCount();
-                    for (int i = 0; i < childCount; i++) {
-                        View child = recyclerView.getChildAt(i);
-                        float kjd = (child.getLeft() - leftOfCenterView); // 靠近度
-                        //靠近率 为0时，最靠近。值域[-1,1]
-                        float kjl = MathUtil.clamp(kjd / (leftOfRightView - leftOfCenterView), -1, 1);
-                        float scale = 1 - Math.abs(kjl); //缩放 [1,0]
-                        scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
-                        scale = MathUtil.clamp(scale, 0f, 1f);
-                        if (child instanceof ViewGroup) {
-                            View imgView = ((ViewGroup) child).getChildAt(0);
-                            if (imgView instanceof ImageView) {
-                                imgView.setScaleX(scale);
-                                imgView.setScaleY(scale);
-                            }
-                        }
-
-                      //  LogUtil.d("================kjd =:" + kjd + "  kjl:" + kjl + "  scale:" + scale);
-                    }
-                  //  LogUtil.d("=======================================>>>>>>:" + (activity.dp_1 * 280));
-                }
-
-            }
-        });
+        Banner banner = findViewById(R.id.banner);
+        banner.initView(activity, Arrays.asList(imgUrl));
     }
 
 }
