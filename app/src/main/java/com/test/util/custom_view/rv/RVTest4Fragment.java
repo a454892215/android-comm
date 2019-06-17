@@ -1,6 +1,8 @@
 package com.test.util.custom_view.rv;
 
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -10,6 +12,7 @@ import com.common.base.BaseFragment;
 import com.common.helper.RVHelper;
 import com.common.test.TestEntity;
 import com.common.utils.LogUtil;
+import com.common.utils.MathUtil;
 import com.common.widget.refresh.RefreshLayout;
 import com.test.util.R;
 import com.test.util.custom_view.rv.adapter.SnapTestAdapter;
@@ -58,13 +61,24 @@ public class RVTest4Fragment extends BaseFragment {
                 if (leftOfCenterView != 0) {
                     int childCount = recyclerView.getChildCount();
                     for (int i = 0; i < childCount; i++) {
-                        View childAt = recyclerView.getChildAt(i);
-                        // 计算缩放因子
-                        float scale = (childAt.getLeft() - leftOfCenterView) / (leftOfRightView - leftOfCenterView);
-                        LogUtil.d("================scale:" + scale);
-                        // LogUtil.d("===========i:" + i + "  scale:" + scale);
+                        View child = recyclerView.getChildAt(i);
+                        float kjd = (child.getLeft() - leftOfCenterView); // 靠近度
+                        //靠近率 为0时，最靠近。值域[-1,1]
+                        float kjl = MathUtil.clamp(kjd / (leftOfRightView - leftOfCenterView), -1, 1);
+                        float scale = 1 - Math.abs(kjl); //缩放 [1,0]
+                        scale = (scale + 9f)/10f;// [1,0] - > [1,0.9]
+                        scale = MathUtil.clamp(scale,0f,1f);
+                        if (child instanceof ViewGroup) {
+                            View imgView = ((ViewGroup) child).getChildAt(0);
+                            if (imgView instanceof ImageView) {
+                                imgView.setScaleX(scale);
+                                imgView.setScaleY(scale);
+                            }
+                        }
+
+                        LogUtil.d("================kjd =:" + kjd + "  kjl:" + kjl + "  scale:" + scale);
                     }
-                    LogUtil.d("=======================================>>>>>>:");
+                    LogUtil.d("=======================================>>>>>>:" + (activity.dp_1 * 280));
                 }
 
             }
