@@ -10,6 +10,8 @@
         android:layout_width="@dimen/dp_280"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
+        android:paddingStart="@dimen/dp_5"
+        android:paddingEnd="@dimen/dp_5"
         tools:ignore="ContentDescription,HardcodedText" />
 </LinearLayout>
 

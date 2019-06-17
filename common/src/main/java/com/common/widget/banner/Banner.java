@@ -76,7 +76,7 @@ public class Banner extends FrameLayout {
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) isHasIDLE = true;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LogUtil.e("============发生异常："+e);
+                    LogUtil.e("============发生异常：" + e);
                 }
             }
 
@@ -99,7 +99,7 @@ public class Banner extends FrameLayout {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    LogUtil.e("============发生异常："+e);
+                    LogUtil.e("============发生异常：" + e);
                 }
 
             }
@@ -107,7 +107,7 @@ public class Banner extends FrameLayout {
     }
 
     private void updateScaleView(View child, float scale) {
-        if (child instanceof ViewGroup) {
+        if (scaleEnable && child instanceof ViewGroup) {
             View imgView = ((ViewGroup) child).getChildAt(0);
             if (imgView instanceof ImageView) {
                 imgView.setScaleX(scale);
@@ -120,6 +120,8 @@ public class Banner extends FrameLayout {
 
     private int defaultIndicatorColor = Color.WHITE;
 
+    private boolean scaleEnable = true;
+
     private void updateIndicator(View child, float kjd, List<String> urlList) {
         if (kjd == 0) {
             int adapterPosition = rv.getChildAdapterPosition(child);
@@ -129,6 +131,11 @@ public class Banner extends FrameLayout {
             }
             llt_indicators.getChildAt(adapterPosition % urlList.size()).setBackgroundColor(showingIndicatorColor);
         }
+    }
+
+
+    public void setScaleEnable(boolean scaleEnable) {
+        this.scaleEnable = scaleEnable;
     }
 
 

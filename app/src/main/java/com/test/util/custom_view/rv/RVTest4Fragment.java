@@ -22,6 +22,7 @@ public class RVTest4Fragment extends BaseFragment {
     @Override
     protected void initView() {
         Banner banner = findViewById(R.id.banner);
+        banner.setScaleEnable(false);
         banner.initView(activity, Arrays.asList(imgUrl));
     }
 
