@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/toast_bg"
+        android:background="@drawable/bg_toast"
         android:padding="12dp"
         android:textColor="@color/white"
         android:textSize="13.5sp" />
