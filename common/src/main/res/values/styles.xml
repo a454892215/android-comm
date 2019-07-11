@@ -68,7 +68,7 @@
         <item name="android:windowTitleStyle">@null</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <!--   <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
-        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustResize</item>
     </style>
 
     <style name="dialog_anim_center" mce_bogus="1" parent="android:Animation">
