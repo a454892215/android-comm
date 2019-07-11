@@ -14,6 +14,7 @@ import com.common.utils.CastUtil;
 import com.test.util.R;
 import com.test.util.custom_view.fragment.dialog.BottomDialogFragment_2;
 import com.test.util.custom_view.fragment.dialog.DropDialogFragment;
+import com.test.util.custom_view.fragment.dialog.DropPop;
 
 public class DialogTestFragment extends BaseFragment {
 
@@ -26,9 +27,10 @@ public class DialogTestFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        //    DropPop dropPop = new DropPop(activity);
-        DropDialogFragment drop = new DropDialogFragment();
-        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> drop.showAsDropDown(fm, drop.getClass().getName(), anchorView, Math.round(dp_1 * 80)));
+        DropPop drop_1 = new DropPop(activity);
+        DropDialogFragment drop_2 = new DropDialogFragment();
+        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> drop_1.showAsDropDown(anchorView, 100));
+        findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> drop_2.showAsDropDown(fm, drop_2.getClass().getName(), anchorView, Math.round(dp_1 * 80)));
         LinearLayout llt_root = findViewById(R.id.llt_content);
         int childCount = llt_root.getChildCount();
         FragmentManager fm = getChildFragmentManager();

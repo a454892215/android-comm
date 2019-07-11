@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:ignore="HardcodedText">
 
     <com.common.widget.CommonTextView
         android:id="@+id/tv_drop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:padding="@dimen/dp_5"
         android:text="下拉列表"
         android:textColor="#333333"
-       android:layout_centerHorizontal="true"
+        android:background="@drawable/ripple_pressed_bg_2"
+        android:textSize="@dimen/sp_12" />
+
+    <com.common.widget.CommonTextView
+        android:id="@+id/tv_drop_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/dp_5"
+        android:text="下拉列表2"
+        android:textColor="#333333"
         android:background="@drawable/ripple_pressed_bg_2"
         android:textSize="@dimen/sp_12" />
 
@@ -20,7 +32,6 @@
         android:id="@+id/llt_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_drop"
         android:orientation="vertical">
 
 
@@ -77,4 +88,4 @@
                android:text="右边"
                tools:ignore="UnusedAttribute" />-->
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>
