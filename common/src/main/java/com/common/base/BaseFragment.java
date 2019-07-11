@@ -11,11 +11,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.common.R;
+
 public abstract class BaseFragment extends Fragment {
 
     private View rootView;
     protected BaseActivity activity;
     protected FragmentManager fm;
+    protected float dp_1;
 
 
     @Nullable
@@ -24,6 +27,7 @@ public abstract class BaseFragment extends Fragment {
         if (rootView == null) {
             activity = (BaseActivity) getActivity();
             rootView = inflater.inflate(getLayoutId(), container, false);
+            dp_1 = rootView.getResources().getDimension(R.dimen.dp_1);
             fm = getChildFragmentManager();
             initView();
         }

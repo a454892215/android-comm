@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llt_content"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_150"
+        android:gravity="center"
+        android:text="我是文本"
+        android:textColor="#ffffff"
+        android:background="#EE4C84" />
+
+    <com.common.widget.CommonEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#9C912E"
+        android:padding="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"/>
+</LinearLayout>

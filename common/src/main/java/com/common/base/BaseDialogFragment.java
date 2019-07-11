@@ -27,9 +27,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
     private int height = WindowManager.LayoutParams.WRAP_CONTENT;
     private int gravity = Gravity.CENTER;
     protected int match_parent = WindowManager.LayoutParams.MATCH_PARENT;
+    protected int wrap_content = WindowManager.LayoutParams.WRAP_CONTENT;
     private int animStyle;
     protected FragmentManager fm;
     protected float dp_1;
+
+    protected int x = 0;
+    protected int y = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +73,8 @@ public abstract class BaseDialogFragment extends DialogFragment {
             lp.height = height;
             // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
             lp.dimAmount = dimeAmount;
+            lp.x = x;
+            lp.y = y;
             window.setAttributes(lp);
             if (animStyle > 0) {
                 window.setWindowAnimations(animStyle);
@@ -116,6 +122,17 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected BaseDialogFragment setAnimStyle(int animStyle) {
         this.animStyle = animStyle;
         return this;
+    }
+
+    public void showAsDropDown(FragmentManager fm, String tag, View anchorView, int left) {
+        setGravity(Gravity.TOP | Gravity.START);
+        setHeight(wrap_content);
+        setWidth(wrap_content);
+        int[] location_anchor = new int[2];
+        anchorView.getLocationOnScreen(location_anchor);
+        y = location_anchor[1];
+        x = left;
+        show(fm, tag);
     }
 
     protected abstract int getLayoutId();
