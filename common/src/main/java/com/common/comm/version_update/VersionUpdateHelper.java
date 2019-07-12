@@ -19,6 +19,7 @@ import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
+import com.common.utils.StringUtil;
 import com.common.utils.ToastUtil;
 import com.common.widget.CommonTextView;
 import com.xuexiang.xupdate.utils.ApkInstallUtils;
@@ -38,7 +39,7 @@ public class VersionUpdateHelper {
     public static boolean isForceUpdate = false;
 
     public void onHasNewVersion(BaseActivity activity, long appSize, String version, String newVersionHint, boolean isForceUpdate, String appUrl, String appMD5) {
-       if(TextUtils.isEmpty(appUrl)) return;
+        if (TextUtils.isEmpty(appUrl)) return;
         String content;
         if (appSize <= 0) {
             content = newVersionHint;
@@ -148,8 +149,8 @@ public class VersionUpdateHelper {
             @Override
             public void onError(Throwable throwable) {
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
-                LogUtil.e("下载新版本apk文件发生错误");
-                ToastUtil.showShort(activity, "下载新版本apk文件发生错误");
+                LogUtil.e("下载新版本apk文件发生错误:"+ StringUtil.getThrowableInfo(throwable));
+                ToastUtil.showShort(activity, "下载新版本apk文件发生错误:" + throwable);
             }
         };
         String downloadFileSaveFullPath = getDownloadFileSaveFullPath(activity);

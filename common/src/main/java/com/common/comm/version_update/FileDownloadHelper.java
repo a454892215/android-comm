@@ -63,7 +63,7 @@ class FileDownloadHelper {
 
             @Override
             protected void error(BaseDownloadTask task, Throwable e) {
-                onFileDownloadListener.onError(new Throwable("发生异常"));
+                onFileDownloadListener.onError(e);
             }
 
             @Override
