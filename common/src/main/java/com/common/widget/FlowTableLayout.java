@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.common.R;
-import com.common.utils.DensityUtils;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 public class FlowTableLayout extends FrameLayout {
 
@@ -52,7 +50,7 @@ public class FlowTableLayout extends FrameLayout {
             View childView = getChildAt(i);
             int position_horizontal = i % columns;
             int item_left = position_horizontal * item_width;
-        //    int row_index = (i % columns) == 0 ? i / columns : i / columns + 1;//行号
+            int row_index = i % columns;//列号
           //  int item_top =
         }
 
