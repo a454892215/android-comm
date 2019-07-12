@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.common.widget.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.common.widget.FlowTableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingStart="@dimen/dp_5"
     android:paddingEnd="@dimen/dp_5"
+    android:background="#99ff0000"
     tools:ignore="HardcodedText">
 
     <TextView
@@ -76,4 +77,4 @@
         android:background="#FF9800"
         android:gravity="center"
         android:text="10" />
-</com.common.widget.FlowLayout>
+</com.common.widget.FlowTableLayout>
