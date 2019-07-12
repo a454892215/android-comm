@@ -58,9 +58,9 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.0.0-alpha02'
     api 'com.squareup.okhttp3:okhttp-urlconnection:4.0.0-alpha02'
 
-    api 'com.squareup.retrofit2:retrofit:2.5.0'
+    api 'com.squareup.retrofit2:retrofit:2.6.0'
     api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
     api('com.tencent.tinker:tinker-android-lib:1.9.1')
 
@@ -72,8 +72,8 @@ dependencies {
     api "com.github.bumptech.glide:okhttp3-integration:4.9.0"
 
     api 'org.litepal.android:java:3.0.0'
-    api 'androidx.recyclerview:recyclerview:1.1.0-alpha06'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    api 'androidx.recyclerview:recyclerview:1.1.0-beta01'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
 
