@@ -37,13 +37,13 @@ public class VersionUpdateHelper {
     private AlertDialog alertDialog;
     public static boolean isForceUpdate = false;
 
-    public void onHasNewVersion(BaseActivity activity, long AppSize, String version, String newVersionHint, boolean isForceUpdate, String appUrl, String appMD5) {
+    public void onHasNewVersion(BaseActivity activity, long appSize, String version, String newVersionHint, boolean isForceUpdate, String appUrl, String appMD5) {
        if(TextUtils.isEmpty(appUrl)) return;
         String content;
-        if (AppSize <= 0) {
+        if (appSize <= 0) {
             content = newVersionHint;
         } else {
-            content = "新版本大小：" + AppSize + "\n\n" + newVersionHint;
+            content = "新版本大小：" + appSize + "\n\n" + newVersionHint;
         }
         showUpdatePrompt(activity, version, content, appUrl, isForceUpdate, appMD5);
     }
@@ -81,15 +81,16 @@ public class VersionUpdateHelper {
         tv_content.setText(updateInfo);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity)
                 .setView(view);
+        View.OnClickListener onYesClickListener = v -> onClickUpdate(activity, apkUrl, md5);
         if (isForceUpdate) {
             llt_no_force_update.setVisibility(View.GONE);
             btn_yes.setVisibility(View.VISIBLE);
             builder.setCancelable(false);
-            btn_yes.setOnClickListener(v -> onClickUpdate(activity, apkUrl, md5));
+            btn_yes.setOnClickListener(onYesClickListener);
         } else {
             llt_no_force_update.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.GONE);
-            btn_yes_2.setOnClickListener(v -> onClickUpdate(activity, apkUrl, md5));
+            btn_yes_2.setOnClickListener(onYesClickListener);
             btn_no_2.setOnClickListener(v -> alertDialog.dismiss());
         }
         VersionUpdateHelper.isForceUpdate = isForceUpdate;
