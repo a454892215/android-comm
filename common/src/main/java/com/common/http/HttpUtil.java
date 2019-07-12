@@ -24,7 +24,6 @@ public class HttpUtil {
     private boolean showLoadingEnable;
     private boolean checkNetworkEnable = true;
     private boolean successExcToastEnable = true;
-    private boolean failToastEnable = true;
 
     public HttpUtil(Activity activity) {
         this.activity = activity;
@@ -32,11 +31,6 @@ public class HttpUtil {
 
     public HttpUtil successExcToastEnable(boolean enable) {
         this.successExcToastEnable = enable;
-        return this;
-    }
-
-    public HttpUtil failToastEnable(boolean enable) {
-        this.failToastEnable = enable;
         return this;
     }
 
@@ -101,7 +95,6 @@ public class HttpUtil {
                 ((BaseActivity) activity).dismissDefaultLoadingView();
             }
         }
-        if (failToastEnable) ToastUtil.showShort(activity, "请求异常：" + e);
         LogUtil.e("Http=====:" + StringUtil.getThrowableInfo(e));
         httpCallback.onFail(e);
     }
