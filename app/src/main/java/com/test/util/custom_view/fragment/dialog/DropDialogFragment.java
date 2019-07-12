@@ -14,6 +14,8 @@ public class DropDialogFragment extends BaseDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAnimStyle(R.style.dialog_anim_drop);
+        setHeight(wrap_content);
+        setWidth(wrap_content);
     }
 
     @Override

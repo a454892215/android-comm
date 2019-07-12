@@ -126,8 +126,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     public void showAsDropDown(FragmentManager fm, String tag, View anchorView, int left) {
         setGravity(Gravity.TOP | Gravity.START);
-        setHeight(wrap_content);
-        setWidth(wrap_content);
         int[] location_anchor = new int[2];
         anchorView.getLocationOnScreen(location_anchor);
         y = location_anchor[1];
