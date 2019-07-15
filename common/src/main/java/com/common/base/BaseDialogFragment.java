@@ -14,13 +14,14 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.R;
+import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 
 
 public abstract class BaseDialogFragment extends DialogFragment {
 
     protected BaseActivity activity;
-    protected View rootView;
+    private View rootView;
     private boolean canceledOnTouchOutside = true;
     private float dimeAmount = 0.7f;
     private int width = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -29,21 +30,22 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected int match_parent = WindowManager.LayoutParams.MATCH_PARENT;
     protected int wrap_content = WindowManager.LayoutParams.WRAP_CONTENT;
     private int animStyle;
-    protected FragmentManager fm;
     protected float dp_1;
 
     protected int x = 0;
     protected int y = 0;
+    private Window window;
+    protected FragmentManager fm;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.comm_dialog);
         activity = (BaseActivity) getActivity();
+        fm = getChildFragmentManager();
         if (activity != null) {
             dp_1 = activity.getResources().getDimension(R.dimen.dp_1);
         }
-        fm = getChildFragmentManager();
     }
 
     @Nullable
@@ -61,8 +63,22 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return rootView;
     }
 
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        if (FastClickUtil.isFastClick(800)) return;
+        if (!isAdded()) {
+            super.show(manager, tag);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        window.setWindowAnimations(R.style.dialog_anim_default); //禁止恢复屏幕时候动画
+    }
+
     private void setWindow() {
-        Window window = getDialog().getWindow();
+        window = getDialog().getWindow();
         //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
         if (window != null) {
             window.setBackgroundDrawableResource(android.R.color.transparent);
