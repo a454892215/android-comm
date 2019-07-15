@@ -74,7 +74,10 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onPause() {
         super.onPause();
-        window.setWindowAnimations(R.style.dialog_anim_default); //禁止恢复屏幕时候动画
+        if (window != null) {
+            window.setWindowAnimations(R.style.dialog_anim_default); //禁止恢复屏幕时候动画
+        }
+
     }
 
     private void setWindow() {
