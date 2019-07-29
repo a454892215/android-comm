@@ -20,6 +20,7 @@ import com.test.util.XposedTestActivity;
 import com.test.util.base.BaseAppActivity;
 import com.test.util.network.HttpTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
+import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
 
 /**
@@ -28,9 +29,9 @@ import com.test.util.x5web.X5WebTestActivity;
  */
 public class MainActivity extends BaseAppActivity {
 
-    private String[] names = {"View 相关", "Xposed框架", "进程保活", "X5WebView", "Android Jetpack", "http测试"};
+    private String[] names = {"View 相关", "Xposed框架", "进程保活", "X5WebView", "Android Jetpack", "http测试", "AgentWeb"};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class,
-            ProcessLiveTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, HttpTestActivity.class};
+            ProcessLiveTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, HttpTestActivity.class, AgentWebActivity.class};
 
     @Override
     protected int getLayoutId() {

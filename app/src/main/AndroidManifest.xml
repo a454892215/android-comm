@@ -5,13 +5,13 @@
 
     <application
         android:name=".MyAppApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/CommonAppTheme"
         android:usesCleartextTraffic="true"
-        android:allowBackup="false"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <meta-data
@@ -26,8 +26,8 @@
 
         <activity
             android:name=".main.MainActivity"
-            android:theme="@style/AppTheme.SplashTheme"
-            android:configChanges="screenSize|keyboardHidden|orientation">
+            android:configChanges="screenSize|keyboardHidden|orientation"
+            android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,19 +48,21 @@
         <activity
             android:name=".JetpackTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
-
+        <activity
+            android:name=".web_agent.AgentWebActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
             android:name=".network.HttpTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
             android:name=".x5web.X5WebTestActivity"
             android:alwaysRetainTaskState="true"
-            android:theme="@style/AppTheme.SplashTheme"
             android:configChanges="screenSize|keyboardHidden|orientation"
-            android:screenOrientation="portrait"
             android:exported="false"
             android:launchMode="singleTask"
             android:process=":web"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.SplashTheme"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="com.tencent.smtt.tbs.video.PLAY" />
