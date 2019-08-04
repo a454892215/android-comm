@@ -1,86 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.nex3z.flowlayout.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingStart="@dimen/dp_5"
-    android:paddingEnd="@dimen/dp_5"
-    android:background="#99ff0000"
-    app:flChildSpacing="auto"
-    app:flChildSpacingForLastRow="align"
-    app:flRowSpacing="@dimen/dp_20"
-    android:paddingTop="@dimen/dp_10"
-    android:paddingBottom="@dimen/dp_10"
+    app:flexDirection="row"
+    app:flexWrap="wrap"
+    app:justifyContent="space_evenly"
     tools:ignore="HardcodedText">
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#F44336"
+        android:layout_margin="@dimen/dp_10"
+        android:text="1"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="1" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#E91E63"
+        android:layout_margin="@dimen/dp_10"
+        android:text="2"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="2" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#9C27B0"
+        android:layout_margin="@dimen/dp_10"
+        android:text="3"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="3" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#3F51B5"
+        android:layout_margin="@dimen/dp_10"
+        android:text="4"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="4" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#03A9F4"
+        android:layout_margin="@dimen/dp_10"
+        android:text="5"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="5" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#00BCD4"
+        android:layout_margin="@dimen/dp_10"
+        android:text="6"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="6" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#009688"
+        android:layout_margin="@dimen/dp_10"
+        android:text="7"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="7" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#4CAF50"
+        android:layout_margin="@dimen/dp_10"
+        android:text="8"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="8" />
+        android:background="#F44336" />
 
-    <TextView
+    <com.common.widget.CommonTextView
         android:layout_width="@dimen/dp_80"
         android:layout_height="@dimen/dp_80"
-        android:background="#CDDC39"
+        android:layout_margin="@dimen/dp_10"
+        android:text="9"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_19"
         android:gravity="center"
-        android:text="9" />
+        android:background="#F44336" />
 
-    <TextView
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_80"
-        android:background="#FF9800"
-        android:gravity="center"
-        android:text="10" />
-</com.nex3z.flowlayout.FlowLayout>
+</com.google.android.flexbox.FlexboxLayout>

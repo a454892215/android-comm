@@ -46,10 +46,6 @@ uploadArchives {
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation 'junit:junit:4.13-beta-3'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-11'
 
     api 'io.reactivex.rxjava2:rxjava:2.2.9'
@@ -76,8 +72,7 @@ dependencies {
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 
     annotationProcessor 'androidx.annotation:annotation:1.1.0'
-
+    api 'com.google.android:flexbox:1.1.0'
     api 'com.jaeger.statusbarutil:library:1.5.1'
     api 'com.just.agentweb:agentweb:4.0.2'
-    api 'com.nex3z:flow-layout:1.2.4'
 }
