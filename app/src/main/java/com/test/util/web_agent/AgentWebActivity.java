@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.common.utils.CastUtil;
 import com.just.agentweb.AgentWeb;
 import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
@@ -30,17 +31,17 @@ public class AgentWebActivity extends BaseAppActivity {
         getWindow().setEnterTransition(null);
         getWindow().setExitTransition(null);
         flt_content = findViewById(R.id.flt_content);
-        initWeb("https:www.baidu.com");
+        initWeb();
     }
 
-    private void initWeb(String url) {
+    private void initWeb() {
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent(flt_content, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .setWebChromeClient(mWebViewClient)
                 .createAgentWeb()
                 .ready()
-                .go(url);
+                .go("https:www.baidu.com");
         initWebSetting();
     }
 
@@ -56,7 +57,7 @@ public class AgentWebActivity extends BaseAppActivity {
         // For Android  >= 3.0
         @SuppressWarnings("unused")
         public void openFileChooser(ValueCallback valueCallback, String acceptType) {
-            uploadMessage = valueCallback;
+            uploadMessage = CastUtil.cast(valueCallback);
             openImageChooserActivity();
         }
 
