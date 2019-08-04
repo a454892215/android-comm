@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_360"
+    android:layout_height="@dimen/dp_180"
     app:flexDirection="column"
     app:flexWrap="wrap_reverse"
+    app:justifyContent="flex_start"
+    app:alignItems="flex_start"
+    app:alignContent="flex_start"
     tools:ignore="HardcodedText">
 
+    <!--@dimen/dp_80  尺寸在FlexboxLayout 无效-->
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="1"
@@ -19,7 +23,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="2"
@@ -29,7 +33,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="3"
@@ -39,7 +43,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="4"
@@ -49,7 +53,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="5"
@@ -59,7 +63,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="6"
@@ -69,7 +73,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="7"
@@ -79,7 +83,7 @@
         android:background="#F44336" />
 
     <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
+        android:layout_width="80dp"
         android:layout_height="@dimen/dp_80"
         android:layout_margin="@dimen/dp_1"
         android:text="8"
@@ -88,14 +92,5 @@
         android:gravity="center"
         android:background="#F44336" />
 
-    <com.common.widget.CommonTextView
-        android:layout_width="@dimen/dp_80"
-        android:layout_height="@dimen/dp_80"
-        android:layout_margin="@dimen/dp_1"
-        android:text="9"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/sp_19"
-        android:gravity="center"
-        android:background="#F44336" />
 
 </com.google.android.flexbox.FlexboxLayout>
