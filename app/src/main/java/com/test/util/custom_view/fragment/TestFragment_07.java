@@ -1,6 +1,9 @@
 package com.test.util.custom_view.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.transition.ChangeBounds;
+import android.transition.ChangeTransform;
 import android.transition.Scene;
 import android.transition.TransitionManager;
 import android.view.View;
@@ -22,12 +25,27 @@ public class TestFragment_07 extends BaseFragment {
     protected void initView() {
         FrameLayout flt_content = findViewById(R.id.flt_content);
         View btn_1 = findViewById(R.id.btn_1);
-        testSceneSwitch2(flt_content, btn_1);
+        testSceneSwitch3(flt_content, btn_1);
     }
 
+
+    @SuppressWarnings("unused")
+    private void testSceneSwitch3(FrameLayout flt_content, View btn_1) {
+        btn_1.setOnClickListener(v -> {
+            TransitionManager.beginDelayedTransition(flt_content);
+            if (count++ % 2 == 0) {
+                flt_content.setBackground(new ColorDrawable(Color.parseColor("#ffffff")));
+            } else {
+                flt_content.setBackground(new ColorDrawable(Color.parseColor("#ff0000")));
+            }
+        });
+    }
+
+
+    @SuppressWarnings("unused")
     private void testSceneSwitch2(FrameLayout flt_content, View btn_1) {
         btn_1.setOnClickListener(v -> {
-            TransitionManager.beginDelayedTransition(flt_content, new ChangeBounds());
+            TransitionManager.beginDelayedTransition(flt_content, new ChangeTransform());
             ViewGroup.LayoutParams lp = flt_content.getLayoutParams();
             if (count++ % 2 == 0) {
                 lp.width = Math.round(dp_1 * 100);
