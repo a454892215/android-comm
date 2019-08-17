@@ -9,7 +9,7 @@ import com.test.util.base.BaseAppActivity;
 import com.test.util.custom_view.fragment.CityPickerFragment_02;
 import com.test.util.custom_view.fragment.DialogTestFragment_03;
 import com.test.util.custom_view.fragment.TransitionFragment_06;
-import com.test.util.custom_view.fragment.FlowLayoutFragment_07;
+import com.test.util.custom_view.fragment.TestFragment_07;
 import com.test.util.custom_view.fragment.RVFragment_05;
 import com.test.util.custom_view.fragment.TabFragment_01;
 import com.test.util.custom_view.fragment.TrendChartFragment_04;
@@ -22,7 +22,7 @@ public class CustomViewTestActivity extends BaseAppActivity {
     }
 
     Class[] fragmentArr = {TabFragment_01.class, CityPickerFragment_02.class, DialogTestFragment_03.class, TrendChartFragment_04.class, RVFragment_05.class, TransitionFragment_06.class
-            , FlowLayoutFragment_07.class};
+            , TestFragment_07.class};
     String[] tabNames = {"Tab和速度", "Picker和TV", "弹窗", "Chart", "RV相关", "悬浮窗", "Transition"};
 
     @Override

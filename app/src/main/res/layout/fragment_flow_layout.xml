@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:flexDirection="row"
-    app:flexWrap="wrap"
-    app:justifyContent="flex_start"
+    android:layout_height="match_parent"
+    android:background="#eeeeee"
+    android:orientation="vertical"
     tools:ignore="HardcodedText">
 
     <!--@dimen/dp_80  尺寸在FlexboxLayout 或有无效现象 -->
-    <com.common.widget.CommonTextView
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_80"
-        android:background="#F44336"
-        android:gravity="center"
-        android:text="1"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/sp_19"
-        app:layout_flexBasisPercent="25%" />
+    <Button
+        android:id="@+id/btn_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_12"
+        android:text="按钮" />
 
+    <FrameLayout
+        android:id="@+id/flt_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_300" />
 
-
-</com.google.android.flexbox.FlexboxLayout>
+</LinearLayout>
