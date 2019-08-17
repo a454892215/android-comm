@@ -6,13 +6,13 @@ import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
 import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
-import com.test.util.custom_view.fragment.CityPickerFragment;
-import com.test.util.custom_view.fragment.DialogTestFragment;
-import com.test.util.custom_view.fragment.FloatWinTestFragment;
-import com.test.util.custom_view.fragment.FlowLayoutFragment;
-import com.test.util.custom_view.fragment.RVFragment;
-import com.test.util.custom_view.fragment.TabLayoutFragment;
-import com.test.util.custom_view.fragment.TrendChartFragment;
+import com.test.util.custom_view.fragment.CityPickerFragment_02;
+import com.test.util.custom_view.fragment.DialogTestFragment_03;
+import com.test.util.custom_view.fragment.TransitionFragment_06;
+import com.test.util.custom_view.fragment.FlowLayoutFragment_07;
+import com.test.util.custom_view.fragment.RVFragment_05;
+import com.test.util.custom_view.fragment.TabFragment_01;
+import com.test.util.custom_view.fragment.TrendChartFragment_04;
 
 public class CustomViewTestActivity extends BaseAppActivity {
 
@@ -21,9 +21,9 @@ public class CustomViewTestActivity extends BaseAppActivity {
         return R.layout.activity_custom_view_test;
     }
 
-    Class[] fragmentArr = {TabLayoutFragment.class, CityPickerFragment.class, DialogTestFragment.class, TrendChartFragment.class, RVFragment.class, FloatWinTestFragment.class
-            , FlowLayoutFragment.class};
-    String[] tabNames = {"Tab和速度", "Picker和TV", "弹窗", "Chart", "RV相关", "悬浮窗", "流式布局"};
+    Class[] fragmentArr = {TabFragment_01.class, CityPickerFragment_02.class, DialogTestFragment_03.class, TrendChartFragment_04.class, RVFragment_05.class, TransitionFragment_06.class
+            , FlowLayoutFragment_07.class};
+    String[] tabNames = {"Tab和速度", "Picker和TV", "弹窗", "Chart", "RV相关", "悬浮窗", "Transition"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -9,7 +9,7 @@ import com.test.util.custom_view.rv.RVTest2Fragment;
 import com.test.util.custom_view.rv.RVTest3Fragment;
 import com.test.util.custom_view.rv.RVTest4Fragment;
 
-public class RVFragment extends BaseFragment {
+public class RVFragment_05 extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_rv;

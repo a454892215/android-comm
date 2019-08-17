@@ -5,7 +5,7 @@ import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
 import com.test.util.R;
 
-public class TrendChartFragment extends BaseFragment {
+public class TrendChartFragment_04 extends BaseFragment {
     String[] tabNames = {"走势图一", "走势图二"};
     Class[] fragmentArr = {TrendChartFragment_1.class, TrendChartFragment_2.class};
 

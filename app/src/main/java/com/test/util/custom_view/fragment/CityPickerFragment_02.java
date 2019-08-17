@@ -9,7 +9,7 @@ import com.common.widget.wheel.CityPickerDialogFragment;
 import com.common.widget.wheel.CityPickerView;
 import com.test.util.R;
 
-public class CityPickerFragment extends BaseFragment implements View.OnClickListener {
+public class CityPickerFragment_02 extends BaseFragment implements View.OnClickListener {
     private CityPickerView mCityPicker;
     private CityPickerDialogFragment cityPickerDialogFragment;
 

@@ -16,7 +16,7 @@ import com.test.util.custom_view.fragment.dialog.BottomDialogFragment_2;
 import com.test.util.custom_view.fragment.dialog.DropDialogFragment;
 import com.test.util.custom_view.fragment.dialog.DropPop;
 
-public class DialogTestFragment extends BaseFragment {
+public class DialogTestFragment_03 extends BaseFragment {
 
     private Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class, BottomDialogFragment_2.class};
 

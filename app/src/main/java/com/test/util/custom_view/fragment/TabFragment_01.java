@@ -20,7 +20,7 @@ import com.common.utils.ToastUtil;
 import com.common.widget.CommonTabLayout;
 import com.test.util.R;
 
-public class TabLayoutFragment extends BaseFragment {
+public class TabFragment_01 extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_tab_layout;
@@ -41,10 +41,10 @@ public class TabLayoutFragment extends BaseFragment {
         tab_layout_1.setOnSelectChangedListener(position -> ToastUtil.showLong(activity, tabNames[position]));
         tab_layout_1.setCurrentPosition(0);
 
-        InterpolatorTest();
+        interpolatorTest();
     }
 
-    private void InterpolatorTest() {
+    private void interpolatorTest() {
         ViewGroup llt_move_content = findViewById(R.id.llt_move_content);
         Class[] interpolatorArr = {DecelerateInterpolator.class, AccelerateInterpolator.class,
                 AccelerateDecelerateInterpolator.class, AnticipateInterpolator.class, AnticipateOvershootInterpolator.class,

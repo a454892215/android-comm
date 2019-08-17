@@ -5,15 +5,14 @@ import com.common.base.BaseFragment;
 import com.common.widget.float_window.MultiViewFloatLayout;
 import com.test.util.R;
 
-public class FloatWinTestFragment extends BaseFragment {
+public class FlowLayoutFragment_07 extends BaseFragment {
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_float_window;
+        return R.layout.fragment_flow_layout;
     }
 
     @Override
     protected void initView() {
-        MultiViewFloatLayout multi_view = findViewById(R.id.multi_view);
-        findViewById(R.id.btn).setOnClickListener(v -> multi_view.switchWindowMode(null));
+
     }
 }
