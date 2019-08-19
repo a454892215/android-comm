@@ -21,8 +21,4 @@ public class DropPop extends BaseDropPop {
     protected void initView() {
     }
 
-    @Override
-    protected void updateView() {
-        super.updateView();
-    }
 }

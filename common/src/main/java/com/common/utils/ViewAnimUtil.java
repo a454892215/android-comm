@@ -3,8 +3,8 @@ package com.common.utils;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 
 /**
  * Author:  L
@@ -23,18 +23,13 @@ public class ViewAnimUtil {
         valueAnimator.start();
     }
 
-    public static Animation getDownOpenAnim(int during) {
-        ScaleAnimation animation = new ScaleAnimation(1, 1, 0, 1,
-                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
-        animation.setDuration(during);
-        return animation;
+    public static void startDownOpenAnim1(View view, int during) {
+        view.measure(0, 0);
+        view.setTranslationY(-view.getMeasuredHeight());
+        view.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).setDuration(during).start();
     }
 
-    public static Animation getDownCloseAnim(int during) {
-        ScaleAnimation animation = new ScaleAnimation(1, 1, 1, 0,
-                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
-        animation.setDuration(during);
-        animation.setFillAfter(true);
-        return animation;
+    public static void startDownOpenAnim2(View view, int during) {
+        view.animate().translationY(-view.getHeight()).setInterpolator(new AccelerateInterpolator()).setDuration(during).start();
     }
 }

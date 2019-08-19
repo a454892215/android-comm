@@ -1,7 +1,6 @@
 package com.common.base;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,16 +8,19 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
+import com.common.R;
 import com.common.utils.ViewAnimUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unused")
 public abstract class BaseDropPop {
 
     protected View rootView;
     private ViewGroup contentView;
-
-    private int bgColor = Color.parseColor("#aa000000");
-    private View child_0;
+    private View bg_transition_view;
+    private View drop_content_view;
 
     @SuppressLint("ClickableViewAccessibility")
     public BaseDropPop(BaseActivity activity) {
@@ -33,7 +35,8 @@ public abstract class BaseDropPop {
         if (rootView == null) {
             contentView = activity.findViewById(android.R.id.content);
             rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
-            child_0 = ((ViewGroup) rootView).getChildAt(0);
+            drop_content_view = rootView.findViewById(R.id.drop_content_view);
+            bg_transition_view = (rootView).findViewById(R.id.bg_transition_view);
         }
         rootView.setOnTouchListener((v, event) -> {
             if (dismissEnableOnTouchOutside && event.getAction() == MotionEvent.ACTION_UP) {
@@ -41,25 +44,24 @@ public abstract class BaseDropPop {
             }
             return true;
         });
-        child_0.setOnTouchListener((v, event) -> true);
+        bg_transition_view.setOnTouchListener((v, event) -> true);
         initView();
     }
 
     protected BaseActivity activity;
 
-    public void showAsDropDown(View anchorView, int left) {
+    public void showAsDropDown(View anchorView, int left, int top) {
         if (rootView.getParent() == null) {
             int[] location_anchor = new int[2];
             int[] location_content = new int[2];
             anchorView.getLocationOnScreen(location_anchor);
             contentView.getLocationOnScreen(location_content);
-            FrameLayout.LayoutParams child_0_lp = (FrameLayout.LayoutParams) child_0.getLayoutParams();
-            child_0_lp.topMargin = location_anchor[1] + anchorView.getHeight() - location_content[1];
-            child_0_lp.leftMargin = left;
-            child_0.setLayoutParams(child_0_lp);
+            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) bg_transition_view.getLayoutParams();
+            lp.topMargin = location_anchor[1] + anchorView.getHeight() - location_content[1] + top;
+            lp.leftMargin = left;
+            bg_transition_view.setLayoutParams(lp);
             contentView.addView(rootView);
             startEnterAnim();
-            updateView();
         }
     }
 
@@ -67,19 +69,25 @@ public abstract class BaseDropPop {
         ViewParent parent = rootView.getParent();
         if (parent instanceof ViewGroup) {
             startExitAnim();
+            if (dismissListenerList.size() > 0) {
+                for (int i = 0; i < dismissListenerList.size(); i++) {
+                    OnDismissListener onDismissListener = dismissListenerList.get(i);
+                    onDismissListener.onDismiss();
+                }
+            }
             rootView.postDelayed(() -> ((ViewGroup) parent).removeView(rootView), 300);
 
         }
     }
 
     private void startEnterAnim() {
-        ViewAnimUtil.startBgColorAnim(rootView, Color.parseColor("#00000000"), bgColor, 300);
-        child_0.startAnimation(ViewAnimUtil.getDownOpenAnim(300));
+        ViewAnimUtil.startBgColorAnim(bg_transition_view, 0x00000000, 0xaa000000, 300);
+        ViewAnimUtil.startDownOpenAnim1(drop_content_view, 300);
     }
 
     private void startExitAnim() {
-        ViewAnimUtil.startBgColorAnim(rootView, bgColor, Color.parseColor("#00000000"), 300);
-        child_0.startAnimation(ViewAnimUtil.getDownCloseAnim(300));
+        ViewAnimUtil.startBgColorAnim(bg_transition_view, 0xaa000000, 0x00000000, 300);
+        ViewAnimUtil.startDownOpenAnim2(drop_content_view, 300);
     }
 
     public boolean isShowing() {
@@ -90,9 +98,6 @@ public abstract class BaseDropPop {
 
     protected abstract void initView();
 
-    protected void updateView() {
-    }
-
     public <T extends View> T findViewById(int id) {
         return rootView.findViewById(id);
     }
@@ -102,5 +107,15 @@ public abstract class BaseDropPop {
 
     public void setDismissEnableOnTouchOutside(boolean enable) {
         dismissEnableOnTouchOutside = enable;
+    }
+
+    public interface OnDismissListener {
+        void onDismiss();
+    }
+
+    private List<OnDismissListener> dismissListenerList = new ArrayList<>();
+
+    public void addOnDismissListener(OnDismissListener onDismissListener) {
+        dismissListenerList.add(onDismissListener);
     }
 }

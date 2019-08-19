@@ -29,7 +29,7 @@ public class DialogTestFragment_03 extends BaseFragment {
     protected void initView() {
         DropPop drop_1 = new DropPop(activity);
         DropDialogFragment drop_2 = new DropDialogFragment();
-        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> drop_1.showAsDropDown(anchorView,  Math.round(dp_1 * 60)));
+        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> drop_1.showAsDropDown(anchorView, 0, 0));
         findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> drop_2.showAsDropDown(fm, drop_2.getClass().getName(), anchorView, Math.round(dp_1 * 64)));
         LinearLayout llt_root = findViewById(R.id.llt_content);
         int childCount = llt_root.getChildCount();
