@@ -14,7 +14,7 @@ import android.view.animation.ScaleAnimation;
 @SuppressWarnings("unused")
 public class ViewAnimUtil {
 
-    public static void startBgAnim(View view, int startColor, int endColor, int during) {
+    public static void startBgColorAnim(View view, int startColor, int endColor, int during) {
         ValueAnimator valueAnimator = ValueAnimator.ofObject(new ArgbEvaluator(), startColor, endColor);
         valueAnimator.setDuration(during);
         valueAnimator.addUpdateListener(animation -> {

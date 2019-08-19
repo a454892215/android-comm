@@ -73,12 +73,12 @@ public abstract class BaseDropPop {
     }
 
     private void startEnterAnim() {
-        ViewAnimUtil.startBgAnim(rootView, Color.parseColor("#00000000"), bgColor, 300);
+        ViewAnimUtil.startBgColorAnim(rootView, Color.parseColor("#00000000"), bgColor, 300);
         child_0.startAnimation(ViewAnimUtil.getDownOpenAnim(300));
     }
 
     private void startExitAnim() {
-        ViewAnimUtil.startBgAnim(rootView, bgColor, Color.parseColor("#00000000"), 300);
+        ViewAnimUtil.startBgColorAnim(rootView, bgColor, Color.parseColor("#00000000"), 300);
         child_0.startAnimation(ViewAnimUtil.getDownCloseAnim(300));
     }
 
