@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
-import com.common.R;
 import com.common.utils.ViewAnimUtil;
 
 import java.util.ArrayList;
@@ -17,9 +16,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 public abstract class BaseDropPop {
 
-    protected View rootView;
+    protected ViewGroup rootView;
     private ViewGroup contentView;
-    private View bg_transition_view;
+    private FrameLayout bg_transition_view;
     private View drop_content_view;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -34,9 +33,12 @@ public abstract class BaseDropPop {
         });
         if (rootView == null) {
             contentView = activity.findViewById(android.R.id.content);
-            rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
-            drop_content_view = rootView.findViewById(R.id.drop_content_view);
-            bg_transition_view = (rootView).findViewById(R.id.bg_transition_view);
+            rootView = new FrameLayout(activity);
+            bg_transition_view = new FrameLayout(activity);
+            rootView.addView(bg_transition_view);
+            drop_content_view = LayoutInflater.from(activity).inflate(getLayoutId(), bg_transition_view, false);
+            bg_transition_view.addView(drop_content_view);
+
         }
         rootView.setOnTouchListener((v, event) -> {
             if (dismissEnableOnTouchOutside && event.getAction() == MotionEvent.ACTION_UP) {

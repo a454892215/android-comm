@@ -1,32 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,UselessParent">
 
-    <FrameLayout
-        android:id="@+id/bg_transition_view"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
-
-        <LinearLayout
-            android:id="@+id/drop_content_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:ignore="HardcodedText,UselessParent">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_400"
-                android:text="gagagaga"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/sp_20"
-                android:gravity="center"
-                android:background="#E91E63" />
-        </LinearLayout>
-    </FrameLayout>
-
-
-</FrameLayout>
+        android:layout_height="@dimen/dp_400"
+        android:text="gagagaga"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/sp_20"
+        android:gravity="center"
+        android:background="#E91E63" />
+</LinearLayout>
