@@ -1,6 +1,7 @@
 package com.common.base;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +17,7 @@ public abstract class BaseDropPop {
     protected View rootView;
     private ViewGroup contentView;
 
-    protected int bgAlpha = 0xaa;
+    private int bgColor = Color.parseColor("#aa000000");
     private View child_0;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -72,15 +73,13 @@ public abstract class BaseDropPop {
     }
 
     private void startEnterAnim() {
-        ViewAnimUtil.startBgAlphaAnim(rootView, 0x00, bgAlpha, 300);
+        ViewAnimUtil.startBgAnim(rootView, Color.parseColor("#00000000"), bgColor, 300);
         child_0.startAnimation(ViewAnimUtil.getDownOpenAnim(300));
-       // ViewAnimUtil.startAlphaAnim(child_0, 0, 1, 250);
     }
 
     private void startExitAnim() {
-        ViewAnimUtil.startBgAlphaAnim(rootView, bgAlpha, 0x00, 300);
+        ViewAnimUtil.startBgAnim(rootView, bgColor, Color.parseColor("#00000000"), 300);
         child_0.startAnimation(ViewAnimUtil.getDownCloseAnim(300));
-      // ViewAnimUtil.startAlphaAnim(child_0, 1, 0, 150);
     }
 
     public boolean isShowing() {

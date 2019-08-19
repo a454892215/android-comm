@@ -8,7 +8,6 @@ public class DropPop extends BaseDropPop {
 
     public DropPop(BaseActivity activity) {
         super(activity);
-        bgAlpha = 0xaa;
     }
 
 
