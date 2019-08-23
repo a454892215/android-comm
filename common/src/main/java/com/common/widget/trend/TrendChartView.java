@@ -12,6 +12,7 @@ import android.graphics.PathMeasure;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -45,6 +46,7 @@ public class TrendChartView extends View {
     private float dp_1;
     private Context context;
     private ValueAnimator drawAnimator;
+    private Paint linePaint2;
 
     public TrendChartView(Context context) {
         this(context, null);
@@ -78,6 +80,13 @@ public class TrendChartView extends View {
         //  linePaint.setStrokeJoin(Paint.Join.ROUND);
         //  linePaint.setStrokeCap(Paint.Cap.ROUND);
         linePaint.setPathEffect(new CornerPathEffect(dp_1 * 2));
+
+        linePaint2 = new TextPaint();
+        linePaint2.setAntiAlias(true);
+        linePaint2.setStyle(Paint.Style.FILL_AND_STROKE);
+        linePaint2.setStrokeWidth(dp_1 * 0.9f);
+        linePaint2.setTextSize(dp_1*25);
+
         trendPath = new Path();
 
         ScaleGestureListener listener = new ScaleGestureListener();
@@ -101,6 +110,8 @@ public class TrendChartView extends View {
             }
             isClearDrawing = false;
         }
+
+        canvas.drawText("测试", 50, 150, linePaint2);
         linePaint.setXfermode(null);
         // linePaint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(dst, linePaint);
@@ -161,7 +172,7 @@ public class TrendChartView extends View {
                 dst.reset();
                 boolean segment = pathMeasure.getSegment(0, end, dst, true);
                 lastStart = end;
-            //    LogUtil.d("============end:" + end + "  segment:" + segment);
+                //    LogUtil.d("============end:" + end + "  segment:" + segment);
                 TrendChartView.this.invalidate();
             }
         });
