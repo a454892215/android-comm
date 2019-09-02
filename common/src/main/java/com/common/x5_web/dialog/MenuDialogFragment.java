@@ -2,6 +2,8 @@ package com.common.x5_web.dialog;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+
+import android.transition.Slide;
 import android.view.Gravity;
 import android.view.WindowManager;
 
@@ -16,10 +18,11 @@ public class MenuDialogFragment extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setAnimStyle(R.style.dialog_anim_right);
         setDimeAmount(0f).setGravity(Gravity.BOTTOM);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+       // setEnterTransition(new Slide(Gravity.TOP).setDuration(200));
+      //  setExitTransition(new Slide(Gravity.TOP).setDuration(200));
 
     }
 
