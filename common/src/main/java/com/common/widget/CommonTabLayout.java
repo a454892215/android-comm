@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.common.R;
+import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -30,7 +31,10 @@ import java.util.List;
 public class CommonTabLayout extends LinearLayout {
 
     private Context context;
+
     private int currentPosition = 0;
+
+    private boolean repeatClickEnable = false; //是否可重复点击
 
     public CommonTabLayout(Context context) {
         this(context, null);
@@ -43,9 +47,11 @@ public class CommonTabLayout extends LinearLayout {
     public CommonTabLayout(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
+
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CommonTabLayout, defStyleAttr, 0);
         float clipRadius = typedArray.getDimension(R.styleable.CommonTabLayout_radius, 0);
         typedArray.recycle();
+
         if (clipRadius > 0) {
             this.setClipToOutline(true);
             this.setOutlineProvider(new ViewOutlineProvider() {
@@ -72,7 +78,10 @@ public class CommonTabLayout extends LinearLayout {
             changeItemViewSelectedState(itemView, currentPosition == i);
             int indexInParent = i;
             itemView.setOnClickListener(v -> {
-                if (currentPosition == indexInParent) return;
+                if (fastTime > 0 && FastClickUtil.isFastClick(fastTime)) {
+                    return;
+                }
+                if (!repeatClickEnable && currentPosition == indexInParent) return;
                 changeItemViewSelectedState(getChildAt(currentPosition), false);
                 changeItemViewSelectedState(v, true);
                 currentPosition = indexInParent;
@@ -85,6 +94,7 @@ public class CommonTabLayout extends LinearLayout {
     }
 
     private void changeItemViewSelectedState(View itemView, boolean isSelected) {
+        if (itemView == null) return;
         itemView.setSelected(isSelected);
         List<View> viewList = getAllChildViews(itemView);
         for (View view : viewList) {
@@ -102,11 +112,11 @@ public class CommonTabLayout extends LinearLayout {
         }
     }
 
-    public void setData(String[] names, int layoutId, int tvNameId) {
-        for (String name : names) {
+    public void setData(Object[] names, int layoutId, int tvNameId) {
+        for (Object name : names) {
             View item = LayoutInflater.from(context).inflate(layoutId, this, false);
             TextView tv = item.findViewById(tvNameId);
-            tv.setText(name);
+            tv.setText(name.toString());
             addView(item);
         }
     }
@@ -150,6 +160,10 @@ public class CommonTabLayout extends LinearLayout {
 
     }
 
+    public int getCurrentPosition() {
+        return currentPosition;
+    }
+
     private int indicatorViewId;
 
     public void setIndicatorViewId(int indicatorViewId) {
@@ -165,4 +179,14 @@ public class CommonTabLayout extends LinearLayout {
         void OnSelectChanged(int position);
     }
 
+    private int fastTime = 0;
+
+    public void setFastClickTime(int time) {
+        fastTime = time;
+    }
+
+
+    public void setRepeatClickEnable(boolean repeatClickEnable) {
+        this.repeatClickEnable = repeatClickEnable;
+    }
 }
