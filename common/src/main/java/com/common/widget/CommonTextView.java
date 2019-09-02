@@ -15,6 +15,8 @@ import android.view.ViewOutlineProvider;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.common.R;
+import com.common.widget.inter.BottomTextFunc;
+import com.common.widget.view_func.BottomText;
 
 /**
  * Author:  L
@@ -22,7 +24,7 @@ import com.common.R;
  * Description: No
  */
 
-public class CommonTextView extends AppCompatTextView {
+public class CommonTextView extends AppCompatTextView implements BottomTextFunc {
     private float topLineStrokeWidth;
     private float bottomLineStrokeWidth;
     private float leftLineStrokeWidth;
@@ -123,6 +125,10 @@ public class CommonTextView extends AppCompatTextView {
             mPaint.setShader(mLinearGradient);
         }
 
+        if (bottomText != null) {
+            bottomText.onDraw(canvas);
+        }
+
         super.onDraw(canvas);
     }
 
@@ -172,5 +178,17 @@ public class CommonTextView extends AppCompatTextView {
     public void setRightLineStrokeWidth(float rightLineStrokeWidth) {
         this.rightLineStrokeWidth = rightLineStrokeWidth;
         rightLineEnable = true;
+    }
+
+    private BottomText bottomText;
+
+    @Override
+    public void setBottomText(BottomText bottomText) {
+        this.bottomText = bottomText;
+    }
+
+    @Override
+    public BottomText getBottomText() {
+        return bottomText;
     }
 }
