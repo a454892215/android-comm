@@ -7,7 +7,6 @@ import android.view.WindowManager;
 
 import com.common.R;
 import com.common.base.BaseDialogFragment;
-import com.common.utils.FastClickUtil;
 import com.common.utils.ToastUtil;
 import com.common.x5_web.X5WebView;
 import com.common.x5_web.entity.BookmarkEntity;
@@ -50,7 +49,6 @@ public class MenuDialogFragment extends BaseDialogFragment {
             }
         });
         findViewById(R.id.tv_his).setOnClickListener(v -> {
-            if (FastClickUtil.isFastClick()) return;
             HisDialogFragment dialogFragment = new HisDialogFragment();
             dialogFragment.setOnClickListener(url -> {
                 if (webView != null) webView.loadUrl(url[0]);
@@ -59,7 +57,6 @@ public class MenuDialogFragment extends BaseDialogFragment {
         });
 
         findViewById(R.id.tv_bookmark).setOnClickListener(v -> {
-            if (FastClickUtil.isFastClick()) return;
             BookmarkDialogFragment dialogFragment = new BookmarkDialogFragment();
             dialogFragment.setOnClickListener(url -> {
                 if (webView != null) webView.loadUrl(url[0]);
