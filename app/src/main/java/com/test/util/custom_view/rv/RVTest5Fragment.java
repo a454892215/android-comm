@@ -1,29 +1,34 @@
 package com.test.util.custom_view.rv;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.common.base.BaseFragment;
-import com.common.widget.banner.Banner;
+
+import com.common.helper.RVHelper;
+import com.common.test.TestEntity;
 import com.test.util.R;
+import com.test.util.custom_view.adapter.RVTestHorizontalAdapter;
 
-import java.util.Arrays;
 
-public class RVTest4Fragment extends BaseFragment {
+public class RVTest5Fragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_rv_test4;
+        return R.layout.fragment_rv_test5;
     }
 
-    private static String[] imgUrl = {"http://img17.3lian.com/d/file/201702/21/8f8a5c670f68613382cb043d1ad2fe05.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/1fa7ef2fbf14cb7640ea50de1914cd05.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/44b2c79be750dcc69f919bc786cbd173.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/834c9af2d7b02b74a1d9d44b527c53ff.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/8c49c4da75a889cc3c4ceb211a2adaa3.jpg"};
 
     @Override
     protected void initView() {
-        Banner banner = findViewById(R.id.banner);
-        banner.setScaleEnable(false);
-        banner.initView(activity, Arrays.asList(imgUrl));
+        RecyclerView rv = findViewById(R.id.rv);
+        LinearLayoutManager manager = new LinearLayoutManager(activity);
+        rv.setLayoutManager(manager);
+        RVHelper.initHorizontalRV(activity, TestEntity.getList(), rv, RVTestHorizontalAdapter.class);
+
+        findViewById(R.id.btn).setOnClickListener(v -> {
+            rv.smoothScrollBy(450, 450);
+        });
     }
 
 }
