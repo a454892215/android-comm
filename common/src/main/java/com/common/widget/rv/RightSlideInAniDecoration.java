@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BottomSlideInAniDecoration extends RecyclerView.ItemDecoration {
+public class RightSlideInAniDecoration extends RecyclerView.ItemDecoration {
 
     private RecyclerView parent;
 
@@ -43,8 +43,8 @@ public class BottomSlideInAniDecoration extends RecyclerView.ItemDecoration {
                 itemView.postDelayed(() -> {
                     int current_po = parent.getChildAdapterPosition(itemView);
                     if (current_po == position) {
-                        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_SELF, 0);
+                        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_SELF, 0,
+                                Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0);
                         animation.setInterpolator(new DecelerateInterpolator());
                         animation.setDuration(aniDuring);
                         itemView.clearAnimation();
