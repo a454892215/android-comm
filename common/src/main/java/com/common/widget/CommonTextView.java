@@ -30,20 +30,12 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
     private float leftLineStrokeWidth;
     private float rightLineStrokeWidth;
 
-
     private int topLineColor;
-
     private int bottomLineColor;
     private int leftLineColor;
     private int rightLineColor;
 
     private Paint linePaint;
-    private boolean leftLineEnable;
-    private boolean rightLineEnable;
-    private boolean topLineEnable;
-    private boolean bottomLineEnable;
-
-
     private LinearGradient mLinearGradient;
     private float clipRadius;
 
@@ -85,36 +77,31 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
         rightLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_right_line_stroke_width, 0);
         leftLineStrokeWidth = typedArray.getDimension(R.styleable.CommonTextView_left_line_stroke_width, 0);
 
-        topLineEnable = topLineStrokeWidth != 0;
-        bottomLineEnable = bottomLineStrokeWidth != 0;
-        rightLineEnable = rightLineStrokeWidth != 0;
-        leftLineEnable = leftLineStrokeWidth != 0;
-
         clipRadius = typedArray.getDimension(R.styleable.CommonTextView_clip_radius, 0);
         typedArray.recycle();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (rightLineEnable) {
+        if (rightLineStrokeWidth != 0) {
             linePaint.setStrokeWidth(rightLineStrokeWidth);
             linePaint.setColor(rightLineColor);
             canvas.drawLine(getWidth() - rightLineStrokeWidth / 2, 0, getWidth() - rightLineStrokeWidth / 2, getHeight(), linePaint);
         }
 
-        if (leftLineEnable) {
+        if (leftLineStrokeWidth != 0) {
             linePaint.setStrokeWidth(leftLineStrokeWidth);
             linePaint.setColor(leftLineColor);
             canvas.drawLine(leftLineStrokeWidth / 2, 0, leftLineStrokeWidth / 2, getHeight(), linePaint);
         }
 
-        if (topLineEnable) {
+        if (topLineStrokeWidth != 0) {
             linePaint.setStrokeWidth(topLineStrokeWidth);
             linePaint.setColor(topLineColor);
             canvas.drawLine(0, topLineStrokeWidth / 2, getWidth(), topLineStrokeWidth / 2, linePaint);
         }
 
-        if (bottomLineEnable) {
+        if ( bottomLineStrokeWidth != 0) {
             linePaint.setStrokeWidth(bottomLineStrokeWidth);
             linePaint.setColor(bottomLineColor);
             canvas.drawLine(0, getHeight() - bottomLineStrokeWidth / 2, getWidth(), getHeight() - bottomLineStrokeWidth / 2, linePaint);
@@ -128,7 +115,6 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
         if (bottomText != null) {
             bottomText.onDraw(canvas);
         }
-
         super.onDraw(canvas);
     }
 
@@ -161,23 +147,19 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
     @SuppressWarnings("unused")
     public void setTopLineStrokeWidth(float topLineStrokeWidth) {
         this.topLineStrokeWidth = topLineStrokeWidth;
-        topLineEnable = true;
     }
 
     public void setBottomLineStrokeWidth(float bottomLineStrokeWidth) {
         this.bottomLineStrokeWidth = bottomLineStrokeWidth;
-        bottomLineEnable = true;
     }
 
     @SuppressWarnings("unused")
     public void setLeftLineStrokeWidth(float leftLineStrokeWidth) {
         this.leftLineStrokeWidth = leftLineStrokeWidth;
-        leftLineEnable = true;
     }
 
     public void setRightLineStrokeWidth(float rightLineStrokeWidth) {
         this.rightLineStrokeWidth = rightLineStrokeWidth;
-        rightLineEnable = true;
     }
 
     private BottomText bottomText;
