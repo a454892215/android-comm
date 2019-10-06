@@ -3,6 +3,7 @@ package com.test.util.custom_view.rv;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseFragment;
+import com.common.comm.L;
 import com.common.helper.RVHelper;
 import com.common.test.TestEntity;
 import com.common.widget.rv.StickyHeaderDecoration;
@@ -25,7 +26,7 @@ public class RVTest1Fragment extends BaseFragment {
         StickyHeaderDecoration decoration = new StickyHeaderDecoration(activity)
                 .setDecorPositionList(Arrays.asList(posArr))
                 .setDecorNameList(Arrays.asList(decorNameArr))
-                .setHeaderHeight(Math.round(activity.dp_1 * 18))
+                .setHeaderHeight(Math.round(L.dp_1 * 18))
                 .setHeaderBgColor(activity.getResources().getColor(R.color.light_purple));
         rv.addItemDecoration(decoration);
         RVHelper.initVerticalRV(activity, TestEntity.getList(), rv, RVTestAdapter.class);
