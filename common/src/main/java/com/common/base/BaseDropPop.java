@@ -47,13 +47,13 @@ public abstract class BaseDropPop {
             return true;
         });
         bg_transition_view.setOnTouchListener((v, event) -> true);
-        initView();
     }
 
     protected BaseActivity activity;
 
     public void showAsDropDown(View anchorView, int left, int top) {
         if (rootView.getParent() == null) {
+            initView();
             int[] location_anchor = new int[2];
             int[] location_content = new int[2];
             anchorView.getLocationOnScreen(location_anchor);

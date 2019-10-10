@@ -25,7 +25,6 @@ public abstract class BasePop {
             contentView = activity.findViewById(android.R.id.content);
             rootView = LayoutInflater.from(activity).inflate(getLayoutId(), contentView, false);
         }
-        initView();
     }
 
     protected BaseActivity activity;
@@ -33,6 +32,7 @@ public abstract class BasePop {
     @SuppressWarnings("unused")
     public void show() {
         if (rootView.getParent() == null) {
+            initView();
             contentView.addView(rootView);
             updateView();
         }
