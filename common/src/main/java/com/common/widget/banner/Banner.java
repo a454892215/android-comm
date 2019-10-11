@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.base.BaseActivity;
-import com.common.helper.RVHelper;
 import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 
