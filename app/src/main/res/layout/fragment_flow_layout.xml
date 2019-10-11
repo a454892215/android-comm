@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:ignore="HardcodedText">
 
     <!--@dimen/dp_80  尺寸在FlexboxLayout 或有无效现象 -->
@@ -19,7 +19,13 @@
     <FrameLayout
         android:id="@+id/flt_content"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_300"
-        android:background="#EB7FA2"/>
+        android:layout_height="@dimen/dp_300">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="gaga"
+            android:background="#F56666" />
+    </FrameLayout>
 
 </LinearLayout>
