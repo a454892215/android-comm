@@ -5,7 +5,7 @@ import com.common.base.BaseFragment;
 import com.common.widget.float_window.MultiViewFloatLayout;
 import com.test.util.R;
 
-public class TransitionFragment_06 extends BaseFragment {
+public class FloatWindowFragment_06 extends BaseFragment {
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_float_window;

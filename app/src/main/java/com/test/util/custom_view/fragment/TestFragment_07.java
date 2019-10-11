@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.common.base.BaseFragment;
+import com.common.widget.comm.ViewBounceHelper;
 import com.test.util.R;
 
 public class TestFragment_07 extends BaseFragment {
@@ -24,8 +25,7 @@ public class TestFragment_07 extends BaseFragment {
     @Override
     protected void initView() {
         FrameLayout flt_content = findViewById(R.id.flt_content);
-        View btn_1 = findViewById(R.id.btn_1);
-        testSceneSwitch3(flt_content, btn_1);
+        new ViewBounceHelper(flt_content);
     }
 
 
