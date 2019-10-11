@@ -74,15 +74,14 @@ public class ViewBounceHelper {
     }
 
     private void onScroll(float dx, float dy) {
-
         if (dx != 0) { //水平
-            if (dx > 0){
+            if (dx > 0) {
                 int paddingStart = view.getPaddingStart() + Math.round(dx);
-                view.setPadding(paddingStart,0,0,0);
-                LogUtil.d("========1======dx:" + dx + "  dy:" + dy + " paddingStart:"+view.getPaddingStart() +"  paddingStart:"+paddingStart);
-            }else{
-                int paddingEnd = view.getPaddingStart() + Math.round(dx);
-                view.setPadding(0,0,paddingEnd,0);
+                view.setPadding(paddingStart, view.getPaddingTop(), view.getPaddingEnd(), view.getPaddingBottom());
+                LogUtil.d("========1======dx:" + dx + "  dy:" + dy + " paddingStart:" + view.getPaddingStart() + "  paddingStart:" + paddingStart);
+            } else {
+                int paddingEnd = view.getPaddingEnd() + -Math.round(dx);
+                view.setPadding(view.getPaddingStart(), view.getPaddingTop(), paddingEnd, view.getPaddingBottom());
             }
 
         } else { //垂直
