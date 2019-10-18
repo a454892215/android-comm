@@ -10,6 +10,8 @@ import android.net.NetworkInfo;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.common.base.BaseActivity;
 
 public class SystemUtils {
@@ -54,5 +56,13 @@ public class SystemUtils {
                 LogUtil.e("=========InputMethodManager = null==============");
             }
         }
+    }
+
+    public static void hideBottomVirtualKey(AppCompatActivity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
     }
 }

@@ -2,6 +2,7 @@ package com.common.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.regex.Pattern;
 
 /**
  * Author:  Pan
@@ -26,4 +27,23 @@ public class StringUtil {
 
         return text;
     }
+
+    public static boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[0-9]+$");
+        return pattern.matcher(str).matches();
+    }
+
+    /**
+     * 包含int 类型
+     */
+    public static boolean isFloat(String str) {
+        LogUtil.d("================str:"+str);
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

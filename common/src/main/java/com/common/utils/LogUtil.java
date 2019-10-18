@@ -34,6 +34,10 @@ public class LogUtil {
         Log.e(TAG + getLineNum(), unicodeToUTF_8(msg));
     }
 
+    public static void e(Throwable e) {
+        Log.e(TAG + getLineNum(), StringUtil.getThrowableInfo(e));
+    }
+
     private static String unicodeToUTF_8(String src) {
         if (TextUtils.isEmpty(src)) {
             return null;

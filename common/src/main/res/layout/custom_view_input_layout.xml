@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="horizontal"
+    tools:ignore="HardcodedText">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="我是标题"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/sp_13" />
+
+    <EditText
+        android:id="@+id/et_input"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_35"
+        android:layout_marginStart="@dimen/dp_25"
+        android:background="@drawable/layer_bg_et"
+        android:hint="请输入..."
+        android:imeOptions="flagNoExtractUi|actionNext"
+        android:inputType="text"
+        android:maxLength="20"
+        android:paddingStart="@dimen/dp_8"
+        android:paddingEnd="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_8"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#686868"
+        android:textSize="@dimen/sp_15"
+        tools:ignore="Autofill,HardcodedText,LabelFor,TextFields" />
+</LinearLayout>
