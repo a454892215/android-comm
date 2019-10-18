@@ -12,7 +12,15 @@
     <attr name="right_line_stroke_width" format="dimension|reference" />                         
     <attr name="right_line_color" format="color|reference" />          
 
-    <attr name="clip_radius" format="dimension|reference" />      
+    <attr name="clip_radius" format="dimension|reference" />    
+
+    <attr name="title" format="string|reference" />     
+    <attr name="input_type" format="enum">
+        <enum name="text" value="0x00000001" />
+        <enum name="textPassword" value="0x00000081" />
+        <enum name="number" value="0x00000002" />
+        <enum name="phone" value="0x00000003" />
+    </attr>  
 
     <declare-styleable name="CommonTextView">
         <attr name="top_line_height" />                         
@@ -51,14 +59,6 @@
         <attr name="sb_background" format="reference|color" />
         <attr name="sb_enable_effect" format="reference|boolean" />
     </declare-styleable>
-
-    <attr name="title" format="string|reference" />     
-    <attr name="input_type" format="enum">
-        <enum name="text" value="0x00000001" />
-        <enum name="textPassword" value="0x00000081" />
-        <enum name="number" value="0x00000002" />
-        <enum name="phone" value="0x00000003" />
-    </attr>
 
     <declare-styleable name="InputLayout">
     <attr name="title" />      
