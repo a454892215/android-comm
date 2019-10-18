@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager;
 import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
 import com.common.utils.DensityUtils;
-import com.common.utils.SystemUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SystemUtils.hideBottomVirtualKey(activity);
+      //  SystemUtils.hideBottomVirtualKey(activity);
         //设置允许通过ActivityOptions.makeSceneTransitionAnimation发送或者接收Bundle
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
@@ -125,11 +124,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+     /*   if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             SystemUtils.hideBottomVirtualKey(activity);
             SystemUtils.hideSoftKeyboard(activity);
             getWindow().getDecorView().requestFocus();
-        }
+        }*/
         return super.dispatchTouchEvent(ev);
 
     }
