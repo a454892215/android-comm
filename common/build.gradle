@@ -37,8 +37,8 @@ android {
 uploadArchives {
     repositories.mavenDeployer {
         repository(url: uri('../repository'))
-        pom.groupId = "com.common"// 唯一标识（通常为模块包名，也可以任意）
-        pom.artifactId = "Common" // 项目名称（通常为类库模块名称，也可以任意）
+        pom.groupId = "com.common"// 唯一标识（通常为模块包名）
+        pom.artifactId = "Common" // 项目名称
         pom.version = "1.0.5-beta1"
     }
 }
@@ -51,24 +51,24 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.2.9'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
-    api 'com.squareup.okhttp3:okhttp:4.0.0-alpha02'
-    api 'com.squareup.okhttp3:okhttp-urlconnection:4.0.0-alpha02'
+    api 'com.squareup.okhttp3:okhttp:4.2.1'
+    api 'com.squareup.okhttp3:okhttp-urlconnection:4.2.1'
 
-    api 'com.squareup.retrofit2:retrofit:2.6.0'
-    api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    api 'com.squareup.retrofit2:retrofit:2.6.2'
+    api 'com.squareup.retrofit2:converter-gson:2.6.2'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
 
     api('com.tencent.tinker:tinker-android-lib:1.9.1')
 
     implementation 'com.github.xuexiangjys:XUpdate:1.0.2'
     implementation 'com.liulishuo.filedownloader:library:1.7.6'
 
-    api 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-    api "com.github.bumptech.glide:okhttp3-integration:4.9.0"
+    api 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+    api "com.github.bumptech.glide:okhttp3-integration:4.10.0"
 
     api 'org.litepal.android:java:3.0.0'
-    api 'androidx.recyclerview:recyclerview:1.1.0-beta01'
+    api 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 
     annotationProcessor 'androidx.annotation:annotation:1.1.0'

@@ -2,6 +2,7 @@ package com.common;
 
 import android.app.Application;
 
+import com.common.comm.L;
 import com.common.utils.SharedPreUtils;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
@@ -18,11 +19,13 @@ import org.litepal.LitePal;
 
 public class AppApplication extends Application {
 
+    protected boolean isInitX5Web = false;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initX5WebView();
+        if (isInitX5Web) initX5WebView();
+        L.init(this);
         SharedPreUtils.initSp(getApplicationContext());
         registerActivityLifecycleCallbacks(new ActivityCallbacks());
         LitePal.initialize(this);

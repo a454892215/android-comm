@@ -1,5 +1,6 @@
 package com.common.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,7 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.common.R;
 import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
 import com.common.utils.DensityUtils;
@@ -30,8 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected FragmentManager fm;
     public static int bottomVirtualKeyHeight;
     public static int contentViewHeight;
-    private View contentView;
-    public float dp_1;
+    protected View contentView;
     protected boolean isSetLayoutId = true;
     private LoadingDialogFragment loadingDialogFragment;
 
@@ -41,12 +40,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         SystemUtils.hideBottomVirtualKey(activity);
         //设置允许通过ActivityOptions.makeSceneTransitionAnimation发送或者接收Bundle
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
-       //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
+        //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         fm = getSupportFragmentManager();
         if (isSetLayoutId) setContentView(getLayoutId());
         contentView = findViewById(android.R.id.content);
-        dp_1 = getResources().getDimension(R.dimen.dp_1);
     }
 
     @Override
@@ -104,7 +102,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public final void onBackPressed() {
         if (onBackPressedListenerList.size() > 0) {
             for (int i = 0; i < onBackPressedListenerList.size(); i++) {
-              if(onBackPressedListenerList.get(i).onBack()) return;
+                if (onBackPressedListenerList.get(i).onBack()) return;
             }
         }
         super.onBackPressed();
@@ -113,6 +111,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void addOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
         onBackPressedListenerList.add(onBackPressedListener);
     }
+
 
     ArrayList<OnPauseListener> onPauseListenerList = new ArrayList<>();
 
@@ -126,11 +125,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if(ev.getAction() == MotionEvent.ACTION_DOWN){
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             SystemUtils.hideBottomVirtualKey(activity);
             SystemUtils.hideSoftKeyboard(activity);
             getWindow().getDecorView().requestFocus();
         }
         return super.dispatchTouchEvent(ev);
+
+    }
+
+    public void startActivity(Class<? extends AppCompatActivity> clazz) {
+        startActivity(new Intent(this, clazz));
+
     }
 }

@@ -12,12 +12,12 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.base.BaseActivity;
-import com.common.helper.RVHelper;
 import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 
@@ -55,7 +55,12 @@ public class Banner extends FrameLayout {
             LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, llt_indicators, true);
         }
         new PagerSnapHelper().attachToRecyclerView(rv);
-        RVHelper.initHorizontalRV(activity, urlList, rv, BannerAdapter.class);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        rv.setLayoutManager(linearLayoutManager);
+        BannerAdapter adapter = new BannerAdapter(activity, urlList);
+        rv.setAdapter(adapter);
+
         rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 4);
         rv.smoothScrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);//跳到中间的第一张图片
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
