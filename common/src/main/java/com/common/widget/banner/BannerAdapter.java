@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.common.GlideApp;
 import com.common.R;
-import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseRVAdapter;
 import com.common.base.BaseViewHolder;
 import com.common.utils.ViewHolder;

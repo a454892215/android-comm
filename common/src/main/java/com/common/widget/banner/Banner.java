@@ -46,6 +46,10 @@ public class Banner extends FrameLayout {
     }
 
     public void initView(BaseActivity activity, List<String> urlList) {
+        initView(activity, urlList, null);
+    }
+
+    public void initView(BaseActivity activity, List<String> urlList, BannerAdapter adapter) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
         rv = view.findViewById(R.id.rv);
         llt_indicators = view.findViewById(R.id.llt_indicators);
@@ -56,7 +60,7 @@ public class Banner extends FrameLayout {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(linearLayoutManager);
-        BannerAdapter adapter = new BannerAdapter(activity, urlList);
+        adapter = adapter == null ? new BannerAdapter(activity, urlList) : adapter;
         rv.setAdapter(adapter);
 
         rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 4);
@@ -97,7 +101,7 @@ public class Banner extends FrameLayout {
                             scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
                             scale = MathUtil.clamp(scale, 0f, 1f);
                             updateScaleView(child, scale);
-                            updateIndicator(child, urlList);
+                            updateIndicator(child, kjd, urlList);
                         }
                     }
                 } catch (Exception e) {
@@ -122,13 +126,15 @@ public class Banner extends FrameLayout {
 
     private boolean scaleEnable = false;
 
-    private void updateIndicator(View child, List<String> urlList) {
-        int adapterPosition = rv.getChildAdapterPosition(child);
-        int indicatorCount = llt_indicators.getChildCount();
-        for (int j = 0; j < indicatorCount; j++) {
-            llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
+    private void updateIndicator(View child, float kjd, List<String> urlList) {
+        if (kjd == 0) {
+            int adapterPosition = rv.getChildAdapterPosition(child);
+            int indicatorCount = llt_indicators.getChildCount();
+            for (int j = 0; j < indicatorCount; j++) {
+                llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
+            }
+            llt_indicators.getChildAt(adapterPosition % urlList.size()).setBackgroundColor(showingIndicatorColor);
         }
-        llt_indicators.getChildAt(adapterPosition % urlList.size()).setBackgroundColor(showingIndicatorColor);
     }
 
 
