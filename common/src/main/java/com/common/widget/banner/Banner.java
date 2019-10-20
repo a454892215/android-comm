@@ -4,7 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.base.BaseActivity;
+import com.common.comm.timer.MyCountDownTimer;
 import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 
@@ -31,6 +34,7 @@ public class Banner extends FrameLayout {
     private Context context;
     private LinearLayout llt_indicators;
     private RecyclerView rv;
+    private MyCountDownTimer downTimer;
 
     public Banner(@NonNull Context context) {
         this(context, null);
@@ -75,15 +79,20 @@ public class Banner extends FrameLayout {
                 super.onScrollStateChanged(recyclerView, newState);
                 try {
                     if (leftOfCenterView == 0 && isHasIDLE && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        leftOfCenterView = recyclerView.getChildAt(1).getLeft();
-                        leftOfRightView = recyclerView.getChildAt(2).getLeft();
+                        View child_1 = recyclerView.getChildAt(1);
+                        if (child_1 != null) {
+                            leftOfCenterView = child_1.getLeft();
+                        }
+                        View child_2 = recyclerView.getChildAt(2);
+                        if (child_2 != null) {
+                            leftOfRightView = child_2.getLeft();
+                        }
                         onScrolled(recyclerView, 0, 0);
                         // LogUtil.d("=====onScrollStateChanged:" + "  leftOfCenterView:" + leftOfCenterView + "  leftOfRightView:" + leftOfRightView);
                     }
                     if (newState == RecyclerView.SCROLL_STATE_IDLE) isHasIDLE = true;
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    LogUtil.e("============发生异常：" + e);
+                    LogUtil.e(e);
                 }
             }
 
@@ -100,7 +109,7 @@ public class Banner extends FrameLayout {
                         scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
                         scale = MathUtil.clamp(scale, 0f, 1f);
                         updateScaleView(child, scale);
-                        updateIndicator(child, kjd, urlList);
+                        updateIndicator(child, urlList);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -111,11 +120,39 @@ public class Banner extends FrameLayout {
         });
     }
 
+
+    public void setLoopScroll(int during, int delay) {
+        if (downTimer != null) downTimer.cancel();
+        downTimer = new MyCountDownTimer(Integer.MAX_VALUE, during);
+        downTimer.setOnTickListener((time, count) -> {
+            View child = rv.getChildAt(0);
+            if (child != null && !isPressing && child.getLeft() == 0) {
+                rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
+            }
+        });
+        rv.postDelayed(downTimer::start, delay);
+    }
+
     private void updateScaleView(View child, float scale) {
         if (scaleEnable && child != null) {
             child.setScaleX(scale);
             child.setScaleY(scale);
         }
+    }
+
+    private boolean isPressing;
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isPressing = true;
+                break;
+            case MotionEvent.ACTION_UP:
+                isPressing = false;
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     private int showingIndicatorColor = Color.RED;
@@ -124,7 +161,7 @@ public class Banner extends FrameLayout {
 
     private boolean scaleEnable = false;
 
-    private void updateIndicator(View child, float kjd, List<String> urlList) {
+    private void updateIndicator(View child, List<String> urlList) {
         int adapterPosition = rv.getChildAdapterPosition(child);
         int indicatorCount = llt_indicators.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
@@ -137,7 +174,6 @@ public class Banner extends FrameLayout {
     public void setScaleEnable(boolean scaleEnable) {
         this.scaleEnable = scaleEnable;
     }
-
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
         this.showingIndicatorColor = showingIndicatorColor;

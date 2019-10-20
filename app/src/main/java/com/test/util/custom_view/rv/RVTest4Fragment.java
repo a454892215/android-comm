@@ -23,6 +23,7 @@ public class RVTest4Fragment extends BaseFragment {
     protected void initView() {
         Banner banner = findViewById(R.id.banner);
         banner.init(activity, Arrays.asList(imgUrl));
+        banner.setLoopScroll(2000, 4000);
     }
 
 }

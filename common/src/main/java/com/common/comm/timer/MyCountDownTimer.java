@@ -72,4 +72,5 @@ public class MyCountDownTimer extends CountDownTimer {
         weakReference = new WeakReference<>(baseActivity);
         return this;
     }
+
 }
