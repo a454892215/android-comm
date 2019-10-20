@@ -70,9 +70,6 @@ public class Banner extends FrameLayout {
 
         rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 4);
         rv.smoothScrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);//跳到中间的第一张图片
-        if (loopScrollEnable) {
-            setLoopScroll(4000);
-        }
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private float leftOfCenterView;
             private float leftOfRightView;
