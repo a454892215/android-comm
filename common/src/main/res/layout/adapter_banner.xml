@@ -2,11 +2,10 @@
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/iv"
-    android:layout_width="@dimen/dp_280"
-    android:layout_height="match_parent"
-    android:scaleType="centerCrop"
-    android:paddingStart="@dimen/dp_5"
-    android:paddingEnd="@dimen/dp_5"
-    tools:ignore="ContentDescription,HardcodedText" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:maxWidth="@dimen/dp_360"
+    tools:ignore="ContentDescription" />
 
 
