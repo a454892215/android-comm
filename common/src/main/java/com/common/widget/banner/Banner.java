@@ -5,9 +5,7 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -99,7 +97,7 @@ public class Banner extends FrameLayout {
                             scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
                             scale = MathUtil.clamp(scale, 0f, 1f);
                             updateScaleView(child, scale);
-                            updateIndicator(child, kjd, urlList);
+                            updateIndicator(child, urlList);
                         }
                     }
                 } catch (Exception e) {
@@ -112,12 +110,9 @@ public class Banner extends FrameLayout {
     }
 
     private void updateScaleView(View child, float scale) {
-        if (scaleEnable && child instanceof ViewGroup) {
-            View imgView = ((ViewGroup) child).getChildAt(0);
-            if (imgView instanceof ImageView) {
-                imgView.setScaleX(scale);
-                imgView.setScaleY(scale);
-            }
+        if (scaleEnable && child != null) {
+            child.setScaleX(scale);
+            child.setScaleY(scale);
         }
     }
 
@@ -125,17 +120,15 @@ public class Banner extends FrameLayout {
 
     private int defaultIndicatorColor = Color.WHITE;
 
-    private boolean scaleEnable = true;
+    private boolean scaleEnable = false;
 
-    private void updateIndicator(View child, float kjd, List<String> urlList) {
-        if (kjd == 0) {
-            int adapterPosition = rv.getChildAdapterPosition(child);
-            int indicatorCount = llt_indicators.getChildCount();
-            for (int j = 0; j < indicatorCount; j++) {
-                llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
-            }
-            llt_indicators.getChildAt(adapterPosition % urlList.size()).setBackgroundColor(showingIndicatorColor);
+    private void updateIndicator(View child, List<String> urlList) {
+        int adapterPosition = rv.getChildAdapterPosition(child);
+        int indicatorCount = llt_indicators.getChildCount();
+        for (int j = 0; j < indicatorCount; j++) {
+            llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
+        llt_indicators.getChildAt(adapterPosition % urlList.size()).setBackgroundColor(showingIndicatorColor);
     }
 
 
