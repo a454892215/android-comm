@@ -143,6 +143,13 @@ public class Banner extends FrameLayout {
     private boolean isPressing;
 
     @Override
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+        super.onVisibilityChanged(changedView, visibility);
+        LogUtil.d("============onVisibilityChanged===========:"+visibility);
+    }
+
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
