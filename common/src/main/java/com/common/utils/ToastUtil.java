@@ -2,7 +2,6 @@ package com.common.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,6 @@ import android.widget.Toast;
 
 import com.common.R;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -22,47 +17,17 @@ import io.reactivex.disposables.Disposable;
  */
 @SuppressLint("CheckResult")
 public class ToastUtil {
-
-    private static boolean isNotMainThread() {
-        return Looper.getMainLooper() != Looper.myLooper();
-    }
-
-
     public static void showShort(Context context, CharSequence message) {
-        if (isNotMainThread()) {
-            CompositeDisposable compositeDisposable = new CompositeDisposable();
-            Disposable subscribe = Observable.just(1).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(integer -> showShortToast(context, message));
-            compositeDisposable.add(subscribe);
-            return;
-        }
-        showShortToast(context, message);
+        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
     }
-
 
     public static void showLong(Context context, CharSequence message) {
-        if (isNotMainThread()) {
-            CompositeDisposable compositeDisposable = new CompositeDisposable();
-            Disposable subscribe = Observable.just(1).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(integer -> showLongToast(context, message));
-            compositeDisposable.add(subscribe);
-            return;
-        }
-        showLongToast(context, message);
-    }
-
-    private static void showShortToast(Context context, CharSequence message) {
         Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
-
-    private static void showLongToast(Context context, CharSequence message) {
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-
 
     public static void show(Context context, String msg) {
         Toast toast = new Toast(context);
