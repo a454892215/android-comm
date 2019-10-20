@@ -54,7 +54,8 @@ public class Banner extends FrameLayout {
         return rv;
     }
 
-    public void init(BaseActivity activity, List<String> urlList) {
+    public void init(BaseActivity activity, List<String> urlList, boolean loopScrollEnable) {
+        this.loopScrollEnable = loopScrollEnable;
         View view = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
         rv = view.findViewById(R.id.rv);
         llt_indicators = view.findViewById(R.id.llt_indicators);
@@ -69,6 +70,9 @@ public class Banner extends FrameLayout {
 
         rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 4);
         rv.smoothScrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);//跳到中间的第一张图片
+        if (loopScrollEnable) {
+            setLoopScroll(4000);
+        }
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private float leftOfCenterView;
             private float leftOfRightView;
@@ -120,10 +124,11 @@ public class Banner extends FrameLayout {
         });
     }
 
+    private boolean loopScrollEnable;
 
-    public void setLoopScroll(int during, int delay) {
+    private void setLoopScroll(int delay) {
         if (downTimer != null) downTimer.cancel();
-        downTimer = new MyCountDownTimer(Integer.MAX_VALUE, during);
+        downTimer = new MyCountDownTimer(Integer.MAX_VALUE, 3000);
         downTimer.setOnTickListener((time, count) -> {
             View child = rv.getChildAt(0);
             if (child != null && !isPressing && child.getLeft() == 0) {
@@ -145,7 +150,11 @@ public class Banner extends FrameLayout {
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
-        LogUtil.d("============onVisibilityChanged===========:"+visibility);
+        if (visibility == View.VISIBLE) {
+            if (loopScrollEnable) setLoopScroll(2000);
+        } else {
+            if (downTimer != null) downTimer.cancel();
+        }
     }
 
 
