@@ -1,8 +1,15 @@
 package com.test.util.custom_view.rv;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.common.base.BaseFragment;
 import com.common.widget.banner.BannerLayout;
+import com.common.widget.banner.BannerUtil;
 import com.test.util.R;
+import com.youth.banner.Banner;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.Arrays;
 
@@ -23,6 +30,7 @@ public class RVTest4Fragment extends BaseFragment {
     protected void initView() {
         BannerLayout banner = findViewById(R.id.banner);
         banner.init(activity, Arrays.asList(imgUrl), true);
+        BannerUtil.initBanner(findViewById(R.id.banner2), Arrays.asList(imgUrl));
     }
 
 }

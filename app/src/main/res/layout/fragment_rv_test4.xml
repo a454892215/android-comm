@@ -23,4 +23,9 @@
             android:splitMotionEvents="false"/>
     </com.common.widget.refresh.RefreshLayout>
 
+    <com.youth.banner.Banner
+        android:id="@+id/banner2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_220" />
+
 </LinearLayout>
