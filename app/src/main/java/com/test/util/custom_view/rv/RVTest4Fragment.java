@@ -1,7 +1,7 @@
 package com.test.util.custom_view.rv;
 
 import com.common.base.BaseFragment;
-import com.common.widget.banner.Banner;
+import com.common.widget.banner.BannerLayout;
 import com.test.util.R;
 
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class RVTest4Fragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        Banner banner = findViewById(R.id.banner);
+        BannerLayout banner = findViewById(R.id.banner);
         banner.init(activity, Arrays.asList(imgUrl), true);
     }
 

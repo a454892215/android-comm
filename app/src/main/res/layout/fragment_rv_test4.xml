@@ -16,7 +16,7 @@
         app:header_function="forbid_scroll"
         app:header_text_size="@dimen/sp_12">
 
-        <com.common.widget.banner.Banner
+        <com.common.widget.banner.BannerLayout
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

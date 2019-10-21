@@ -29,21 +29,21 @@ import java.util.List;
  * Description: No
  */
 
-public class Banner extends FrameLayout {
+public class BannerLayout extends FrameLayout {
     private Context context;
     private LinearLayout llt_indicators;
     private RecyclerView rv;
     private MyCountDownTimer downTimer;
 
-    public Banner(@NonNull Context context) {
+    public BannerLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public Banner(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public BannerLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, -1);
     }
 
-    public Banner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public BannerLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
     }
