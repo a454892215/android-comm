@@ -20,7 +20,6 @@ import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.comm.timer.MyCountDownTimer;
 import com.common.utils.LogUtil;
-import com.common.utils.MathUtil;
 
 import java.util.List;
 
@@ -67,56 +66,14 @@ public class Banner extends FrameLayout {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(new BannerAdapter(activity, urlList));
-
-        rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 4);
-        rv.smoothScrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);//跳到中间的第一张图片
+        rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            private float leftOfCenterView;
-            private float leftOfRightView;
-            private boolean isHasIDLE = false;
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                try {
-                    if (leftOfCenterView == 0 && isHasIDLE && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        View child_1 = recyclerView.getChildAt(1);
-                        if (child_1 != null) {
-                            leftOfCenterView = child_1.getLeft();
-                        }
-                        View child_2 = recyclerView.getChildAt(2);
-                        if (child_2 != null) {
-                            leftOfRightView = child_2.getLeft();
-                        }
-                        onScrolled(recyclerView, 0, 0);
-                        // LogUtil.d("=====onScrollStateChanged:" + "  leftOfCenterView:" + leftOfCenterView + "  leftOfRightView:" + leftOfRightView);
-                    }
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) isHasIDLE = true;
-                } catch (Exception e) {
-                    LogUtil.e(e);
-                }
-            }
-
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                try {
-                    int childCount = recyclerView.getChildCount();
-                    for (int i = 0; i < childCount; i++) {
-                        View child = recyclerView.getChildAt(i);
-                        float kjd = (child.getLeft() - leftOfCenterView); // 靠近度
-                        //靠近率 为0时，最靠近。值域[-1,1]
-                        float kjl = MathUtil.clamp(kjd / (leftOfRightView - leftOfCenterView), -1, 1);
-                        float scale = 1 - Math.abs(kjl); //缩放 [1,0]
-                        scale = (scale + 9f) / 10f;// [1,0] - > [1,0.9]
-                        scale = MathUtil.clamp(scale, 0f, 1f);
-                        updateScaleView(child, scale);
-                        updateIndicator(child, urlList);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    LogUtil.e("============发生异常：" + e);
+                View child0 = recyclerView.getChildAt(0);
+                if (child0 != null) {
+                    updateIndicator(child0, urlList.size());
                 }
-
             }
         });
     }
@@ -135,13 +92,6 @@ public class Banner extends FrameLayout {
             });
         }
         downTimer.start(); //不能延迟执行
-    }
-
-    private void updateScaleView(View child, float scale) {
-        if (scaleEnable && child != null) {
-            child.setScaleX(scale);
-            child.setScaleY(scale);
-        }
     }
 
     private boolean isPressing;
@@ -176,20 +126,13 @@ public class Banner extends FrameLayout {
 
     private int defaultIndicatorColor = Color.WHITE;
 
-    private boolean scaleEnable = false;
-
-    private void updateIndicator(View child, List<String> urlList) {
+    private void updateIndicator(View child, int urlListSize) {
         int adapterPosition = rv.getChildAdapterPosition(child);
         int indicatorCount = llt_indicators.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
             llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
-        llt_indicators.getChildAt(adapterPosition % urlList.size()).setBackgroundColor(showingIndicatorColor);
-    }
-
-
-    public void setScaleEnable(boolean scaleEnable) {
-        this.scaleEnable = scaleEnable;
+        llt_indicators.getChildAt(adapterPosition % urlListSize).setBackgroundColor(showingIndicatorColor);
     }
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
