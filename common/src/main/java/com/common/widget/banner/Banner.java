@@ -133,8 +133,8 @@ public class Banner extends FrameLayout {
                     rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
                 }
             });
-            rv.postDelayed(downTimer::start, 2000);
         }
+        downTimer.start(); //不能延迟执行
     }
 
     private void updateScaleView(View child, float scale) {
