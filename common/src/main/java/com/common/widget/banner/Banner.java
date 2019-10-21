@@ -123,16 +123,18 @@ public class Banner extends FrameLayout {
 
     private boolean loopScrollEnable;
 
-    private void setLoopScroll(int delay) {
-        if (downTimer != null) downTimer.cancel();
-        downTimer = new MyCountDownTimer(Integer.MAX_VALUE, 3000);
-        downTimer.setOnTickListener((time, count) -> {
-            View child = rv.getChildAt(0);
-            if (child != null && !isPressing && child.getLeft() == 0) {
-                rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
-            }
-        });
-        rv.postDelayed(downTimer::start, delay);
+    private void startLoopScroll() {
+        if (downTimer == null) {
+            downTimer = new MyCountDownTimer(Integer.MAX_VALUE, 3000);
+            downTimer.setOnTickListener((time, count) -> {
+                LogUtil.d("===============轮播图count：" + count);
+                View child = rv.getChildAt(0);
+                if (child != null && !isPressing && child.getLeft() == 0 && System.currentTimeMillis() - lastUpTime > 2000) {
+                    rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
+                }
+            });
+            rv.postDelayed(downTimer::start, 2000);
+        }
     }
 
     private void updateScaleView(View child, float scale) {
@@ -148,12 +150,13 @@ public class Banner extends FrameLayout {
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         if (visibility == View.VISIBLE) {
-            if (loopScrollEnable) setLoopScroll(2000);
+            if (loopScrollEnable) startLoopScroll();
         } else {
             if (downTimer != null) downTimer.cancel();
         }
     }
 
+    private long lastUpTime = 0;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -163,6 +166,7 @@ public class Banner extends FrameLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 isPressing = false;
+                lastUpTime = System.currentTimeMillis();
                 break;
         }
         return super.dispatchTouchEvent(ev);
