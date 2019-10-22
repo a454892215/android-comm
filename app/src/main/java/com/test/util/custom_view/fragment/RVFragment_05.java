@@ -22,7 +22,8 @@ public class RVFragment_05 extends BaseFragment {
         Class[] classArr = {RVTest1Fragment.class, RVTest2Fragment.class, RVTest3Fragment.class, RVTest4Fragment.class, RVTest5Fragment.class};
         CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
         tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
-        tab_layout_2.setOnSelectChangedListener(position -> FragmentHelper.onSwitchFragment(fm, classArr, position, R.id.flt_content, true));
+        FragmentHelper fragmentHelper = new FragmentHelper(fm, classArr, R.id.flt_content);
+        tab_layout_2.setOnSelectChangedListener(position -> fragmentHelper.onSwitchFragment(position, true));
         tab_layout_2.setCurrentPosition(0);
     }
 }

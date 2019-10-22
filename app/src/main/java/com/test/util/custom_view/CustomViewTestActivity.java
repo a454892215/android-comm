@@ -31,7 +31,8 @@ public class CustomViewTestActivity extends BaseAppActivity {
         CommonTabLayout tab_layout = findViewById(R.id.tab_layout_1);
         tab_layout.setIndicatorViewId(R.id.flt_tab_indicator);
         tab_layout.setData(tabNames, R.layout.template_hor_scroll_tab_item_1, R.id.tv);
-        tab_layout.setOnSelectChangedListener(position -> FragmentHelper.onSwitchFragment(fm, fragmentArr, position, R.id.flt_content, true));
+        FragmentHelper fragmentHelper = new FragmentHelper(fm, fragmentArr, R.id.flt_content);
+        tab_layout.setOnSelectChangedListener(position -> fragmentHelper.onSwitchFragment(position, true));
         tab_layout.setCurrentPosition(0);
     }
 }

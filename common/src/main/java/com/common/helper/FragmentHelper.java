@@ -1,5 +1,7 @@
 package com.common.helper;
 
+import android.util.SparseArray;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -9,6 +11,18 @@ import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 
 public class FragmentHelper {
+
+    private FragmentManager fm;
+    private Class[] fragmentArr;
+    private int contentViewId;
+
+    private SparseArray<Fragment> fragmentInstanceArr = new SparseArray<>();
+
+    public FragmentHelper(FragmentManager fm, Class[] fragmentArr, int contentViewId) {
+        this.fm = fm;
+        this.fragmentArr = fragmentArr;
+        this.contentViewId = contentViewId;
+    }
 
 
     public static Fragment getInstance(FragmentManager fragmentManager, Class<? extends Fragment> fragmentClass) {
@@ -24,7 +38,7 @@ public class FragmentHelper {
         return fragment;
     }
 
-    private static void hideAllShowingFragments(FragmentManager fm, Class[] fragmentArr) {
+    private void hideAllShowingFragments(FragmentManager fm, Class[] fragmentArr) {
         for (Class aFragmentArr : fragmentArr) {
             Fragment fragment = fm.findFragmentByTag(aFragmentArr.getName());
             if (fragment != null && fragment.isVisible()) {
@@ -33,31 +47,37 @@ public class FragmentHelper {
         }
     }
 
-    private static void showFragment(FragmentManager fm, Fragment fragment, int layoutId) {
+    private void showFragment(Fragment fragment) {
         FragmentTransaction transaction = fm.beginTransaction();
         if (fragment.isAdded()) {
             transaction.show(fragment);
         } else {
-            transaction.add(layoutId, fragment, fragment.getClass().getName());
+            transaction.add(contentViewId, fragment, fragment.getClass().getName());
         }
         transaction.commit();
     }
 
-    private static void addFragment(FragmentManager fm, Fragment fragment, int layoutId) {
+    private void addFragment(Fragment fragment) {
         if (!fragment.isAdded()) {
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.add(layoutId, fragment, fragment.getClass().getName()).hide(fragment).commit();
+            transaction.add(contentViewId, fragment, fragment.getClass().getName()).hide(fragment).commit();
         }
     }
 
-    public static void onSwitchFragment(FragmentManager fm, Class[] fragmentArr, int position, int contentViewId, boolean isPreLoad) {
-        FragmentHelper.hideAllShowingFragments(fm, fragmentArr);
+    public void onSwitchFragment(int position, boolean isPreLoad) {
+        hideAllShowingFragments(fm, fragmentArr);
         Fragment fragment = FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[position]));
+        fragmentInstanceArr.put(position, fragment);
         if (isPreLoad) {
             int nextIndex = MathUtil.clamp(position + 1, 0, fragmentArr.length - 1);
             Fragment instance = FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[nextIndex]));
-            addFragment(fm, instance, contentViewId);
+            addFragment(instance);
+            fragmentInstanceArr.put(nextIndex, instance);
         }
-        FragmentHelper.showFragment(fm, fragment, contentViewId);
+        showFragment(fragment);
+    }
+
+    public SparseArray<Fragment> getFragmentInstanceArr() {
+        return fragmentInstanceArr;
     }
 }
