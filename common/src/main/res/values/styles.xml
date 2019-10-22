@@ -11,56 +11,13 @@
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
 
-    <declare-styleable name="CommonEditText">
-        <attr name="hint_size" format="dimension|reference" />
-        <attr name="hint_color" format="color|reference" />
-        <attr name="hint_text" format="string|reference" />
-        <attr name="bg_border_color" format="color|reference" />
-        <attr name="bg_border_thick" format="dimension|reference" />
-        <attr name="bg_color" format="color|reference" />
-        <attr name="bg_radius" format="dimension|reference" />
-        <attr name="bg_enable" format="boolean|reference" />
-        <attr name="bg_clear_bg_enable" format="boolean|reference" />
-    </declare-styleable>
 
     <style name="pop_anim_style">
         <item name="android:windowEnterAnimation">@anim/pop_in</item>
         <item name="android:windowExitAnimation">@anim/pop_out</item>
     </style>
 
-    <declare-styleable name="RefreshLayout">
-        <attr name="header_function" format="string" />
-        <attr name="footer_function" format="string" />
-        <attr name="header_text_size" format="dimension|reference" />
-        <attr name="footer_text_size" format="dimension|reference" />
-    </declare-styleable>
 
-
-    <declare-styleable name="WheelPicker">
-        <attr name="wheel_data" format="reference" />
-        <attr name="wheel_selected_item_position" format="integer" />
-        <attr name="wheel_item_text_size" format="dimension" />
-        <attr name="wheel_item_text_color" format="color" />
-        <attr name="wheel_selected_item_text_color" format="color" />
-        <attr name="wheel_same_width" format="boolean" />
-        <attr name="wheel_maximum_width_text" format="string" />
-        <attr name="wheel_maximum_width_text_position" format="integer" />
-        <attr name="wheel_visible_item_count" format="integer" />
-        <attr name="wheel_item_space" format="dimension" />
-        <attr name="wheel_cyclic" format="boolean" />
-        <attr name="wheel_indicator" format="boolean" />
-        <attr name="wheel_indicator_color" format="color" />
-        <attr name="wheel_indicator_size" format="dimension" />
-        <attr name="wheel_curtain" format="boolean" />
-        <attr name="wheel_curtain_color" format="color" />
-        <attr name="wheel_atmospheric" format="boolean" />
-        <attr name="wheel_curved" format="boolean" />
-        <attr name="wheel_item_align" format="enum">
-            <enum name="center" value="0" />
-            <enum name="left" value="1" />
-            <enum name="right" value="2" />
-        </attr>
-    </declare-styleable>
 
     <style name="comm_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
