@@ -23,7 +23,7 @@ public class RVFragment_05 extends BaseFragment {
         CommonTabLayout tab_layout_2 = findViewById(R.id.tab_layout_2);
         tab_layout_2.setData(tabNames, R.layout.template_hor_scroll_tab_item_2, R.id.tv);
         FragmentHelper fragmentHelper = new FragmentHelper(fm, classArr, R.id.flt_content);
-        tab_layout_2.setOnSelectChangedListener(position -> fragmentHelper.onSwitchFragment(position, true));
+        tab_layout_2.setOnSelectChangedListener(fragmentHelper::onSwitchFragment);
         tab_layout_2.setCurrentPosition(0);
     }
 }

@@ -21,7 +21,7 @@ public class TrendChartFragment_04 extends BaseFragment {
         tab_layout_1.setIndicatorViewId(R.id.flt_tab_indicator);
         tab_layout_1.setData(tabNames, R.layout.template_hor_scroll_tab_item_1_a, R.id.tv);
         FragmentHelper fragmentHelper = new FragmentHelper(fm, fragmentArr, R.id.flt_content);
-        tab_layout_1.setOnSelectChangedListener(position -> fragmentHelper.onSwitchFragment(position, true));
+        tab_layout_1.setOnSelectChangedListener(fragmentHelper::onSwitchFragment);
         tab_layout_1.setCurrentPosition(0);
     }
 }
