@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.common.R;
+import com.common.listener.OnSelectChangedListener;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 
@@ -173,10 +174,6 @@ public class CommonTabLayout extends LinearLayout {
 
     public void setOnSelectChangedListener(OnSelectChangedListener listener) {
         this.listener = listener;
-    }
-
-    public interface OnSelectChangedListener {
-        void OnSelectChanged(int position);
     }
 
     private int fastTime = 0;
