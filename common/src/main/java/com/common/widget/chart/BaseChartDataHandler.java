@@ -1,10 +1,9 @@
 package com.common.widget.chart;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.util.Pair;
 
-import com.common.R;
+import com.common.comm.L;
 import com.common.widget.view_func.BgTextShape;
 
 import java.util.ArrayList;
@@ -12,14 +11,13 @@ import java.util.List;
 
 
 public abstract class BaseChartDataHandler implements IDataHandler {
-    protected float dp_1;
+    protected float dp_1 = L.dp_1;
 
     private List<Pair<Integer, Integer>> trendLinePointList = new ArrayList<>();//第三个RV曲线节点列号列表,行号
     private int cellHeight;
 
-    protected BaseChartDataHandler(Context context) {
-        dp_1 = context.getResources().getDimension(R.dimen.dp_1);
-        cellHeight = Math.round(dp_1 * 35);
+    protected BaseChartDataHandler() {
+        cellHeight = Math.round(L.dp_1 * 35);
     }
 
     /**
