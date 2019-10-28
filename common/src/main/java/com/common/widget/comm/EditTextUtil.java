@@ -22,13 +22,13 @@ public class EditTextUtil {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String editable = editText.getText().toString();
-                String regEx = "[^a-zA-Z0-9]";  //只能输入字母或数字
+                String regEx = "[^a-zA-Z0-9]"; //对所有字母数字取反
                 Pattern p = Pattern.compile(regEx);
-                Matcher m = p.matcher(editable); //匹配所有非规则字符
-                String str = m.replaceAll("").trim(); //把所有非规则字符全部替换为""
+                Matcher m = p.matcher(editable);
+                String str = m.replaceAll("").trim();//把所有匹配到的值替换掉
                 if (!editable.equals(str)) {
-                    editText.setText(str);  //设置EditText的字符
-                    editText.setSelection(str.length()); //因为删除了字符，要重写设置新的光标所在位置
+                    editText.setText(str);
+                    editText.setSelection(str.length());
                 }
             }
         });
