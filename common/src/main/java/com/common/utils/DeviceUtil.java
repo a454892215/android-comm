@@ -2,43 +2,48 @@ package com.common.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+
 
 import java.security.MessageDigest;
 
 public class DeviceUtil {
 
-    private static String DeviceId = null;
+    private static String deviceId = null;
+
+    private static String key_devices_id = "key_devices_id";
 
     public static String getUniqueId(Context context) {
-        if (DeviceId == null) {
-            DeviceId = getDeviceID(context);
+        if (deviceId == null) {
+            deviceId = SharedPreUtils.getString(key_devices_id, "");
+            LogUtil.d("=========deviceId====取缓存=:" + deviceId);
+            if (TextUtils.isEmpty(deviceId)) {
+                deviceId = getDeviceID(context);
+            }
         }
-        return DeviceId;
+        return deviceId;
     }
 
+    @SuppressLint("HardwareIds")
     private static String getDeviceID(Context context) {
+        String id;
         try {
-          //  if (true) return System.currentTimeMillis() + "";
-            //通过wifi获取
-         //   @SuppressLint("HardwareIds") String macAddress = getWifiId(context);
-          //  if (macAddress != null) return macAddress;
+            // if (true) return System.currentTimeMillis() + "";
             //不需要权限
             @SuppressLint("HardwareIds") String androidID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-            @SuppressLint("HardwareIds") String id = "last" + toMD5(androidID + Build.SERIAL);
-            LogUtil.d("==============最终的设备号 id：" + id);
-            return id;
+            id = toMD5(androidID + Build.SERIAL).substring(0, 20);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.e(e);
+            id = toMD5(System.currentTimeMillis() + "").substring(0, 20);
         }
-        return null;
+        SharedPreUtils.putString(key_devices_id, id);
+        LogUtil.d("=========deviceId==新生成=== id：" + id + "   length:" + id.length());
+        return id;
     }
 
-    private static String getWifiId(Context context) {
+/*    private static String getWifiId(Context context) {
         try {
             WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (wifiManager != null) {
@@ -58,7 +63,7 @@ public class DeviceUtil {
             LogUtil.e(e);
         }
         return null;
-    }
+    }*/
 
     private static String toMD5(String text) {
         try {
