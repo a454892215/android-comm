@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.common.R;
+import com.common.widget.comm.EditTextUtil;
 
 
 /**
@@ -27,7 +28,6 @@ public class InputLayout extends FrameLayout {
     private final Context context;
     private String title;
     private String hint;
-    private String digits;
     private int max_length;
     private int input_type;
     private float et_margin_end;
@@ -46,7 +46,6 @@ public class InputLayout extends FrameLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.InputLayout, defStyleAttr, 0);
         title = typedArray.getString(R.styleable.InputLayout_title);
         hint = typedArray.getString(R.styleable.InputLayout_hint);
-        digits = typedArray.getString(R.styleable.InputLayout_digits);
         max_length = typedArray.getInt(R.styleable.InputLayout_max_length, 20);
         input_type = typedArray.getInt(R.styleable.InputLayout_input_type, InputType.TYPE_CLASS_TEXT);
         et_margin_end = typedArray.getDimension(R.styleable.InputLayout_et_margin_end, 0);
@@ -61,14 +60,12 @@ public class InputLayout extends FrameLayout {
         EditText et_input = contentView.findViewById(R.id.et_input);
         tv_title.setText(title);
         et_input.setHint(hint);
-        if (!TextUtils.isEmpty(digits)) {
-            et_input.setKeyListener(DigitsKeyListener.getInstance(digits));
-        }
-        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max_length)});
         et_input.setInputType(input_type);
+        et_input.setFilters(new InputFilter[]{new InputFilter.LengthFilter(max_length)});
         LinearLayout.LayoutParams lp_et = (LinearLayout.LayoutParams) et_input.getLayoutParams();
         lp_et.rightMargin = Math.round(et_margin_end);
         et_input.setLayoutParams(lp_et);
+        EditTextUtil.addWordNumFilter(et_input);
         addView(contentView);
     }
 }

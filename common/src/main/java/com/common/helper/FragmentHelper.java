@@ -33,8 +33,7 @@ public class FragmentHelper {
                 fragment = fragmentClass.newInstance();
             }
         } catch (Exception e) {
-            LogUtil.e("反射创建fragment实例异常");
-            e.printStackTrace();
+            LogUtil.e(e);
         }
         return fragment;
     }
@@ -45,9 +44,16 @@ public class FragmentHelper {
             fm.beginTransaction().hide(fragmentInstanceArr.get(i)).commit();
         }
         fm.beginTransaction().show(fragmentInstanceArr.get(position)).commit();
+        currentPosition = position;
     }
 
-    public SparseArray<Fragment> getFragmentInstanceArr() {
+    public SparseArray<Fragment> getAllFragment() {
         return fragmentInstanceArr;
+    }
+
+    private int currentPosition = 0;
+
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 }

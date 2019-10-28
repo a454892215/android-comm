@@ -108,8 +108,7 @@
 
     <declare-styleable name="InputLayout">
     <attr name="title" />      
-    <attr name="hint" format="string|reference" />           
-    <attr name="digits" format="string|reference" />           
+    <attr name="hint" format="string|reference" />               
     <attr name="max_length" format="integer|reference" />   
     <attr name="et_margin_end" format="dimension|reference" />   
     <attr name="input_type" />
