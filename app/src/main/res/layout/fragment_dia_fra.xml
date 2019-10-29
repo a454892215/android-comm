@@ -61,31 +61,17 @@
             android:foreground="?selectableItemBackground"
             android:text="底部弹窗2"
             tools:ignore="UnusedAttribute" />
-        <!--   <Button
-               android:layout_width="match_parent"
-               android:layout_height="@dimen/dp_35"
-               android:background="#cccccc"
-               android:layout_marginTop="@dimen/dp_5"
-               android:foreground="?selectableItemBackground"
-               android:text="顶部"
-               tools:ignore="UnusedAttribute" />
 
-           <Button
-               android:layout_width="match_parent"
-               android:layout_height="@dimen/dp_35"
-               android:background="#cccccc"
-               android:layout_marginTop="@dimen/dp_5"
-               android:foreground="?selectableItemBackground"
-               android:text="左边"
-               tools:ignore="UnusedAttribute" />
-
-           <Button
-               android:layout_width="match_parent"
-               android:layout_height="@dimen/dp_35"
-               android:background="#cccccc"
-               android:layout_marginTop="@dimen/dp_5"
-               android:foreground="?selectableItemBackground"
-               android:text="右边"
-               tools:ignore="UnusedAttribute" />-->
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
+        android:max="100"
+        android:progressDrawable="@drawable/layer_progress_bar"/>
 </LinearLayout>
