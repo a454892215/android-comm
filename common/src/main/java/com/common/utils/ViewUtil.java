@@ -22,6 +22,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class ViewUtil {
+
     public static boolean isTouchPointInView(View view, float x, float y) {
         if (view == null) {
             return false;
@@ -36,7 +37,22 @@ public class ViewUtil {
                 && x <= right;
     }
 
-    public static void onlyShowOneChildView(ViewGroup parentView, int showingPosition) {
+    /**
+     * 获取所有子View
+     */
+    public static ArrayList<View> getChildrenView(ViewGroup parent) {
+        ArrayList<View> list = new ArrayList<>();
+        int childCount = parent.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            list.add(parent.getChildAt(i));
+        }
+        return list;
+    }
+
+    /**
+     * 显示和隐藏View
+     */
+    public static void showAndGoneView(ViewGroup parentView, int showingPosition) {
         int childCount = parentView.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View childView = parentView.getChildAt(i);
@@ -48,6 +64,9 @@ public class ViewUtil {
         }
     }
 
+    /**
+     * 显示和隐藏View
+     */
     public static void showAndGoneView(View showingView, View... goneView) {
         showingView.setVisibility(View.VISIBLE);
         for (View aGoneView : goneView) {
@@ -55,7 +74,10 @@ public class ViewUtil {
         }
     }
 
-    public static void switchViewVisibilityState(View... views) {
+    /**
+     * 切换View的显示状态
+     */
+    public static void showAndGoneView(View... views) {
         for (View view : views) {
             if (view.getVisibility() == View.VISIBLE) {
                 view.setVisibility(View.GONE);
@@ -65,7 +87,10 @@ public class ViewUtil {
         }
     }
 
-    public static void switchViewVisibilityStateWithAnim(View... views) {
+    /**
+     * 携带缩放动画 切换所有View的显示状态
+     */
+    public static void switchViewVisibleStateWithScaleAnim(View... views) {
         for (View view : views) {
             if (view.getVisibility() == View.VISIBLE) {
                 ScaleAnimation animation = new ScaleAnimation(1, 1, 1, 0);
@@ -82,6 +107,9 @@ public class ViewUtil {
         }
     }
 
+    /**
+     * 给 LinearLayout 的子View动态设置margin,隐藏状态margin置为0
+     */
     public static void setLinearLayoutGoneTopMargin(int topMargin, int bottomMargin, View view) {
         LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view.getLayoutParams();
         if (view.getVisibility() == View.VISIBLE) {
@@ -94,6 +122,9 @@ public class ViewUtil {
         view.setLayoutParams(lp);
     }
 
+    /**
+     * 裁剪圆角View
+     */
     public static void clipRoundRectView(View view, float radius) {
         view.setClipToOutline(true);
         view.setOutlineProvider(new ViewOutlineProvider() {
@@ -105,14 +136,19 @@ public class ViewUtil {
         });
     }
 
+    /**
+     * 设置灰色图片
+     */
     public static void setGrayImage(ImageView imageView) {
         ColorMatrix colorMatrix = new ColorMatrix();
         colorMatrix.setSaturation(0);
         ColorMatrixColorFilter matrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
         imageView.setColorFilter(matrixColorFilter);
-
     }
 
+    /**
+     * 遍历根View 设置字体
+     */
     public static void setTypefaceToAllView(View rootView, Typeface typeface) {
         List<View> allChildViews = getAllChildViews(rootView);
         for (int i = 0; i < allChildViews.size(); i++) {
@@ -123,7 +159,10 @@ public class ViewUtil {
         }
     }
 
-    private static List<View> getAllChildViews(View view) {
+    /**
+     * 递归获取所有子View 包含ViewGroup,
+     */
+    public static List<View> getAllChildViews(View view) {
         List<View> list = new ArrayList<>();
         if (view instanceof ViewGroup) {
             ViewGroup vp = (ViewGroup) view;
