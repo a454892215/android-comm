@@ -4,12 +4,17 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Outline;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author:  L
@@ -106,6 +111,29 @@ public class ViewUtil {
         ColorMatrixColorFilter matrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
         imageView.setColorFilter(matrixColorFilter);
 
+    }
+
+    public static void setTypefaceToAllView(View rootView, Typeface typeface) {
+        List<View> allChildViews = getAllChildViews(rootView);
+        for (int i = 0; i < allChildViews.size(); i++) {
+            View childView = allChildViews.get(i);
+            if (childView instanceof TextView) {
+                ((TextView) childView).setTypeface(typeface);
+            }
+        }
+    }
+
+    private static List<View> getAllChildViews(View view) {
+        List<View> list = new ArrayList<>();
+        if (view instanceof ViewGroup) {
+            ViewGroup vp = (ViewGroup) view;
+            for (int i = 0; i < vp.getChildCount(); i++) {
+                View v = vp.getChildAt(i);
+                list.add(v);
+                list.addAll(getAllChildViews(v));
+            }
+        }
+        return list;
     }
 
 }
