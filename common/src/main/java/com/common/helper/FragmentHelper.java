@@ -4,7 +4,6 @@ import android.util.SparseArray;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.common.utils.CastUtil;
 import com.common.utils.LogUtil;
@@ -12,15 +11,14 @@ import com.common.utils.LogUtil;
 public class FragmentHelper {
 
     private FragmentManager fm;
-
+    private int contentViewId;
     private SparseArray<Fragment> fragmentInstanceArr = new SparseArray<>();
 
     public FragmentHelper(FragmentManager fm, Class[] fragmentArr, int contentViewId) {
         this.fm = fm;
+        this.contentViewId = contentViewId;
         for (int i = 0; i < fragmentArr.length; i++) {
             Fragment fragment = FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[i]));
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.add(contentViewId, fragment, fragment.getClass().getName()).hide(fragment).commit();
             fragmentInstanceArr.put(i, fragment);
         }
     }
@@ -41,9 +39,17 @@ public class FragmentHelper {
 
     public void onSwitchFragment(int position) {
         for (int i = 0; i < fragmentInstanceArr.size(); i++) {
-            fm.beginTransaction().hide(fragmentInstanceArr.get(i)).commit();
+            Fragment fragment = fragmentInstanceArr.get(i);
+            if (fragment.isVisible()) {
+                fm.beginTransaction().hide(fragment).commit();
+            }
         }
-        fm.beginTransaction().show(fragmentInstanceArr.get(position)).commit();
+        Fragment showingFragment = fragmentInstanceArr.get(position);
+        if (showingFragment.isAdded()) {
+            fm.beginTransaction().show(showingFragment).commit();
+        } else {
+            fm.beginTransaction().add(contentViewId, showingFragment, showingFragment.getClass().getName()).show(showingFragment).commit();
+        }
         currentPosition = position;
     }
 
