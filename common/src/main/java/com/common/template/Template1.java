@@ -33,7 +33,7 @@ public class Template1 {
             Bitmap bitmap = Bitmap.createBitmap(iv_qr_code.getDrawingCache(false));
             iv_qr_code.setDrawingCacheEnabled(false);
             if (bitmap != null) {
-                boolean isOk = ImgUtils.saveImageToGallery(context, bitmap);
+                boolean isOk = ImgUtils.saveImageToGallery(context, bitmap, "");
                 if (isOk) {
                     ToastUtil.showShort(context, "保存二维码成功");
                 }
