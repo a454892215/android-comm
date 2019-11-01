@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.ImageView;
-
 import androidx.annotation.NonNull;
 
 import java.io.File;
@@ -21,7 +19,7 @@ public class ImgUtils {
     //保存文件到指定路径
     public static boolean saveImageToGallery(Context context, Bitmap bmp) {
         try {
-            String path = "vangphoto";
+            String path = "comm_photo";
             // 首先保存图片
             File appDir = new File(Environment.getExternalStorageDirectory(), path);
             if (!appDir.exists()) {
