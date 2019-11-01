@@ -16,7 +16,7 @@ import retrofit2.http.QueryMap;
  * CreateDate: 2019/1/18 8:58
  * Description: No
  */
-
+@SuppressWarnings("unused")
 public interface ApiTemplate {
     /**
      * Get请求示例1： 无参数示例

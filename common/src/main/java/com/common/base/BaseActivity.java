@@ -92,7 +92,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void dismissDefaultLoadingView() {
-        loadingDialogFragment.dismiss();
+        if(loadingDialogFragment != null && loadingDialogFragment.isVisible()){
+            loadingDialogFragment.dismiss();
+        }
     }
 
     private List<OnBackPressedListener> onBackPressedListenerList = new ArrayList<>();
