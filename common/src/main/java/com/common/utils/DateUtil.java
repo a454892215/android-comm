@@ -97,4 +97,15 @@ public class DateUtil {
     public static String getLongTime(Long value) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(new Date(value));
     }
+
+    /**
+     * 获取格式化年月日
+     *
+     * @return yyyy-MM-dd
+     */
+    public static String getFileNameFormatDate(Date date) {
+        SimpleDateFormat format = new SimpleDateFormat(
+                "yy年MM月dd日_HH时mm分ss秒", Locale.getDefault());
+        return format.format(date);
+    }
 }

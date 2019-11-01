@@ -137,6 +137,5 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void startActivity(Class<? extends AppCompatActivity> clazz) {
         startActivity(new Intent(this, clazz));
-
     }
 }
