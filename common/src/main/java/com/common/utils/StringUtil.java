@@ -2,6 +2,7 @@ package com.common.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -44,6 +45,15 @@ public class StringUtil {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * 判断是否是手机号码
+     */
+    public static boolean isMobileNum(String mobiles) {
+        Pattern p = Pattern.compile("[1][3456789]\\d{9}");
+        Matcher m = p.matcher(mobiles);
+        return m.matches();
     }
 
 }
