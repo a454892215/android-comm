@@ -8,7 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import java.io.File;
@@ -17,7 +19,7 @@ import java.util.Date;
 
 public class ImgUtils {
     //保存文件到指定路径
-    public static boolean saveImageToGallery(Context context, Bitmap bmp) {
+    public static boolean saveImageToGallery(Context context, Bitmap bmp, String fileName) {
         try {
             String path = "comm_photo";
             // 首先保存图片
@@ -26,7 +28,7 @@ public class ImgUtils {
                 boolean mkdir = appDir.mkdir();
                 LogUtil.d("创建图片目录是否成功：" + mkdir);
             }
-            String fileName = DateUtil.getFileNameFormatDate(new Date());
+            fileName = TextUtils.isEmpty(fileName) ? DateUtil.getFileNameFormatDate(new Date()) : fileName;
             fileName = fileName + ".jpg";
             File file = new File(appDir, fileName);
 
@@ -64,7 +66,7 @@ public class ImgUtils {
                     View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY));
         }
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Drawable background = view.getBackground();
         if (background != null) {
