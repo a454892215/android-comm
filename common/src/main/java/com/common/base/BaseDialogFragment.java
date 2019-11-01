@@ -94,6 +94,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
             lp.dimAmount = dimeAmount;
             lp.x = x;
             lp.y = y;
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             window.setAttributes(lp);
             if (animStyle > 0) {
                 window.setWindowAnimations(animStyle);

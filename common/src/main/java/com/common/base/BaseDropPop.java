@@ -60,7 +60,7 @@ public abstract class BaseDropPop {
             contentView.getLocationOnScreen(location_content);
             FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) bg_transition_view.getLayoutParams();
             lp.topMargin = location_anchor[1] + anchorView.getHeight() - location_content[1] + top;
-            lp.leftMargin = left;
+            lp.leftMargin = location_anchor[0] + left - location_content[0];
             bg_transition_view.setLayoutParams(lp);
             contentView.addView(rootView);
             startEnterAnim();
