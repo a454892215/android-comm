@@ -1,4 +1,4 @@
-package com.common.widget.comm;
+package com.common.template;
 
 import android.text.TextUtils;
 import android.view.ViewGroup;
