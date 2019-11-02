@@ -13,7 +13,7 @@ public class LoadingDialogFragment extends BaseDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setAnimStyle(R.style.dialog_anim_center);
-        setDimeAmount(0.7f);
+        setDimeAmount(0.5f);
         setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         setHeight(WindowManager.LayoutParams.MATCH_PARENT);
     }
