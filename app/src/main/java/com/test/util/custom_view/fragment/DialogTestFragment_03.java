@@ -15,12 +15,11 @@ import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.common.utils.FastClickUtil;
 import com.test.util.R;
-import com.test.util.custom_view.fragment.dialog.BottomDialogFragment_2;
-import com.test.util.custom_view.fragment.dialog.DropDialogFragment;
+import com.common.base.BaseDropDialogFragment;
 
 public class DialogTestFragment_03 extends BaseFragment {
 
-    private Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class, BottomDialogFragment_2.class};
+    private Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
 
     @Override
     protected int getLayoutId() {
@@ -29,9 +28,9 @@ public class DialogTestFragment_03 extends BaseFragment {
 
     @Override
     protected void initView() {
-        DropDialogFragment drop_2 = new DropDialogFragment();
+        BaseDropDialogFragment drop_2 = new BaseDropDialogFragment();
         findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> drop_2.showAsDropDown(fm,
-                drop_2.getClass().getName(), anchorView, Math.round(dp_1 * 64)));
+                drop_2.getClass().getName(), anchorView, 0));
 
         LinearLayout llt_root = findViewById(R.id.llt_content);
         int childCount = llt_root.getChildCount();

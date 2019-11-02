@@ -43,15 +43,6 @@
             android:text="底部弹窗"
             tools:ignore="UnusedAttribute" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_35"
-            android:layout_marginTop="@dimen/dp_5"
-            android:background="#cccccc"
-            android:foreground="?selectableItemBackground"
-            android:text="底部弹窗2"
-            tools:ignore="UnusedAttribute" />
-
     </LinearLayout>
 
     <ProgressBar
