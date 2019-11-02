@@ -49,9 +49,9 @@ public class SharedPreUtils {
         editor.apply();
     }
 
-    public static float getFloat(String key) {
+    public static float getFloat(String key, float defaultValue) {
         SharedPreferences sharedPreferences = contextRef.get().getSharedPreferences(fileName, Context.MODE_PRIVATE);
-        return sharedPreferences.getFloat(key, 0.0f);
+        return sharedPreferences.getFloat(key, defaultValue);
     }
 
     public static void putFloat(String key, float value) {

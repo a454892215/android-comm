@@ -17,7 +17,7 @@ import com.common.base.BaseActivity;
  * description:No
  */
 
-
+@Deprecated
 public class PopWindowHelper {
 
     @SuppressLint("ClickableViewAccessibility")

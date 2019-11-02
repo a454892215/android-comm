@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
-
+@Deprecated
 public abstract class BasePop {
 
     private View rootView;
