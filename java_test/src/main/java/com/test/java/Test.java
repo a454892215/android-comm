@@ -1,22 +1,36 @@
 package com.test.java;
 
+
+import com.test.java.util.FileUtil;
 import com.test.java.util.LogUtil;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class Test {
 
     public static void main(String[] args) {
-        String regEx = "[^a-zA-Z0-9]|a|b|/.";  //对字母数字取反  外加 a,b,.
-        Pattern pattern = Pattern.compile(regEx);
-        Matcher matcher = pattern.matcher("abc你好吗d哈哈123.");
-        while (matcher.find()) {
-            String group = matcher.group();
-            LogUtil.d(group);
+
+        List<String> fileList = FileUtil.getAllChildFile("D:\\work\\AndroidProjects\\CommonLibaray\\Common\\app\\src\\main\\res\\layout");
+        for (int i = 0; i < fileList.size(); i++) {
+            LogUtil.d("==========file:" + fileList.get(i));
+            try {
+                //简写如下
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileList.get(i)), StandardCharsets.UTF_8));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    LogUtil.d("=============:" + line);
+                }
+                br.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
-        //     String str = matcher.replaceAll("").trim();
-        //     LogUtil.d(str);
     }
 }
 
