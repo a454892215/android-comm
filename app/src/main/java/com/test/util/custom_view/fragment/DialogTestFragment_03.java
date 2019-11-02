@@ -17,7 +17,6 @@ import com.common.utils.FastClickUtil;
 import com.test.util.R;
 import com.test.util.custom_view.fragment.dialog.BottomDialogFragment_2;
 import com.test.util.custom_view.fragment.dialog.DropDialogFragment;
-import com.test.util.custom_view.fragment.dialog.DropPop;
 
 public class DialogTestFragment_03 extends BaseFragment {
 
@@ -30,10 +29,10 @@ public class DialogTestFragment_03 extends BaseFragment {
 
     @Override
     protected void initView() {
-        DropPop drop_1 = new DropPop(activity);
         DropDialogFragment drop_2 = new DropDialogFragment();
-        findViewById(R.id.tv_drop).setOnClickListener(anchorView -> drop_1.showAsDropDown(anchorView, 0, 0));
-        findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> drop_2.showAsDropDown(fm, drop_2.getClass().getName(), anchorView, Math.round(dp_1 * 64)));
+        findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> drop_2.showAsDropDown(fm,
+                drop_2.getClass().getName(), anchorView, Math.round(dp_1 * 64)));
+
         LinearLayout llt_root = findViewById(R.id.llt_content);
         int childCount = llt_root.getChildCount();
         FragmentManager fm = getChildFragmentManager();
@@ -46,7 +45,6 @@ public class DialogTestFragment_03 extends BaseFragment {
 
         ProgressBar progress_bar = findViewById(R.id.progress_bar);
         progress_bar.setProgress(100);
-
         progress_bar.setOnClickListener(v -> {
             FastClickUtil.isFastClick(3000);
             MyCountDownTimer timer = new MyCountDownTimer(100, 30);

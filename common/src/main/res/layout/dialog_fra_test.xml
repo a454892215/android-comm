@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     android:background="#35B3EB"
     android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:ignore="HardcodedText">
 
     <TextView

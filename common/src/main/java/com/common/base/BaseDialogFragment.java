@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.R;
-import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 
 
@@ -65,7 +64,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     @Override
     public void show(FragmentManager manager, String tag) {
-        if (FastClickUtil.isFastClick(800)) return;
         if (!isAdded()) {
             super.show(manager, tag);
         }

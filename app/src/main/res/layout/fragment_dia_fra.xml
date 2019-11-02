@@ -6,16 +6,6 @@
     android:orientation="vertical"
     tools:ignore="HardcodedText">
 
-    <com.common.widget.CommonTextView
-        android:id="@+id/tv_drop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="@dimen/dp_5"
-        android:text="下拉列表"
-        android:textColor="#333333"
-        android:background="@drawable/ripple_pressed_bg_2"
-        android:textSize="@dimen/sp_12" />
 
     <com.common.widget.CommonTextView
         android:id="@+id/tv_drop_2"

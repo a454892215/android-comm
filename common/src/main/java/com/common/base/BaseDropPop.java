@@ -13,7 +13,7 @@ import com.common.utils.ViewAnimUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("unused")
+@Deprecated
 public abstract class BaseDropPop {
 
     protected ViewGroup rootView;
