@@ -37,7 +37,6 @@ public class BaseDropDialogFragment extends BaseDialogFragment {
         show(activity.fm, getClass().getName());
     }
 
-
     @Override
     protected void initView() {
     }

@@ -142,6 +142,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
         return this;
     }
 
+    public View getRootView() {
+        return rootView;
+    }
+
+
 
     protected abstract int getLayoutId();
 
