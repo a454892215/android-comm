@@ -14,6 +14,7 @@ import com.common.dialog.CenterDialogFragment;
 import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.common.utils.FastClickUtil;
+import com.test.util.MyAppApplication;
 import com.test.util.R;
 import com.common.base.BaseDropDialogFragment;
 
@@ -29,7 +30,11 @@ public class DialogTestFragment_03 extends BaseFragment {
     @Override
     protected void initView() {
         BaseDropDialogFragment drop_2 = new BaseDropDialogFragment(activity);
-        findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> drop_2.showAsDropDown(anchorView, 0, 0));
+        findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> {
+            MyAppApplication app = (MyAppApplication) activity.getApplication();
+            app.soundPoolUtil.play(0);
+            drop_2.showAsDropDown(anchorView, 0, 0);
+        });
 
         LinearLayout llt_root = findViewById(R.id.llt_content);
         int childCount = llt_root.getChildCount();

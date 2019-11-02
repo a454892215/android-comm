@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
  * Description: No
  */
 @SuppressWarnings("unused")
-public class NumberUtil {
+public class FloatUtil {
     public static String getOneDecimalNum(float accuracyValue) {
         DecimalFormat df = new DecimalFormat("0.0");
         df.setRoundingMode(RoundingMode.HALF_UP);

@@ -2,6 +2,7 @@ package com.test.util;
 
 import com.common.AppApplication;
 import com.common.utils.LogUtil;
+import com.common.helper.SoundPoolHelper;
 import com.tencent.bugly.crashreport.CrashReport;
 
 /**
@@ -12,11 +13,14 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 public class MyAppApplication extends AppApplication {
 
+    public SoundPoolHelper soundPoolUtil;
+
     @Override
     public void onCreate() {
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
+        soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
     }
 
 

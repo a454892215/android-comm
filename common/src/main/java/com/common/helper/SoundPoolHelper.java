@@ -1,4 +1,4 @@
-package com.common.utils;
+package com.common.helper;
 
 import android.content.Context;
 import android.media.AudioAttributes;
@@ -7,17 +7,18 @@ import android.media.SoundPool;
 
 import com.common.base.BaseActivity;
 import com.common.comm.timer.MyCountDownTimer;
+import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoundPoolUtil {
+public class SoundPoolHelper {
     private SoundPool soundPool;
     private Context context;
 
     private List<Integer> loadedIdList = new ArrayList<>();
 
-    public SoundPoolUtil(Context context, int... ids) {
+    public SoundPoolHelper(Context context, int... ids) {
         this.context = context;
         AudioAttributes audioAttributes = new AudioAttributes.Builder().
                 setLegacyStreamType(AudioManager.STREAM_MUSIC).build();
