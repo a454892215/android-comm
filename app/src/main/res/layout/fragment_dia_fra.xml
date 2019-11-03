@@ -55,4 +55,17 @@
         android:layout_marginEnd="@dimen/dp_20"
         android:max="100"
         android:progressDrawable="@drawable/layer_progress_bar"/>
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:maxHeight="@dimen/dp_8"
+        android:indeterminateOnly="false"
+        android:indeterminateDrawable="@color/white"
+        android:progress="20"
+        android:progressDrawable="@drawable/layer_list_seek_bar"
+        android:splitTrack="false"
+        android:thumb="@drawable/layer_seek_bar_thumb" />
 </LinearLayout>

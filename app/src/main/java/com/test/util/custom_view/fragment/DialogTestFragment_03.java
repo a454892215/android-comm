@@ -3,6 +3,7 @@ package com.test.util.custom_view.fragment;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
@@ -53,6 +54,29 @@ public class DialogTestFragment_03 extends BaseFragment {
             MyCountDownTimer timer = new MyCountDownTimer(100, 30);
             timer.setOnTickListener((time, count) -> progress_bar.setProgress(count));
             timer.start();
+        });
+
+        initSeekBar(findViewById(R.id.seek_bar));
+    }
+
+    private void initSeekBar(SeekBar seek_bar_bg_music) {
+        seek_bar_bg_music.setMax(50);
+        seek_bar_bg_music.setProgress(100);
+        seek_bar_bg_music.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                this.progress = progress;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
