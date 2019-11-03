@@ -40,6 +40,7 @@ public abstract class BasePop {
 
     public void showAsDropDown(View anchorView) {
         if (rootView.getParent() == null) {
+            initView();
             int[] location_anchor = new int[2];
             int[] location_content = new int[2];
             anchorView.getLocationOnScreen(location_anchor);
