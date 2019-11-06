@@ -1,35 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Your custom size defind by references, can be writted in anywhere, any module, any values/*.xml, for example: -->
+    <dimen name="card_common_margin_left">@dimen/dp_15</dimen>
+
     <!-- dp and sp values, must be defind in this file! -->
-    <dimen name="WheelIndicatorSize">2dp</dimen>
-    <dimen name="WheelItemSpace">12dp</dimen>
-    <dimen name="WheelItemTextSize">24dp</dimen>
-    <dimen name="WheelMargins">8dp</dimen>
     <!-- view size,you can add if there is no one -->
     <dimen name="dp_m_60">-60dp</dimen>
     <dimen name="dp_m_30">-30dp</dimen>
     <dimen name="dp_m_20">-20dp</dimen>
-    <dimen name="dp_m_18">-18dp</dimen>
-    <dimen name="dp_m_16">-16dp</dimen>
-    <dimen name="dp_m_14">-14dp</dimen>
     <dimen name="dp_m_12">-12dp</dimen>
     <dimen name="dp_m_10">-10dp</dimen>
-    <dimen name="dp_m_9">-9dp</dimen>
     <dimen name="dp_m_8">-8dp</dimen>
-    <dimen name="dp_m_7">-7dp</dimen>
-    <dimen name="dp_m_6">-6dp</dimen>
     <dimen name="dp_m_5">-5dp</dimen>
-    <dimen name="dp_m_4">-4dp</dimen>
-    <dimen name="dp_m_3">-3dp</dimen>
     <dimen name="dp_m_2">-2dp</dimen>
     <dimen name="dp_m_1">-1dp</dimen>
-
     <dimen name="dp_0">0dp</dimen>
     <dimen name="dp_0_1">0.1dp</dimen>
-    <dimen name="dp_0_2">0.2dp</dimen>
     <dimen name="dp_0_5">0.5dp</dimen>
-    <dimen name="dp_0_8">0.8dp</dimen>
     <dimen name="dp_1">1dp</dimen>
     <dimen name="dp_1_5">1.5dp</dimen>
     <dimen name="dp_2">2dp</dimen>
@@ -41,6 +29,7 @@
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_7">7dp</dimen>
+    <dimen name="dp_7_5">7.5dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_9">9dp</dimen>
     <dimen name="dp_10">10dp</dimen>
@@ -138,6 +127,7 @@
     <dimen name="dp_102">102dp</dimen>
     <dimen name="dp_103">103dp</dimen>
     <dimen name="dp_104">104dp</dimen>
+    <dimen name="dp_104_5">104.5dp</dimen>
     <dimen name="dp_105">105dp</dimen>
     <dimen name="dp_106">106dp</dimen>
     <dimen name="dp_107">107dp</dimen>
@@ -168,6 +158,7 @@
     <dimen name="dp_132">132dp</dimen>
     <dimen name="dp_133">133dp</dimen>
     <dimen name="dp_134">134dp</dimen>
+    <dimen name="dp_134_5">134.5dp</dimen>
     <dimen name="dp_135">135dp</dimen>
     <dimen name="dp_136">136dp</dimen>
     <dimen name="dp_137">137dp</dimen>
@@ -225,6 +216,7 @@
     <dimen name="dp_189">189dp</dimen>
     <dimen name="dp_190">190dp</dimen>
     <dimen name="dp_191">191dp</dimen>
+    <dimen name="dp_191_25">191.25dp</dimen>
     <dimen name="dp_192">192dp</dimen>
     <dimen name="dp_193">193dp</dimen>
     <dimen name="dp_194">194dp</dimen>
@@ -405,51 +397,35 @@
     <dimen name="dp_640">640dp</dimen>
     <dimen name="dp_720">720dp</dimen>
 
-    <!--负数-->
-    <dimen name="dpn_20">-20dp</dimen>
+    <!-- font size,you can add if there is no one -->
+    <dimen name="sp_6">6sp</dimen>
+    <dimen name="sp_7">7sp</dimen>
+    <dimen name="sp_8">8sp</dimen>
+    <dimen name="sp_9">9sp</dimen>
+    <dimen name="sp_10">10sp</dimen>
+    <dimen name="sp_11">11sp</dimen>
+    <dimen name="sp_12">12sp</dimen>
+    <dimen name="sp_13">13sp</dimen>
+    <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_15">15sp</dimen>
+    <dimen name="sp_16">16sp</dimen>
+    <dimen name="sp_17">17sp</dimen>
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="sp_19">19sp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="sp_21">21sp</dimen>
+    <dimen name="sp_22">22sp</dimen>
+    <dimen name="sp_23">23sp</dimen>
+    <dimen name="sp_24">24sp</dimen>
+    <dimen name="sp_25">25sp</dimen>
+    <dimen name="sp_28">28sp</dimen>
+    <dimen name="sp_30">30sp</dimen>
+    <dimen name="sp_32">32sp</dimen>
+    <dimen name="sp_34">34sp</dimen>
+    <dimen name="sp_36">36sp</dimen>
+    <dimen name="sp_38">38sp</dimen>
+    <dimen name="sp_40">40sp</dimen>
+    <dimen name="sp_42">42sp</dimen>
+    <dimen name="sp_48">48sp</dimen>
 
-    <!-- font size,you can add if there is no one  避免单位sp大于单位dp  sp统一使用dp做单位-->
-    <dimen name="sp_6">6dp</dimen>
-    <dimen name="sp_6_5">6.5dp</dimen>
-    <dimen name="sp_7">7dp</dimen>
-    <dimen name="sp_7_5">7.5dp</dimen>
-    <dimen name="sp_8">8dp</dimen>
-    <dimen name="sp_8_5">8.5dp</dimen>
-    <dimen name="sp_9">9dp</dimen>
-    <dimen name="sp_9_5">9.5dp</dimen>
-    <dimen name="sp_10">10dp</dimen>
-    <dimen name="sp_10_5">10.5dp</dimen>
-    <dimen name="sp_11">11dp</dimen>
-    <dimen name="sp_11_5">11.5dp</dimen>
-    <dimen name="sp_12">12dp</dimen>
-    <dimen name="sp_12_5">12.5dp</dimen>
-    <dimen name="sp_13">13dp</dimen>
-    <dimen name="sp_13_5">13.5dp</dimen>
-    <dimen name="sp_14">14dp</dimen>
-    <dimen name="sp_14_5">14.5dp</dimen>
-    <dimen name="sp_15">15dp</dimen>
-    <dimen name="sp_15_5">15.5dp</dimen>
-    <dimen name="sp_16">16dp</dimen>
-    <dimen name="sp_16_5">16.5dp</dimen>
-    <dimen name="sp_17">17dp</dimen>
-    <dimen name="sp_17_5">17.5dp</dimen>
-    <dimen name="sp_18">18dp</dimen>
-    <dimen name="sp_18_5">18.5dp</dimen>
-    <dimen name="sp_19">19dp</dimen>
-    <dimen name="sp_19_5">19.5dp</dimen>
-    <dimen name="sp_20">20dp</dimen>
-    <dimen name="sp_21">21dp</dimen>
-    <dimen name="sp_22">22dp</dimen>
-    <dimen name="sp_23">23dp</dimen>
-    <dimen name="sp_24">24dp</dimen>
-    <dimen name="sp_25">25dp</dimen>
-    <dimen name="sp_28">28dp</dimen>
-    <dimen name="sp_30">30dp</dimen>
-    <dimen name="sp_32">32dp</dimen>
-    <dimen name="sp_34">34dp</dimen>
-    <dimen name="sp_36">36dp</dimen>
-    <dimen name="sp_38">38dp</dimen>
-    <dimen name="sp_40">40dp</dimen>
-    <dimen name="sp_42">42dp</dimen>
-    <dimen name="sp_48">48dp</dimen>
 </resources>
