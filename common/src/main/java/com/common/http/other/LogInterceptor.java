@@ -34,18 +34,25 @@ public class LogInterceptor implements Interceptor {
         try {
             long threadId = Thread.currentThread().getId();
             String method = response.request().method();
+            RequestBody requestBody = response.request().body();
             ResponseBody responseBody = response.body();
             if (responseBody != null) {
+                String body = "";
+                if (requestBody != null) {
+                    Buffer buffer = new Buffer();
+                    requestBody.writeTo(buffer);
+                    body = buffer.readString(Charset.forName("UTF-8"));
+                }
+
                 BufferedSource source = responseBody.source();
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
-                Buffer buffer = source.getBuffer();
+                Buffer buffer = source.buffer();
                 String text = buffer.clone().readString(Charset.forName("UTF-8"));
-                LogUtil.d("Response: threadId:" + threadId + " method :" + method + "  message:" + response.message()
-                        + " url:" + response.request().url() + " code:" + response.code() + " 响应内容：" + text);
+                LogUtil.e("Response: threadId:" + threadId + " method :" + method + "  message:" + response.message()
+                        + " \r\nrequest url:" + response.request().url() + " \r\nrequest body:" + body + " \r\nresponse body：" + text);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.e("=========: " + e.toString());
+            LogUtil.e(e);
         }
     }
 
@@ -71,8 +78,7 @@ public class LogInterceptor implements Interceptor {
             }
             LogUtil.d("Request: threadId:" + threadId + " method:" + method + " url:" + request.url().uri() + "  body:" + body + " header:" + headerBuilder);
         } catch (Exception e) {
-            e.printStackTrace();
-            LogUtil.e(" LLpp: " + e.toString());
+            LogUtil.e(e);
         }
     }
 
