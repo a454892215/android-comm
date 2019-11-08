@@ -41,7 +41,7 @@ public class AgentWebActivity extends BaseAppActivity {
                 .setWebChromeClient(mWebViewClient)
                 .createAgentWeb()
                 .ready()
-                .go("https:www.baidu.com");
+                .go("https://www.baidu.com");
         initWebSetting();
     }
 
