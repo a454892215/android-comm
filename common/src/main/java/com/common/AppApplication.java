@@ -7,6 +7,7 @@ import com.common.utils.SharedPreUtils;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
 import com.common.x5_web.MyTbsLogClient;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 
 import org.litepal.LitePal;
@@ -24,6 +25,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
         if (isInitX5Web) initX5WebView();
         L.init(this);
         SharedPreUtils.initSp(getApplicationContext());

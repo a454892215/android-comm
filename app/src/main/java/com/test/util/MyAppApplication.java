@@ -19,7 +19,6 @@ public class MyAppApplication extends AppApplication {
     public void onCreate() {
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
-        CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
     }
 

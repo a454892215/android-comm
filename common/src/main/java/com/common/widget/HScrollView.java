@@ -12,8 +12,8 @@ import android.widget.Scroller;
 import androidx.annotation.Nullable;
 
 import com.common.R;
+import com.common.comm.L;
 import com.common.utils.LogUtil;
-import com.scwang.smartrefresh.layout.util.DensityUtil;
 
 /**
  * Author: L
@@ -41,7 +41,7 @@ public class HScrollView extends FrameLayout {
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
         mScroller = new Scroller(context);
         mScroller.forceFinished(true);
-        maxVelocity = DensityUtil.dp2px(1500);
+        maxVelocity = (int) L.dp_1 * 1500;
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
@@ -61,9 +61,9 @@ public class HScrollView extends FrameLayout {
                 break;
         }
         velocityTracker.addMovement(ev);
-        if(isConsume){
+        if (isConsume) {
             return true;
-        }else{
+        } else {
             return isChildConsume;
         }
     }

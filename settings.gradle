@@ -1,1 +1,1 @@
-include ':app', ':common', ':bugly', ':java_test'
+include ':app', ':common', ':java_test'
