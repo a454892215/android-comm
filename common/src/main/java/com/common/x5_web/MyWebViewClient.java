@@ -88,9 +88,8 @@ public class MyWebViewClient extends WebViewClient {
     }
 
     @Override
-    public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
-        super.onReceivedSslError(webView, sslErrorHandler, sslError);
-        LogUtil.d("===========onReceivedSslError=============");
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){//https 适配
+        handler.proceed();
     }
 
     @Override
