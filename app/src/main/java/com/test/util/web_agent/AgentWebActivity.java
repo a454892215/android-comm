@@ -5,13 +5,16 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -39,6 +42,12 @@ public class AgentWebActivity extends BaseAppActivity {
                 .setAgentWebParent(flt_content, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .setWebChromeClient(mWebViewClient)
+                .setWebViewClient(new WebViewClient(){ //加上Https支持
+                    @Override
+                    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
+                        handler.proceed();
+                    }
+                })
                 .createAgentWeb()
                 .ready()
                 .go("https://www.baidu.com");
