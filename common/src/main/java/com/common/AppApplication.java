@@ -1,6 +1,12 @@
 package com.common;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
+import android.os.Build;
+import android.webkit.WebView;
+
+import androidx.annotation.RequiresApi;
 
 import com.common.comm.L;
 import com.common.utils.SharedPreUtils;
@@ -22,9 +28,11 @@ public class AppApplication extends Application {
 
     protected boolean isInitX5Web = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onCreate() {
         super.onCreate();
+        setWebViewPath(this);
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
         if (isInitX5Web) initX5WebView();
         L.init(this);
@@ -40,5 +48,26 @@ public class AppApplication extends Application {
         QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
     }
 
+    @RequiresApi(api = 28)
+    public void setWebViewPath(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            String processName = getProcessName(context);
+            String packageName = getApplicationContext().getPackageName();
+            if (!packageName.equals(processName)) {//判断不等于默认进程名称
+                WebView.setDataDirectorySuffix(processName);
+            }
+        }
+    }
+
+    public String getProcessName(Context context) {
+        if (context == null) return null;
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses()) {
+            if (processInfo.pid == android.os.Process.myPid()) {
+                return processInfo.processName;
+            }
+        }
+        return null;
+    }
 
 }
