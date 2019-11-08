@@ -1,11 +1,3 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        //classpath 'com.android.tools.build:gradle:0.12.+'
-    }
-}
 apply plugin: 'com.android.application'
 
 dependencies {
@@ -16,6 +8,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
+        applicationId "com.example.jpushdemo"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
@@ -30,5 +23,19 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    flavorDimensions "f1"
+    productFlavors {
+
+        product_1 {
+            /* 完成 no */
+            applicationId "com.example.jpushdemo"
+            versionCode 102
+            versionName "1.0.2"
+            dimension "f1"
+            resValue "string", "app_name", "JPush SDK Demo"
+            resValue "bool", "auto_updates", 'true'
+        }
     }
 }

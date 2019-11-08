@@ -18,7 +18,6 @@ import java.util.Set;
 
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
- import  com.test.product_1.R;
 
 public class SettingActivity extends InstrumentedActivity implements OnClickListener {
 	TimePicker startTime;
