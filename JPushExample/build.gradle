@@ -30,7 +30,7 @@ android {
 
         product_1 {
             /* 完成 no */
-            applicationId "com.example.jpushdemo"
+            applicationId "com.test.product_1"
             versionCode 102
             versionName "1.0.2"
             dimension "f1"
