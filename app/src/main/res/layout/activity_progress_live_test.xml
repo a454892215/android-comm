@@ -10,8 +10,19 @@
     <include layout="@layout/include_header" />
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/btn_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Bugly测试" />
+        android:text="Bugly测试1" />
+    <Button
+        android:id="@+id/btn_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bugly测试2" />
+    <Button
+        android:id="@+id/btn_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bugly测试3" />
+
 </LinearLayout>

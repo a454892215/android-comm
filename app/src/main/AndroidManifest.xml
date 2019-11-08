@@ -42,7 +42,7 @@
             android:name=".XposedTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
-            android:name=".ProcessLiveTestActivity"
+            android:name=".BuglyTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity
