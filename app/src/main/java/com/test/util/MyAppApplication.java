@@ -3,7 +3,6 @@ package com.test.util;
 import com.common.AppApplication;
 import com.common.utils.LogUtil;
 import com.common.helper.SoundPoolHelper;
-import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * Author:  L
@@ -17,6 +16,7 @@ public class MyAppApplication extends AppApplication {
 
     @Override
     public void onCreate() {
+        isInitX5Web = true;
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
