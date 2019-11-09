@@ -14,6 +14,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import cn.jpush.android.api.InstrumentedActivity;
@@ -48,18 +49,18 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
    }
    
 	private void init(){
-		startTime = (TimePicker) findViewById(R.id.start_time);
-		endTime = (TimePicker) findViewById(R.id.end_time);
+		startTime = findViewById(R.id.start_time);
+		endTime = findViewById(R.id.end_time);
 		startTime.setIs24HourView(DateFormat.is24HourFormat(this));
 		endTime.setIs24HourView(DateFormat.is24HourFormat(this));
-		mSetTime = (Button)findViewById(R.id.bu_setTime);
-		mMonday = (CheckBox)findViewById(R.id.cb_monday);
-		mTuesday = (CheckBox)findViewById(R.id.cb_tuesday);
-		mWednesday = (CheckBox)findViewById(R.id.cb_wednesday);
-	    mThursday = (CheckBox)findViewById(R.id.cb_thursday);
-		mFriday = (CheckBox)findViewById(R.id.cb_friday);
-		mSaturday = (CheckBox)findViewById(R.id.cb_saturday);
-		mSunday = (CheckBox)findViewById(R.id.cb_sunday);
+		mSetTime = findViewById(R.id.bu_setTime);
+		mMonday = findViewById(R.id.cb_monday);
+		mTuesday = findViewById(R.id.cb_tuesday);
+		mWednesday = findViewById(R.id.cb_wednesday);
+	    mThursday = findViewById(R.id.cb_thursday);
+		mFriday = findViewById(R.id.cb_friday);
+		mSaturday = findViewById(R.id.cb_saturday);
+		mSunday = findViewById(R.id.cb_sunday);
 	}
   
     private void initListener(){
@@ -71,7 +72,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 	  String days = mSettings.getString(ExampleUtil.PREFS_DAYS, "");
 		if (!TextUtils.isEmpty(days)) {
 			initAllWeek(false);
-			String[] sArray = days.split(",");
+			String[] sArray = Objects.requireNonNull(days).split(",");
 			for (String day : sArray) {
 				setWeek(day);
 			}
@@ -87,12 +88,10 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.bu_setTime:
+		if (v.getId() == R.id.bu_setTime) {
 			v.requestFocus();
 			v.requestFocusFromTouch();
 			setPushTime();
-			break;
 		}
 	}
 	
@@ -106,7 +105,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 			Toast.makeText(SettingActivity.this, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		StringBuffer daysSB = new StringBuffer();
+		StringBuilder daysSB = new StringBuilder();
 		Set<Integer> days = new HashSet<Integer>();
 		if (mSunday.isChecked()) {
 			days.add(0);
@@ -145,7 +144,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 		mEditor.putString(ExampleUtil.PREFS_DAYS, daysSB.toString());
 		mEditor.putInt(ExampleUtil.PREFS_START_TIME, startime);
 		mEditor.putInt(ExampleUtil.PREFS_END_TIME, endtime);
-		mEditor.commit();
+		mEditor.apply();
 		Toast.makeText(SettingActivity.this, R.string.setting_su, Toast.LENGTH_SHORT).show();
 	}
 

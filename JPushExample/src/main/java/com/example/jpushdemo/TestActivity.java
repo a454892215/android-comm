@@ -1,5 +1,6 @@
 package com.example.jpushdemo;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import cn.jpush.android.api.JPushInterface;
 
 public class TestActivity extends Activity {
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

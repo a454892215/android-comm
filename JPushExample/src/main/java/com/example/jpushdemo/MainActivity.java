@@ -1,6 +1,7 @@
 package com.example.jpushdemo;
 
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.common.utils.LogUtil;
+
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 
@@ -20,11 +23,6 @@ import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends InstrumentedActivity implements OnClickListener{
 
-	private Button mInit;
-	private Button mSetting;
-	private Button mStopPush;
-	private Button mResumePush;
-	private Button mGetRid;
 	private TextView mRegId;
 	private EditText msgText;
 	
@@ -37,50 +35,52 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 		registerMessageReceiver();  // used for receive msg
 	}
 	
+	@SuppressLint("SetTextI18n")
 	private void initView(){
-		TextView mImei = (TextView) findViewById(R.id.tv_imei);
-		String udid =  ExampleUtil.getImei(getApplicationContext(), "");
+		TextView mImei = findViewById(R.id.tv_imei);
+		String udid =  ExampleUtil.getImei(getApplicationContext());
         if (null != udid) mImei.setText("IMEI: " + udid);
         
-		TextView mAppKey = (TextView) findViewById(R.id.tv_appkey);
+		TextView mAppKey = findViewById(R.id.tv_appkey);
 		String appKey = ExampleUtil.getAppKey(getApplicationContext());
 		if (null == appKey) appKey = "AppKey异常";
 		mAppKey.setText("AppKey: " + appKey);
 
-		mRegId = (TextView) findViewById(R.id.tv_regId);
+		mRegId = findViewById(R.id.tv_regId);
 		mRegId.setText("RegId:");
 
 		String packageName =  getPackageName();
-		TextView mPackage = (TextView) findViewById(R.id.tv_package);
+		TextView mPackage = findViewById(R.id.tv_package);
 		mPackage.setText("PackageName: " + packageName);
 
 		String deviceId = ExampleUtil.getDeviceId(getApplicationContext());
-		TextView mDeviceId = (TextView) findViewById(R.id.tv_device_id);
+		TextView mDeviceId = findViewById(R.id.tv_device_id);
 		mDeviceId.setText("deviceId:" + deviceId);
 		
 		String versionName =  ExampleUtil.GetVersion(getApplicationContext());
-		TextView mVersion = (TextView) findViewById(R.id.tv_version);
+		TextView mVersion = findViewById(R.id.tv_version);
 		mVersion.setText("Version: " + versionName);
-		
-	    mInit = (Button)findViewById(R.id.init);
+
+		Button mInit = findViewById(R.id.init);
 		mInit.setOnClickListener(this);
-		
-		mStopPush = (Button)findViewById(R.id.stopPush);
+
+		Button mStopPush = findViewById(R.id.stopPush);
 		mStopPush.setOnClickListener(this);
-		
-		mResumePush = (Button)findViewById(R.id.resumePush);
+
+		Button mResumePush = findViewById(R.id.resumePush);
 		mResumePush.setOnClickListener(this);
 
-		mGetRid = (Button) findViewById(R.id.getRegistrationId);
+		Button mGetRid = findViewById(R.id.getRegistrationId);
 		mGetRid.setOnClickListener(this);
 
-		mSetting = (Button)findViewById(R.id.setting);
+		Button mSetting = findViewById(R.id.setting);
 		mSetting.setOnClickListener(this);
 		
-		msgText = (EditText)findViewById(R.id.msg_rec);
+		msgText = findViewById(R.id.msg_rec);
 	}
 
 	
+	@SuppressLint("SetTextI18n")
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -138,7 +138,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 	//for receive customer msg from jpush server
 	private MessageReceiver mMessageReceiver;
 	public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
-	public static final String KEY_TITLE = "title";
+//	public static final String KEY_TITLE = "title";
 	public static final String KEY_MESSAGE = "message";
 	public static final String KEY_EXTRAS = "extras";
 	
@@ -159,13 +159,14 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 					String messge = intent.getStringExtra(KEY_MESSAGE);
 					String extras = intent.getStringExtra(KEY_EXTRAS);
 					StringBuilder showMsg = new StringBuilder();
-					showMsg.append(KEY_MESSAGE + " : " + messge + "\n");
+					showMsg.append(KEY_MESSAGE + " : ").append(messge).append("\n");
 					if (!ExampleUtil.isEmpty(extras)) {
-						showMsg.append(KEY_EXTRAS + " : " + extras + "\n");
+						showMsg.append(KEY_EXTRAS + " : ").append(extras).append("\n");
 					}
 					setCostomMsg(showMsg.toString());
 				}
 			} catch (Exception e){
+				LogUtil.e(e);
 			}
 		}
 	}

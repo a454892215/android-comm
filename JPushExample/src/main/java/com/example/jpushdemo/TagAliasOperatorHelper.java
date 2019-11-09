@@ -1,11 +1,15 @@
 package com.example.jpushdemo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.util.SparseArray;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import cn.jpush.android.api.JPushInterface;
@@ -14,32 +18,33 @@ import cn.jpush.android.api.JPushMessage;
 /**
  * 处理tagalias相关的逻辑
  * */
-public class TagAliasOperatorHelper {
-    private static final String TAG = "JIGUANG-TagAliasHelper";
-    public static int sequence = 1;
+class TagAliasOperatorHelper {
+    private static final String TAG = "LLpp";
+    static int sequence = 1;
     /**增加*/
-    public static final int ACTION_ADD = 1;
+    static final int ACTION_ADD = 1;
     /**覆盖*/
-    public static final int ACTION_SET = 2;
+    static final int ACTION_SET = 2;
     /**删除部分*/
-    public static final int ACTION_DELETE = 3;
+    static final int ACTION_DELETE = 3;
     /**删除所有*/
-    public static final int ACTION_CLEAN = 4;
+    static final int ACTION_CLEAN = 4;
     /**查询*/
-    public static final int ACTION_GET = 5;
+    static final int ACTION_GET = 5;
 
-    public static final int ACTION_CHECK = 6;
+    static final int ACTION_CHECK = 6;
 
-    public static final int DELAY_SEND_ACTION = 1;
+    private static final int DELAY_SEND_ACTION = 1;
 
-    public static final int DELAY_SET_MOBILE_NUMBER_ACTION = 2;
+    private static final int DELAY_SET_MOBILE_NUMBER_ACTION = 2;
 
     private Context context;
 
+    @SuppressLint("StaticFieldLeak")
     private static TagAliasOperatorHelper mInstance;
     private TagAliasOperatorHelper(){
     }
-    public static TagAliasOperatorHelper getInstance(){
+    static TagAliasOperatorHelper getInstance(){
         if(mInstance == null){
             synchronized (TagAliasOperatorHelper.class){
                 if(mInstance == null){
@@ -49,71 +54,73 @@ public class TagAliasOperatorHelper {
         }
         return mInstance;
     }
-    public void init(Context context){
+    private void init(Context context){
         if(context != null) {
             this.context = context.getApplicationContext();
         }
     }
-    private SparseArray<Object> setActionCache = new SparseArray<Object>();
 
-    public Object get(int sequence){
+    private SparseArray<Object> setActionCache = new SparseArray<>();
+
+/*    public Object get(int sequence){
         return setActionCache.get(sequence);
     }
     public Object remove(int sequence){
         return setActionCache.get(sequence);
-    }
-    public void put(int sequence,Object tagAliasBean){
+    }*/
+    private void put(int sequence, Object tagAliasBean){
         setActionCache.put(sequence,tagAliasBean);
     }
+    @SuppressLint("HandlerLeak")
     private Handler delaySendHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case DELAY_SEND_ACTION:
-                    if(msg.obj !=null && msg.obj instanceof  TagAliasBean){
-                        Logger.i(TAG,"on delay time");
+                    if(msg.obj instanceof TagAliasBean){
+                        Logger.i("on delay time");
                         sequence++;
                         TagAliasBean tagAliasBean = (TagAliasBean) msg.obj;
                         setActionCache.put(sequence, tagAliasBean);
                         if(context!=null) {
                             handleAction(context, sequence, tagAliasBean);
                         }else{
-                            Logger.e(TAG,"#unexcepted - context was null");
+                            Logger.e("#unexcepted - context was null");
                         }
                     }else{
-                        Logger.w(TAG,"#unexcepted - msg obj was incorrect");
+                        Logger.w("#unexcepted - msg obj was incorrect");
                     }
                     break;
                 case DELAY_SET_MOBILE_NUMBER_ACTION:
-                    if(msg.obj !=null && msg.obj instanceof  String) {
-                        Logger.i(TAG, "retry set mobile number");
+                    if(msg.obj instanceof String) {
+                        Logger.i("retry set mobile number");
                         sequence++;
                         String mobileNumber = (String) msg.obj;
                         setActionCache.put(sequence, mobileNumber);
                         if(context !=null) {
                             handleAction(context, sequence, mobileNumber);
                         }else {
-                            Logger.e(TAG, "#unexcepted - context was null");
+                            Logger.e("#unexcepted - context was null");
                         }
                     }else{
-                        Logger.w(TAG,"#unexcepted - msg obj was incorrect");
+                        Logger.w("#unexcepted - msg obj was incorrect");
                     }
                     break;
             }
         }
     };
-    public void handleAction(Context context,int sequence,String mobileNumber){
+    void handleAction(Context context, int sequence, String mobileNumber){
         put(sequence,mobileNumber);
-        Logger.d(TAG,"sequence:"+sequence+",mobileNumber:"+mobileNumber);
+        Logger.d("sequence:"+sequence+",mobileNumber:"+mobileNumber);
         JPushInterface.setMobileNumber(context,sequence,mobileNumber);
     }
     /**
      * 处理设置tag
      * */
-    public void handleAction(Context context,int sequence, TagAliasBean tagAliasBean){
+    void handleAction(Context context, int sequence, TagAliasBean tagAliasBean){
         init(context);
         if(tagAliasBean == null){
-            Logger.w(TAG,"tagAliasBean was null");
+            Logger.w("tagAliasBean was null");
             return;
         }
         put(sequence,tagAliasBean);
@@ -129,8 +136,7 @@ public class TagAliasOperatorHelper {
                     JPushInterface.setAlias(context,sequence,tagAliasBean.alias);
                     break;
                 default:
-                    Logger.w(TAG,"unsupport alias action type");
-                    return;
+                    Logger.w("unsupport alias action type");
             }
         }else {
             switch (tagAliasBean.action) {
@@ -145,7 +151,7 @@ public class TagAliasOperatorHelper {
                     break;
                 case ACTION_CHECK:
                     //一次只能check一个tag
-                    String tag = (String)tagAliasBean.tags.toArray()[0];
+                    String tag = (String) Objects.requireNonNull(tagAliasBean.tags.toArray())[0];
                     JPushInterface.checkTagBindState(context,sequence,tag);
                     break;
                 case ACTION_GET:
@@ -155,19 +161,18 @@ public class TagAliasOperatorHelper {
                     JPushInterface.cleanTags(context, sequence);
                     break;
                 default:
-                    Logger.w(TAG,"unsupport tag action type");
-                    return;
+                    Logger.w("unsupport tag action type");
             }
         }
     }
     private boolean RetryActionIfNeeded(int errorCode,TagAliasBean tagAliasBean){
-        if(!ExampleUtil.isConnected(context)){
-            Logger.w(TAG,"no network");
+        if(ExampleUtil.isConnected(context)){
+            Logger.w("no network");
             return false;
         }
         //返回的错误码为6002 超时,6014 服务器繁忙,都建议延迟重试
         if(errorCode == 6002 || errorCode == 6014){
-            Logger.d(TAG,"need retry");
+            Logger.d("need retry");
             if(tagAliasBean!=null){
                 Message message = new Message();
                 message.what = DELAY_SEND_ACTION;
@@ -181,13 +186,13 @@ public class TagAliasOperatorHelper {
         return false;
     }
     private boolean RetrySetMObileNumberActionIfNeeded(int errorCode,String mobileNumber){
-        if(!ExampleUtil.isConnected(context)){
-            Logger.w(TAG,"no network");
+        if(ExampleUtil.isConnected(context)){
+            Logger.w("no network");
             return false;
         }
         //返回的错误码为6002 超时,6024 服务器内部错误,建议稍后重试
         if(errorCode == 6002 || errorCode == 6024){
-            Logger.d(TAG,"need retry");
+            Logger.d("need retry");
             Message message = new Message();
             message.what = DELAY_SET_MOBILE_NUMBER_ACTION;
             message.obj = mobileNumber;
@@ -223,10 +228,10 @@ public class TagAliasOperatorHelper {
         }
         return "unkonw operation";
     }
-    public void onTagOperatorResult(Context context, JPushMessage jPushMessage) {
+    void onTagOperatorResult(Context context, JPushMessage jPushMessage) {
         int sequence = jPushMessage.getSequence();
-        Logger.i(TAG,"action - onTagOperatorResult, sequence:"+sequence+",tags:"+jPushMessage.getTags());
-        Logger.i(TAG,"tags size:"+jPushMessage.getTags().size());
+        Logger.i("action - onTagOperatorResult, sequence:"+sequence+",tags:"+jPushMessage.getTags());
+        Logger.i("tags size:"+jPushMessage.getTags().size());
         init(context);
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = (TagAliasBean)setActionCache.get(sequence);
@@ -235,10 +240,10 @@ public class TagAliasOperatorHelper {
             return;
         }
         if(jPushMessage.getErrorCode() == 0){
-            Logger.i(TAG,"action - modify tag Success,sequence:"+sequence);
+            Logger.i("action - modify tag Success,sequence:"+sequence);
             setActionCache.remove(sequence);
             String logs = getActionStr(tagAliasBean.action)+" tags success";
-            Logger.i(TAG,logs);
+            Logger.i(logs);
             ExampleUtil.showToast(logs, context);
         }else{
             String logs = "Failed to " + getActionStr(tagAliasBean.action)+" tags";
@@ -247,15 +252,15 @@ public class TagAliasOperatorHelper {
                 logs += ", tags is exceed limit need to clean";
             }
             logs += ", errorCode:" + jPushMessage.getErrorCode();
-            Logger.e(TAG, logs);
+            Logger.e(logs);
             if(!RetryActionIfNeeded(jPushMessage.getErrorCode(),tagAliasBean)) {
                 ExampleUtil.showToast(logs, context);
             }
         }
     }
-    public void onCheckTagOperatorResult(Context context, JPushMessage jPushMessage){
+    void onCheckTagOperatorResult(Context context, JPushMessage jPushMessage){
         int sequence = jPushMessage.getSequence();
-        Logger.i(TAG,"action - onCheckTagOperatorResult, sequence:"+sequence+",checktag:"+jPushMessage.getCheckTag());
+        Logger.i("action - onCheckTagOperatorResult, sequence:"+sequence+",checktag:"+jPushMessage.getCheckTag());
         init(context);
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = (TagAliasBean)setActionCache.get(sequence);
@@ -264,22 +269,22 @@ public class TagAliasOperatorHelper {
             return;
         }
         if(jPushMessage.getErrorCode() == 0){
-            Logger.i(TAG,"tagBean:"+tagAliasBean);
+            Logger.i("tagBean:"+tagAliasBean);
             setActionCache.remove(sequence);
             String logs = getActionStr(tagAliasBean.action)+" tag "+jPushMessage.getCheckTag() + " bind state success,state:"+jPushMessage.getTagCheckStateResult();
-            Logger.i(TAG,logs);
+            Logger.i(logs);
             ExampleUtil.showToast(logs, context);
         }else{
             String logs = "Failed to " + getActionStr(tagAliasBean.action)+" tags, errorCode:" + jPushMessage.getErrorCode();
-            Logger.e(TAG, logs);
+            Logger.e(logs);
             if(!RetryActionIfNeeded(jPushMessage.getErrorCode(),tagAliasBean)) {
                 ExampleUtil.showToast(logs, context);
             }
         }
     }
-    public void onAliasOperatorResult(Context context, JPushMessage jPushMessage) {
+    void onAliasOperatorResult(Context context, JPushMessage jPushMessage) {
         int sequence = jPushMessage.getSequence();
-        Logger.i(TAG,"action - onAliasOperatorResult, sequence:"+sequence+",alias:"+jPushMessage.getAlias());
+        Logger.i("action - onAliasOperatorResult, sequence:"+sequence+",alias:"+jPushMessage.getAlias());
         init(context);
         //根据sequence从之前操作缓存中获取缓存记录
         TagAliasBean tagAliasBean = (TagAliasBean)setActionCache.get(sequence);
@@ -288,30 +293,30 @@ public class TagAliasOperatorHelper {
             return;
         }
         if(jPushMessage.getErrorCode() == 0){
-            Logger.i(TAG,"action - modify alias Success,sequence:"+sequence);
+            Logger.i("action - modify alias Success,sequence:"+sequence);
             setActionCache.remove(sequence);
             String logs = getActionStr(tagAliasBean.action)+" alias success";
-            Logger.i(TAG,logs);
+            Logger.i(logs);
             ExampleUtil.showToast(logs, context);
         }else{
             String logs = "Failed to " + getActionStr(tagAliasBean.action)+" alias, errorCode:" + jPushMessage.getErrorCode();
-            Logger.e(TAG, logs);
+            Logger.e(logs);
             if(!RetryActionIfNeeded(jPushMessage.getErrorCode(),tagAliasBean)) {
                 ExampleUtil.showToast(logs, context);
             }
         }
     }
     //设置手机号码回调
-    public void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
+    void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
         int sequence = jPushMessage.getSequence();
-        Logger.i(TAG,"action - onMobileNumberOperatorResult, sequence:"+sequence+",mobileNumber:"+jPushMessage.getMobileNumber());
+        Logger.i("action - onMobileNumberOperatorResult, sequence:"+sequence+",mobileNumber:"+jPushMessage.getMobileNumber());
         init(context);
         if(jPushMessage.getErrorCode() == 0){
-            Logger.i(TAG,"action - set mobile number Success,sequence:"+sequence);
+            Logger.i("action - set mobile number Success,sequence:"+sequence);
             setActionCache.remove(sequence);
         }else{
             String logs = "Failed to set mobile number, errorCode:" + jPushMessage.getErrorCode();
-            Logger.e(TAG, logs);
+            Logger.e(logs);
             if(!RetrySetMObileNumberActionIfNeeded(jPushMessage.getErrorCode(),jPushMessage.getMobileNumber())){
                 ExampleUtil.showToast(logs, context);
             }
@@ -323,6 +328,7 @@ public class TagAliasOperatorHelper {
         String alias;
         boolean isAliasAction;
 
+        @NotNull
         @Override
         public String toString() {
             return "TagAliasBean{" +

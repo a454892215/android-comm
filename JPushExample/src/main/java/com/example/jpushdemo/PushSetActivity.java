@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +18,6 @@ import cn.jpush.android.api.CustomPushNotificationBuilder;
 import cn.jpush.android.api.InstrumentedActivity;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.MultiActionsNotificationBuilder;
-import cn.jpush.android.api.TagAliasCallback;
 
 import static com.example.jpushdemo.TagAliasOperatorHelper.ACTION_ADD;
 import static com.example.jpushdemo.TagAliasOperatorHelper.ACTION_CHECK;
@@ -32,7 +30,7 @@ import static com.example.jpushdemo.TagAliasOperatorHelper.sequence;
 
 
 public class PushSetActivity extends InstrumentedActivity implements OnClickListener {
-    private static final String TAG = "JIGUANG-Example";
+//    private static final String TAG = "JIGUANG-Example";
 
     @Override
     public void onCreate(Bundle icicle) {
@@ -95,12 +93,12 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
         }
     }
 
-    TagAliasCallback tagAlias = new TagAliasCallback() {
+/*    TagAliasCallback tagAlias = new TagAliasCallback() {
         @Override
         public void gotResult(int responseCode, String alias, Set<String> tags) {
             Log.e(TAG,"responseCode:"+responseCode+",alias:"+alias+",tags:"+tags);
         }
-    };
+    };*/
 
 
     /**
@@ -146,9 +144,8 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
     }
 
 
-    /**===========================================================================**/
-    /**=========================TAG/ALIAS 相关=====================================**/
-    /**===========================================================================**/
+
+    /*=========================TAG/ALIAS 相关=====================================**/
 
     /**
      * 处理tag/alias相关操作的点击
@@ -156,7 +153,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
     public void onTagAliasAction(View view) {
         Set<String> tags = null;
         String alias = null;
-        int action = -1;
+        int action;
         boolean isAliasAction = false;
         switch (view.getId()){
             //设置手机号码:
@@ -237,7 +234,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
     }
 
     private void handleSetMobileNumber(){
-        EditText mobileEdit = (EditText) findViewById(R.id.et_mobilenumber);
+        EditText mobileEdit = findViewById(R.id.et_mobilenumber);
         String mobileNumber = mobileEdit.getText().toString().trim();
         if (TextUtils.isEmpty(mobileNumber)) {
             Toast.makeText(getApplicationContext(), R.string.mobilenumber_empty_guide, Toast.LENGTH_SHORT).show();
@@ -253,7 +250,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
      * 获取输入的alias
      * */
     private String getInPutAlias(){
-        EditText aliasEdit = (EditText) findViewById(R.id.et_alias);
+        EditText aliasEdit = findViewById(R.id.et_alias);
         String alias = aliasEdit.getText().toString().trim();
         if (TextUtils.isEmpty(alias)) {
             Toast.makeText(getApplicationContext(), R.string.error_alias_empty, Toast.LENGTH_SHORT).show();
@@ -269,7 +266,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
      * 获取输入的tags
      * */
     private Set<String> getInPutTags(){
-        EditText tagEdit = (EditText) findViewById(R.id.et_tag);
+        EditText tagEdit = findViewById(R.id.et_tag);
         String tag = tagEdit.getText().toString().trim();
         // 检查 tag 的有效性
         if (TextUtils.isEmpty(tag)) {
@@ -279,7 +276,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 
         // ","隔开的多个 转换成 Set
         String[] sArray = tag.split(",");
-        Set<String> tagSet = new LinkedHashSet<String>();
+        Set<String> tagSet = new LinkedHashSet<>();
         for (String sTagItme : sArray) {
             if (!ExampleUtil.isValidTagAndAlias(sTagItme)) {
                 Toast.makeText(getApplicationContext(), R.string.error_tag_gs_empty, Toast.LENGTH_SHORT).show();
