@@ -8,7 +8,7 @@ import cn.jpush.android.api.JPushInterface;
  * 
  * 一般建议在自定义 Application 类里初始化。也可以在主 Activity 里。
  */
-public class ExampleApplication extends Application {
+public class MyApplication extends Application {
 
     @Override
     public void onCreate() {    	     

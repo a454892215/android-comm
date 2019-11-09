@@ -38,7 +38,7 @@
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
         android:label="JG"
-        android:name="com.example.jpushdemo.ExampleApplication"
+        android:name="com.example.jpushdemo.MyApplication"
         tools:ignore="GoogleAppIndexingWarning">
 
         <!-- For test only 测试的主程序-->

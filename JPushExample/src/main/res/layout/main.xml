@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/tiledstripes">
+    tools:ignore="HardcodedText"
+    android:background="#D6B0B0">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -50,21 +52,21 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dip"
-            android:text="initPush" />
+            android:text="初始化推送" />
 
         <Button
             android:id="@+id/stopPush"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dip"
-            android:text="stopPush" />
+            android:text="停止推送" />
 
         <Button
             android:id="@+id/resumePush"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dip"
-            android:text="resumePush" />
+            android:text="resume推送" />
 
         <Button
             android:id="@+id/getRegistrationId"
