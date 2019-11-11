@@ -71,7 +71,8 @@ android {
         variant.outputs.all {
             def appInfo = "V" + variant.versionName + getAppInfo() + variant.name
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
-            outputFileName = appInfo + ".apk"
+            variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
+            outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
 }
@@ -109,7 +110,7 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
     //如果需要引入文档，方便查看的话
     compileOnly 'de.robv.android.xposed:api:82:sources'
-      // ViewModel和LiveData依赖
+    // ViewModel和LiveData依赖
     implementation "android.arch.lifecycle:extensions:1.1.1"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
 }

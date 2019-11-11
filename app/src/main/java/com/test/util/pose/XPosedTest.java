@@ -22,7 +22,7 @@ public class XPosedTest implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         XPLogUtil.log("packageName: " + loadPackageParam.packageName);
-        LogUtil.d("=====handleLoadPackage========packageName:" + loadPackageParam.packageName + " 进程名：" + loadPackageParam.processName);
+        XPLogUtil.log("=====handleLoadPackage========packageName:" + loadPackageParam.packageName + " 进程名：" + loadPackageParam.processName);
         //    onTestApp(lpparam);
         startHook();
     }
@@ -40,7 +40,7 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 super.afterHookedMethod(param);
                 //获取hook的activity 对象
                 Activity activity = (Activity) param.thisObject;
-                LogUtil.d("=========afterHookedMethod======param.method:" + param.method +
+                XPLogUtil.log("=========afterHookedMethod======param.method:" + param.method +
                         "  param.thisObject:" + param.thisObject + "   param:" + param);
                 activity.runOnUiThread(() -> ToastUtil.showLong(activity, "我是hook的toast3:" + activity.getClass().getSimpleName()));
             }
