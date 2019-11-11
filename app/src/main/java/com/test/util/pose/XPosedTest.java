@@ -9,7 +9,6 @@ import com.test.util.BuildConfig;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -21,32 +20,32 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class XPosedTest implements IXposedHookLoadPackage {
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        XPLogUtil.log("packageName: " + lpparam.packageName);
-    //    onTestApp(lpparam);
-        onGageIo(lpparam);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        XPLogUtil.log("packageName: " + loadPackageParam.packageName);
+        LogUtil.d("=====handleLoadPackage========packageName:" + loadPackageParam.packageName + " 进程名：" + loadPackageParam.processName);
+        //    onTestApp(lpparam);
+        startHook();
     }
 
-    private void onGageIo(XC_LoadPackage.LoadPackageParam lpparam) {
-    //    if (lpparam.packageName.equals("com.test.kd")) {
-            XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                }
+    private void startHook() {
+        // hook 所有Activity的onCreate函数
+        XposedHelpers.findAndHookMethod(Activity.class, "onCreate", Bundle.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                super.beforeHookedMethod(param);
+            }
 
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    Activity activity = (Activity) param.thisObject;
-
-                    activity.runOnUiThread(()->{
-                        ToastUtil.showLong(activity, "我是hook的toast3:"+activity.getClass().getSimpleName());
-                    });
-                    XPLogUtil.log("activity:" + activity);
-                }
-            });
-     //   }
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+                //获取hook的activity 对象
+                Activity activity = (Activity) param.thisObject;
+                LogUtil.d("=========afterHookedMethod======param.method:" + param.method +
+                        "  param.thisObject:" + param.thisObject + "   param:" + param);
+                activity.runOnUiThread(() -> ToastUtil.showLong(activity, "我是hook的toast3:" + activity.getClass().getSimpleName()));
+            }
+        });
+        //   }
 
 
     }

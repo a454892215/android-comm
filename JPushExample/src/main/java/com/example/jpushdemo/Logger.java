@@ -1,39 +1,40 @@
 package com.example.jpushdemo;
 
-import android.util.Log;
+import com.common.utils.LogUtil;
 
-/**
- * Created by efan on 2017/4/13.
- */
 
 class Logger {
 
     //设为false关闭日志
     private static final boolean LOG_ENABLE = true;
 
-    static void i(String msg){
-        if (LOG_ENABLE){
-            Log.i("LLpp", msg);
+    static void i(String msg) {
+        if (LOG_ENABLE) {
+            LogUtil.i(msg);
         }
     }
-    static void v(String msg){
-        if (LOG_ENABLE){
-            Log.v("LLpp", msg);
+
+    static void v(String msg) {
+        if (LOG_ENABLE) {
+            LogUtil.v(msg);
         }
     }
-    static void d(String msg){
-        if (LOG_ENABLE){
-            Log.d("LLpp", msg);
+
+    static void d(String msg) {
+        if (LOG_ENABLE) {
+            LogUtil.d(msg);
         }
     }
-    static void w(String msg){
-        if (LOG_ENABLE){
-            Log.w("LLpp", msg);
+
+    static void w(String msg) {
+        if (LOG_ENABLE) {
+            LogUtil.w(msg);
         }
     }
-    static void e(String msg){
-        if (LOG_ENABLE){
-            Log.e("LLpp", msg);
+
+    static void e(String msg) {
+        if (LOG_ENABLE) {
+            LogUtil.e(msg);
         }
     }
 
