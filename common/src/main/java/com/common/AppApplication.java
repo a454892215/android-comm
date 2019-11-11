@@ -6,8 +6,6 @@ import android.content.Context;
 import android.os.Build;
 import android.webkit.WebView;
 
-import androidx.annotation.RequiresApi;
-
 import com.common.comm.L;
 import com.common.utils.SharedPreUtils;
 import com.common.x5_web.MyPreInitCallback;
@@ -28,7 +26,7 @@ public class AppApplication extends Application {
 
     protected boolean isInitX5Web = false;
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -48,7 +46,7 @@ public class AppApplication extends Application {
         QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
     }
 
-    @RequiresApi(api = 28)
+
     public void setWebViewPath(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             String processName = getProcessName(context);

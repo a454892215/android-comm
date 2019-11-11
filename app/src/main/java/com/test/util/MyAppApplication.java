@@ -20,6 +20,7 @@ public class MyAppApplication extends AppApplication {
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
+        LogUtil.i("==============:"+BuildConfig.app_info);
     }
 
 
