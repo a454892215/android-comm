@@ -16,6 +16,18 @@ public class FloatUtil {
         return df.format(accuracyValue);
     }
 
+    public static String getTwoDecimalNum(String floatValue) {
+        if (StringUtil.isFloat(floatValue)) {
+            DecimalFormat df = new DecimalFormat("0.00");
+            df.setRoundingMode(RoundingMode.HALF_UP);//四舍五入
+            return df.format(Float.parseFloat(floatValue));
+        } else {
+            LogUtil.e("非法数据，不能保留2位小数");
+            return "0.00";
+        }
+    }
+
+
     /**
      * 0 指前面补充零
      * numLength 字符总长度为 formatLength
