@@ -21,9 +21,15 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class XPosedTest implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+
         XPLogUtil.log("packageName: " + loadPackageParam.packageName);
         XPLogUtil.log("=====handleLoadPackage========packageName:" + loadPackageParam.packageName + " 进程名：" + loadPackageParam.processName);
         //    onTestApp(lpparam);
+        try {
+            onTestApp(loadPackageParam);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         startHook();
     }
 

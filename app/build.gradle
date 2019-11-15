@@ -71,7 +71,7 @@ android {
         variant.outputs.all {
             def appInfo = "V" + variant.versionName + getAppInfo() + variant.name
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
-            variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
+         //   variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
             outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
