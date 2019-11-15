@@ -23,7 +23,7 @@ public class MyCountDownTimer extends CountDownTimer {
     }
 
     public MyCountDownTimer(int maxExecuteCount, long countDownInterval) {
-        super(Long.MAX_VALUE, countDownInterval);
+        super(maxExecuteCount * countDownInterval, countDownInterval);
         this.maxExecuteCount = maxExecuteCount;
     }
 
