@@ -44,4 +44,12 @@ public class TimeComputeUtil {
         return seconds;
     }
 
+    public String getSecondsStr(){
+        return StringUtil.addZeroOnLessTen(seconds);
+    }
+
+    public String getMinutesStr(){
+        return StringUtil.addZeroOnLessTen(minutes);
+    }
+
 }

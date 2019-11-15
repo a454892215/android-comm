@@ -56,4 +56,8 @@ public class StringUtil {
         return m.matches();
     }
 
+    public static String addZeroOnLessTen(long num) {
+        return num < 10 ? "0" + num : num + "";
+    }
+
 }
