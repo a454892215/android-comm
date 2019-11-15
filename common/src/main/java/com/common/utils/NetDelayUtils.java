@@ -26,7 +26,7 @@ public class NetDelayUtils {
     }
 
     public void startShowNetSpeed() {
-        MyCountDownTimer myCountDownTimer = new MyCountDownTimer(Long.MAX_VALUE, 3000);
+        MyCountDownTimer myCountDownTimer = new MyCountDownTimer(Integer.MAX_VALUE, 3000);
         myCountDownTimer.setOnTickListener((time, count) -> start());
         BaseActivity baseActivity = weakReference.get();
         baseActivity.addOnPauseListener(myCountDownTimer::cancel);
