@@ -154,7 +154,12 @@ public class ViewUtil {
         for (int i = 0; i < allChildViews.size(); i++) {
             View childView = allChildViews.get(i);
             if (childView instanceof TextView) {
-                ((TextView) childView).setTypeface(typeface);
+                int style = Typeface.NORMAL;
+                Typeface typeface1 = ((TextView) childView).getTypeface();
+                if (typeface1 != null) {
+                    style = typeface1.getStyle();
+                }
+                ((TextView) childView).setTypeface(typeface, style);
             }
         }
     }
