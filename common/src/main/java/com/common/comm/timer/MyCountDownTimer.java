@@ -1,8 +1,8 @@
 package com.common.comm.timer;
 
-import com.common.base.BaseActivity;
+import android.os.CountDownTimer;
 
-import java.lang.ref.WeakReference;
+import com.common.base.BaseActivity;
 
 /**
  * Author:  L
@@ -15,8 +15,6 @@ public class MyCountDownTimer extends CountDownTimer {
     private OnTickListener onLastTickListener;
     private int executeCount = 0;
     private int maxExecuteCount;//最大执行次数,初始值要小于count最小值
-    private WeakReference<BaseActivity> weakReference;
-    private boolean isBingActivity = false;
     private long countDownInterval;
 
     public MyCountDownTimer(int maxExecuteCount, long countDownInterval) {
@@ -30,25 +28,12 @@ public class MyCountDownTimer extends CountDownTimer {
     public void onTick(long millisUntilFinished) {
         long finishedTime = Long.MAX_VALUE - millisUntilFinished; //完成时间
         long remainTime = maxExecuteCount * countDownInterval - finishedTime;//剩余时间
-
-        if (isBingActivity) {
-            BaseActivity baseActivity = weakReference.get();
-            if (baseActivity != null && baseActivity.isShowing()) {
-                if (onTickListener != null) {
-                    onTickListener.onTick(remainTime, ++executeCount);
-                }
-            } else {
-                this.cancel();
-            }
-        } else {
-            executeCount++;
-            if (onTickListener != null) {
-                onTickListener.onTick(remainTime, executeCount);
-            }
-            if (onLastTickListener != null && executeCount >= maxExecuteCount) {
-                onLastTickListener.onTick(remainTime, executeCount);
-            }
-
+        executeCount++;
+        if (onTickListener != null) {
+            onTickListener.onTick(remainTime, executeCount);
+        }
+        if (onLastTickListener != null && executeCount >= maxExecuteCount) {
+            onLastTickListener.onTick(remainTime, executeCount);
         }
         if (executeCount >= maxExecuteCount) this.cancel();
     }
@@ -66,10 +51,8 @@ public class MyCountDownTimer extends CountDownTimer {
         this.onLastTickListener = onLastTickListener;
     }
 
-    public MyCountDownTimer bindActivity(BaseActivity baseActivity) {
-        this.isBingActivity = true;
-        weakReference = new WeakReference<>(baseActivity);
-        return this;
+    public void bindActivity(BaseActivity baseActivity) {
+        baseActivity.addOnPauseListener(this::cancel);
     }
 
 }
