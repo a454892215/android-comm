@@ -8,8 +8,16 @@ import java.text.DecimalFormat;
 public class Test {
 
     public static void main(String[] args) {
+        for (int i = 0; i < 20000; i++) {
+            String s = ((char) (Math.random() * 26 + 'a')) + "";
 
-        LogUtil.d("=============getTwoDecimalNum:" + getTwoDecimalNum(0.226f));
+            if(!s.matches("[a-z]")){
+                LogUtil.d("   ==============:"+s);
+            }
+
+
+        }
+
     }
 
     public static String getTwoDecimalNum(float accuracyValue) {
