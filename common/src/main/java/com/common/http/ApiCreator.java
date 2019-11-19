@@ -48,7 +48,6 @@ public class ApiCreator implements IApiCreator {
     @Override
     public OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.retryOnConnectionFailure(false);
         if(logEnable){
             builder.addInterceptor(new LogInterceptor());
         }
