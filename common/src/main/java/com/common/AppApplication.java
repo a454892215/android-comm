@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.webkit.WebView;
 
+import com.common.bugs.CrashHandler;
 import com.common.comm.L;
 import com.common.utils.SharedPreUtils;
 import com.common.x5_web.MyPreInitCallback;
@@ -30,8 +31,9 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        setWebViewPath(this);
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
+        setWebViewPath(this);
         if (isInitX5Web) initX5WebView();
         L.init(this);
         SharedPreUtils.initSp(getApplicationContext());
