@@ -1,4 +1,4 @@
-package com.common.comm;
+package com.common.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-public class AssertsResourceLoader {
+public class AssertsUtil {
 
     public static Bitmap getImageFromAssetsFile(Context context, String fileName) {
         Bitmap bitmap = null;

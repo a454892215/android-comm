@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.common.R;
-import com.common.comm.AssertsResourceLoader;
+import com.common.utils.AssertsUtil;
 import com.common.entity.ProvinceEntity;
 import com.common.helper.GsonHelper;
 
@@ -40,7 +40,7 @@ public class CityPickerView extends FrameLayout {
     }
 
     private void init() {
-        String text = AssertsResourceLoader.getText(context, "china_city.txt");
+        String text = AssertsUtil.getText(context, "china_city.txt");
         ProvinceEntity[] provinceArr = GsonHelper.getEntity(text, ProvinceEntity[].class);
         currentProvinceList = Arrays.asList(provinceArr);
         currentCityList = currentProvinceList.get(0).getCityList();
