@@ -9,9 +9,11 @@ import android.view.KeyEvent;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseAppRVAdapter;
+import com.common.comm.timer.MyTimer;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.common.utils.LogUtil;
 import com.test.util.Constant;
 import com.test.util.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
@@ -51,8 +53,12 @@ public class MainActivity extends BaseAppActivity {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         });
 
-    }
+        MyTimer myTimer = new MyTimer(1000 * 20, 1000);
+        myTimer.setOnTickListener(millisUntilFinished -> LogUtil.d("===================:" + millisUntilFinished/1000f + "  count:" + count++));
+        myTimer.start();
 
+    }
+    int count = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

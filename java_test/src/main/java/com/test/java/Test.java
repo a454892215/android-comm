@@ -4,19 +4,13 @@ import com.test.java.util.LogUtil;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Test {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 20000; i++) {
-            String s = ((char) (Math.random() * 26 + 'a')) + "";
 
-            if(!s.matches("[a-z]")){
-                LogUtil.d("   ==============:"+s);
-            }
-
-
-        }
 
     }
 

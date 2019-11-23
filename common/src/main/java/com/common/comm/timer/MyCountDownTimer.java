@@ -9,6 +9,7 @@ import com.common.base.BaseActivity;
  * CreateDate: 2018/9/7 10:23
  * Description: No
  */
+
 @SuppressWarnings("unused")
 public class MyCountDownTimer extends CountDownTimer {
     private OnTickListener onTickListener;
@@ -35,7 +36,6 @@ public class MyCountDownTimer extends CountDownTimer {
         if (onLastTickListener != null && executeCount >= maxExecuteCount) {
             onLastTickListener.onTick(remainTime, executeCount);
         }
-        if (executeCount >= maxExecuteCount) this.cancel();
     }
 
     //当剩余时间少于countDownInterval 时候 被调用
