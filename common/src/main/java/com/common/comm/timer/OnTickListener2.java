@@ -6,5 +6,5 @@ package com.common.comm.timer;
  */
 
 public interface OnTickListener2 {
-    void onTick(long millisUntilFinished);
+    void onTick(long millisUntilFinished, int executeCount);
 }

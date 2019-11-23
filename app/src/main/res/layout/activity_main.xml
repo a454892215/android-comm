@@ -12,6 +12,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical" />
+
+    <Button
+        android:id="@+id/bt_timer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="timer测试"/>
 </LinearLayout>

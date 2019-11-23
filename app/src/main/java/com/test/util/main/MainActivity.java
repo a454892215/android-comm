@@ -53,12 +53,15 @@ public class MainActivity extends BaseAppActivity {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         });
 
-        MyTimer myTimer = new MyTimer(1000 * 20, 1000);
-        myTimer.setOnTickListener(millisUntilFinished -> LogUtil.d("===================:" + millisUntilFinished/1000f + "  count:" + count++));
-        myTimer.start();
+
+        findViewById(R.id.bt_timer).setOnClickListener(v -> {
+            MyTimer myTimer = new MyTimer(1000 * 2, 100);
+            myTimer.setOnTickListener((millisUntilFinished, count) -> LogUtil.d("===================:" + millisUntilFinished / 1000f + "  count:" + count++));
+            myTimer.start();
+        });
 
     }
-    int count = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
