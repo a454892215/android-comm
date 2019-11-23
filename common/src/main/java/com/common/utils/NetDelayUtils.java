@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.base.BaseActivity;
-import com.common.comm.timer.MyCountDownTimer;
+import com.common.comm.timer.MyTimer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -26,11 +26,11 @@ public class NetDelayUtils {
     }
 
     public void startShowNetSpeed() {
-        MyCountDownTimer myCountDownTimer = new MyCountDownTimer(Integer.MAX_VALUE, 3000);
-        myCountDownTimer.setOnTickListener((time, count) -> start());
+        MyTimer timer = new MyTimer(Integer.MAX_VALUE, 3000);
+        timer.setOnTickListener((time, count) -> start());
         BaseActivity baseActivity = weakReference.get();
-        baseActivity.addOnPauseListener(myCountDownTimer::cancel);
-        myCountDownTimer.start();
+        baseActivity.addOnPauseListener(timer::cancel);
+        timer.start();
     }
 
     //   private long lastTime = 0;

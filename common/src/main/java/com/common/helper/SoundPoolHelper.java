@@ -6,7 +6,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 
 import com.common.base.BaseActivity;
-import com.common.comm.timer.MyCountDownTimer;
+import com.common.comm.timer.MyTimer;
 import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -50,7 +50,8 @@ public class SoundPoolHelper {
 
     /**
      * 示例 soundPoolUtil.playOnlyOne(R.raw.music_activity, 4, activity)
-     * @param resId R.raw.music_aty
+     *
+     * @param resId    R.raw.music_aty
      * @param playTime 4
      * @param activity activity
      */
@@ -58,8 +59,12 @@ public class SoundPoolHelper {
         soundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
             int streamID = soundPool.play(sampleId, volume, volume, 1, 0, 1);
             activity.addOnPauseListener(() -> soundPool.stop(streamID));
-            MyCountDownTimer timer = new MyCountDownTimer(playTime + 2, 1000);
-            timer.setOnLastTickListener((time, count) -> soundPool.unload(sampleId));
+            MyTimer timer = new MyTimer(playTime * 1000 + 2000, 1000);
+            timer.setOnTickListener((time, count) -> {
+                if (time == 0) {
+                    soundPool.unload(sampleId);
+                }
+            });
             timer.start();
         });
         soundPool.load(context, resId, 1);

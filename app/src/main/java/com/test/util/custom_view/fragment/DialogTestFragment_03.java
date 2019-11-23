@@ -9,12 +9,13 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.base.BaseFragment;
-import com.common.comm.timer.MyCountDownTimer;
+import com.common.comm.timer.MyTimer;
 import com.common.dialog.BottomDialogFragment;
 import com.common.dialog.CenterDialogFragment;
 import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.common.utils.FastClickUtil;
+import com.common.utils.LogUtil;
 import com.test.util.MyAppApplication;
 import com.test.util.R;
 import com.common.base.BaseDropDialogFragment;
@@ -22,6 +23,7 @@ import com.common.base.BaseDropDialogFragment;
 public class DialogTestFragment_03 extends BaseFragment {
 
     private Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
+    private MyTimer timer;
 
     @Override
     protected int getLayoutId() {
@@ -51,8 +53,12 @@ public class DialogTestFragment_03 extends BaseFragment {
         progress_bar.setProgress(100);
         progress_bar.setOnClickListener(v -> {
             FastClickUtil.isFastClick(3000);
-            MyCountDownTimer timer = new MyCountDownTimer(100, 30);
-            timer.setOnTickListener((time, count) -> progress_bar.setProgress(count));
+            if (timer != null) timer.cancel();
+            timer = new MyTimer(3000, 30);
+            timer.setOnTickListener((time, count) -> {
+                LogUtil.d("=======count：" + count + "  time:" + (time / 1000f));
+                progress_bar.setProgress(count);
+            });
             timer.start();
         });
 

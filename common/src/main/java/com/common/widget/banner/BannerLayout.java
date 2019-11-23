@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.base.BaseActivity;
-import com.common.comm.timer.MyCountDownTimer;
+import com.common.comm.timer.MyTimer;
 import com.common.utils.LogUtil;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class BannerLayout extends FrameLayout {
     private Context context;
     private LinearLayout llt_indicators;
     private RecyclerView rv;
-    private MyCountDownTimer downTimer;
+    private MyTimer downTimer;
 
     public BannerLayout(@NonNull Context context) {
         this(context, null);
@@ -82,9 +82,8 @@ public class BannerLayout extends FrameLayout {
 
     private void startLoopScroll() {
         if (downTimer == null) {
-            downTimer = new MyCountDownTimer(Integer.MAX_VALUE, 3000);
+            downTimer = new MyTimer(Long.MAX_VALUE, 3000);
             downTimer.setOnTickListener((time, count) -> {
-                LogUtil.d("===============轮播图count：" + count);
                 View child = rv.getChildAt(0);
                 if (child != null && !isPressing && child.getLeft() == 0 && System.currentTimeMillis() - lastUpTime > 2000) {
                     rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);

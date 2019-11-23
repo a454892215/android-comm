@@ -12,7 +12,7 @@ public class MyTimer extends CountDownTimer {
         super(millisInFuture, countDownInterval);
     }
 
-    public void setOnTickListener(OnTickListener2 onTickListener) {
+    public void setOnTickListener(OnTickListener onTickListener) {
         this.onTickListener = onTickListener;
     }
 
@@ -35,7 +35,7 @@ public class MyTimer extends CountDownTimer {
         }
     }
 
-    private OnTickListener2 onTickListener;
+    private OnTickListener onTickListener;
 
     public void bindActivity(BaseActivity baseActivity) {
         baseActivity.addOnPauseListener(this::cancel);
