@@ -55,8 +55,8 @@ public class MainActivity extends BaseAppActivity {
 
 
         findViewById(R.id.bt_timer).setOnClickListener(v -> {
-            MyTimer myTimer = new MyTimer(1000 * 2, 100);
-            myTimer.setOnTickListener((millisUntilFinished, count) -> LogUtil.d("===================:" + millisUntilFinished / 1000f + "  count:" + count++));
+            MyTimer myTimer = new MyTimer(1000, 100);
+            myTimer.setOnTickListener((millisUntilFinished, count) -> LogUtil.d("===================:" + millisUntilFinished / 1000f + "  count:" + count));
             myTimer.start();
         });
 
