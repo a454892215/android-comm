@@ -8,7 +8,6 @@ import android.webkit.WebView;
 
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
-import com.common.utils.SharedPreUtils;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
 import com.common.x5_web.MyTbsLogClient;
@@ -37,7 +36,6 @@ public class CommApp extends Application {
         setWebViewPath(this);
         if (isInitX5Web) initX5WebView();
         L.init(this);
-        SharedPreUtils.initSp(getApplicationContext());
         registerActivityLifecycleCallbacks(new ActivityCallbacks());
         LitePal.initialize(this);
     }

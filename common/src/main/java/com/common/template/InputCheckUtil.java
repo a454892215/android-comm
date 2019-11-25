@@ -37,23 +37,23 @@ public class InputCheckUtil {
             switch (inputType) {
                 case phone:
                     if (!text.matches("^1[3-9][0-9]{9}$")) {
-                        ToastUtil.showShort(parentView.getContext(),"请输入合法的手机号码");
+                        ToastUtil.showShort("请输入合法的手机号码");
                         return false;
                     }
                 case password:
                     if (text.length() < 8) {
-                        ToastUtil.showShort(parentView.getContext(), "密码长度至少8位");
+                        ToastUtil.showShort("密码长度至少8位");
                         return false;
                     }
                     text_password = text;
                 case passwordConfirm:
                     if (!text_password.equals(text)) {
-                        ToastUtil.showShort(parentView.getContext(), "两次密码输入不一致");
+                        ToastUtil.showShort("两次密码输入不一致");
                         return false;
                     }
                 case smsCode:
                     if (!isIgnoreSmsCode && TextUtils.isEmpty(text)) {
-                        ToastUtil.showShort(parentView.getContext(), "请输入验证码");
+                        ToastUtil.showShort("请输入验证码");
                         return false;
                     }
             }
@@ -62,7 +62,7 @@ public class InputCheckUtil {
     }
 
     public String getInputText(int position) {
-       return inputTextList.get(position);
+        return inputTextList.get(position);
     }
 
     public enum InputType {

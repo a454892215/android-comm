@@ -49,7 +49,7 @@ public class HttpUtil {
     public void requestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
         if (checkNetworkEnable) {
             if (!SystemUtils.isNetWorkConnected(activity)) {
-                ToastUtil.showShort(activity, "请检测网络是否连接");
+                ToastUtil.showShort("请检测网络是否连接");
                 return;
             }
         }
@@ -82,7 +82,7 @@ public class HttpUtil {
             httpCallback.onSuccess(text);
         } catch (Exception e) {
             if (successExcToastEnable) {
-                ToastUtil.showShort(activity, "请求数据完毕后处理异常：" + e);
+                ToastUtil.showShort("请求数据完毕后处理异常：" + e);
             }
             e.printStackTrace();
             LogUtil.e("Http:===requestData====:" +  StringUtil.getThrowableInfo(e));

@@ -45,9 +45,9 @@ public class MenuDialogFragment extends BaseDialogFragment {
             entity.setTime(System.currentTimeMillis());
             boolean save = entity.save();
             if (save) {
-                ToastUtil.showShort(activity, "添加书签成功");
+                ToastUtil.showShort("添加书签成功");
             } else {
-                ToastUtil.showShort(activity, "添加书签失败");
+                ToastUtil.showShort("添加书签失败");
             }
         });
         findViewById(R.id.tv_his).setOnClickListener(v -> {

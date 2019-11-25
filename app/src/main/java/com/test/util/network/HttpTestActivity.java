@@ -46,7 +46,7 @@ public class HttpTestActivity extends BaseAppActivity {
             @Override
             public void onSuccess(String text) {
                 LogUtil.d("===================text:" + text);
-                ToastUtil.showShort(activity, "请求成功：" + text);
+                ToastUtil.showShort("请求成功：" + text);
             }
 
             @Override

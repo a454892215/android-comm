@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.common.CommApp;
 import com.common.R;
-
 
 
 /**
@@ -17,14 +17,14 @@ import com.common.R;
  */
 @SuppressLint("CheckResult")
 public class ToastUtil {
-    public static void showShort(Context context, CharSequence message) {
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+    public static void showShort(CharSequence message) {
+        Toast toast = Toast.makeText(CommApp.app, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
 
-    public static void showLong(Context context, CharSequence message) {
-        Toast toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+    public static void showLong(CharSequence message) {
+        Toast toast = Toast.makeText(CommApp.app, message, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }

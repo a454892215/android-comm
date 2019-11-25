@@ -111,7 +111,7 @@ public class VersionUpdateHelper {
             } catch (Exception e) {
                 VersionUpdateHelper.isForceUpdate = false;
                 LogUtil.e("安装新版本Apk失败");
-                ToastUtil.showShort(activity, "安装新版本Apk失败");
+                ToastUtil.showShort("安装新版本Apk失败");
                 e.printStackTrace();
             }
         } else {
@@ -150,7 +150,7 @@ public class VersionUpdateHelper {
             public void onError(Throwable throwable) {
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
                 LogUtil.e("下载新版本apk文件发生错误:"+ StringUtil.getThrowableInfo(throwable));
-                ToastUtil.showShort(activity, "下载新版本apk文件发生错误:" + throwable);
+                ToastUtil.showShort("下载新版本apk文件发生错误:" + throwable);
             }
         };
         String downloadFileSaveFullPath = getDownloadFileSaveFullPath(activity);

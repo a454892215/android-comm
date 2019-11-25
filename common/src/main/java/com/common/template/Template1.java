@@ -1,7 +1,6 @@
 package com.common.template;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -45,10 +44,10 @@ public class Template1 {
             if (bitmap != null) {
                 boolean isOk = ImgUtils.saveImageToGallery(context, bitmap, "");
                 if (isOk) {
-                    ToastUtil.showShort(context, "保存二维码成功");
+                    ToastUtil.showShort("保存二维码成功");
                 }
             } else {
-                ToastUtil.showShort(context, "保存二维码失败");
+                ToastUtil.showShort("保存二维码失败");
             }
         } catch (Exception e) {
             LogUtil.e(e);

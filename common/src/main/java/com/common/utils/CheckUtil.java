@@ -12,14 +12,14 @@ public class CheckUtil {
         if (StringUtil.isFloat(currentAmount)) {
             float amount_f = Float.parseFloat(currentAmount);
             if (amount_f < minAmount) {
-                ToastUtil.showShort(context, "金额不能小于" + min + "元");
+                ToastUtil.showShort("金额不能小于" + min + "元");
             } else if (amount_f > maxAmount) {
-                ToastUtil.showShort(context, "金额不能大于" + max + "元");
+                ToastUtil.showShort("金额不能大于" + max + "元");
             } else {
                 return true;
             }
         } else {
-            ToastUtil.showShort(context, "请输入合法金额");
+            ToastUtil.showShort("请输入合法金额");
         }
         return false;
     }

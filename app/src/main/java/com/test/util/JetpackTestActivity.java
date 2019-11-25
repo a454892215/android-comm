@@ -11,7 +11,7 @@ public class JetpackTestActivity extends BaseAppActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Button btn = findViewById(R.id.btn);
-        btn.setOnClickListener(v -> ToastUtil.showLong(activity, getText()));
+        btn.setOnClickListener(v -> ToastUtil.showLong(getText()));
     }
 
     public String getText() {

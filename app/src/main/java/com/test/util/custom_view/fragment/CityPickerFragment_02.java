@@ -24,7 +24,7 @@ public class CityPickerFragment_02 extends BaseFragment implements View.OnClickL
         findViewById(R.id.btn_ok).setOnClickListener(this);
         findViewById(R.id.btn_dialog).setOnClickListener(this);
         cityPickerDialogFragment = new CityPickerDialogFragment();
-        cityPickerDialogFragment.setOnConfirmListener(() -> ToastUtil.showShort(activity, cityPickerDialogFragment.getCityPicker().getCurrentAreaName()));
+        cityPickerDialogFragment.setOnConfirmListener(() -> ToastUtil.showShort(cityPickerDialogFragment.getCityPicker().getCurrentAreaName()));
 
         CommonTextView tv = findViewById(R.id.tv);
        /* tv.setLinearGradient(new LinearGradient(0, 0, 0, tv.getPaint().getTextSize(),
@@ -37,7 +37,7 @@ public class CityPickerFragment_02 extends BaseFragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
-                ToastUtil.showShort(activity, mCityPicker.getCurrentAreaName());
+                ToastUtil.showShort(mCityPicker.getCurrentAreaName());
                 break;
             case R.id.btn_dialog:
                 cityPickerDialogFragment.show(fm, cityPickerDialogFragment.getClass().getName());

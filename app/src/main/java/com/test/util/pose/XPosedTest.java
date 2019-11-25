@@ -48,7 +48,7 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 Activity activity = (Activity) param.thisObject;
                 XPLogUtil.log("=========afterHookedMethod======param.method:" + param.method +
                         "  param.thisObject:" + param.thisObject + "   param:" + param);
-                activity.runOnUiThread(() -> ToastUtil.showLong(activity, "我是hook的toast3:" + activity.getClass().getSimpleName()));
+                activity.runOnUiThread(() -> ToastUtil.showLong("我是hook的toast3:" + activity.getClass().getSimpleName()));
             }
         });
         //   }
@@ -78,7 +78,7 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
                     Activity activity = (Activity) param.thisObject;
-                    ToastUtil.showLong(activity, "我是hook的toast");
+                    ToastUtil.showLong("我是hook的toast");
                     XPLogUtil.log("activity:" + activity);
                 }
             });
