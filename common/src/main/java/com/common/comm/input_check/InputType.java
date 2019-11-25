@@ -2,7 +2,7 @@ package com.common.comm.input_check;
 
 import android.text.TextUtils;
 
-import com.common.base.ContextHolder;
+import com.common.CommApp;
 import com.common.utils.StringUtil;
 import com.common.utils.ToastUtil;
 
@@ -21,7 +21,7 @@ public enum InputType {
         public boolean check(String text) {
             boolean isOK = StringUtil.isMobileNum(text);
             if (!isOK) {
-                ToastUtil.showShort(ContextHolder.getContext(), "请输入合法手机号");
+                ToastUtil.showShort(CommApp.app, "请输入合法手机号");
             }
             return isOK;
         }
@@ -63,7 +63,7 @@ public enum InputType {
         @Override
         public boolean check(String text) {
             if (TextUtils.isEmpty(text)) {
-                ToastUtil.showShort(ContextHolder.getContext(), "请输入微信号");
+                ToastUtil.showShort(CommApp.app, "请输入微信号");
                 return false;
             }
             return true;
@@ -74,7 +74,7 @@ public enum InputType {
         public boolean check(String text) {
             boolean isOK = StringUtil.isEmail(text);
             if (!isOK) {
-                ToastUtil.showShort(ContextHolder.getContext(), "请输入合法邮箱帐号");
+                ToastUtil.showShort(CommApp.app, "请输入合法邮箱帐号");
             }
             return isOK;
         }
