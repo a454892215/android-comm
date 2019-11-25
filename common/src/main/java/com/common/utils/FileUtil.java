@@ -23,27 +23,22 @@ public class FileUtil {
     }
 
     public static String getFormatSize(double size) {
-
-        double kiloByte = size / 1024;
-        if (kiloByte < 1) {
-            return size + "Byte";
-        }
-
-        double megaByte = kiloByte / 1024;
-        if (megaByte < 1) {
-            BigDecimal result1 = new BigDecimal(Double.toString(kiloByte));
+        double kb = size / 1024;
+        double mb = kb / 1024;
+        if (mb < 1) {
+            BigDecimal result1 = new BigDecimal(Double.toString(kb));
             return result1.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "KB";
         }
 
-        double gigaByte = megaByte / 1024;
-        if (gigaByte < 1) {
-            BigDecimal result2 = new BigDecimal(Double.toString(megaByte));
+        double gb = mb / 1024;
+        if (gb < 1) {
+            BigDecimal result2 = new BigDecimal(Double.toString(mb));
             return result2.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "MB";
         }
 
-        double teraBytes = gigaByte / 1024;
+        double teraBytes = gb / 1024;
         if (teraBytes < 1) {
-            BigDecimal result3 = new BigDecimal(Double.toString(gigaByte));
+            BigDecimal result3 = new BigDecimal(Double.toString(gb));
             return result3.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "GB";
         }
         BigDecimal result4 = new BigDecimal(teraBytes);
