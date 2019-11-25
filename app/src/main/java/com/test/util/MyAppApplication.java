@@ -1,6 +1,6 @@
 package com.test.util;
 
-import com.common.AppApplication;
+import com.common.CommApp;
 import com.common.utils.LogUtil;
 import com.common.helper.SoundPoolHelper;
 
@@ -10,7 +10,7 @@ import com.common.helper.SoundPoolHelper;
  * Description: No
  */
 
-public class MyAppApplication extends AppApplication {
+public class MyAppApplication extends CommApp {
 
     public SoundPoolHelper soundPoolUtil;
 

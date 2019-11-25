@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Build;
 import android.webkit.WebView;
 
+import com.common.base.ContextHolder;
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
 import com.common.utils.SharedPreUtils;
@@ -23,7 +24,7 @@ import org.litepal.LitePal;
  * Description: No
  */
 
-public class AppApplication extends Application {
+public class CommApp extends Application {
 
     protected boolean isInitX5Web = false;
 
@@ -31,6 +32,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ContextHolder.init(this);
         CrashHandler.init(this);
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
         setWebViewPath(this);
