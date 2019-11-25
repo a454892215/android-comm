@@ -31,7 +31,7 @@ import com.test.util.x5web.X5WebTestActivity;
  */
 public class MainActivity extends BaseAppActivity {
 
-    private String[] names = {"View 相关", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack", "http测试", "AgentWeb"};
+    private String[] names = {"View 相关", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack", "http测试", "AgentWeb","今日头条适配测试"};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class,
             BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, HttpTestActivity.class, AgentWebActivity.class};
 
