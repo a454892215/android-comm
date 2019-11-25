@@ -12,8 +12,12 @@ import java.util.concurrent.Executors;
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
-    public CrashHandler(Context context) {
+    private CrashHandler(Context context) {
         this.context = context;
+    }
+
+    public static void init(Context context) {
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(context));
     }
 
     private Context context;
@@ -22,7 +26,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(Thread t, Throwable e) {
         try {
             String throwableInfo = StringUtil.getThrowableInfo(e);
-            Executors.newSingleThreadExecutor().execute(()-> LogUtil.e(throwableInfo));
+            Executors.newSingleThreadExecutor().execute(() -> LogUtil.e(throwableInfo));
             LocalBugHelper.appendTextToBugsFile(context, throwableInfo);
             Thread.sleep(5000);
         } catch (Exception ex) {

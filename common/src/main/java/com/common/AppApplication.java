@@ -31,7 +31,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
+        CrashHandler.init(this);
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
         setWebViewPath(this);
         if (isInitX5Web) initX5WebView();

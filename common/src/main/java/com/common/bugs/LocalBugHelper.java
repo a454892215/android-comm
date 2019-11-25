@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 
 public class LocalBugHelper {
 
-    public static void appendTextToBugsFile(Context context, String text) {
+    static void appendTextToBugsFile(Context context, String text) {
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 synchronized (LocalBugHelper.class) {
