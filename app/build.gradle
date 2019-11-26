@@ -10,6 +10,15 @@ android {
         versionName "1.0"
         flavorDimensions "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11 -D__CORRECT_ISO_CPP_WCHAR_H_PROTO"
+            }
+            ndk {
+                abiFilters "armeabi-v7a","arm64-v8a"
+            }
+        }
     }
 
     compileOptions {
@@ -64,6 +73,12 @@ android {
             dimension "f1"
             resValue "string", "app_name", "测试2"
             resValue "bool", "auto_updates", 'true'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
         }
     }
 

@@ -15,6 +15,7 @@ import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 import com.test.util.Constant;
+import com.test.util.JRTTTestActivity;
 import com.test.util.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
 import com.test.util.R;
@@ -31,9 +32,9 @@ import com.test.util.x5web.X5WebTestActivity;
  */
 public class MainActivity extends BaseAppActivity {
 
-    private String[] names = {"View 相关", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack", "http测试", "AgentWeb","今日头条适配测试"};
+    private String[] names = {"View 相关", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack", "http测试", "AgentWeb", "今日头条适配测试和JNI"};
     private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class,
-            BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, HttpTestActivity.class, AgentWebActivity.class};
+            BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class, HttpTestActivity.class, AgentWebActivity.class, JRTTTestActivity.class};
 
     @Override
     protected int getLayoutId() {

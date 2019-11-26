@@ -9,9 +9,13 @@
 
     <include layout="@layout/include_header" />
 
-   <FrameLayout
+   <TextView
+       android:id="@+id/tv_jni_info"
        android:layout_width="@dimen/dp_360"
        android:layout_height="@dimen/dp_360"
-       android:background="#F44336"/>
+       android:text="#ffffff"
+       android:textSize="@dimen/sp_15"
+       android:background="#F44336"
+       tools:ignore="SpUsage" />
 
 </LinearLayout>
