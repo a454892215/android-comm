@@ -31,7 +31,6 @@ public class DensityMatcherUtil {
         appDensity = appDisplayMetrics.density;
         appScaledDensity = appDisplayMetrics.scaledDensity;
         registerActivityLifecycleCallbacks(application);
-        LogUtil.d("====================Density:" + appDensity + "  appScaledDensity:" + appScaledDensity);
     }
 
 
