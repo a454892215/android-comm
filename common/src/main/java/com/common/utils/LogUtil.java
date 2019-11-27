@@ -10,7 +10,7 @@ import android.util.Log;
 public class LogUtil {
 
     private static final String TAG = "LLpp: ";
-    private static boolean enable = false;
+    private static boolean enable = true;
 
     public static void logEnable(boolean enable) {
         LogUtil.enable = enable;
@@ -30,7 +30,7 @@ public class LogUtil {
         }
     }
     public static void i(String msg) {
-        Log.e(TAG + getLineNum(), unicodeToUTF_8(msg));
+        Log.i(TAG + getLineNum(), unicodeToUTF_8(msg));
     }
 
     public static void v(String msg) {

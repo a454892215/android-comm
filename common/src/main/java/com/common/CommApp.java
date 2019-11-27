@@ -34,7 +34,7 @@ public class CommApp extends Application {
         app = this;
         CrashHandler.init(this);
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
-        DensityMatcherUtil.setDensity(this, 360);
+        DensityMatcherUtil.init(this, 360, false);
         setWebViewPath(this);
         if (isInitX5Web) initX5WebView();
         L.init(this);

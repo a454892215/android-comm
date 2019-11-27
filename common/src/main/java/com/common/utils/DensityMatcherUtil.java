@@ -3,8 +3,6 @@ package com.common.utils;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.ComponentCallbacks;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
@@ -14,62 +12,50 @@ public class DensityMatcherUtil {
     private static float appDensity;
     private static float appScaledDensity;
     private static DisplayMetrics appDisplayMetrics;
+
     /**
-     * 用来参照的的width
+     * 用来参照的的宽度或者高度
      */
-    private static float WIDTH;
+    private static float BASE_SIZE;
+    private static boolean IS_BASE_ON_LONGEST = false;
 
-    public static void setDensity(@NonNull final Application application, float width) {
+    /**
+     * @param application     app
+     * @param size            用来参照的的宽度或者高度
+     * @param isBaseOnLongest 是否基于最长一边，默认false 表示基于垂直状态的手机宽度，否则基于高度
+     */
+    public static void init(@NonNull final Application application, float size, boolean isBaseOnLongest) {
+        BASE_SIZE = size;
+        IS_BASE_ON_LONGEST = isBaseOnLongest;
         appDisplayMetrics = application.getResources().getDisplayMetrics();
-        WIDTH = width;
+        appDensity = appDisplayMetrics.density;
+        appScaledDensity = appDisplayMetrics.scaledDensity;
         registerActivityLifecycleCallbacks(application);
-
-        if (appDensity == 0) {
-            //初始化的时候赋值
-            appDensity = appDisplayMetrics.density;
-            appScaledDensity = appDisplayMetrics.scaledDensity;
-
-            //添加字体变化的监听
-            application.registerComponentCallbacks(new ComponentCallbacks() {
-                @Override
-                public void onConfigurationChanged(Configuration newConfig) {
-                    //字体改变后,将appScaledDensity重新赋值
-                    if (newConfig != null && newConfig.fontScale > 0) {
-                        appScaledDensity = application.getResources().getDisplayMetrics().scaledDensity;
-                    }
-                }
-
-                @Override
-                public void onLowMemory() {
-                }
-            });
-        }
+        LogUtil.d("====================Density:" + appDensity + "  appScaledDensity:" + appScaledDensity);
     }
 
 
-    private static void setDefault(Activity activity) {
-        setAppOrientation(activity);
-    }
-
-    private static void setAppOrientation(@NonNull Activity activity) {
-        float targetDensity = 0;
+    private static void setAppDensity(@NonNull Activity activity) {
         try {
-            targetDensity = appDisplayMetrics.widthPixels / WIDTH;
+            int baseOnSize;
+            if (IS_BASE_ON_LONGEST) { //基于最长一边
+                baseOnSize = appDisplayMetrics.widthPixels > appDisplayMetrics.heightPixels ? appDisplayMetrics.widthPixels : appDisplayMetrics.heightPixels;
+            } else { //基于最短一边
+                baseOnSize = appDisplayMetrics.widthPixels > appDisplayMetrics.heightPixels ? appDisplayMetrics.heightPixels : appDisplayMetrics.widthPixels;
+            }
+            float density = baseOnSize / BASE_SIZE;
+            float scaledDensity = density * (appScaledDensity / appDensity);
+            int targetDensityDpi = (int) (160 * density);
+            DisplayMetrics activityDisplayMetrics = activity.getResources().getDisplayMetrics();
+            activityDisplayMetrics.density = density;
+            activityDisplayMetrics.scaledDensity = scaledDensity;
+            activityDisplayMetrics.densityDpi = targetDensityDpi;
+            LogUtil.i("========setDefault========== density:" + density + "  scaledDensity:"
+                    + scaledDensity + "  targetDensityDpi:" + targetDensityDpi + " baseOnSize:"
+                    + baseOnSize + " BASE_SIZE:" + BASE_SIZE);
         } catch (Exception e) {
             LogUtil.e(e);
         }
-
-        float targetScaledDensity = targetDensity * (appScaledDensity / appDensity);
-        int targetDensityDpi = (int) (160 * targetDensity);
-
-        /*
-         * 最后在这里将修改过后的值赋给系统参数
-         * 只修改Activity的density值
-         */
-        DisplayMetrics activityDisplayMetrics = activity.getResources().getDisplayMetrics();
-        activityDisplayMetrics.density = targetDensity;
-        activityDisplayMetrics.scaledDensity = targetScaledDensity;
-        activityDisplayMetrics.densityDpi = targetDensityDpi;
     }
 
 
@@ -77,23 +63,29 @@ public class DensityMatcherUtil {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                setDefault(activity);
+                setAppDensity(activity);
             }
+
             @Override
             public void onActivityStarted(Activity activity) {
             }
+
             @Override
             public void onActivityResumed(Activity activity) {
             }
+
             @Override
             public void onActivityPaused(Activity activity) {
             }
+
             @Override
             public void onActivityStopped(Activity activity) {
             }
+
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
             }
+
             @Override
             public void onActivityDestroyed(Activity activity) {
 

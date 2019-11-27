@@ -11,8 +11,8 @@
 
    <TextView
        android:id="@+id/tv_jni_info"
-       android:layout_width="@dimen/dp_360"
-       android:layout_height="@dimen/dp_360"
+       android:layout_width="@dimen/dp_355"
+       android:layout_height="@dimen/dp_180"
        android:text="#ffffff"
        android:textSize="@dimen/sp_15"
        android:background="#F44336"
