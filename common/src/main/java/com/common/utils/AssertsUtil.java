@@ -6,12 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 
-import com.common.utils.LogUtil;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+@SuppressWarnings("unused")
 public class AssertsUtil {
 
     public static Bitmap getImageFromAssetsFile(Context context, String fileName) {

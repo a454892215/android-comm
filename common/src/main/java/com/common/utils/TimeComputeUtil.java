@@ -5,7 +5,7 @@ package com.common.utils;
  * CreateDate: 2019/8/13 9:08
  * Description: 把毫秒数，计算成，天，小时，分钟，秒
  */
-
+@SuppressWarnings("unused")
 public class TimeComputeUtil {
 
     private long days;

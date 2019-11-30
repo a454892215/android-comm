@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
-
+@SuppressWarnings("unused")
 public class ImgUtils {
     //保存文件到指定路径
     public static boolean saveImageToGallery(Context context, Bitmap bmp, String fileName) {

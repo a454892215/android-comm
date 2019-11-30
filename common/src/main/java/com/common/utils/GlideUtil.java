@@ -7,7 +7,7 @@ import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 
 import java.io.File;
 import java.util.concurrent.Executors;
-
+@SuppressWarnings("unused")
 public class GlideUtil {
 
     public static String getDefaultCacheDirSize(Context context) {

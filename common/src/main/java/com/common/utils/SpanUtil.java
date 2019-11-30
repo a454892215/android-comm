@@ -10,6 +10,7 @@ import android.text.style.ForegroundColorSpan;
  * CreateDate: 2019/7/8 8:47
  * Description: No
  */
+@SuppressWarnings("unused")
 public class SpanUtil {
 
     /**

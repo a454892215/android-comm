@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * Author:  L
  * Description: No
  */
-
+@SuppressWarnings("unused")
 public class MathUtil {
 
     public static float clamp(float num, float min, float max) {

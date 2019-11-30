@@ -8,7 +8,7 @@ import android.text.TextUtils;
 
 
 import java.security.MessageDigest;
-
+@SuppressWarnings("unused")
 public class DeviceUtil {
 
     private static String deviceId = null;

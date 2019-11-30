@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-
+@SuppressWarnings("unused")
 public class ZhUtil {
 
     private HashSet<String> zhSet = new HashSet<>();

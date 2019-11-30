@@ -9,14 +9,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.common.base.BaseActivity;
 
+@SuppressWarnings("unused")
 public class SystemUtils {
-
-
     public static boolean setClipData(String label, String text, BaseActivity activity) {
         try {
             ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
