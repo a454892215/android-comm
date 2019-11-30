@@ -62,4 +62,30 @@ public class SystemUtils {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
     }
+
+    public static long getPackageFirstInstallTime(Context context) {
+        String name = context.getPackageName();
+        long time = 0;
+        try {
+            time = context.getPackageManager().getPackageInfo(name, 0).firstInstallTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    public static long getPackageLastUpdateTime(Context context) {
+        String name = context.getPackageName();
+        long time = 0;
+        try {
+            time = context.getPackageManager().getPackageInfo(name, 0).lastUpdateTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return time;
+    }
+
+    public static boolean isFirstInstall(Context context) {
+        return getPackageFirstInstallTime(context) == getPackageLastUpdateTime(context);
+    }
 }
