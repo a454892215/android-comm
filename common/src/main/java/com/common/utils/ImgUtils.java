@@ -49,7 +49,7 @@ public class ImgUtils {
     }
 
     /**
-     * 从View中获取图片Bitmap
+     * 从View中获取Bitmap
      */
     public Bitmap loadBitmapFromView(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
