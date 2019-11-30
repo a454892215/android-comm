@@ -7,7 +7,7 @@ import android.os.Build;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-
+@SuppressWarnings("unused")
 public class StatusBarUtil {
 
     public static void setStatusBarBgColor(Activity activity, int color) {
@@ -27,5 +27,9 @@ public class StatusBarUtil {
         int color = bitmap.getPixel(x, y);
         bitmap.recycle();
         return color;
+    }
+
+    public static void clearFullScreen(Activity activity) {
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 }
