@@ -5,7 +5,6 @@ import android.os.Message;
 import android.view.View;
 
 import com.common.utils.LogUtil;
-import com.common.x5_web.dialog.WindowWebDialogFragment;
 import com.common.x5_web.entity.HistoryRecordEntity;
 import com.tencent.smtt.export.external.interfaces.GeolocationPermissionsCallback;
 import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
