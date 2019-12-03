@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Message;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.common.utils.ImgUtils;
 import com.common.utils.LogUtil;
 import com.common.utils.ToastUtil;
+import com.common.x5_web.WindowX5WebDialogFragment;
 
 @SuppressWarnings("unused")
 public class Template1 {
@@ -52,5 +55,15 @@ public class Template1 {
         } catch (Exception e) {
             LogUtil.e(e);
         }
+    }
+
+    //简单的多窗口模板代码
+    public boolean onCreateWindow(com.tencent.smtt.sdk.WebView view, boolean isDialog, boolean isUserGesture, Message resultMsg) {
+        WindowX5WebDialogFragment dialogFragment = new WindowX5WebDialogFragment();
+        dialogFragment.setWebChromeClient(view.getWebChromeClient());
+        dialogFragment.setWebViewTransport((com.tencent.smtt.sdk.WebView.WebViewTransport) resultMsg.obj);
+        view.postDelayed(resultMsg::sendToTarget, 200);
+        dialogFragment.show((FragmentManager) null, dialogFragment.getClass().getName());
+        return true;
     }
 }
