@@ -6,7 +6,6 @@
     <com.van.chess.x5_web.X5WebView
         android:id="@+id/x5_web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorYellowBottom" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
