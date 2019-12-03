@@ -1,13 +1,18 @@
 package com.test.util;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.common.comm.L;
 import com.lpan.mine.jnitest.HelloJni;
 import com.test.util.base.BaseAppActivity;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class JRTTTestActivity extends BaseAppActivity {
     @Override
@@ -36,6 +41,7 @@ public class JRTTTestActivity extends BaseAppActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void testAnim() {
         ViewGroup llt_content_num = findViewById(R.id.llt_content_num);
         llt_content_num.setOnClickListener(v -> {
@@ -47,12 +53,15 @@ public class JRTTTestActivity extends BaseAppActivity {
                 animator.addUpdateListener(animation -> {
                     float value = (float) animation.getAnimatedValue();//表示目标距离还剩多少
                     float per_ani_length = value % (height * 2);
-                    llt_content_num.getChildAt(finalI).scrollTo(0, Math.round(per_ani_length - height));//[-height,height]
+                    TextView textView = (TextView) llt_content_num.getChildAt(finalI);
+                    if (per_ani_length >= height * 2 - L.dp_1 * 2) {
+                        textView.setText("0" + new Random().nextInt(10));
+                    }
+                    textView.scrollTo(0, Math.round(per_ani_length - height));//[-height,height]
                 });
-                llt_content_num.postDelayed(animator::start, i * 30);
+                llt_content_num.postDelayed(animator::start, new Random().nextInt(10) + 10);
             }
         });
-
     }
 
     public String getText() {
