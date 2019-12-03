@@ -59,6 +59,7 @@ public class MyWebChromeClient extends WebChromeClient {
     public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback customViewCallback) {
         LogUtil.d("==============onShowCustomView============");
         super.onShowCustomView(view, customViewCallback);
+        customViewCallback.onCustomViewHidden();
     }
 
     @Override
