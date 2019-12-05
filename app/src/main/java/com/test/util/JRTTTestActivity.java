@@ -1,5 +1,7 @@
 package com.test.util;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -47,8 +49,8 @@ public class JRTTTestActivity extends BaseAppActivity {
         llt_content_num.setOnClickListener(v -> {
             for (int i = 0; i < llt_content_num.getChildCount(); i++) {
                 int height = llt_content_num.getHeight();
-                ValueAnimator animator = ValueAnimator.ofFloat(0, height * 11);
-                animator.setDuration(1000);
+                ValueAnimator animator = ValueAnimator.ofFloat(0, height * 15);
+                animator.setDuration(1000 - i * 60);
                 int finalI = i;
                 animator.addUpdateListener(animation -> {
                     float value = (float) animation.getAnimatedValue();//表示目标距离还剩多少
@@ -59,7 +61,13 @@ public class JRTTTestActivity extends BaseAppActivity {
                     }
                     textView.scrollTo(0, Math.round(per_ani_length - height));//[-height,height]
                 });
-                llt_content_num.postDelayed(animator::start, new Random().nextInt(10) + 10);
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                    }
+                });
+                animator.start();
             }
         });
     }
