@@ -12,7 +12,9 @@
     <attr name="right_line_stroke_width" format="dimension|reference" />                         
     <attr name="right_line_color" format="color|reference" />          
 
-    <attr name="clip_radius" format="dimension|reference" />    
+    <attr name="clip_radius" format="dimension|reference" />   
+     
+    <attr name="pic1_src" format="reference" />
 
     <attr name="title" format="string|reference" />     
     <attr name="input_type" format="enum">
@@ -112,6 +114,10 @@
     <attr name="max_length" format="integer|reference" />   
     <attr name="et_margin_end" format="dimension|reference" />   
     <attr name="input_type" />
+    </declare-styleable>
+
+    <declare-styleable name="RepeatYBgView">
+        <attr name="pic1_src" />
     </declare-styleable>
 
 </resources>

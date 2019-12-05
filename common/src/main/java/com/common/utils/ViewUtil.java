@@ -5,6 +5,7 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Outline;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -179,5 +180,7 @@ public class ViewUtil {
         }
         return list;
     }
-
+    public static float getPicHeightByWidth(Drawable drawable, float width) {
+        return width * drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth();
+    }
 }
