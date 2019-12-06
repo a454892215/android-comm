@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.common.utils.ImgUtils;
 import com.common.utils.LogUtil;
 import com.common.utils.ToastUtil;
@@ -35,6 +36,9 @@ public class Template1 {
         Uri content_url = Uri.parse("https://mobile.alipay.com/index.htm");
         intent.setData(content_url);
         activity.startActivity(intent);
+
+        //Glide示例
+        Glide.with((Activity) null).load("file:///android_asset/" + "vip_pic/vip_no_color/" + "name.png").into((ImageView) null);
     }
 
     public static void savePicToLocal(Activity context, ImageView iv_qr_code) {
