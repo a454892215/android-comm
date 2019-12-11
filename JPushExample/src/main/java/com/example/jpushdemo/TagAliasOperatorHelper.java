@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.SparseArray;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -328,7 +326,6 @@ class TagAliasOperatorHelper {
         String alias;
         boolean isAliasAction;
 
-        @NotNull
         @Override
         public String toString() {
             return "TagAliasBean{" +

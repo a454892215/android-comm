@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -245,7 +243,6 @@ final class LocalBroadcastManager {
             this.receiver = _receiver;
         }
 
-        @NotNull
         public String toString() {
             return "Receiver{" +
                     this.receiver +

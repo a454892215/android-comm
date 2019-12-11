@@ -1,10 +1,5 @@
 apply plugin: 'com.android.application'
 
-dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    implementation project(path: ':common')
-}
-
 android {
     compileSdkVersion 28
 
@@ -38,5 +33,11 @@ android {
             resValue "string", "app_name", "JPush SDK Demo"
             resValue "bool", "auto_updates", 'true'
         }
+    }
+
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: '*.jar')
+      //  implementation project(path: ':common')
     }
 }

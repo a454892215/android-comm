@@ -13,8 +13,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.common.utils.LogUtil;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -106,7 +104,7 @@ class ExampleUtil {
 			TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             ret = telephonyManager.getDeviceId();
 		} catch (Exception e) {
-			LogUtil.e(e);
+q			LogUtil.e(e);
 		}
 		if (isReadableASCII(ret)){
             return ret;

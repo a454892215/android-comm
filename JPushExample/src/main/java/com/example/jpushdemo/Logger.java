@@ -1,7 +1,5 @@
 package com.example.jpushdemo;
 
-import com.common.utils.LogUtil;
-
 
 class Logger {
 
