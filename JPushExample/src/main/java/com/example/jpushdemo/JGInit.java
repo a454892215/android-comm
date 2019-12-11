@@ -8,16 +8,11 @@ import cn.jpush.android.api.JPushInterface;
  * 
  * 一般建议在自定义 Application 类里初始化。也可以在主 Activity 里。
  */
-public class MyApplication extends Application {
+public class JGInit {
 
-    @Override
-    public void onCreate() {    	     
-    	 Logger.d("[ExampleApplication] onCreate");
-         super.onCreate();
+    public static void init(Application application) {
 
          JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-         JPushInterface.init(this);     		// 初始化 JPush
-
-        LogUtil.i("===onCreate==App=====2====:");
+         JPushInterface.init(application);     		// 初始化 JPush
     }
 }

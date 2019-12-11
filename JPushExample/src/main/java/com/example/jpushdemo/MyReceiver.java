@@ -116,16 +116,16 @@ public class MyReceiver extends BroadcastReceiver {
 	
 	//send msg to MainActivity
 	private void processCustomMessage(Context context, Bundle bundle) {
-		if (MainActivity.isForeground) {
+		if (JGMainActivity.isForeground) {
 			String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 			String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-			Intent msgIntent = new Intent(MainActivity.MESSAGE_RECEIVED_ACTION);
-			msgIntent.putExtra(MainActivity.KEY_MESSAGE, message);
+			Intent msgIntent = new Intent(JGMainActivity.MESSAGE_RECEIVED_ACTION);
+			msgIntent.putExtra(JGMainActivity.KEY_MESSAGE, message);
 			if (!ExampleUtil.isEmpty(extras)) {
 				try {
 					JSONObject extraJson = new JSONObject(extras);
 					if (extraJson.length() > 0) {
-						msgIntent.putExtra(MainActivity.KEY_EXTRAS, extras);
+						msgIntent.putExtra(JGMainActivity.KEY_EXTRAS, extras);
 					}
 				} catch (JSONException e) {
 					LogUtil.e(e);

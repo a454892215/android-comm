@@ -20,7 +20,7 @@ import cn.jpush.android.api.JPushInterface;
 
 
 
-public class MainActivity extends InstrumentedActivity implements OnClickListener{
+public class JGMainActivity extends InstrumentedActivity implements OnClickListener{
 
 	private TextView mRegId;
 	private EditText msgText;
@@ -86,7 +86,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 		if (id == R.id.init) {
 			init();
 		} else if (id == R.id.setting) {
-			Intent intent = new Intent(MainActivity.this, PushSetActivity.class);
+			Intent intent = new Intent(JGMainActivity.this, PushSetActivity.class);
 			startActivity(intent);
 		} else if (id == R.id.stopPush) {
 			JPushInterface.stopPush(getApplicationContext());

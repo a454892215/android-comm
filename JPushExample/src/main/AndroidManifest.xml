@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.jpushdemo"
-    android:versionCode="338"
-    android:versionName="3.3.8">
+    package="com.example.jpushdemo">
 
     <!-- Required -->
     <permission
@@ -39,17 +37,12 @@
 
         <!-- For test only 测试的主程序-->
         <activity
-            android:name="com.example.jpushdemo.MainActivity"
-            android:label="JG" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name="com.example.jpushdemo.JGMainActivity"/>
+
        <!-- For test only 测试高级功能 -->
-       <activity android:name="com.example.jpushdemo.PushSetActivity" android:label="JG"></activity>
+       <activity android:name="com.example.jpushdemo.PushSetActivity" android:label="JG"/>
         <!-- For test only 测试设置 -->
-       <activity android:name="com.example.jpushdemo.SettingActivity" android:label="JG"></activity>
+       <activity android:name="com.example.jpushdemo.SettingActivity" android:label="JG"/>
         <!-- For test only 测试状态通知栏，需要打开的Activity -->
         <activity android:name="com.example.jpushdemo.TestActivity" android:exported="false">
             <intent-filter>
