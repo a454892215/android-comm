@@ -73,23 +73,18 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.setStyle0:
-                setAddActionsStyle();
-                break;
-            case R.id.setStyle1:
-                setStyleBasic();
-                break;
-            case R.id.setStyle2:
-                setStyleCustom();
-                break;
-            case R.id.bu_setTime:
-                Intent intent = new Intent(PushSetActivity.this, SettingActivity.class);
-                startActivity(intent);
-                break;
-            default:
-                onTagAliasAction(view);
-                break;
+        int id = view.getId();
+        if (id == R.id.setStyle0) {
+            setAddActionsStyle();
+        } else if (id == R.id.setStyle1) {
+            setStyleBasic();
+        } else if (id == R.id.setStyle2) {
+            setStyleCustom();
+        } else if (id == R.id.bu_setTime) {
+            Intent intent = new Intent(PushSetActivity.this, SettingActivity.class);
+            startActivity(intent);
+        } else {
+            onTagAliasAction(view);
         }
     }
 
@@ -155,71 +150,61 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
         String alias = null;
         int action;
         boolean isAliasAction = false;
-        switch (view.getId()){
-            //设置手机号码:
-            case R.id.bt_setmobileNumber:
-                handleSetMobileNumber();
-                return;
+        int id = view.getId();//设置手机号码:
+        if (id == R.id.bt_setmobileNumber) {
+            handleSetMobileNumber();
+            return;
             //增加tag
-            case R.id.bt_addtag:
-                tags = getInPutTags();
-                if(tags == null){
-                    return;
-                }
-                action = ACTION_ADD;
-                break;
-            //设置tag
-            case R.id.bt_settag:
-                tags = getInPutTags();
-                if(tags == null){
-                    return;
-                }
-                action = ACTION_SET;
-                break;
-            //删除tag
-            case R.id.bt_deletetag:
-                tags = getInPutTags();
-                if(tags == null){
-                    return;
-                }
-                action = ACTION_DELETE;
-                break;
-            //获取所有tag
-            case R.id.bt_getalltag:
-                action = ACTION_GET;
-                break;
-            //清除所有tag
-            case R.id.bt_cleantag:
-                action = ACTION_CLEAN;
-                break;
-            case R.id.bt_checktag:
-                tags = getInPutTags();
-                if(tags == null){
-                    return;
-                }
-                action = ACTION_CHECK;
-                break;
-            //设置alias
-            case R.id.bt_setalias:
-                alias = getInPutAlias();
-                if(TextUtils.isEmpty(alias)){
-                    return;
-                }
-                isAliasAction = true;
-                action = ACTION_SET;
-                break;
-            //获取alias
-            case R.id.bt_getalias:
-                isAliasAction = true;
-                action = ACTION_GET;
-                break;
-            //删除alias
-            case R.id.bt_deletealias:
-                isAliasAction = true;
-                action = ACTION_DELETE;
-                break;
-            default:
+        } else if (id == R.id.bt_addtag) {
+            tags = getInPutTags();
+            if (tags == null) {
                 return;
+            }
+            action = ACTION_ADD;
+            //设置tag
+        } else if (id == R.id.bt_settag) {
+            tags = getInPutTags();
+            if (tags == null) {
+                return;
+            }
+            action = ACTION_SET;
+            //删除tag
+        } else if (id == R.id.bt_deletetag) {
+            tags = getInPutTags();
+            if (tags == null) {
+                return;
+            }
+            action = ACTION_DELETE;
+            //获取所有tag
+        } else if (id == R.id.bt_getalltag) {
+            action = ACTION_GET;
+            //清除所有tag
+        } else if (id == R.id.bt_cleantag) {
+            action = ACTION_CLEAN;
+        } else if (id == R.id.bt_checktag) {
+            tags = getInPutTags();
+            if (tags == null) {
+                return;
+            }
+            action = ACTION_CHECK;
+            //设置alias
+        } else if (id == R.id.bt_setalias) {
+            alias = getInPutAlias();
+            if (TextUtils.isEmpty(alias)) {
+                return;
+            }
+            isAliasAction = true;
+            action = ACTION_SET;
+            //获取alias
+        } else if (id == R.id.bt_getalias) {
+            isAliasAction = true;
+            action = ACTION_GET;
+            //删除alias
+        } else if (id == R.id.bt_deletealias) {
+            isAliasAction = true;
+            action = ACTION_DELETE;
+        } else {
+            return;
         }
         TagAliasBean tagAliasBean = new TagAliasBean();
         tagAliasBean.action = action;

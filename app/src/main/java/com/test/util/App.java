@@ -10,7 +10,7 @@ import com.common.helper.SoundPoolHelper;
  * Description: No
  */
 
-public class MyAppApplication extends CommApp {
+public class App extends CommApp {
 
     public SoundPoolHelper soundPoolUtil;
 
@@ -20,7 +20,7 @@ public class MyAppApplication extends CommApp {
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
-        LogUtil.i("==============:"+BuildConfig.app_info);
+        LogUtil.i("===onCreate==App=========:"+BuildConfig.app_info);
     }
 
 

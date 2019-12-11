@@ -82,28 +82,23 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 	@SuppressLint("SetTextI18n")
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.init:
+		int id = v.getId();
+		if (id == R.id.init) {
 			init();
-			break;
-		case R.id.setting:
+		} else if (id == R.id.setting) {
 			Intent intent = new Intent(MainActivity.this, PushSetActivity.class);
 			startActivity(intent);
-			break;
-		case R.id.stopPush:
+		} else if (id == R.id.stopPush) {
 			JPushInterface.stopPush(getApplicationContext());
-			break;
-		case R.id.resumePush:
+		} else if (id == R.id.resumePush) {
 			JPushInterface.resumePush(getApplicationContext());
-			break;
-		case R.id.getRegistrationId:
+		} else if (id == R.id.getRegistrationId) {
 			String rid = JPushInterface.getRegistrationID(getApplicationContext());
 			if (!rid.isEmpty()) {
 				mRegId.setText("RegId:" + rid);
 			} else {
 				Toast.makeText(this, "Get registration fail, JPush init failed!", Toast.LENGTH_SHORT).show();
 			}
-			break;
 		}
 	}
 	

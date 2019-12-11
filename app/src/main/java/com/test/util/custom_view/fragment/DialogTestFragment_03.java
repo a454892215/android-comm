@@ -16,7 +16,7 @@ import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
-import com.test.util.MyAppApplication;
+import com.test.util.App;
 import com.test.util.R;
 import com.common.base.BaseDropDialogFragment;
 
@@ -34,7 +34,7 @@ public class DialogTestFragment_03 extends BaseFragment {
     protected void initView() {
         BaseDropDialogFragment drop_2 = new BaseDropDialogFragment(activity);
         findViewById(R.id.tv_drop_2).setOnClickListener(anchorView -> {
-            MyAppApplication app = (MyAppApplication) activity.getApplication();
+            App app = (App) activity.getApplication();
             app.soundPoolUtil.play(0);
             drop_2.showAsDropDown(anchorView, 0, 0);
         });
