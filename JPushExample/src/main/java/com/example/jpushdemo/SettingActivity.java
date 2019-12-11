@@ -37,6 +37,7 @@ public class SettingActivity extends InstrumentedActivity implements OnClickList
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
+		getWindow().setStatusBarColor(0xffcccccc);
 		setContentView(R.layout.set_push_time);
 		init();
 		initListener();

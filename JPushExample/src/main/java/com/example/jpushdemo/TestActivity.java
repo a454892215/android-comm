@@ -15,6 +15,7 @@ public class TestActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setStatusBarColor(0xffcccccc);
         TextView tv = new TextView(this);
         tv.setText("用户自定义打开的Activity");
         Intent intent = getIntent();

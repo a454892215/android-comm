@@ -35,6 +35,7 @@ public class PushSetActivity extends InstrumentedActivity implements OnClickList
     @Override
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
+        getWindow().setStatusBarColor(0xffcccccc);
         setContentView(R.layout.push_set_dialog);
         initListener();
     }

@@ -30,6 +30,7 @@ public class JGMainActivity extends InstrumentedActivity implements OnClickListe
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		getWindow().setStatusBarColor(0xffcccccc);
 		initView();   
 		registerMessageReceiver();  // used for receive msg
 	}
