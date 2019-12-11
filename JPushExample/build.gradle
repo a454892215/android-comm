@@ -20,20 +20,6 @@ android {
         abortOnError false
     }
 
-    flavorDimensions "f1"
-    productFlavors {
-/*
-        product_1 {
-            *//* 完成 no *//*
-            applicationId "com.test.product_1"
-            versionCode 102
-            versionName "1.0.2"
-            dimension "f1"
-            resValue "string", "app_name", "JPush SDK Demo"
-            resValue "bool", "auto_updates", 'true'
-        }*/
-    }
-
 
     dependencies {
         compile fileTree(dir: 'libs', include: '*.jar')
