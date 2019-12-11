@@ -99,13 +99,12 @@ public class DateUtil {
     }
 
     /**
-     * 获取格式化年月日
-     *
-     * @return yyyy-MM-dd
+     * 获取时间戳对应的年月日 时分秒
      */
-    public static String getFileNameFormatDate(Date date) {
+    public static String getDateFileName(Date date) {
         SimpleDateFormat format = new SimpleDateFormat(
                 "yy年MM月dd日_HH时mm分ss秒", Locale.getDefault());
         return format.format(date);
     }
+
 }

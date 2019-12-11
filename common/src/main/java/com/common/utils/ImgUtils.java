@@ -1,25 +1,45 @@
 package com.common.utils;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
-@SuppressWarnings("unused")
+
 public class ImgUtils {
-    //保存文件到指定路径
-    public static boolean saveImageToGallery(Context context, Bitmap bmp, String fileName) {
+
+    public static boolean saveImageToGallery(Activity activity, Bitmap bmp, String fileName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                return saveImageToGallery2(activity, bmp, fileName);
+            } else {
+                ToastUtil.showLong("请开启存储权限!!!");
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+            }
+        } else {
+            return saveImageToGallery2(activity, bmp, fileName);
+        }
+        return false;
+    }
+
+    private static boolean saveImageToGallery2(Context context, Bitmap bmp, String fileName) {
         try {
             String path = "comm_photo";
             // 首先保存图片
@@ -28,22 +48,20 @@ public class ImgUtils {
                 boolean mkdir = appDir.mkdir();
                 LogUtil.d("创建图片目录是否成功：" + mkdir);
             }
-            fileName = TextUtils.isEmpty(fileName) ? DateUtil.getFileNameFormatDate(new Date()) : fileName;
-            fileName = fileName + ".jpg";
-            File file = new File(appDir, fileName);
+            fileName = TextUtils.isEmpty(fileName) ? DateUtil.getDateFileName(new Date()) : fileName;
+            File imgFile = new File(appDir, fileName);
 
-            FileOutputStream fos = new FileOutputStream(file);
+            FileOutputStream fos = new FileOutputStream(imgFile);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             fos.flush();
             fos.close();
-            MediaStore.Images.Media.insertImage(context.getContentResolver(), file.getAbsolutePath(), fileName, null);
-            // 最后通知图库更新
-            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + Environment.getExternalStorageDirectory() + path
-                    + "/" + fileName)));
+            String imgAbsolutePath = imgFile.getAbsolutePath();
+            MediaStore.Images.Media.insertImage(context.getContentResolver(), imgAbsolutePath, fileName, null);
+            context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imgAbsolutePath)));
+            LogUtil.d("============:文件保存目录：" + imgAbsolutePath);
             return true;
         } catch (Exception e) {
-            LogUtil.e("保存图片发生异常：" + e);
-            e.printStackTrace();
+            LogUtil.e(e);
         }
         return false;
     }
@@ -51,7 +69,7 @@ public class ImgUtils {
     /**
      * 从View中获取Bitmap
      */
-    public Bitmap loadBitmapFromView(View view) {
+    public static Bitmap loadBitmapFromView(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas); //把View 绘制在Canvas上
