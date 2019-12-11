@@ -2,22 +2,17 @@ package com.common.template;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Message;
 import android.webkit.WebView;
 import android.widget.ImageView;
 
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.common.utils.ImgUtils;
-import com.common.utils.LogUtil;
-import com.common.utils.ToastUtil;
 import com.common.x5_web.WindowX5WebDialogFragment;
 
 @SuppressWarnings("unused")
@@ -42,26 +37,6 @@ public class Template1 {
         //Glide示例
         Glide.with((Activity) null).load("file:///android_asset/" + "vip_pic/vip_no_color/" + "name.png").into((ImageView) null);
         Glide.with(activity).setDefaultRequestOptions(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE)).load("").into((ImageView) null);
-    }
-
-    public static void savePicToLocal(Activity context, ImageView iv_qr_code) {
-        try {
-            ActivityCompat.requestPermissions(context, new String[]{android
-                    .Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            iv_qr_code.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(iv_qr_code.getDrawingCache(false));
-            iv_qr_code.setDrawingCacheEnabled(false);
-            if (bitmap != null) {
-                boolean isOk = ImgUtils.saveImageToGallery(context, bitmap, "");
-                if (isOk) {
-                    ToastUtil.showShort("保存二维码成功");
-                }
-            } else {
-                ToastUtil.showShort("保存二维码失败");
-            }
-        } catch (Exception e) {
-            LogUtil.e(e);
-        }
     }
 
     //简单的多窗口模板代码

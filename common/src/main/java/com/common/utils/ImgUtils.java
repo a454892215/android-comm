@@ -1,7 +1,6 @@
 package com.common.utils;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,27 +18,36 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.common.base.BaseActivity;
+import com.common.listener.OnRequestPermissionFinish;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
 
 public class ImgUtils {
 
-    public static boolean saveImageToGallery(Activity activity, Bitmap bmp, String fileName) {
+    /**
+     * @return 1 表示成功 -1 表示失败 0 表示等待用户授权
+     */
+    public static int saveImageToGallery(BaseActivity activity, Bitmap bmp, String fileName, OnRequestPermissionFinish onRequestPermissionFinish) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 return saveImageToGallery2(activity, bmp, fileName);
             } else {
-                ToastUtil.showLong("请开启存储权限!!!");
                 ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+                activity.setOnRequestPermissionFinish(onRequestPermissionFinish);
             }
         } else {
             return saveImageToGallery2(activity, bmp, fileName);
         }
-        return false;
+        return 0;
     }
 
-    private static boolean saveImageToGallery2(Context context, Bitmap bmp, String fileName) {
+    /**
+     * @return 1 表示成功 -1 表示失败
+     */
+    public static int saveImageToGallery2(Context context, Bitmap bmp, String fileName) {
         try {
             String path = "comm_photo";
             // 首先保存图片
@@ -59,11 +67,11 @@ public class ImgUtils {
             MediaStore.Images.Media.insertImage(context.getContentResolver(), imgAbsolutePath, fileName, null);
             context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + imgAbsolutePath)));
             LogUtil.d("============:文件保存目录：" + imgAbsolutePath);
-            return true;
+            return 1;
         } catch (Exception e) {
             LogUtil.e(e);
         }
-        return false;
+        return -1;
     }
 
     /**

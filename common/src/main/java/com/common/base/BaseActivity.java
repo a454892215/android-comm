@@ -1,17 +1,20 @@
 package com.common.base;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
+import com.common.listener.OnRequestPermissionFinish;
 import com.common.utils.DensityUtils;
 
 import java.util.ArrayList;
@@ -36,7 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  SystemUtils.hideBottomVirtualKey(activity);
+        //  SystemUtils.hideBottomVirtualKey(activity);
         //设置允许通过ActivityOptions.makeSceneTransitionAnimation发送或者接收Bundle
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
@@ -88,14 +91,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (loadingDialogFragment == null) {
             loadingDialogFragment = new LoadingDialogFragment();
         }
-        if(!loadingDialogFragment.isVisible()){
+        if (!loadingDialogFragment.isVisible()) {
             loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
         }
 
     }
 
     public void dismissDefaultLoadingView() {
-        if(loadingDialogFragment != null && loadingDialogFragment.isVisible()){
+        if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
             loadingDialogFragment.dismiss();
         }
     }
@@ -138,7 +141,17 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void startActivity(Class<? extends AppCompatActivity> clazz) {
-        startActivity(new Intent(this, clazz));
+    OnRequestPermissionFinish onRequestPermissionFinish;
+
+    public void setOnRequestPermissionFinish(OnRequestPermissionFinish onRequestPermissionFinish) {
+        this.onRequestPermissionFinish = onRequestPermissionFinish;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (onRequestPermissionFinish != null){
+            onRequestPermissionFinish.onFinish(grantResults[0] == PackageManager.PERMISSION_GRANTED);
+        }
     }
 }

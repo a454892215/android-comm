@@ -11,7 +11,6 @@ import com.common.utils.ToastUtil;
 import com.test.util.base.BaseAppActivity;
 
 
-
 public class QRCodeTestActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,15 +20,26 @@ public class QRCodeTestActivity extends BaseAppActivity {
         iv_qr.setImageBitmap(QRCodeUtils.createQRCodeBitmap("https://www.baidu.com", size, size));
         iv_qr.setOnClickListener(v -> {
             Bitmap bitmapFromView = ImgUtils.loadBitmapFromView(iv_qr);
-           // String dateFileName = DateUtil.getDateFileName(new Date());
-            if (ImgUtils.saveImageToGallery(activity, bitmapFromView, "test_12345.jpg")) {
-                ToastUtil.showShort("图片保存成功");
-            } else {
-                ToastUtil.showShort("图片保存失败");
-            }
-
+            String fileName = "test_12345.jpg";
+            int state = ImgUtils.saveImageToGallery(activity, bitmapFromView, fileName, allow -> {
+                if (allow) {
+                    int state_2 = ImgUtils.saveImageToGallery2(activity, bitmapFromView, fileName);
+                    onImgSaveFinish(state_2);
+                } else {
+                    ToastUtil.showShort("请允许储存权限");
+                }
+            });
+            onImgSaveFinish(state);
         });
 
+    }
+
+    private void onImgSaveFinish(int state_2) {
+        if (state_2 == 1) {
+            ToastUtil.showShort("图片保存成功");
+        } else if (state_2 == -1) {
+            ToastUtil.showShort("图片保存失败");
+        }
     }
 
     @Override
