@@ -37,7 +37,7 @@ public class MainActivity extends InstrumentedActivity implements OnClickListene
 	@SuppressLint("SetTextI18n")
 	private void initView(){
 		TextView mImei = findViewById(R.id.tv_imei);
-		String udid =  ExampleUtil.getImei(getApplicationContext());
+		String udid =  ExampleUtil.getImei(this);
         if (null != udid) mImei.setText("IMEI: " + udid);
         
 		TextView mAppKey = findViewById(R.id.tv_appkey);

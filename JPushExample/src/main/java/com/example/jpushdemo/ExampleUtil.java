@@ -1,5 +1,7 @@
 package com.example.jpushdemo;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -13,10 +15,14 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.jpush.android.api.JPushInterface;
+
+import static com.example.jpushdemo.LogUtil.e;
 
 class ExampleUtil {
     static final String PREFS_NAME = "JPUSH_EXAMPLE";
@@ -67,7 +73,7 @@ class ExampleUtil {
                 }
             }
         } catch (NameNotFoundException e) {
-           LogUtil.e(e);
+           e(e);
         }
         return appKey;
     }
@@ -98,13 +104,24 @@ class ExampleUtil {
         return (info == null || !info.isConnected());
     }
     
-	static String getImei(Context context) {
+	@SuppressLint("HardwareIds")
+    static String getImei(Activity activity) {
         String ret = null;
 		try {
-			TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            ret = telephonyManager.getDeviceId();
+            if (ActivityCompat.checkSelfPermission(activity, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                // toast("需要动态获取权限");
+                ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.READ_PHONE_STATE}, 11);
+            }else{
+                // toast("不需要动态获取权限");
+                TelephonyManager tm = (TelephonyManager)activity.getSystemService(Context.TELEPHONY_SERVICE);
+                if(tm != null){
+                    ret = tm.getDeviceId();
+                }
+            }
+
+
 		} catch (Exception e) {
-q			LogUtil.e(e);
+			LogUtil.e(e);
 		}
 		if (isReadableASCII(ret)){
             return ret;

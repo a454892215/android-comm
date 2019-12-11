@@ -39,5 +39,6 @@ android {
     dependencies {
         compile fileTree(dir: 'libs', include: '*.jar')
       //  implementation project(path: ':common')
+        implementation 'androidx.core:core:1.1.0'
     }
 }
