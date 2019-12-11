@@ -15,8 +15,12 @@ import android.view.ViewOutlineProvider;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.common.R;
-import com.common.widget.inter.BottomTextFunc;
-import com.common.widget.view_func.BottomText;
+import com.common.widget.view_func.Image;
+import com.common.widget.view_func.ImageListFunc;
+import com.common.widget.view_func.Text;
+import com.common.widget.view_func.TextListFunc;
+
+import java.util.List;
 
 /**
  * Author:  L
@@ -24,7 +28,7 @@ import com.common.widget.view_func.BottomText;
  * Description: No
  */
 
-public class CommonTextView extends AppCompatTextView implements BottomTextFunc {
+public class CommonTextView extends AppCompatTextView implements TextListFunc, ImageListFunc {
     private float topLineStrokeWidth;
     private float bottomLineStrokeWidth;
     private float leftLineStrokeWidth;
@@ -101,7 +105,7 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
             canvas.drawLine(0, topLineStrokeWidth / 2, getWidth(), topLineStrokeWidth / 2, linePaint);
         }
 
-        if ( bottomLineStrokeWidth != 0) {
+        if (bottomLineStrokeWidth != 0) {
             linePaint.setStrokeWidth(bottomLineStrokeWidth);
             linePaint.setColor(bottomLineColor);
             canvas.drawLine(0, getHeight() - bottomLineStrokeWidth / 2, getWidth(), getHeight() - bottomLineStrokeWidth / 2, linePaint);
@@ -112,9 +116,18 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
             mPaint.setShader(mLinearGradient);
         }
 
-        if (bottomText != null) {
-            bottomText.onDraw(canvas);
+        if (textList != null) {
+            for (int i = 0; i < textList.size(); i++) {
+                textList.get(i).onDraw(canvas);
+            }
         }
+
+        if (imageList != null) {
+            for (int i = 0; i < imageList.size(); i++) {
+                imageList.get(i).onDraw(canvas);
+            }
+        }
+
         super.onDraw(canvas);
     }
 
@@ -162,15 +175,28 @@ public class CommonTextView extends AppCompatTextView implements BottomTextFunc 
         this.rightLineStrokeWidth = rightLineStrokeWidth;
     }
 
-    private BottomText bottomText;
+
+    private List<Text> textList;
 
     @Override
-    public void setBottomText(BottomText bottomText) {
-        this.bottomText = bottomText;
+    public void setTextList(List<Text> textList) {
+        this.textList = textList;
     }
 
     @Override
-    public BottomText getBottomText() {
-        return bottomText;
+    public List<Text> getTextList() {
+        return textList;
+    }
+
+    private List<Image> imageList;
+
+    @Override
+    public void setImageList(List<Image> image) {
+        this.imageList = image;
+    }
+
+    @Override
+    public List<Image> getImageList() {
+        return imageList;
     }
 }
