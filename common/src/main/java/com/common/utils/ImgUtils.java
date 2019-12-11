@@ -46,6 +46,7 @@ public class ImgUtils {
 
     /**
      * @return 1 表示成功 -1 表示失败
+     * 会分别在指定目录和picture目录存在一张图片
      */
     public static int saveImageToGallery2(Context context, Bitmap bmp, String fileName) {
         try {
