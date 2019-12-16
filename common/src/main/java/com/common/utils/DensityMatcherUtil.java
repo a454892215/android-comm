@@ -20,17 +20,20 @@ public class DensityMatcherUtil {
     private static boolean IS_BASE_ON_LONGEST = false;
 
     /**
-     * @param application     app
+     * @param application     application
      * @param size            用来参照的的宽度或者高度
      * @param isBaseOnLongest 是否基于最长一边，默认false 表示基于垂直状态的手机宽度，否则基于高度
      */
     public static void init(@NonNull final Application application, float size, boolean isBaseOnLongest) {
-        BASE_SIZE = size;
-        IS_BASE_ON_LONGEST = isBaseOnLongest;
-        appDisplayMetrics = application.getResources().getDisplayMetrics();
-        appDensity = appDisplayMetrics.density;
-        appScaledDensity = appDisplayMetrics.scaledDensity;
-        registerActivityLifecycleCallbacks(application);
+        if(appDisplayMetrics == null){
+            BASE_SIZE = size;
+            IS_BASE_ON_LONGEST = isBaseOnLongest;
+            appDisplayMetrics = application.getResources().getDisplayMetrics();
+            appDensity = appDisplayMetrics.density;
+            appScaledDensity = appDisplayMetrics.scaledDensity;
+            registerActivityLifecycleCallbacks(application);
+        }
+
     }
 
 
