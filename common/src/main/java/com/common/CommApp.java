@@ -8,7 +8,6 @@ import android.webkit.WebView;
 
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
-import com.common.utils.DensityMatcherUtil;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
 import com.common.x5_web.MyTbsLogClient;
@@ -34,7 +33,6 @@ public class CommApp extends Application {
         app = this;
         CrashHandler.init(this);
         CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
-        DensityMatcherUtil.init(this, 360, false);
         setWebViewPath(this);
         if (isInitX5Web) initX5WebView();
         L.init(this);

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
 import com.common.listener.OnRequestPermissionFinish;
+import com.common.utils.DensityMatcherUtil;
 import com.common.utils.DensityUtils;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //  SystemUtils.hideBottomVirtualKey(activity);
         //设置允许通过ActivityOptions.makeSceneTransitionAnimation发送或者接收Bundle
+        DensityMatcherUtil.onActivityCreate(this, 360, false);
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
@@ -150,7 +152,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (onRequestPermissionFinish != null){
+        if (onRequestPermissionFinish != null) {
             onRequestPermissionFinish.onFinish(grantResults[0] == PackageManager.PERMISSION_GRANTED);
         }
     }
