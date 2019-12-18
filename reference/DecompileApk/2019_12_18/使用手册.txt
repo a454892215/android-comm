@@ -1,0 +1,10 @@
+准备：把app.apk放在当前目录
+
+一.获取apk资源文件：
+执行： java -jar apktool.jar d app.apk  获取apk资源文件
+
+二.获取apk类文件源码
+01.把apk后缀名改成.zip. 解压 获取.dex 文件
+02.把.dex 文件放入dex2jar-2.0 目录下
+03.进入dex2jar-2.0 目录下，执行命令： d2j-dex2jar classes.dex 获取classes.jar 文件
+04.使用jd-gui-windows软件打开classes.jar即可阅读源码

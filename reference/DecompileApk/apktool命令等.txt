@@ -1,0 +1,15 @@
+﻿
+
+java -jar apktool.jar d app.apk   //apk反编译
+
+java -jar apktool.jar b app   //app重新打包：会在app目录生成dist和build目录（生成前或可删除manifest的test配置）
+
+使用360加固重新签名 安装
+
+
+apk反编译工具：
+apktool （资源文件获取，可以提取出图片文件和布局文件进行使用查看） 下载地址： https://bitbucket.org/iBotPeaches/apktool/downloads/
+dex2jar（classes.dex转化成jar文件） 下载地址：http://sourceforge.net/projects/dex2jar/files/
+jd-gui  （源码查看） 下载地址：http://jd.benow.ca/
+博客地址：https://blog.csdn.net/bqxdrs012/article/details/89359705
+
