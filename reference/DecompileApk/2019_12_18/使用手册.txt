@@ -1,7 +1,7 @@
 准备：把app.apk放在当前目录
 
 一.获取apk资源文件：
-执行： java -jar apktool.jar d app.apk  获取apk资源文件
+执行： java -jar apktool.jar d app.apk  
 
 二.获取apk类文件源码
 01.把apk后缀名改成.zip. 解压 获取.dex 文件
