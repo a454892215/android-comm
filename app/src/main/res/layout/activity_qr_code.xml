@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:ignore="HardcodedText">
+    tools:ignore="HardcodedText,SpUsage">
 
     <include layout="@layout/include_header" />
 
@@ -16,4 +16,13 @@
         android:layout_marginStart="@dimen/dp_30"
         android:layout_marginTop="@dimen/dp_30"
         tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="temple_text"
+        android:textColor="#666666"
+        android:textSize="@dimen/sp_13"
+        android:maxLines="1" />
 </LinearLayout>
