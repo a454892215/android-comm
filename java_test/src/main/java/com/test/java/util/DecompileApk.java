@@ -17,12 +17,22 @@ public class DecompileApk {
         try {
             File apkFile = new File("app/build/outputs/apk/product_1/debug/V1.0.2-product_1Debug.apk");
             ApkDecoder decoder = new ApkDecoder();
+            decoder.setForceDelete(true);
             decoder.setOutDir(new File("java_test/build/apk"));
             decoder.setApkFile(apkFile);
             decoder.decode();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
+    /**
+     * 删除文件，可以是文件或文件夹
+     * @param fileName：要删除的文件名
+     * @return 删除成功返回true，否则返回false
+     */
+
+
 }
