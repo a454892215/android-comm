@@ -4,7 +4,9 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -15,13 +17,25 @@ public class DecompileApk {
 
     public static void main(String[] args) {
         //  decompile();
-        getDexFiles();
+        dex2Jar();
+
+    }
+
+    /**
+     * 把所有dex文件转换成jar文件
+     */
+    private static void dex2Jar() {
+        List<String> dexFiles = getDexFiles();
+        for (int i = 0; i < dexFiles.size(); i++) {
+            CmdUtil.startCmd(DEX2JAR_BAT_PATH +" "+ dexFiles.get(i));
+        }
     }
 
 
     private static final String APK_PATH = "app/build/outputs/apk/product_1/debug/V1.0.2-product_1Debug.apk";
     private static final String APK_OUT_DIR_PATH = "java_test/build/apk";
-    private static final String DEX_OUT_DIR_PATH = "java_test/build/dex";
+    private static final String DEX_OUT_DIR_PATH = "reference/DecompileApk/2019_12_18/dex2jar-2.0";
+    private static final String DEX2JAR_BAT_PATH = "D:\\work\\AndroidProjects\\CommonLibaray\\Common\\reference\\DecompileApk\\2019_12_18\\dex2jar-2.0\\d2j-dex2jar.bat";
 
     /**
      * 直接反编译apk 获取资源文件和smali 文件
@@ -44,7 +58,8 @@ public class DecompileApk {
     /**
      * 获取所以dex文件
      */
-    private static void getDexFiles() {
+    private static List<String> getDexFiles() {
+        List<String> list = new ArrayList<>();
         try {
             ZipFile zipFile = new ZipFile(APK_PATH);
             Enumeration<? extends ZipEntry> entries = zipFile.entries();
@@ -52,19 +67,21 @@ public class DecompileApk {
                 ZipEntry zipEntry = entries.nextElement();
                 String name = zipEntry.getName();
                 if (name.endsWith(".dex")) {
-                    unzipFileFromZip(zipFile, zipEntry, name, DEX_OUT_DIR_PATH + File.separator);
+                    String filePath = unzipFileFromZip(zipFile, zipEntry, name, DEX_OUT_DIR_PATH + File.separator);
+                    list.add(filePath);
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
     }
 
     /**
      * 从zip中解压指定文件
      */
-    private static void unzipFileFromZip(ZipFile zipFile, ZipEntry zipEntry, String name, String outDir) {
+    private static String unzipFileFromZip(ZipFile zipFile, ZipEntry zipEntry, String name, String outDir) {
+        String filePath = "";
         try {
             BufferedInputStream bin = new BufferedInputStream(zipFile.getInputStream(zipEntry));
             byte[] inByte = new byte[bin.available()];
@@ -81,9 +98,11 @@ public class DecompileApk {
             bout.write(inByte);
             bin.close();
             bout.close();
+            filePath = outFile.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return filePath;
     }
 
 
