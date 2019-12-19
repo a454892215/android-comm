@@ -20,7 +20,7 @@ public class DecompileApk {
     }
 
     /**
-     * 把所有dex文件转换成jar文件
+     * 把所有dex文件转换成jar文件,并且使用JD_GUI打开所有的jar
      */
     private static void dex2Jar() {
         List<String> dexFiles = getDexFiles();
@@ -72,9 +72,7 @@ public class DecompileApk {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
     /**
      * 获取所有dex文件
      */
