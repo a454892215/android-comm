@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -67,12 +66,9 @@ public class DecompileApk {
      */
     private static void unzipFileFromZip(ZipFile zipFile, ZipEntry zipEntry, String name, String outDir) {
         try {
-            InputStream in = zipFile.getInputStream(zipEntry);
-            BufferedInputStream bin = new BufferedInputStream(in);
+            BufferedInputStream bin = new BufferedInputStream(zipFile.getInputStream(zipEntry));
             byte[] inByte = new byte[bin.available()];
-            int read = bin.read(inByte);
-            bin.close();
-            LogUtil.d(name + "  size:" + read / 1024 + "kb");
+            LogUtil.d(name + "  size:" + bin.read(inByte) / 1024 + "kb");
             File outFile = new File(outDir + name);
             File parentFile = outFile.getParentFile();
             if (!parentFile.exists()) {
@@ -81,9 +77,9 @@ public class DecompileApk {
             if (!outFile.exists()) {
                 LogUtil.d("======创建输出文件:" + parentFile.getAbsolutePath() + " 是否成功：" + outFile.createNewFile());
             }
-            FileOutputStream out = new FileOutputStream(outFile); //文件已经存在会强制覆盖
-            BufferedOutputStream bout = new BufferedOutputStream(out);
+            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(outFile));//文件已经存在会强制覆盖
             bout.write(inByte);
+            bin.close();
             bout.close();
         } catch (Exception e) {
             e.printStackTrace();
