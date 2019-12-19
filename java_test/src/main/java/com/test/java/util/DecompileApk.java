@@ -28,6 +28,16 @@ public class DecompileApk {
             CmdUtil.startCmd(new File(DEX2JAR_BAT_PATH).getAbsolutePath() + " " + dexFiles.get(i), new File(JAR_OUT_DIR_PATH));
         }
         CmdUtil.startCmd("explorer " + new File(JAR_OUT_DIR_PATH).getAbsolutePath(), null);
+
+        StringBuilder all_jar_file_path = new StringBuilder();
+        for (int i = 0; i < dexFiles.size(); i++) {
+            String dexPath = dexFiles.get(i);
+            int start = dexPath.lastIndexOf("\\");
+            int end = dexPath.lastIndexOf(".");
+            all_jar_file_path.append(new File(JAR_OUT_DIR_PATH).getAbsolutePath()).append(dexPath, start, end).append("-dex2jar.jar ");
+        }
+        LogUtil.d("======:" + all_jar_file_path.toString());
+        CmdUtil.startCmd(new File(JD_GUI_PATH).getAbsolutePath() + " " + all_jar_file_path, null);
     }
 
 
