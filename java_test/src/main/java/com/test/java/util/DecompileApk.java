@@ -26,8 +26,10 @@ public class DecompileApk {
      */
     private static void dex2Jar() {
         List<String> dexFiles = getDexFiles();
+      //  CmdUtil.startCmd("D://");
+      //  CmdUtil.startCmd("cd " + DEX_OUT_DIR_PATH + File.separator + "out_jar");
         for (int i = 0; i < dexFiles.size(); i++) {
-            CmdUtil.startCmd(DEX2JAR_BAT_PATH +" "+ dexFiles.get(i));
+            CmdUtil.startCmd(DEX2JAR_BAT_PATH + " " + dexFiles.get(i));
         }
     }
 
