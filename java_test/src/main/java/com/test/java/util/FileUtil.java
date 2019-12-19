@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FileUtil {
 
-    private static List<String> getAllChildFileAbsolutePathList(String directionPath) {
+    static List<String> getAllChildFileAbsolutePathList(String directionPath) {
         File file = new File(directionPath);
         List<String> list = new ArrayList<>();
         File[] files = file.listFiles();
@@ -28,20 +28,33 @@ public class FileUtil {
     public static void deleteDir(String dirPath) {
         File file = new File(dirPath);
         if (!file.exists()) {
-            System.err.println("删除文件失败:" + dirPath + "不存在！");
+            LogUtil.d("删除文件失败:" + dirPath + "不存在！");
             return;
         }
+        int count = 0;
         if (file.isDirectory()) {
             List<String> allChildFileAbsolutePathList = getAllChildFileAbsolutePathList(dirPath);
             for (int i = 0; i < allChildFileAbsolutePathList.size(); i++) {
                 String filePath = allChildFileAbsolutePathList.get(i);
                 File childFile = new File(filePath);
                 if (childFile.isFile()) {
-                    LogUtil.d("===删除文件：" + filePath + "是否成功：" + childFile.delete());
+                    boolean delete = childFile.delete();
+                    LogUtil.d("===删除文件：" + filePath + "是否成功：" + delete);
+                    if (delete) {
+                        count++;
+                    }
                 }
             }
+            LogUtil.d("删除目录完毕，共删除文件:" + count + "个");
         } else {
             LogUtil.e("不是目录");
+        }
+    }
+
+
+    public static void createDir(File dir) {
+        if (!dir.exists()) {
+            LogUtil.d("======createDir:" + dir.mkdirs());
         }
     }
 
