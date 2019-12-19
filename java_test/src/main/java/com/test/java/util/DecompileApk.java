@@ -16,10 +16,7 @@ import brut.androlib.ApkDecoder;
 public class DecompileApk {
 
     public static void main(String[] args) {
-        //  decompile();
-      //  dex2Jar();
-        CmdUtil.startCmd("cmd.exe /c cd");
-     //   CmdUtil.startCmd("cmd.exe /c dir");
+        dex2Jar();
     }
 
     /**
@@ -27,10 +24,10 @@ public class DecompileApk {
      */
     private static void dex2Jar() {
         List<String> dexFiles = getDexFiles();
-      //  CmdUtil.startCmd("D://");
-      //  CmdUtil.startCmd("cd " + DEX_OUT_DIR_PATH + File.separator + "out_jar");
+        //  CmdUtil.startCmd("D://");
+        //  CmdUtil.startCmd("cd " + DEX_OUT_DIR_PATH + File.separator + "out_jar");
         for (int i = 0; i < dexFiles.size(); i++) {
-            CmdUtil.startCmd(DEX2JAR_BAT_PATH + " " + dexFiles.get(i));
+            CmdUtil.startCmd(DEX2JAR_BAT_PATH + " " + dexFiles.get(i), new File(JAR_OUT_DIR_PATH));
         }
     }
 
@@ -39,6 +36,7 @@ public class DecompileApk {
     private static final String APK_OUT_DIR_PATH = "java_test/build/apk";
     private static final String DEX_OUT_DIR_PATH = "reference/DecompileApk/2019_12_18/dex2jar-2.0";
     private static final String DEX2JAR_BAT_PATH = "D:\\work\\AndroidProjects\\CommonLibaray\\Common\\reference\\DecompileApk\\2019_12_18\\dex2jar-2.0\\d2j-dex2jar.bat";
+    private static final String JAR_OUT_DIR_PATH = "java_test/build";
 
     /**
      * 直接反编译apk 获取资源文件和smali 文件
@@ -59,7 +57,7 @@ public class DecompileApk {
     }
 
     /**
-     * 获取所以dex文件
+     * 获取所有dex文件
      */
     private static List<String> getDexFiles() {
         List<String> list = new ArrayList<>();
