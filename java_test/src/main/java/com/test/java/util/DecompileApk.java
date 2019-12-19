@@ -17,8 +17,9 @@ public class DecompileApk {
 
     public static void main(String[] args) {
         //  decompile();
-        dex2Jar();
-
+      //  dex2Jar();
+        CmdUtil.startCmd("cmd.exe /c cd");
+     //   CmdUtil.startCmd("cmd.exe /c dir");
     }
 
     /**

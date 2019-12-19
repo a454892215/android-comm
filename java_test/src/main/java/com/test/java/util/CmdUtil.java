@@ -17,7 +17,7 @@ class CmdUtil {
             bufferedReader.close();
             child.waitFor();
             LogUtil.d("cmd:" + cmd);
-            LogUtil.d("======:" + "sb:" + sb.toString() + "cmd finished");
+            LogUtil.d("======:" + "out:" + sb.toString() + "cmd finished");
 
         } catch (Exception e) {
             LogUtil.e("======:" + e);
