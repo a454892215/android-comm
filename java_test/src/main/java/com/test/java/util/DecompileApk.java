@@ -16,7 +16,7 @@ import brut.androlib.ApkDecoder;
 @SuppressWarnings("unused")
 public class DecompileApk {
 
-    private static final String APK_PATH = "app/build/outputs/apk/product_1/debug/V1.0.2-product_1Debug.apk";
+    private static final String APK_PATH = "java_test/build/app.apk";
     private static final String JD_GUI_PATH = "reference/DecompileApk/2019_12_18/jd-gui.exe";
 
     //反编译后的apk输出目录
