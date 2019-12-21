@@ -32,8 +32,9 @@ public class DecompileApk {
     private static final String JAR_OUT_DIR_PATH = "java_test/build/jarOut";
 
     public static void main(String[] args) {
-        LogUtil.d("请输入序号：1.反编译apk获取资源文件，2.反编译apk获取源码, 9.退出");
+
         while (true) {
+            LogUtil.d("请输入序号：1.反编译apk获取资源文件，2.反编译apk获取源码, 9.退出");
             Scanner scanner = new Scanner(System.in);
             switch (scanner.nextInt()) {
                 case 1:
@@ -89,7 +90,7 @@ public class DecompileApk {
             decoder.setOutDir(new File(APK_FILES_OUT_DIR_PATH));
             decoder.setApkFile(apkFile);
             decoder.decode();
-
+            CmdUtil.startCmd("explorer " + new File(APK_FILES_OUT_DIR_PATH).getAbsolutePath(), null);
         } catch (Exception e) {
             e.printStackTrace();
         }
