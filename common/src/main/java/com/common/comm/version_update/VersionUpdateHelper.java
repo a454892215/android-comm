@@ -64,7 +64,7 @@ public class VersionUpdateHelper {
         alertDialog.show();
     }
 
-    private boolean checkApkIsDownLoaded(Activity activity, String md5) {
+    private boolean checkApkIsDownLoaded(String md5) {
         String apkPath = SharedPreUtils.getString(key_apk_download_path, "");
         if (!TextUtils.isEmpty(apkPath)) {
             File apkFile = new File(apkPath);
@@ -87,7 +87,7 @@ public class VersionUpdateHelper {
      */
     public void onClickUpdate(Activity activity, String apkUrl, String newAppMD5, OnDownloadFinish onDownloadFinish) {
         //判断文件是否已经下载完毕：
-        boolean apkIsDownloaded = checkApkIsDownLoaded(activity, newAppMD5);
+        boolean apkIsDownloaded = checkApkIsDownLoaded(newAppMD5);
         LogUtil.d("===============apkUrl:" + apkUrl + " apkIsDownloaded:" + apkIsDownloaded);
         if (apkIsDownloaded) {
             try {
