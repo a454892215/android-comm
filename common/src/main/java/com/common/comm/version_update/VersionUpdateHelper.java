@@ -2,6 +2,7 @@ package com.common.comm.version_update;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -13,15 +14,11 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.common.R;
-import com.common.base.BaseActivity;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
 import com.common.utils.StringUtil;
 import com.common.utils.ToastUtil;
-import com.common.widget.CommonTextView;
 import com.xuexiang.xupdate.utils.ApkInstallUtils;
 
 import java.io.File;
@@ -32,57 +29,22 @@ import java.util.Objects;
  * CreateDate: 2018/9/1 9:50
  * Description: No
  */
-
+@SuppressWarnings("unused")
 public class VersionUpdateHelper {
     private static final String key_apk_download_path = "key_apk_download_path";
-    private AlertDialog alertDialog;
-    public static boolean isForceUpdate = false;
 
-    public void onHasNewVersion(BaseActivity activity, long appSize, String version, String newVersionHint, boolean isForceUpdate, String appUrl, String appMD5) {
-        if (TextUtils.isEmpty(appUrl)) return;
-        String content;
-        if (appSize <= 0) {
-            content = newVersionHint;
-        } else {
-            content = "新版本大小：" + appSize + "\n\n" + newVersionHint;
-        }
-        showUpdatePrompt(activity, version, content, appUrl, isForceUpdate, appMD5);
-    }
-
-    private boolean apkIsDownloaded = false; //apk是否已经下载
-    private File apkFile;
-
-    private void showUpdatePrompt(BaseActivity activity, String newVersionName, String updateInfo, String apkUrl, boolean isForceUpdate, String md5) {
-        String title = String.format("是否升级到v%s版本？", newVersionName);
-
-        //判断文件是否已经下载完毕：
-        String apkPath = SharedPreUtils.getString(key_apk_download_path, "");
-        if (!TextUtils.isEmpty(apkPath)) {
-            apkFile = new File(apkPath);
-            if (apkFile.exists()) {//下载的apk文件还存在
-                String fileMD5 = Md5Utils.getFileMD5(apkFile);
-                if (!TextUtils.isEmpty(md5) && md5.equals(fileMD5)) {//新版本的apk文件已经下载完毕，还存在
-                    title = String.format("新版本v%s已经下载完毕，是否更新？", newVersionName);
-                    apkIsDownloaded = true;
-                    LogUtil.d("已经下载完毕的apk文件路径是：" + apkFile.getAbsolutePath());
-                } else {
-                    apkIsDownloaded = false;
-                    LogUtil.e("apk文件虽然还存在 但是md5值验证失败，准备提示下载");
-                }
-            }
-        }
+    public void showUpdateAppDialog(Activity activity, String apkUrl, boolean isForceUpdate, String newAppMD5) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.layout_version_update, null);
         LinearLayout llt_no_force_update = view.findViewById(R.id.llt_no_force_update);
-        TextView tv_title = view.findViewById(R.id.tv_title);
-        TextView tv_content = view.findViewById(R.id.tv_content);
-        CommonTextView btn_yes = view.findViewById(R.id.btn_yes_1);
-        CommonTextView btn_yes_2 = view.findViewById(R.id.btn_yes_2);
-        CommonTextView btn_no_2 = view.findViewById(R.id.btn_no_2);
-        tv_title.setText(title);
-        tv_content.setText(updateInfo);
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity)
-                .setView(view);
-        View.OnClickListener onYesClickListener = v -> onClickUpdate(activity, apkUrl, md5);
+        TextView btn_yes = view.findViewById(R.id.btn_yes_1);
+        TextView btn_yes_2 = view.findViewById(R.id.btn_yes_2);
+        TextView btn_no_2 = view.findViewById(R.id.btn_no_2);
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity).setView(view);
+        AlertDialog alertDialog = builder.create();
+        View.OnClickListener onYesClickListener = v -> {
+            alertDialog.dismiss();
+            onClickUpdate(activity, apkUrl, newAppMD5, null);
+        };
         if (isForceUpdate) {
             llt_no_force_update.setVisibility(View.GONE);
             btn_yes.setVisibility(View.VISIBLE);
@@ -94,34 +56,61 @@ public class VersionUpdateHelper {
             btn_yes_2.setOnClickListener(onYesClickListener);
             btn_no_2.setOnClickListener(v -> alertDialog.dismiss());
         }
-        VersionUpdateHelper.isForceUpdate = isForceUpdate;
-        alertDialog = builder.create();
         Window window = alertDialog.getWindow();
         if (window != null) {
-            window.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(R.color.transparent)));
+            window.setBackgroundDrawable(new ColorDrawable(activity.getResources().getColor(android.R.color.transparent)));
         }
         alertDialog.show();
     }
 
-    private void onClickUpdate(BaseActivity activity, String apkUrl, String md5) {
-        alertDialog.dismiss();
+    private boolean checkApkIsDownLoaded(Activity activity, String md5) {
+        String apkPath = SharedPreUtils.getString(key_apk_download_path, "");
+        if (!TextUtils.isEmpty(apkPath)) {
+            File apkFile = new File(apkPath);
+            if (apkFile.exists()) {//下载的apk文件还存在
+                String fileMD5 = Md5Utils.getFileMD5(apkFile);
+                if (!TextUtils.isEmpty(md5) && md5.equals(fileMD5)) {//新版本的apk文件已经下载完毕，还存在
+                    LogUtil.d("已经下载完毕的apk文件路径是：" + apkFile.getAbsolutePath());
+                    return true;
+                } else {
+                    LogUtil.e("apk文件虽然还存在 但是md5值验证失败，准备提示下载");
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 如果不进行MD5值校验 newAppMD5传null即可
+     */
+    public void onClickUpdate(Activity activity, String apkUrl, String newAppMD5, OnDownloadFinish onDownloadFinish) {
+        //判断文件是否已经下载完毕：
+        boolean apkIsDownloaded = checkApkIsDownLoaded(activity, newAppMD5);
+        LogUtil.d("===============apkUrl:" + apkUrl + " apkIsDownloaded:" + apkIsDownloaded);
         if (apkIsDownloaded) {
             try {
+                File apkFile = new File(SharedPreUtils.getString(key_apk_download_path, ""));
                 ApkInstallUtils.install(activity, apkFile);
             } catch (Exception e) {
-                VersionUpdateHelper.isForceUpdate = false;
-                LogUtil.e("安装新版本Apk失败");
+                LogUtil.e(e);
                 ToastUtil.showShort("安装新版本Apk失败");
-                e.printStackTrace();
             }
         } else {
-            downloadApk(activity, apkUrl, md5);
+            downloadApk(activity, apkUrl, newAppMD5, onDownloadFinish);
         }
     }
 
+    private void installJustDownloadFinishedApk(File file, String absolutePath, Activity activity) {
+        try {
+            ApkInstallUtils.install(activity, file);
+            SharedPreUtils.putString(key_apk_download_path, absolutePath);
+        } catch (Exception e) {
+            LogUtil.e(e);
+        }
+    }
 
-    private void downloadApk(BaseActivity activity, String apkUrl, String md5) {
-
+    private void downloadApk(Activity activity, String apkUrl, String md5, OnDownloadFinish onDownloadFinish) {
         OnFileDownloadListener listener = new OnFileDownloadListener() {
             ProgressDialog dialog;
 
@@ -132,7 +121,9 @@ public class VersionUpdateHelper {
 
             @Override
             public void onProgress(float progress, long total) {
-                if (dialog != null) dialog.setProgress(Math.round(progress / total * 100));
+                int round = Math.round(progress / total * 100);
+                LogUtil.d("==========文件下载进度:" + round);
+                if (dialog != null) dialog.setProgress(round);
             }
 
             @Override
@@ -144,12 +135,16 @@ public class VersionUpdateHelper {
                 LogUtil.d("文件下载完毕，下载文件的路径是：" + absolutePath + " 下载文件的md5是否和期待值相同：" + isSameMd5);
                 //安装刚刚下载完毕的apk 不进行md5值验证
                 installJustDownloadFinishedApk(file, absolutePath, activity);
+                if (onDownloadFinish != null) {
+                    onDownloadFinish.onDownloadFinish();
+                }
+
             }
 
             @Override
             public void onError(Throwable throwable) {
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
-                LogUtil.e("下载新版本apk文件发生错误:"+ StringUtil.getThrowableInfo(throwable));
+                LogUtil.e("下载新版本apk文件发生错误:" + StringUtil.getThrowableInfo(throwable));
                 ToastUtil.showShort("下载新版本apk文件发生错误:" + throwable);
             }
         };
@@ -161,42 +156,37 @@ public class VersionUpdateHelper {
         ProgressDialog dialog = new ProgressDialog(activity);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setCanceledOnTouchOutside(false);
-        //dialog.setProgressNumberFormat("%2dMB/%1dMB");
         dialog.setMessage("下载进度");
         dialog.show();
         return dialog;
     }
 
-    private void installJustDownloadFinishedApk(File file, String absolutePath, BaseActivity activity) {
-        try {
-            ApkInstallUtils.install(activity, file);
-            SharedPreUtils.putString(key_apk_download_path, absolutePath);
-        } catch (Exception e) {
-            LogUtil.e("安装新版apk文件异常：取消强制更新" + e.toString());
-            VersionUpdateHelper.isForceUpdate = false;
-            e.printStackTrace();
-        }
-    }
 
     private String getDownloadDirPath(Context context) {
         String path = "";
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) || !Environment.isExternalStorageRemovable()) {//如果存在外置储存空间
             try {
                 path = Objects.requireNonNull(context.getExternalCacheDir()).getAbsolutePath();
+                LogUtil.d("======1===下载apk保存目录为External缓存目录：" + path);
             } catch (Exception e) {
-                LogUtil.e("e：" + e.toString());
-                e.printStackTrace();
+                LogUtil.e(e);
             }
             if (TextUtils.isEmpty(path)) {
                 path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+                LogUtil.d("======2===下载apk保存目录为外部公共储存目录：" + path);
             }
         } else {//如果不存在
             path = context.getCacheDir().getAbsolutePath();
+            LogUtil.d("======3===下载apk保存目录为内部缓存目录：" + path);
         }
         return path;
     }
 
     private String getDownloadFileSaveFullPath(Context context) {
-        return getDownloadDirPath(context) + "newApp" + context.getPackageName().replace(".", "_") + ".apk";
+        return getDownloadDirPath(context) + "/newApp/" + context.getPackageName().replace(".", "_") + ".apk";
+    }
+
+    public interface OnDownloadFinish {
+        void onDownloadFinish();
     }
 }
