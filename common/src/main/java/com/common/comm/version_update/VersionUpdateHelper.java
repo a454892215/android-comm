@@ -170,7 +170,7 @@ public class VersionUpdateHelper {
     private void installJustDownloadFinishedApk(File file, String absolutePath, BaseActivity activity) {
         try {
             ApkInstallUtils.install(activity, file);
-            SharedPreUtils.putString("key_apk_download_path", absolutePath);
+            SharedPreUtils.putString(key_apk_download_path, absolutePath);
         } catch (Exception e) {
             LogUtil.e("安装新版apk文件异常：取消强制更新" + e.toString());
             VersionUpdateHelper.isForceUpdate = false;
