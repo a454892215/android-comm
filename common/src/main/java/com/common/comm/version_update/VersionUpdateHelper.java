@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.common.CommApp;
 import com.common.R;
 import com.common.utils.LogUtil;
 import com.common.utils.SharedPreUtils;
@@ -91,7 +92,7 @@ public class VersionUpdateHelper {
         if (apkIsDownloaded) {
             try {
                 File apkFile = new File(SharedPreUtils.getString(key_apk_download_path, ""));
-                ApkInstallUtils.install(activity, apkFile);
+                ApkInstallUtils.install(CommApp.app, apkFile);
             } catch (Exception e) {
                 LogUtil.e(e);
                 ToastUtil.showShort("安装新版本Apk失败");
@@ -101,9 +102,9 @@ public class VersionUpdateHelper {
         }
     }
 
-    private void installJustDownloadFinishedApk(File file, String absolutePath, Activity activity) {
+    private void installJustDownloadFinishedApk(File file, String absolutePath) {
         try {
-            ApkInstallUtils.install(activity, file);
+            ApkInstallUtils.install(CommApp.app, file);
             SharedPreUtils.putString(key_apk_download_path, absolutePath);
         } catch (Exception e) {
             LogUtil.e(e);
@@ -134,7 +135,7 @@ public class VersionUpdateHelper {
                 String absolutePath = file.getAbsolutePath();
                 LogUtil.d("文件下载完毕，下载文件的路径是：" + absolutePath + " 下载文件的md5是否和期待值相同：" + isSameMd5);
                 //安装刚刚下载完毕的apk 不进行md5值验证
-                installJustDownloadFinishedApk(file, absolutePath, activity);
+                installJustDownloadFinishedApk(file, absolutePath);
                 if (onDownloadFinish != null) {
                     onDownloadFinish.onDownloadFinish();
                 }
