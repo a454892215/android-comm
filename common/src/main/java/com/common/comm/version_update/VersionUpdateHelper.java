@@ -98,7 +98,7 @@ public class VersionUpdateHelper {
                 ApkInstallUtils.install(CommApp.app, apkFile);
             } catch (Exception e) {
                 LogUtil.e(e);
-                ToastUtil.show(CommApp.app,"安装新版本Apk失败");
+                ToastUtil.showShort("安装新版本Apk失败");
             }
         } else {
             downloadApk(activity, apkUrl, newAppMD5, onDownloadFinish);
@@ -149,7 +149,7 @@ public class VersionUpdateHelper {
             public void onError(Throwable throwable) {
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
                 LogUtil.e("下载新版本apk文件发生错误:" + StringUtil.getThrowableInfo(throwable));
-                ToastUtil.show(CommApp.app,"下载新版本apk文件发生错误:" + throwable);
+                ToastUtil.showShort("下载新版本apk文件发生错误:" + throwable);
             }
         };
         String downloadFileSaveFullPath = getDownloadFileSaveFullPath(activity);

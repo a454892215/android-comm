@@ -1,15 +1,10 @@
 package com.common.utils;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.common.CommApp;
-import com.common.R;
 
 
 /**
@@ -29,7 +24,7 @@ public class ToastUtil {
         toast.show();
     }
 
-    public static void show(Context context, String msg) {
+/*    public static void show(Context context, String msg) {
         Toast toast = new Toast(context);
         //设置Toast显示位置，居中，向 X、Y轴偏移量均为0
         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -44,5 +39,5 @@ public class ToastUtil {
         toast.setDuration(Toast.LENGTH_SHORT);
         //显示
         toast.show();
-    }
+    }*/
 }
