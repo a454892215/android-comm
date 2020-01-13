@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.common.comm.version_update.VersionUpdateHelper;
 import com.common.x5_web.WindowX5WebDialogFragment;
 
 @SuppressWarnings("unused")
@@ -47,5 +48,17 @@ public class Template1 {
         view.postDelayed(resultMsg::sendToTarget, 200);
         dialogFragment.show((FragmentManager) null, dialogFragment.getClass().getName());
         return true;
+    }
+
+    private void updateApp(String newApkDownloadUrl, Activity activity) {
+        boolean isForceUpdate = false;
+        VersionUpdateHelper versionUpdateHelper = new VersionUpdateHelper();
+        if (isForceUpdate) {
+            versionUpdateHelper.onClickUpdate(activity, newApkDownloadUrl, null, null);
+        } else {
+            versionUpdateHelper.showUpdateAppDialog(activity, newApkDownloadUrl, false, null, () -> {
+
+            });
+        }
     }
 }

@@ -30,11 +30,11 @@ import java.util.Objects;
  * CreateDate: 2018/9/1 9:50
  * Description: No
  */
-@SuppressWarnings("unused")
+
 public class VersionUpdateHelper {
     private static final String key_apk_download_path = "key_apk_download_path";
 
-    public void showUpdateAppDialog(Activity activity, String apkUrl, boolean isForceUpdate, String newAppMD5) {
+    public void showUpdateAppDialog(Activity activity, String apkUrl, boolean isForceUpdate, String newAppMD5, OnClickCancel onClickCancel) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.layout_version_update, null);
         LinearLayout llt_no_force_update = view.findViewById(R.id.llt_no_force_update);
         TextView btn_yes = view.findViewById(R.id.btn_yes_1);
@@ -55,7 +55,10 @@ public class VersionUpdateHelper {
             llt_no_force_update.setVisibility(View.VISIBLE);
             btn_yes.setVisibility(View.GONE);
             btn_yes_2.setOnClickListener(onYesClickListener);
-            btn_no_2.setOnClickListener(v -> alertDialog.dismiss());
+            btn_no_2.setOnClickListener(v -> {
+                alertDialog.dismiss();
+                if (onClickCancel != null) onClickCancel.onClickCancel();
+            });
         }
         Window window = alertDialog.getWindow();
         if (window != null) {
@@ -95,7 +98,7 @@ public class VersionUpdateHelper {
                 ApkInstallUtils.install(CommApp.app, apkFile);
             } catch (Exception e) {
                 LogUtil.e(e);
-                ToastUtil.showShort("安装新版本Apk失败");
+                ToastUtil.show(CommApp.app,"安装新版本Apk失败");
             }
         } else {
             downloadApk(activity, apkUrl, newAppMD5, onDownloadFinish);
@@ -146,7 +149,7 @@ public class VersionUpdateHelper {
             public void onError(Throwable throwable) {
                 if (dialog != null && dialog.isShowing()) dialog.dismiss();
                 LogUtil.e("下载新版本apk文件发生错误:" + StringUtil.getThrowableInfo(throwable));
-                ToastUtil.showShort("下载新版本apk文件发生错误:" + throwable);
+                ToastUtil.show(CommApp.app,"下载新版本apk文件发生错误:" + throwable);
             }
         };
         String downloadFileSaveFullPath = getDownloadFileSaveFullPath(activity);
@@ -157,7 +160,9 @@ public class VersionUpdateHelper {
         ProgressDialog dialog = new ProgressDialog(activity);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
         dialog.setMessage("下载进度");
+        dialog.setOnKeyListener((dialog1, keyCode, event) -> true);
         dialog.show();
         return dialog;
     }
@@ -189,5 +194,9 @@ public class VersionUpdateHelper {
 
     public interface OnDownloadFinish {
         void onDownloadFinish();
+    }
+
+    public interface OnClickCancel {
+        void onClickCancel();
     }
 }
