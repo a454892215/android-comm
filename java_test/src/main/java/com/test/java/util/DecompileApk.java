@@ -79,6 +79,23 @@ public class DecompileApk {
         CmdUtil.startCmd(new File(JD_GUI_PATH).getAbsolutePath() + " " + all_jar_file_path, null);
     }
 
+    public static void dex2Jar(String dexFilePath) {
+        File jarOutDir = new File(JAR_OUT_DIR_PATH);
+        FileUtil.deleteDir(jarOutDir.getAbsolutePath());
+        FileUtil.createDir(jarOutDir);
+        CmdUtil.startCmd(new File(DEX2JAR_BAT_PATH).getAbsolutePath() + " " + dexFilePath, jarOutDir);
+        CmdUtil.startCmd("explorer " + new File(JAR_OUT_DIR_PATH).getAbsolutePath(), null);
+        StringBuilder all_jar_file_path = new StringBuilder();
+        List<String> jarPathList = FileUtil.getAllChildFileAbsolutePathList(jarOutDir.getAbsolutePath());
+        for (int i = 0; i < jarPathList.size(); i++) {
+            if (jarPathList.get(i).endsWith(".jar")) {
+                all_jar_file_path.append(jarPathList.get(i)).append(" ");
+            }
+        }
+        LogUtil.d("all_jar_file_path:" + all_jar_file_path);
+        CmdUtil.startCmd(new File(JD_GUI_PATH).getAbsolutePath() + " " + all_jar_file_path, null);
+    }
+
     /**
      * 直接反编译apk 获取资源文件和smali 文件
      */

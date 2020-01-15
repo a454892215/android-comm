@@ -8,5 +8,6 @@ public class DexUtil {
     public static void main(String[] args) {
         String cmd = DEX_FULL_PATH + " --dex --output =" + DEX_OUT_DIR + " " + CLASS_DIR;
         CmdUtil.startCmd(cmd, null);
+      //  DecompileApk.dex2Jar(DEX_OUT_DIR);
     }
 }
