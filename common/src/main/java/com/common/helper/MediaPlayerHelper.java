@@ -1,7 +1,6 @@
 package com.common.helper;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 

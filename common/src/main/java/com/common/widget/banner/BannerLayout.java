@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.comm.timer.MyTimer;
-import com.common.utils.LogUtil;
 
 import java.util.List;
 

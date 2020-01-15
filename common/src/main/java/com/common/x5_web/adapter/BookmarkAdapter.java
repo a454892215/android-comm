@@ -10,7 +10,6 @@ import com.common.utils.CastUtil;
 import com.common.utils.ViewHolder;
 import com.common.widget.CommonTextView;
 import com.common.x5_web.entity.BookmarkEntity;
-import com.common.x5_web.entity.HistoryRecordEntity;
 
 import java.util.List;
 

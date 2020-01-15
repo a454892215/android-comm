@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 

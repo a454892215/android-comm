@@ -2,8 +2,6 @@ package com.common.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.WindowManager;
 
 import com.common.base.BaseActivity;
 
