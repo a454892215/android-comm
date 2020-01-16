@@ -1,11 +1,15 @@
 package com.common.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.math.BigDecimal;
 
-public class FileUtil {
+public class CommFileUtil {
 
-    public static long getFolderSize(File file){
+    public static long getFolderSize(File file) {
         long size = 0;
         try {
             File[] fileList = file.listFiles();
@@ -44,6 +48,30 @@ public class FileUtil {
         BigDecimal result4 = new BigDecimal(teraBytes);
 
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB";
+    }
+
+    //只创建目的文件的一级父路径
+    public static boolean copy(String formFilePath, String toFilePath) {
+        try {
+            BufferedInputStream bin = new BufferedInputStream(new FileInputStream(new File(formFilePath)));
+            byte[] inByte = new byte[bin.available()];
+            File outFile = new File(toFilePath);
+            File parentFile = outFile.getParentFile();
+            if (!parentFile.exists()) {
+                LogUtil.d("======创建输出最后一级目录:" + parentFile.getAbsolutePath() + " 是否成功：" + parentFile.mkdirs());
+            }
+            /*if (!outFile.exists()) {
+                LogUtil.d("======创建输出文件:" + parentFile.getAbsolutePath() + " 是否成功：" + outFile.createNewFile());
+            }*/
+            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(outFile));//文件已经存在会强制覆盖
+            bout.write(inByte);
+            bin.close();
+            bout.close();
+            return true;
+        } catch (Exception e) {
+          LogUtil.e(e);
+        }
+        return false;
     }
 
 }

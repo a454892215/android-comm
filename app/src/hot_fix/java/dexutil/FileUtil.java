@@ -1,16 +1,14 @@
 package dexutil;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FileUtil {
+class FileUtil {
 
+    /**
+     * 获取当前目录下所有一级子文件的绝对路径列表
+     */
     static List<String> getAllChildFileAbsolutePathList(String directionPath) {
         File file = new File(directionPath);
         List<String> list = new ArrayList<>();
@@ -25,7 +23,10 @@ public class FileUtil {
         return list;
     }
 
-    public static void deleteDir(String dirPath) {
+    /**
+     * 删除目录 包含文件，只删除当前一级目录下的所有文件，多级会删除失败
+     */
+    static void deleteDir(String dirPath) {
         File file = new File(dirPath);
         if (!file.exists()) {
             LogUtil.d("删除文件失败:" + dirPath + "不存在！");
@@ -52,24 +53,13 @@ public class FileUtil {
     }
 
 
-    public static void createDir(File dir) {
+    /**
+     * 创建目录
+     */
+    static void createDir(File dir) {
         if (!dir.exists()) {
             LogUtil.d("======createDir:" + dir.mkdirs());
         }
     }
-
-    public static void readPerLine(String fileName) {
-        try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8));
-            String line;
-            while ((line = br.readLine()) != null) {
-                LogUtil.d("=============:" + line);
-            }
-            br.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }

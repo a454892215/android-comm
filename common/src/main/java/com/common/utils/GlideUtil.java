@@ -13,8 +13,8 @@ public class GlideUtil {
     public static String getDefaultCacheDirSize(Context context) {
         try {
             String dir = context.getCacheDir() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR;
-            long folderSize = FileUtil.getFolderSize(new File(dir));
-            return FileUtil.getFormatSize(folderSize);
+            long folderSize = CommFileUtil.getFolderSize(new File(dir));
+            return CommFileUtil.getFormatSize(folderSize);
         } catch (Exception e) {
             LogUtil.e(e);
         }
