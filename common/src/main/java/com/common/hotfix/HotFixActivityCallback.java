@@ -2,9 +2,12 @@ package com.common.hotfix;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+
 import com.common.utils.LogUtil;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 
 public class HotFixActivityCallback implements Application.ActivityLifecycleCallbacks {
@@ -13,10 +16,13 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
     private HotFixHandler hotFixHandler = new HotFixHandler();
     private BaseHotFix baseHotFix;
 
-    public void init(Application application) {
-        hotFixHandler.init(application);
+    public static final String dexFileName = "MyDexFile.dex";
+    public void init(Application app) {
+        String dexDir = app.getDir("dex", Context.MODE_PRIVATE).getAbsolutePath();
+        String inDexFullPath = dexDir + File.separator + dexFileName;
+        hotFixHandler.init(app, inDexFullPath, dexDir);
         baseHotFix = hotFixHandler.getBaseHotFix();
-        baseHotFix.onAppCreate(application);
+        baseHotFix.onAppCreate(app);
     }
 
     @Override
