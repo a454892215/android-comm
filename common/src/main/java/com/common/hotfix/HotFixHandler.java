@@ -39,25 +39,4 @@ public class HotFixHandler {
         }
         return null;
     }
-
-    private static String getDownloadDirPath(Context context) {
-        String path = "";
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) || !Environment.isExternalStorageRemovable()) {//如果存在外置储存空间
-            try {
-                path = Objects.requireNonNull(context.getExternalCacheDir()).getAbsolutePath();
-                LogUtil.d("======1===下载dex保存目录为External缓存目录：" + path);
-            } catch (Exception e) {
-                LogUtil.e(e);
-            }
-
-        } else {//如果不存在
-            path = context.getCacheDir().getAbsolutePath();
-            LogUtil.d("======3===下载dex保存目录为内部缓存目录：" + path);
-        }
-        return path;
-    }
-
-    public static String getDownloadedDexFullPath(Context context, String dexFileName) {
-        return getDownloadDirPath(context) + "/dex/" + dexFileName;
-    }
 }
