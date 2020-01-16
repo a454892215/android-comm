@@ -5,6 +5,7 @@ import android.os.Environment;
 
 import com.common.utils.LogUtil;
 
+import java.io.File;
 import java.util.Objects;
 
 import dalvik.system.DexClassLoader;
@@ -14,8 +15,14 @@ public class HotFixHandler {
 
     public void init(Context context, String dexPath, String optimizedDirectory) {
         try {
-            DexClassLoader dexClassLoader = new DexClassLoader(dexPath, optimizedDirectory, null, context.getClassLoader());
-            class_HotFix_1 = dexClassLoader.loadClass("hotfix.fix.HotFix_1");
+            File file = new File(dexPath);
+            if (file.exists()) {
+                DexClassLoader dexClassLoader = new DexClassLoader(dexPath, optimizedDirectory, null, context.getClassLoader());
+                class_HotFix_1 = dexClassLoader.loadClass("hotfix.fix.HotFix_1");
+                LogUtil.i("=========== HotFix===初始化成功================");
+            } else {
+                LogUtil.i("====HotFix===:dexPath:" + dexPath + " 不存在 不进行初始化");
+            }
         } catch (Exception e) {
             LogUtil.e(e);
         }
@@ -23,7 +30,9 @@ public class HotFixHandler {
 
     BaseHotFix getBaseHotFix() {
         try {
-            return (BaseHotFix) class_HotFix_1.newInstance();
+            if (class_HotFix_1 != null) {
+                return (BaseHotFix) class_HotFix_1.newInstance();
+            }
         } catch (Exception e) {
             LogUtil.e(e);
         }
@@ -47,7 +56,7 @@ public class HotFixHandler {
         return path;
     }
 
-    public static String getDownloadedDexFullPath(Context context,String dexFileName) {
+    public static String getDownloadedDexFullPath(Context context, String dexFileName) {
         return getDownloadDirPath(context) + "/dex/" + dexFileName;
     }
 }

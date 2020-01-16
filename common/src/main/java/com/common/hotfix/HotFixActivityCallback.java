@@ -22,7 +22,7 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
         String inDexFullPath = dexDir + File.separator + dexFileName;
         hotFixHandler.init(app, inDexFullPath, dexDir);
         baseHotFix = hotFixHandler.getBaseHotFix();
-        baseHotFix.onAppCreate(app);
+        if (baseHotFix != null) baseHotFix.onAppCreate(app);
     }
 
     @Override
