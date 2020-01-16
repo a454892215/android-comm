@@ -2,6 +2,7 @@ package com.common.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -87,5 +88,18 @@ public class SystemUtils {
 
     public static boolean isFirstInstall(Context context) {
         return getPackageFirstInstallTime(context) == getPackageLastUpdateTime(context);
+    }
+
+    public static boolean isMainProcess(Context context){
+        int pid = android.os.Process.myPid();
+        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        if(activityManager != null){
+            for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
+                if (appProcess.pid == pid) {
+                    return context.getApplicationInfo().packageName.equals(appProcess.processName);
+                }
+            }
+        }
+        return true;//默认是
     }
 }

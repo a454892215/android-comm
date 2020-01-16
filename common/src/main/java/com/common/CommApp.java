@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
 import com.common.hotfix.HotFixActivityCallback;
+import com.common.utils.SystemUtils;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
 import com.common.x5_web.MyTbsLogClient;
@@ -32,16 +33,18 @@ public class CommApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        app = this;
-        CrashHandler.init(this);
-        CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
-        setWebViewPath(this);
-        if (isInitX5Web) initX5WebView();
-        L.init(this);
-        HotFixActivityCallback activityCallbacks = new HotFixActivityCallback();
-        activityCallbacks.init(this);
-        registerActivityLifecycleCallbacks(activityCallbacks);
-        LitePal.initialize(this);
+        if(SystemUtils.isMainProcess(this)){
+            app = this;
+            CrashHandler.init(this);
+            CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
+            setWebViewPath(this);
+            if (isInitX5Web) initX5WebView();
+            L.init(this);
+            HotFixActivityCallback activityCallbacks = new HotFixActivityCallback();
+            activityCallbacks.init(this);
+            registerActivityLifecycleCallbacks(activityCallbacks);
+            LitePal.initialize(this);
+        }
     }
 
     private void initX5WebView() {

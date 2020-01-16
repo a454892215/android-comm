@@ -14,9 +14,9 @@ import java.io.File;
  * Description: No
  */
 
-class FileDownloadHelper {
+public class FileDownloadHelper {
 
-    static void load(String fileUrl, String fileFullName, OnFileDownloadListener onFileDownloadListener) {
+    public static void load(String fileUrl, String fileFullName, OnFileDownloadListener onFileDownloadListener) {
         FileDownloader.setup(CommApp.app);
         BaseDownloadTask baseDownloadTask = FileDownloader.getImpl().create(fileUrl);
         baseDownloadTask.setWifiRequired(false)
