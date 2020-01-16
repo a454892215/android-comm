@@ -1,4 +1,4 @@
-package hotfix.fix.util;
+package dexutil;
 
 import java.io.BufferedReader;
 import java.io.File;

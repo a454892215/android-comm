@@ -19,3 +19,5 @@
 /repository
 /app/.cxx
 /reference/DecompileApk/2019_12_18/dex2jar-2.0
+/app/hot_fix/output.dex
+/app/hot_fix/classes
