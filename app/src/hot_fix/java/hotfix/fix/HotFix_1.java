@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment;
 import com.common.utils.ToastUtil;
 import com.common.hotfix.BaseHotFix;
 
-public class HotFixTest implements BaseHotFix {
+public class HotFix_1 implements BaseHotFix {
 
     @Override
     public void fixActivity(Activity activity, View view) {

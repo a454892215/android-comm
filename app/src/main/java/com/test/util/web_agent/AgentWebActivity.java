@@ -50,7 +50,8 @@ public class AgentWebActivity extends BaseAppActivity {
                 })
                 .createAgentWeb()
                 .ready()
-                .go("https://www.baidu.com");
+                .go("https://www.play100.com");
+               // .go("https://www.baidu.com");
         initWebSetting();
     }
 

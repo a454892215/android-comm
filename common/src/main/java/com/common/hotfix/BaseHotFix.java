@@ -1,4 +1,4 @@
-package com.test.util;
+package com.common.hotfix;
 
 import android.app.Activity;
 import android.view.View;
