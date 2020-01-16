@@ -20,7 +20,7 @@ public class HotFixHandler {
         }
     }
 
-    public BaseHotFix getBaseHotFix(){
+    BaseHotFix getBaseHotFix(){
         try {
            return (BaseHotFix)class_HotFix_1.newInstance();
         } catch (Exception e) {

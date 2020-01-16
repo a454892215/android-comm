@@ -1,13 +1,18 @@
 package com.common.hotfix;
 
 import android.app.Activity;
-import android.view.View;
-
-import androidx.fragment.app.Fragment;
+import android.app.Application;
 
 public interface BaseHotFix {
 
-    void fixActivity(Activity activity, View view);
+    void onAppCreate(Application application);
 
-    void fixFragment(Fragment fragment, View view);
+    void onActivityCreate(Activity activity);
+
+    void onActivityResume(Activity activity);
+
+    void onActivityPause(Activity activity);
+
+    void onActivityDestroy(Activity activity);
+
 }
