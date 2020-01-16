@@ -1,12 +1,10 @@
 package com.common.hotfix;
 
 import android.content.Context;
-import android.os.Environment;
 
 import com.common.utils.LogUtil;
 
 import java.io.File;
-import java.util.Objects;
 
 import dalvik.system.DexClassLoader;
 
