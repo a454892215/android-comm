@@ -9,6 +9,7 @@ import android.webkit.WebView;
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
 import com.common.hotfix.HotFixActivityCallback;
+import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
@@ -33,7 +34,9 @@ public class CommApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LitePal.initialize(this);
         if(SystemUtils.isMainProcess(this)){
+            LogUtil.d("=======主线程开始初始化======");
             app = this;
             CrashHandler.init(this);
             CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
@@ -43,7 +46,7 @@ public class CommApp extends Application {
             HotFixActivityCallback activityCallbacks = new HotFixActivityCallback();
             activityCallbacks.init(this);
             registerActivityLifecycleCallbacks(activityCallbacks);
-            LitePal.initialize(this);
+            LogUtil.d("=======主线程开始初始化完毕======");
         }
     }
 
