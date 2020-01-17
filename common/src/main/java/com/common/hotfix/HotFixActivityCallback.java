@@ -20,7 +20,7 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
     private HotFixHandler hotFixHandler = new HotFixHandler();
     private BaseHotFix baseHotFix;
 
-    private static final String dexFileName = "MyDexFile.dex";
+    public static final String dexFileName = "MyDexFile.dex";
 
     public void init(Application app) {
         String dexDir = app.getDir("dex", Context.MODE_PRIVATE).getAbsolutePath();//dex 保存目录

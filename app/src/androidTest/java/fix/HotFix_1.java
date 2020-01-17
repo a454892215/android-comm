@@ -1,10 +1,10 @@
-package hotfix.fix;
+package fix;
 
 import android.app.Activity;
 import android.app.Application;
 
-import com.common.utils.ToastUtil;
 import com.common.hotfix.BaseHotFix;
+import com.common.utils.ToastUtil;
 
 public class HotFix_1 implements BaseHotFix {
 
@@ -19,7 +19,7 @@ public class HotFix_1 implements BaseHotFix {
 
     @Override
     public void onActivityResume(Activity activity) {
-        ToastUtil.showShort("我是来自热修复的代码-onActivityResume");
+        ToastUtil.showShort("我是来自热修复的代码-onActivityResume22");
     }
 
     @Override
