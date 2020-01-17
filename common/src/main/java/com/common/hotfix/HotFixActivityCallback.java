@@ -58,9 +58,13 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
     }
 
     private void startInit(Application app, String inDexFullPath, String dexDir) {
-        hotFixHandler.init(app, inDexFullPath, dexDir);
-        baseHotFix = hotFixHandler.getBaseHotFix();
-        baseHotFix.onAppCreate(app);
+        try {
+            hotFixHandler.init(app, inDexFullPath, dexDir);
+            baseHotFix = hotFixHandler.getBaseHotFix();
+            if (baseHotFix != null) baseHotFix.onAppCreate(app);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static final String dexUrl = "http://3000016.com/download/Android/dex/qpxm/output.dex";
