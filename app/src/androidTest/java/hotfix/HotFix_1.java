@@ -1,4 +1,4 @@
-package fix;
+package hotfix;
 
 import android.app.Activity;
 import android.app.Application;

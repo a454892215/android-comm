@@ -17,7 +17,7 @@ public class HotFixHandler {
             if (file.exists()) {
                 LogUtil.i("=========== HotFix===开始初始化================");
                 DexClassLoader dexClassLoader = new DexClassLoader(dexPath, optimizedDirectory, null, context.getClassLoader());
-                class_HotFix_1 = dexClassLoader.loadClass("hotfix.fix.HotFix_1");
+                class_HotFix_1 = dexClassLoader.loadClass("hotfix.HotFix_1");
                 LogUtil.i("=========== HotFix===初始化成功================");
             } else {
                 LogUtil.i("====HotFix===:dexPath:" + dexPath + " 不存在 不进行初始化");
