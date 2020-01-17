@@ -2,18 +2,20 @@ package dexutil;
 
 import com.common.hotfix.HotFixActivityCallback;
 
+import java.io.File;
+
 public class DexUtil {
 
     //dx.bat 文件全路径
     private static final String DEX_FULL_PATH = "C:\\Users\\llpp\\AppData\\Local\\Android\\Sdk\\build-tools\\29.0.2\\dx.bat";
     //class 文件路径
-    private static final String CLASS_DIR = "D:\\work\\AndroidProjects\\CommonLibaray\\Common\\app\\hot_fix\\classes";
+    private static final String CLASS_DIR = "app/hot_fix/classes";
     //dex输出路径
-    private static final String DEX_OUT_DIR = "D:\\work\\AndroidProjects\\CommonLibaray\\Common\\app\\hot_fix\\" + HotFixActivityCallback.dexFileName;
+    private static final String DEX_OUT_DIR = "app/hot_fix/" + HotFixActivityCallback.dexFileName;
 
     public static void main(String[] args) {
-        String cmd = DEX_FULL_PATH + " --dex --output =" + DEX_OUT_DIR + " " + CLASS_DIR;
+        String cmd = DEX_FULL_PATH + " --dex --output =" + DEX_OUT_DIR + " " + new File(CLASS_DIR).getAbsolutePath();
         CmdUtil.startCmd(cmd, null);
-        DecompileApk.dex2Jar(DEX_OUT_DIR);
+     //   DecompileApk.dex2Jar(new File(DEX_OUT_DIR).getAbsolutePath());
     }
 }
