@@ -19,7 +19,7 @@ public class HotFix_1 implements BaseHotFix {
 
     @Override
     public void onActivityResume(Activity activity) {
-        ToastUtil.showShort("我是来自热修复的代码-onActivityResume22");
+        ToastUtil.showShort("我是来自热修复的代码-onActivityResume33");
     }
 
     @Override
