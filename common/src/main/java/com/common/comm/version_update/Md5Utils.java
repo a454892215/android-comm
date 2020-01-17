@@ -14,13 +14,13 @@ import java.security.NoSuchAlgorithmException;
  * Description: No
  */
 
-final class Md5Utils {
+public class Md5Utils {
 
     private Md5Utils() {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
 
-    static String getFileMD5(File file) {
+    public static String getFileMD5(File file) {
         if (!file.exists()) {
             return "";
         }

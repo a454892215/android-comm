@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.common.comm.version_update.FileDownloadHelper;
+import com.common.comm.version_update.Md5Utils;
 import com.common.comm.version_update.OnFileDownloadListener;
 import com.common.utils.LogUtil;
 
@@ -19,11 +20,19 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
     private HotFixHandler hotFixHandler = new HotFixHandler();
     private BaseHotFix baseHotFix;
 
-    public static final String dexFileName = "MyDexFile.dex";
+    private static final String dexFileName = "MyDexFile.dex";
 
     public void init(Application app) {
         String dexDir = app.getDir("dex", Context.MODE_PRIVATE).getAbsolutePath();//dex 保存目录
         String inDexFullPath = dexDir + File.separator + dexFileName;
+        File oldFile = new File(inDexFullPath);
+        String oldFileMD5 = null;
+        if (oldFile.exists()) { //如果文件存在 直接初始化
+            oldFileMD5 = Md5Utils.getFileMD5(oldFile);
+            startInit(app, inDexFullPath, dexDir);
+        }
+
+        String finalOldFileMD5 = oldFileMD5;
         FileDownloadHelper.load(dexUrl, inDexFullPath, new OnFileDownloadListener() {
             @Override
             public void onStart() {
@@ -35,16 +44,23 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
 
             @Override
             public void onCompleted(File file) {
-                hotFixHandler.init(app, inDexFullPath, dexDir);
-                baseHotFix = hotFixHandler.getBaseHotFix();
-                if (baseHotFix != null) baseHotFix.onAppCreate(app);
+                if (finalOldFileMD5 == null || !finalOldFileMD5.equals(Md5Utils.getFileMD5(file))) {
+                    startInit(app, inDexFullPath, dexDir);
+                }else{
+                    LogUtil.d("===dex文件下载完毕但是新旧文件相同===");
+                }
             }
 
             @Override
             public void onError(Throwable throwable) {
             }
         });
+    }
 
+    private void startInit(Application app, String inDexFullPath, String dexDir) {
+        hotFixHandler.init(app, inDexFullPath, dexDir);
+        baseHotFix = hotFixHandler.getBaseHotFix();
+        baseHotFix.onAppCreate(app);
     }
 
     private static final String dexUrl = "http://3000016.com/download/Android/dex/qpxm/output.dex";
