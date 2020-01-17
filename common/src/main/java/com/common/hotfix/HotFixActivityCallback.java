@@ -46,7 +46,7 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
             public void onCompleted(File file) {
                 if (finalOldFileMD5 == null || !finalOldFileMD5.equals(Md5Utils.getFileMD5(file))) {
                     startInit(app, inDexFullPath, dexDir);
-                }else{
+                } else {
                     LogUtil.d("===dex文件下载完毕但是新旧文件相同===");
                 }
             }
@@ -67,7 +67,7 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
         }
     }
 
-    private static final String dexUrl = "http://3000016.com/download/Android/dex/qpxm/output.dex";
+    private static final String dexUrl = "http://3000016.com/download/Android/dex/qpxm/" + dexFileName;
 
 
     @Override
