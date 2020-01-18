@@ -20,9 +20,8 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
     private HotFixHandler hotFixHandler = new HotFixHandler();
     private BaseHotFix baseHotFix;
 
-    public static final String dexFileName = "MyDexFile.dex";
-
     public void init(Application app) {
+        String dexFileName = app.getPackageName().replace(".", "_") + ".dex";
         String dexDir = app.getDir("dex", Context.MODE_PRIVATE).getAbsolutePath();//dex 保存目录
         String inDexFullPath = dexDir + File.separator + dexFileName;
         File oldFile = new File(inDexFullPath);
@@ -33,6 +32,9 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
         }
 
         String finalOldFileMD5 = oldFileMD5;
+
+        String dexUrl = "http://www.baidu.com/download/Android/dex/qpxm/" + dexFileName;
+        LogUtil.i("================dexUrl:" + dexUrl);
         FileDownloadHelper.load(dexUrl, inDexFullPath, new OnFileDownloadListener() {
             @Override
             public void onStart() {
@@ -66,8 +68,6 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
             e.printStackTrace();
         }
     }
-
-    private static final String dexUrl = "http://www.baidu.com/download/Android/dex/qpxm/" + dexFileName;
 
 
     @Override
