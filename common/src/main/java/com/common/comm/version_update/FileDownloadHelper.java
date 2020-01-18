@@ -64,6 +64,7 @@ public class FileDownloadHelper {
 
                     @Override
                     protected void error(BaseDownloadTask task, Throwable e) {
+                        LogUtil.e(e);
                         onFileDownloadListener.onError(e);
                     }
 
