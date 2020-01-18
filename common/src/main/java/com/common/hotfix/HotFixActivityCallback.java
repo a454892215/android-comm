@@ -67,7 +67,7 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
         }
     }
 
-    private static final String dexUrl = "http://3000016.com/download/Android/dex/qpxm/" + dexFileName;
+    private static final String dexUrl = "http://www.baidu.com/download/Android/dex/qpxm/" + dexFileName;
 
 
     @Override
