@@ -2,7 +2,7 @@ package com.common.widget.refresh;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.common.utils.AdapterUtil;
+import com.common.helper.AdapterHelper;
 
 import java.util.List;
 
@@ -33,9 +33,9 @@ public class RefreshHelper {
     public void onRequestFinished(List list, int requestPageIndex) {
         refreshLayout.notifyLoadFinish();
         if (requestPageIndex == startPageIndex) {
-            AdapterUtil.notifyAdapterRefresh(list, rv);
+            AdapterHelper.notifyAdapterRefresh(list, rv);
         } else {
-            AdapterUtil.notifyAdapterLoadMore(list, rv);
+            AdapterHelper.notifyAdapterLoadMore(list, rv);
         }
         if (list.size() < per_page_count) {
             refreshLayout.setFooterFunction(FooterFunction.only_display);

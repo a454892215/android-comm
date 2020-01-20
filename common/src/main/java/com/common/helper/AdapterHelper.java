@@ -1,13 +1,14 @@
-package com.common.utils;
+package com.common.helper;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BaseRVAdapter;
+import com.common.utils.LogUtil;
 
 import java.util.List;
 
-public class AdapterUtil {
+public class AdapterHelper {
 
     @SuppressWarnings("unchecked")
     public static void notifyAdapterRefresh(List list, RecyclerView rv) {
