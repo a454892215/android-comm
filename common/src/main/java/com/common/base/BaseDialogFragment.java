@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.R;
+import com.common.hotfix.HotFixEvent;
 import com.common.utils.LogUtil;
 
 
@@ -66,6 +67,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void show(FragmentManager manager, String tag) {
         if (!isAdded()) {
             super.show(manager, tag);
+            HotFixEvent.onShowDialogFragment(this);
         }
     }
 
