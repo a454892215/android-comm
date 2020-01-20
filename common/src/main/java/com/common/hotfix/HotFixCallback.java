@@ -5,6 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import com.common.comm.version_update.FileDownloadHelper;
 import com.common.comm.version_update.Md5Utils;
 import com.common.comm.version_update.OnFileDownloadListener;
@@ -14,7 +17,7 @@ import com.common.utils.LogUtil;
 import java.io.File;
 import java.lang.ref.WeakReference;
 
-public class HotFixActivityCallback implements Application.ActivityLifecycleCallbacks {
+public class HotFixCallback implements Application.ActivityLifecycleCallbacks {
     private int foreAppCount;
     private WeakReference<Activity> weakReference;
     private HotFixHandler hotFixHandler = new HotFixHandler();
@@ -109,10 +112,20 @@ public class HotFixActivityCallback implements Application.ActivityLifecycleCall
         if (baseHotFix != null) baseHotFix.onActivityDestroy(getCurrentActivity());
     }
 
+    public void onSwitchShowFragment(Fragment fragment) {
+        if (baseHotFix!= null) baseHotFix.onSwitchShowFragment(fragment);
+    }
+
+    public void onShowDialogFragment(DialogFragment fragment) {
+        if (baseHotFix != null) baseHotFix.onShowDialogFragment(fragment);
+    }
+
     private Activity getCurrentActivity() {
         if (weakReference != null) {
             return weakReference.get();
         }
         return null;
     }
+
+
 }

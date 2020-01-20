@@ -5,7 +5,7 @@ import android.util.SparseArray;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.common.hotfix.HotFixEvent;
+import com.common.CommApp;
 import com.common.utils.CastUtil;
 import com.common.utils.LogUtil;
 
@@ -51,7 +51,7 @@ public class FragmentHelper {
         } else {
             fm.beginTransaction().add(contentViewId, showingFragment, showingFragment.getClass().getName()).show(showingFragment).commit();
         }
-        HotFixEvent.onSwitchShowFragment(showingFragment);
+        CommApp.getHotFixCallback().onSwitchShowFragment(showingFragment);
         currentPosition = position;
     }
 

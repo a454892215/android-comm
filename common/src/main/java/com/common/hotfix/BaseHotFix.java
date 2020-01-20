@@ -3,6 +3,9 @@ package com.common.hotfix;
 import android.app.Activity;
 import android.app.Application;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 public interface BaseHotFix {
 
     void onAppCreate(Application application);
@@ -15,4 +18,7 @@ public interface BaseHotFix {
 
     void onActivityDestroy(Activity activity);
 
+    void onSwitchShowFragment(Fragment fragment);
+
+    void onShowDialogFragment(DialogFragment fragment);
 }

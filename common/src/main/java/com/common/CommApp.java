@@ -8,7 +8,7 @@ import android.webkit.WebView;
 
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
-import com.common.hotfix.HotFixActivityCallback;
+import com.common.hotfix.HotFixCallback;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.x5_web.MyPreInitCallback;
@@ -29,6 +29,7 @@ public class CommApp extends Application {
 
     protected boolean isInitX5Web = false;
     public static Application app;
+    private static HotFixCallback hotFixCallback;
 
 
     @Override
@@ -43,9 +44,9 @@ public class CommApp extends Application {
             setWebViewPath(this);
             if (isInitX5Web) initX5WebView();
             L.init(this);
-            HotFixActivityCallback activityCallbacks = new HotFixActivityCallback();
-            activityCallbacks.init(this);
-            registerActivityLifecycleCallbacks(activityCallbacks);
+            hotFixCallback = new HotFixCallback();
+            hotFixCallback.init(this);
+            registerActivityLifecycleCallbacks(hotFixCallback);
             LogUtil.d("=======主线程开始初始化完毕======");
         }
     }
@@ -78,5 +79,10 @@ public class CommApp extends Application {
         }
         return null;
     }
+
+    public static HotFixCallback getHotFixCallback() {
+        return hotFixCallback;
+    }
+
 
 }

@@ -3,9 +3,13 @@ package hotfix;
 import android.app.Activity;
 import android.app.Application;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
 import com.common.hotfix.BaseHotFix;
 import com.common.utils.LogUtil;
 
+@SuppressWarnings("unused")
 public class HotFix_1 implements BaseHotFix {
     private static final float versionNum = 1.1f;
 
@@ -30,6 +34,16 @@ public class HotFix_1 implements BaseHotFix {
 
     @Override
     public void onActivityDestroy(Activity activity) {
+
+    }
+
+    @Override
+    public void onSwitchShowFragment(Fragment fragment) {
+
+    }
+
+    @Override
+    public void onShowDialogFragment(DialogFragment fragment) {
 
     }
 }
