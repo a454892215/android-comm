@@ -101,6 +101,7 @@ android {
     applicationVariants.all { variant ->
         variant.outputs.all {
             def appInfo = "V" + variant.versionName + getAppInfo() + variant.name
+            appInfo = appInfo.replaceAll("\"", "")
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
          //   variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
             outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
