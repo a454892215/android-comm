@@ -12,6 +12,8 @@ import com.common.utils.LogUtil;
 import com.test.util.R;
 import com.test.util.base.BaseAppActivity;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class HttpTestActivity extends BaseAppActivity {
@@ -47,12 +49,14 @@ public class HttpTestActivity extends BaseAppActivity {
         httpUtil.requestData(api.getBtcCandle(), new HttpCallback() {
             @Override
             public void onSuccess(String text) {
-                //  LogUtil.d("===================text:" + text);
                 OkCandleEntity entity = GsonHelper.getEntity(text, OkCandleEntity.class);
                 int size = entity.data.size();
                 for (int i = 0; i < size; i++) {
                     List<String> itemList = entity.data.get(i);
-                    LogUtil.d("=====:" + itemList.get(0) + "     i:" + i);
+                    String date_str = itemList.get(0).substring(0, 10);
+                    LogUtil.d("     i:" + i + "  date:" + date_str);
+
+                    Calendar calendar = Calendar.getInstance();
                 }
 
             }
