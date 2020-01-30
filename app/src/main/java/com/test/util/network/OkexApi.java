@@ -6,15 +6,10 @@ import retrofit2.http.GET;
 
 public interface OkexApi {
 
-    String baseUrl = " https://data.gateio.co";
-    String commPath = "/api2/1/";
+    String baseUrl = "https://www.okex.com";
 
-    @GET(commPath + "pairs")
-    Observable<ResponseBody> getPairs();
+    String commPath = "/v2/spot/instruments/";
 
-    @GET(commPath + "marketinfo")
-    Observable<ResponseBody> getMarketInfo();
-
-    @GET(commPath + "candlestick2/btc_usdt?group_set=600&range_hour=12")
-    Observable<ResponseBody> getCandleStick2();
+    @GET(commPath + "BTC-USDT/candles?granularity=86400&size=1000&t=1580363812013")
+    Observable<ResponseBody> getBtcCandle();
 }
