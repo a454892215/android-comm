@@ -44,13 +44,19 @@ public class JRTTTestActivity extends BaseAppActivity {
 
         SeekBar seek_bar = findViewById(R.id.seek_bar);
         TextView tv_seek_bar_progress = findViewById(R.id.tv_seek_bar_progress);
+        TextView tv_seek_bar_progress2 = findViewById(R.id.tv_seek_bar_progress2);
         seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 ViewGroup.LayoutParams lp = tv_seek_bar_progress.getLayoutParams();
-                lp.width = Math.round(progress * L.dp_1);
+                lp.width = Math.round(progress * L.dp_1);//宽度匹配测试
                 tv_seek_bar_progress.setLayoutParams(lp);
-                tv_seek_bar_progress.setText(progress + "");
+
+                ViewGroup.LayoutParams lp2 = tv_seek_bar_progress2.getLayoutParams();
+                lp2.height = Math.round(progress * L.dp_1); //高度匹配测试
+                tv_seek_bar_progress2.setLayoutParams(lp2);
+
+                tv_seek_bar_progress2.setText(progress + "");
             }
 
             @Override
