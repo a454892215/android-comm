@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.common.comm.L;
@@ -39,6 +41,28 @@ public class JRTTTestActivity extends BaseAppActivity {
         tv_jni_info.setText(info);
 
         testAnim();
+
+        SeekBar seek_bar = findViewById(R.id.seek_bar);
+        TextView tv_seek_bar_progress = findViewById(R.id.tv_seek_bar_progress);
+        seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                ViewGroup.LayoutParams lp = tv_seek_bar_progress.getLayoutParams();
+                lp.width = Math.round(progress * L.dp_1);
+                tv_seek_bar_progress.setLayoutParams(lp);
+                tv_seek_bar_progress.setText(progress + "");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
     }
 

@@ -98,4 +98,29 @@
             android:textColor="#ffffff"
             android:background="#F44336"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_seek_bar_progress"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_10"
+        android:text="0"
+        android:gravity="center"
+        android:textColor="#666666"
+        android:background="#ffcccc"
+        android:textSize="@dimen/sp_13"
+        android:maxLines="1" />
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:maxHeight="@dimen/dp_8"
+        android:indeterminateOnly="false"
+        android:indeterminateDrawable="@color/white"
+        android:max="360"
+        android:progress="20"
+        android:progressDrawable="@drawable/layer_list_seek_bar"
+        android:splitTrack="false"
+        android:thumb="@drawable/layer_seek_bar_thumb" />
 </LinearLayout>
