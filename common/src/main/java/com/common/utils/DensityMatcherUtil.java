@@ -24,13 +24,12 @@ public class DensityMatcherUtil {
             }
             float density = baseOnSize / size;
             float scaledDensity = density * (displayMetrics.scaledDensity / displayMetrics.density);
-            int targetDensityDpi = (int) (160 * density);
             int heightPixels = activity.getApplication().getResources().getDisplayMetrics().heightPixels;
             displayMetrics.density = density;
             displayMetrics.scaledDensity = scaledDensity;
-            displayMetrics.densityDpi = targetDensityDpi;
+            displayMetrics.densityDpi = Math.round(160 *  displayMetrics.density);//每英寸包含像素数
             LogUtil.i("========setDefault========== density:" + density + "  scaledDensity:"
-                    + scaledDensity + "  targetDensityDpi:" + targetDensityDpi + " baseOnSize:"
+                    + scaledDensity + " baseOnSize:"
                     + baseOnSize + " BASE_SIZE:" + size +" heightPixels:"+heightPixels);
         } catch (Exception e) {
             LogUtil.e(e);

@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -51,6 +50,8 @@ public class JRTTTestActivity extends BaseAppActivity {
                 ViewGroup.LayoutParams lp = tv_seek_bar_progress.getLayoutParams();
                 lp.width = Math.round(progress * L.dp_1);//宽度匹配测试
                 tv_seek_bar_progress.setLayoutParams(lp);
+                tv_seek_bar_progress.setLayoutParams(lp);
+                tv_seek_bar_progress.setText(progress + "");
 
                 ViewGroup.LayoutParams lp2 = tv_seek_bar_progress2.getLayoutParams();
                 lp2.height = Math.round(progress * L.dp_1); //高度匹配测试
