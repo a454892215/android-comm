@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flt_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -123,7 +124,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:indeterminateDrawable="@color/white"
             android:indeterminateOnly="false"
-            android:max="360"
+            android:max="640"
             android:maxHeight="@dimen/dp_8"
             android:progress="20"
             android:progressDrawable="@drawable/layer_list_seek_bar"

@@ -5,11 +5,13 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.common.comm.L;
+import com.common.utils.LogUtil;
 import com.lpan.mine.jnitest.HelloJni;
 import com.test.util.base.BaseAppActivity;
 
@@ -20,6 +22,11 @@ public class JRTTTestActivity extends BaseAppActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View flt_root = findViewById(R.id.flt_root);
+        flt_root.post(() -> {
+            int height = flt_root.getHeight();
+            LogUtil.d("===========displayMetrics=============flt_root height:" + height);
+        });
         TextView tv_jni_info = findViewById(R.id.tv_jni_info);
         //JNI方法测试
         String text = HelloJni.test();
