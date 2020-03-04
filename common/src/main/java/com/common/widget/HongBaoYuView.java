@@ -93,6 +93,7 @@ public class HongBaoYuView extends View {
         }
         hongBaoList.clear();
         postInvalidate();
+        isPlaying = false;
     }
 
 
