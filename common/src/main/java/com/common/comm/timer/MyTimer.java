@@ -7,9 +7,12 @@ import com.common.base.BaseActivity;
 public class MyTimer extends CountDownTimer {
 
     private int executeCount = 0;
+    private long hasExecuteTime = 0;
 
+    private long millisInFuture;
     public MyTimer(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
+        this.millisInFuture = millisInFuture;
     }
 
     public void setOnTickListener(OnTickListener onTickListener) {
@@ -21,6 +24,7 @@ public class MyTimer extends CountDownTimer {
      */
     @Override
     public void onTick(long millisUntilFinished) {
+        hasExecuteTime = millisInFuture - millisUntilFinished;
         executeCount++;
         if (onTickListener != null) {
             onTickListener.onTick(millisUntilFinished, executeCount);
@@ -40,4 +44,10 @@ public class MyTimer extends CountDownTimer {
     public void bindActivity(BaseActivity baseActivity) {
         baseActivity.addOnPauseListener(this::cancel);
     }
+
+
+    public long getHasExecuteTime() {
+        return hasExecuteTime;
+    }
+
 }
