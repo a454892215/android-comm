@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //  SystemUtils.hideBottomVirtualKey(activity);
         //设置允许通过ActivityOptions.makeSceneTransitionAnimation发送或者接收Bundle
-        DensityMatcherUtil.onActivityCreate(this, 640, true);
+        DensityMatcherUtil.onActivityCreate(this, 360, false);
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         //设置使用TransitionManager进行动画，不设置的话系统会使用一个默认的TransitionManager
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
