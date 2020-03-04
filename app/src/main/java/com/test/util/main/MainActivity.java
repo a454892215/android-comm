@@ -66,7 +66,7 @@ public class MainActivity extends BaseAppActivity {
         findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
         findViewById(R.id.btn_stop).setOnClickListener(v -> hby.stop());
         findViewById(R.id.bt_timer).setOnClickListener(v -> {
-            MyTimer myTimer = new MyTimer(1000 * 60 * 60, 10);
+            MyTimer myTimer = new MyTimer(1000 * 60, 10);
             myTimer.setOnTickListener((millisUntilFinished, count) -> {
                 long hasExecuteTime = myTimer.getHasExecuteTime();
                 //计算每秒调用的次数
