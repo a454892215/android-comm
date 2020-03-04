@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.KeyEvent;
+import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
+import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
 import com.test.util.Constant;
 import com.test.util.JRTTTestActivity;
@@ -59,7 +61,10 @@ public class MainActivity extends BaseAppActivity {
             startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         });
 
+        HongBaoYuView hby = findViewById(R.id.hby);
 
+        findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
+        findViewById(R.id.btn_stop).setOnClickListener(v -> hby.stop());
         findViewById(R.id.bt_timer).setOnClickListener(v -> {
             MyTimer myTimer = new MyTimer(1000, 10);
             myTimer.setOnTickListener((millisUntilFinished, count) -> {

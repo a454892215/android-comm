@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#ffffff"
-    tools:context=".main.MainActivity">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/include_header" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        tools:context=".main.MainActivity">
 
-    <Button
-        android:id="@+id/bt_timer"
+        <include layout="@layout/include_header" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
+
+        <Button
+            android:id="@+id/bt_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="timer测试"/>
+
+        <Button
+            android:id="@+id/btn_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开始播放红包雨"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="停止播放红包雨"
+            tools:ignore="HardcodedText" />
+
+    </LinearLayout>
+
+    <com.common.widget.HongBaoYuView
+        android:id="@+id/hby"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="timer测试"/>
-</LinearLayout>
+        android:layout_height="match_parent"/>
+</FrameLayout>

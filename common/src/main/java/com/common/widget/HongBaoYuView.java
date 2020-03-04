@@ -50,11 +50,10 @@ public class HongBaoYuView extends View {
         super(context, attrs, defStyleAttr);
         moveMinUnit = Math.round(L.dp_1 / 3);
         if (moveMinUnit < 1) moveMinUnit = 1;
-
         BitmapDrawable drawable_bao_piao = (BitmapDrawable) context.getResources().getDrawable(R.drawable.ic_hong_bao_piao);
         item_width = Math.round(L.dp_1 * 30);
         item_height = Math.round(ViewUtil.getPicHeightByWidth(drawable_bao_piao, item_width));
-        bitmap = Bitmap.createScaledBitmap(drawable_bao_piao.getBitmap(),item_width,item_height,false);
+        bitmap = Bitmap.createScaledBitmap(drawable_bao_piao.getBitmap(), item_width, item_height, false);
         timer = new MyTimer(Integer.MAX_VALUE, 16);
         timer.setOnTickListener((millisUntilFinished, executeCount) -> {
             int size = hongBaoList.size();
@@ -71,15 +70,31 @@ public class HongBaoYuView extends View {
             }
             postInvalidate();
         });
-        postDelayed(() -> {
-            initHongBaoItem();
-            timer.start();
-        }, 250);
         srcRect.left = 0;
         srcRect.right = this.bitmap.getWidth();
         srcRect.top = 0;
         srcRect.bottom = this.bitmap.getHeight();
     }
+
+    private boolean isPlaying = false;
+
+    public void play() {
+        if (!isPlaying) {
+            initHongBaoItem();
+            timer.start();
+        }
+
+        isPlaying = true;
+    }
+
+    public void stop() {
+        if (timer != null) {
+            timer.cancel();
+        }
+        hongBaoList.clear();
+        postInvalidate();
+    }
+
 
     private int getInitTop() {
         return -new Random().nextInt(getHeight() * 2 + item_height);
@@ -97,6 +112,7 @@ public class HongBaoYuView extends View {
         }
     }
 
+
     private RectF srcRect = new RectF();
     private RectF rectf = new RectF();
     private Paint paint = new Paint();
@@ -110,7 +126,7 @@ public class HongBaoYuView extends View {
             rectf.bottom = hongBaoItem.currentTop + hongBaoItem.height;
             rectf.right = hongBaoItem.currentLeft + hongBaoItem.width;
             hongBaoItem.matrix.setRectToRect(srcRect, rectf, Matrix.ScaleToFit.CENTER);
-            hongBaoItem.matrix.preRotate(hongBaoItem.currentRotate, hongBaoItem.width/2f, hongBaoItem.height/2f);
+            hongBaoItem.matrix.preRotate(hongBaoItem.currentRotate, hongBaoItem.width / 2f, hongBaoItem.height / 2f);
             canvas.drawBitmap(bitmap, hongBaoItem.matrix, paint);
         }
     }
