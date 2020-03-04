@@ -6,9 +6,9 @@ import android.os.Bundle;
 import com.common.widget.float_window.MultiViewFloatLayout;
 import com.common.x5_web.X5WebView;
 import com.test.util.R;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
-public class X5WebTestActivity extends BaseAppActivity {
+public class X5WebTestActivity extends MyBaseActivity {
 
 
     private MultiViewFloatLayout multi_view_float;

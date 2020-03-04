@@ -7,10 +7,10 @@ import android.widget.ImageView;
 import com.common.utils.ImgUtils;
 import com.common.utils.QRCodeUtils;
 import com.common.utils.ToastUtil;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
 
-public class QRCodeTestActivity extends BaseAppActivity {
+public class QRCodeTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

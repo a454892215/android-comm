@@ -13,12 +13,12 @@ import android.widget.TextView;
 import com.common.comm.L;
 import com.common.utils.LogUtil;
 import com.lpan.mine.jnitest.HelloJni;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
 import java.util.Arrays;
 import java.util.Random;
 
-public class JRTTTestActivity extends BaseAppActivity {
+public class JRTTTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

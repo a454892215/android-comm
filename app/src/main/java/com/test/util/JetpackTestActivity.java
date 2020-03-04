@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.common.utils.ToastUtil;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
-public class JetpackTestActivity extends BaseAppActivity {
+public class JetpackTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -10,13 +10,12 @@ import com.common.http.HttpUtil;
 import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
 import com.test.util.R;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class HttpTestActivity extends BaseAppActivity {
+public class HttpTestActivity extends MyBaseActivity {
 
     private static OkexApi api;
     private HttpUtil httpUtil;

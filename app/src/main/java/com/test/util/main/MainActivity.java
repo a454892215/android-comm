@@ -20,7 +20,7 @@ import com.test.util.BuglyTestActivity;
 import com.test.util.QRCodeTestActivity;
 import com.test.util.R;
 import com.test.util.XposedTestActivity;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 import com.test.util.network.HttpTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.web_agent.AgentWebActivity;
@@ -30,7 +30,7 @@ import com.test.util.x5web.X5WebTestActivity;
  * Author: L
  * Description:
  */
-public class MainActivity extends BaseAppActivity {
+public class MainActivity extends MyBaseActivity {
 
     private String[] names = {"View 相关", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack",
             "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码"};

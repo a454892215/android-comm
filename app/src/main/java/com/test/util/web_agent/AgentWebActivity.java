@@ -21,9 +21,9 @@ import com.just.agentweb.AgentWeb;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 import com.test.util.R;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
-public class AgentWebActivity extends BaseAppActivity {
+public class AgentWebActivity extends MyBaseActivity {
 
     private FrameLayout flt_content;
     private AgentWeb mAgentWeb;

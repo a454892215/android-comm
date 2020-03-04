@@ -11,11 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.common.base.BaseActivity;
+import com.common.comm.timer.TimerTest;
 import com.jaeger.library.StatusBarUtil;
 import com.test.util.Constant;
 import com.test.util.R;
 
-public abstract class BaseAppActivity extends BaseActivity implements View.OnClickListener {
+public abstract class MyBaseActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +31,7 @@ public abstract class BaseAppActivity extends BaseActivity implements View.OnCli
 
         getWindow().setEnterTransition(new Slide(Gravity.BOTTOM).setDuration(600));
         getWindow().setExitTransition(new Fade().setDuration(200));
-
+        TimerTest.testFPS(this, 60);
 
     }
 

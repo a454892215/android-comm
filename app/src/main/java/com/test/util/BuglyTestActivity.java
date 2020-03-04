@@ -3,9 +3,9 @@ package com.test.util;
 import android.os.Bundle;
 
 import com.tencent.bugly.crashreport.CrashReport;
-import com.test.util.base.BaseAppActivity;
+import com.test.util.base.MyBaseActivity;
 
-public class BuglyTestActivity extends BaseAppActivity {
+public class BuglyTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
