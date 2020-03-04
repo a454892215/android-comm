@@ -12,7 +12,7 @@ public class TimerTest {
         myTimer.setOnTickListener((millisUntilFinished, count) -> {
             //计算每秒调用的次数
             if (count % 100 == 0) {
-                LogUtil.d("=====count:" + count + "  FPS:" + count / (myTimer.getHasExecuteTime() / 1000f));
+                LogUtil.d("==1===count:" + count + "  FPS:" + count / (myTimer.getHasExecuteTime() / 1000f));
             }
         });
         myTimer.start();
