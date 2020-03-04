@@ -2,6 +2,7 @@ package com.test.util.custom_view;
 
 import android.os.Bundle;
 
+import com.common.comm.timer.TimerTest;
 import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
 import com.test.util.R;
@@ -36,5 +37,6 @@ public class CustomViewTestActivity extends BaseAppActivity {
         FragmentHelper fragmentHelper = new FragmentHelper(fm, fragmentArr, R.id.flt_content);
         tab_layout.setOnSelectChangedListener(fragmentHelper::onSwitchFragment);
         tab_layout.setCurrentPosition(0);
+        TimerTest.testFPS(this, 60);
     }
 }

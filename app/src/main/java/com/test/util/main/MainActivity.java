@@ -61,7 +61,7 @@ public class MainActivity extends BaseAppActivity {
 
         findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
         findViewById(R.id.btn_stop).setOnClickListener(v -> hby.stop());
-        findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(60));
+        findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
 
     }
 
