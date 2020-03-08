@@ -3,7 +3,6 @@ package com.test.util.network;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.common.GlideApp;
 import com.common.helper.GsonHelper;
 import com.common.http.ApiCreator;
 import com.common.http.HttpUtil;
@@ -11,6 +10,7 @@ import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
 import com.test.util.R;
 import com.test.util.base.MyBaseActivity;
+import com.test.util.network.okex.CandleOkex;
 
 import java.util.Calendar;
 import java.util.List;
@@ -35,7 +35,7 @@ public class HttpTestActivity extends MyBaseActivity {
         requestData();
         ImageView img_test = findViewById(R.id.img_test);
         String url = "https://img.ivsky.com/img/tupian/pre/201811/07/pubu-006.jpg";
-        GlideApp.with(activity).load(url).into(img_test);
+       // GlideApp.with(activity).load(url).into(img_test);
     }
 
     @Override
@@ -45,10 +45,10 @@ public class HttpTestActivity extends MyBaseActivity {
 
 
     private void requestData() {
-        httpUtil.requestData(api.getBtcCandle(), new HttpCallback() {
+        httpUtil.requestData(api.getBtc24Candle(), new HttpCallback() {
             @Override
             public void onSuccess(String text) {
-                OkCandleEntity entity = GsonHelper.getEntity(text, OkCandleEntity.class);
+                CandleOkex entity = GsonHelper.getEntity(text, CandleOkex.class);
                 int size = entity.data.size();
                 for (int i = 0; i < size; i++) {
                     List<String> itemList = entity.data.get(i);

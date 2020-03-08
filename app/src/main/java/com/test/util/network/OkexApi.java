@@ -12,4 +12,11 @@ public interface OkexApi {
 
     @GET(commPath + "BTC-USDT/candles?granularity=86400&size=1000&t=1580363812013")
     Observable<ResponseBody> getBtcCandle();
+
+    /**
+     * 币币行情
+     * @return 蜡烛图数据
+     */
+    @GET(commPath + "BTC-USDT/candles?granularity=86400&size=1000&t=1580363812013")
+    Observable<ResponseBody> getBtc24Candle();
 }
