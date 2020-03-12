@@ -2,8 +2,11 @@ package com.test.util.pose;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
 
 import com.test.util.BuildConfig;
 
@@ -24,7 +27,7 @@ public class XPosedTest implements IXposedHookLoadPackage {
         XPLogUtil.i("=====handleLoadPackage======packageName:" + loadPackageParam.packageName + " 进程名：" + loadPackageParam.processName);
         try {
             onTestApp(loadPackageParam);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             XPLogUtil.e(e);
         }
     }
@@ -60,12 +63,55 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 }
             });
 
-            // 示例 3 hook activity
-            XposedHelpers.findAndHookConstructor(View.class, "setOnClickListener", View.OnClickListener.class, new XC_MethodHook() {
+            // 示例 3 hook View一个参数的构造函数
+            XposedHelpers.findAndHookConstructor(View.class, Context.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                      XPLogUtil.i("View hook 成功:");
+                    XPLogUtil.i("1个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                }
+            });
+
+            // 示例 4 hook View2个参数的构造函数
+            XposedHelpers.findAndHookConstructor(View.class, Context.class, AttributeSet.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    XPLogUtil.i("2个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                }
+            });
+
+            // 示例 5 hook View3个参数的构造函数
+            XposedHelpers.findAndHookConstructor(View.class, Context.class, AttributeSet.class, int.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    XPLogUtil.i("3个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                }
+            });
+
+            // 示例 5 hook TextView setText个参数的构造函数
+            XposedHelpers.findAndHookMethod(TextView.class, "setText", CharSequence.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+                    TextView tv = (TextView) param.thisObject;
+                    XPLogUtil.i(" TextView setText hook 成功:" + tv.getText());
                 }
 
                 @Override

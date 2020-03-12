@@ -135,7 +135,7 @@ public class HongBaoYuView extends View {
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        LogUtil.d("================onDetachedFromWindow:");
+       // LogUtil.d("================onDetachedFromWindow:");
         if (timer != null) {
             timer.cancel();
         }

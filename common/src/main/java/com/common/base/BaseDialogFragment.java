@@ -67,7 +67,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void show(FragmentManager manager, String tag) {
         if (!isAdded()) {
             super.show(manager, tag);
-            CommApp.getHotFixCallback().onShowDialogFragment(this);
         }
     }
 

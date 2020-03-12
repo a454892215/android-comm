@@ -51,7 +51,7 @@ public class FragmentHelper {
         } else {
             fm.beginTransaction().add(contentViewId, showingFragment, showingFragment.getClass().getName()).show(showingFragment).commit();
         }
-        CommApp.getHotFixCallback().onSwitchShowFragment(showingFragment);
+       // CommApp.getHotFixCallback().onSwitchShowFragment(showingFragment);
         currentPosition = position;
     }
 

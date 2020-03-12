@@ -81,9 +81,9 @@ public class CommApp extends Application {
         return null;
     }
 
-    public static HotFixCallback getHotFixCallback() {
+/*    public static HotFixCallback getHotFixCallback() {
         return null;
-    }
+    }*/
 
 
 }
