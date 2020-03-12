@@ -20,8 +20,8 @@ public class DensityMatcherUtil {
         try {
             int baseOnSize;
             DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
-            LogUtil.d("=====1====displayMetrics:" + displayMetrics);
-            LogUtil.d("==========displayMetrics=====1dp的实际像素数是：" + 1 * displayMetrics.density + "  dp:" + L.dp_1);
+          //  LogUtil.d("=====1====displayMetrics:" + displayMetrics);
+          //  LogUtil.d("==========displayMetrics=====1dp的实际像素数是：" + 1 * displayMetrics.density + "  dp:" + L.dp_1);
             if (isBaseOnLongest) { //基于最长一边
                 baseOnSize = displayMetrics.widthPixels > displayMetrics.heightPixels ? displayMetrics.widthPixels : displayMetrics.heightPixels;
             } else { //基于最短一边
@@ -35,9 +35,9 @@ public class DensityMatcherUtil {
             displayMetrics.densityDpi = Math.round(160 * density);//每英寸包含像素数 对dp 没有隐形 对默认尺寸会有影响
 
 
-            LogUtil.d("=====2====displayMetrics:" + displayMetrics);
+         //   LogUtil.d("=====2====displayMetrics:" + displayMetrics);
             float dp_1 = activity.getResources().getDimension(R.dimen.dp_1);
-            LogUtil.d("==========displayMetrics=====1dp的实际像素数是：" + 1 * displayMetrics.density + "  dp:" + dp_1 + " baseOnSize:" + baseOnSize);
+          //  LogUtil.d("==========displayMetrics=====1dp的实际像素数是：" + 1 * displayMetrics.density + "  dp:" + dp_1 + " baseOnSize:" + baseOnSize);
         } catch (Exception e) {
             LogUtil.e(e);
         }

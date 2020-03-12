@@ -37,7 +37,6 @@ public class CommApp extends Application {
         super.onCreate();
         LitePal.initialize(this);
         if(SystemUtils.isMainProcess(this)){
-            LogUtil.d("=======主线程开始初始化======");
             app = this;
             CrashHandler.init(this);
             CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
@@ -48,6 +47,8 @@ public class CommApp extends Application {
             hotFixCallback.init(this);
             registerActivityLifecycleCallbacks(hotFixCallback);*/
             LogUtil.d("=======主线程开始初始化完毕======");
+        }else{
+            LogUtil.d("=======其他线程开始初始化完毕======");
         }
     }
 
