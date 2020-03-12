@@ -1,12 +1,16 @@
 package com.test.util.pose;
 
+import android.util.Log;
+
+import com.common.utils.StringUtil;
+
 import de.robv.android.xposed.XposedBridge;
 
 public class XPLogUtil {
 
     private static final String TAG = "LLpp: ";
 
-    public static void log(String msg) {
+    public static void i(String msg) {
         if (msg != null) {
             int length = msg.length();
             int count = 1024 * 3;
@@ -16,6 +20,10 @@ public class XPLogUtil {
                 XposedBridge.log(TAG + getLineNum() + "  text:  " + msg.substring(i * count, end));
             }
         }
+    }
+
+    public static void e(Throwable e) {
+        Log.e(TAG + getLineNum(), StringUtil.getThrowableInfo(e));
     }
 
 

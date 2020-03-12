@@ -12,10 +12,9 @@ public class TimerTest {
         MyTimer myTimer = new MyTimer(1000 * time, 10);
         myTimer.setOnTickListener((millisUntilFinished, count) -> {
             //计算每秒调用的次数
-            if (count % 100 == 0) {
-                LogUtil.d("==1===count:" + count + "  FPS:" + count / (myTimer.getHasExecuteTime() / 1000f) +
-                        " aty:" + activity.getClass().getSimpleName());
-            }
+     /*       if (count % 100 == 0) {
+                LogUtil.d("==1===count:" + count + "  FPS:" + count / (myTimer.getHasExecuteTime() / 1000f) + " aty:" + activity.getClass().getSimpleName());
+            }*/
         });
         myTimer.start();
         activity.addOnPauseListener(myTimer::cancel);

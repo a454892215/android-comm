@@ -114,7 +114,7 @@ static def getAppInfo() {
 }
 
 static def getLastCommitInfo() {
-    def p1 = 'git log -1 --pretty=format:"%h-%ci"'.execute()
+    def p1 = 'git i -1 --pretty=format:"%h-%ci"'.execute()
     String logInfo = getGitInfo(p1)
     def p2 = 'git symbolic-ref --short HEAD'.execute()
     String currentBranch = getGitInfo(p2).trim()

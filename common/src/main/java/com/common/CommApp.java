@@ -29,7 +29,7 @@ public class CommApp extends Application {
 
     protected boolean isInitX5Web = false;
     public static Application app;
-    private static HotFixCallback hotFixCallback;
+//    private static HotFixCallback hotFixCallback;
 
 
     @Override
@@ -44,9 +44,9 @@ public class CommApp extends Application {
             setWebViewPath(this);
             if (isInitX5Web) initX5WebView();
             L.init(this);
-            hotFixCallback = new HotFixCallback();
+    /*        hotFixCallback = new HotFixCallback();
             hotFixCallback.init(this);
-            registerActivityLifecycleCallbacks(hotFixCallback);
+            registerActivityLifecycleCallbacks(hotFixCallback);*/
             LogUtil.d("=======主线程开始初始化完毕======");
         }
     }
@@ -81,7 +81,7 @@ public class CommApp extends Application {
     }
 
     public static HotFixCallback getHotFixCallback() {
-        return hotFixCallback;
+        return null;
     }
 
 

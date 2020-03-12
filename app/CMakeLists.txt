@@ -15,6 +15,6 @@ log )
 
 target_link_libraries( # Specifies the target library.
 helloJni
-# Links the target library to the log library
+# Links the target library to the i library
 # included in the NDK.
 ${log-lib} )
