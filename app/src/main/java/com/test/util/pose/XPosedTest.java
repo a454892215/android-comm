@@ -14,8 +14,8 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 
 /**
  * Author:  L
@@ -123,7 +123,7 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 }
             });
 
-            // 示例 5 hook Okhttp
+            // 示例 6 hook OkHttpClient
             XposedHelpers.findAndHookConstructor(OkHttpClient.class, OkHttpClient.Builder.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -134,8 +134,22 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    TextView tv = (TextView) param.thisObject;
-                    XPLogUtil.i(" OkHttpClient hook 成功:" + tv.getText());
+                    XPLogUtil.i(" OkHttpClient hook 成功:" );
+                }
+            });
+
+            // 示例 7 hook ResponseBody.string.()
+            XposedHelpers.findAndHookMethod(ResponseBody.class, "string", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    XPLogUtil.i(" ResponseBody.string() hook 成功:");
                 }
             });
 
