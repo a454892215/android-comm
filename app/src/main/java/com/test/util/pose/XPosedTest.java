@@ -28,7 +28,8 @@ public class XPosedTest implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         XPLogUtil.i("=====handleLoadPackage======packageName:" + loadPackageParam.packageName + " 进程名：" + loadPackageParam.processName);
         try {
-            onTestApp(loadPackageParam);
+          //  onTestApp(loadPackageParam);
+            BSJXPosed.handleLoadPackage(loadPackageParam);
         } catch (Throwable e) {
             XPLogUtil.e(e);
         }

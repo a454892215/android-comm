@@ -87,10 +87,6 @@ public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHold
         this.emptyLayoutId = emptyLayoutId;
     }
 
-    public List<T> getList() {
-        return list;
-    }
-
     private class OnClick implements View.OnClickListener {
         private View view;
         private int position;
