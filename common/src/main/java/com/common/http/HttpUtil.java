@@ -95,7 +95,7 @@ public class HttpUtil {
                 ((BaseActivity) activity).dismissDefaultLoadingView();
             }
         }
-        LogUtil.e("Http=====:" + StringUtil.getThrowableInfo(e));
+        LogUtil.e(e);
         httpCallback.onFail(e);
     }
 }

@@ -3,21 +3,17 @@ package com.test.util.network;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import com.common.helper.GsonHelper;
 import com.common.http.ApiCreator;
 import com.common.http.HttpUtil;
 import com.common.http.inter.HttpCallback;
 import com.common.utils.LogUtil;
+import com.test.util.BuildConfig;
 import com.test.util.R;
 import com.test.util.base.MyBaseActivity;
-import com.test.util.network.okex.CandleOkex;
-
-import java.util.Calendar;
-import java.util.List;
 
 public class HttpTestActivity extends MyBaseActivity {
 
-    private static OkexApi api;
+    private static JvHeApi api;
     private HttpUtil httpUtil;
 
     @Override
@@ -25,8 +21,8 @@ public class HttpTestActivity extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         if (api == null) {
             ApiCreator apiCreator = new ApiCreator();
-            apiCreator.logEnable(false);
-            api = apiCreator.getApi(OkexApi.baseUrl, OkexApi.class);
+            apiCreator.logEnable(BuildConfig.IS_DEBUG);
+            api = apiCreator.getApi(JvHeApi.baseUrl, JvHeApi.class);
         }
 
         httpUtil = new HttpUtil(this);
@@ -45,18 +41,9 @@ public class HttpTestActivity extends MyBaseActivity {
 
 
     private void requestData() {
-        httpUtil.requestData(api.getBtc24Candle(), new HttpCallback() {
+        httpUtil.requestData(api.getTouTiao(), new HttpCallback() {
             @Override
             public void onSuccess(String text) {
-                CandleOkex entity = GsonHelper.getEntity(text, CandleOkex.class);
-                int size = entity.data.size();
-                for (int i = 0; i < size; i++) {
-                    List<String> itemList = entity.data.get(i);
-                    String date_str = itemList.get(0).substring(0, 10);
-                    LogUtil.d("     i:" + i + "  date:" + date_str);
-
-                    Calendar calendar = Calendar.getInstance();
-                }
 
             }
 

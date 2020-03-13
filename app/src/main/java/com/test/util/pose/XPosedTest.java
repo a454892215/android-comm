@@ -14,6 +14,8 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 /**
  * Author:  L
@@ -68,12 +70,12 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    XPLogUtil.i("1个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
+                    XPLogUtil.i("1个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
                 }
             });
 
@@ -82,12 +84,12 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    XPLogUtil.i("2个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
+                    XPLogUtil.i("2个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
                 }
             });
 
@@ -96,12 +98,12 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    XPLogUtil.i("3个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
+                    XPLogUtil.i("3个参数的View构造函数 hook 成功:" + param.thisObject.getClass().getSimpleName());
                 }
             });
 
@@ -110,15 +112,33 @@ public class XPosedTest implements IXposedHookLoadPackage {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     super.beforeHookedMethod(param);
-                    TextView tv = (TextView) param.thisObject;
-                    XPLogUtil.i(" TextView setText hook 成功:" + tv.getText());
+
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
+                    TextView tv = (TextView) param.thisObject;
+                    XPLogUtil.i(" TextView setText hook 成功:" + tv.getText());
                 }
             });
+
+            // 示例 5 hook Okhttp
+            XposedHelpers.findAndHookConstructor(OkHttpClient.class, OkHttpClient.Builder.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    super.beforeHookedMethod(param);
+
+                }
+
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    super.afterHookedMethod(param);
+                    TextView tv = (TextView) param.thisObject;
+                    XPLogUtil.i(" OkHttpClient hook 成功:" + tv.getText());
+                }
+            });
+
 
         }
     }
