@@ -67,8 +67,8 @@ class BSJXPosed {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     super.afterHookedMethod(param);
-                    TextView tv = (TextView) param.thisObject;
-                    XPLogUtil.i(" TextView setText hook 成功:" + tv.getText());
+                  //  TextView tv = (TextView) param.thisObject;
+                  //  XPLogUtil.i(" TextView setText hook 成功:" + tv.getText());
                 }
             });
         }
