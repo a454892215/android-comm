@@ -3,6 +3,7 @@ package com.test.util.main;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.test.util.XposedTestActivity;
 import com.test.util.base.MyBaseActivity;
 import com.test.util.network.HttpTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
+import com.test.util.sys_notice.NotificationMonitor;
 import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
 
@@ -70,7 +72,26 @@ public class MainActivity extends MyBaseActivity {
 
         floatButtonTest(contentView);
 
+        openNotificationListenSettings();
+
+        Intent intent = new Intent(this, NotificationMonitor.class);
+        startService(intent);
     }
+
+    public void openNotificationListenSettings() {
+        try {
+            Intent intent;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+                intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+            } else {
+                intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            }
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void floatButtonTest(View contentView) {
         ViewGroup viewGroup = (ViewGroup) contentView;
