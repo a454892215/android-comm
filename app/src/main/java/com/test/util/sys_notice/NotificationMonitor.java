@@ -6,7 +6,6 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.common.utils.LogUtil;
-import com.test.util.App;
 
 /**
  * Author: Pan
