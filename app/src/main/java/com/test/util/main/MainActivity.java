@@ -4,6 +4,9 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +15,7 @@ import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.common.utils.ToastUtil;
 import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
 import com.test.util.Constant;
@@ -64,7 +68,15 @@ public class MainActivity extends MyBaseActivity {
         findViewById(R.id.btn_stop).setOnClickListener(v -> hby.stop());
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
 
+        floatButtonTest();
 
+    }
+
+    private void floatButtonTest() {
+        ViewGroup viewGroup = (ViewGroup) contentView;
+        View float_btn = LayoutInflater.from(activity).inflate(R.layout.float_btn, viewGroup, false);
+        float_btn.setOnClickListener(v -> ToastUtil.showLong("gaga"));
+        viewGroup.addView(float_btn);
     }
 
     @Override

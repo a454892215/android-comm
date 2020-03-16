@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.common.widget.DragFloatActionButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="50dp"
+    android:maxWidth="50dp"
+    android:padding="5dp"
+    android:layout_height="wrap_content"
+    android:adjustViewBounds="true"
+    android:src="@drawable/icon_browser" />
+
