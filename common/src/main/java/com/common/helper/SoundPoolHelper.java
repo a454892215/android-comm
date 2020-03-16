@@ -51,6 +51,10 @@ public class SoundPoolHelper {
         soundPool.play(loadedIdList.get(position), volume, volume, 0, -1, 1);
     }
 
+    public void stop(int position) {
+        soundPool.stop(loadedIdList.get(position));
+    }
+
     /**
      * 示例 soundPoolUtil.playOnlyOne(R.raw.music_activity, 4, activity)
      *

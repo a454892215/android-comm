@@ -70,7 +70,7 @@ public class MainActivity extends MyBaseActivity {
 
         findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
         findViewById(R.id.btn_stop).setOnClickListener(v -> {
-            App.app.soundPoolUtil.repeatPlay(0);
+            App.app.soundPoolUtil.play(0);
             hby.stop();
         });
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));

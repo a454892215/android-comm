@@ -6,6 +6,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.common.utils.LogUtil;
+import com.test.util.App;
 
 /**
  * Author: Pan
@@ -22,6 +23,7 @@ public class NotificationMonitor extends NotificationListenerService {
         String title = extras.getString(Notification.EXTRA_TITLE);
         // 获取接收消息的内容
         String content = extras.getString(Notification.EXTRA_TEXT);
+      //  App.app.soundPoolUtil.repeatPlay(0);
         LogUtil.i("消息标题 " + title + " content:" + content);
     }
 
@@ -35,6 +37,7 @@ public class NotificationMonitor extends NotificationListenerService {
         String title = extras.getString(Notification.EXTRA_TITLE);
         // 获取接收消息的内容
         String content = extras.getString(Notification.EXTRA_TEXT);
+      //  App.app.soundPoolUtil.stop(0);
         LogUtil.i("消息标题: " + title + " content: " + content);
     }
 }
