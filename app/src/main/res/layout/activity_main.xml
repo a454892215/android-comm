@@ -39,6 +39,21 @@
             android:text="停止播放红包雨"
             tools:ignore="HardcodedText" />
 
+
+        <Button
+            android:id="@+id/btn_last"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="下一首"
+            tools:ignore="HardcodedText" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="上一首"
+            tools:ignore="HardcodedText" />
+
     </LinearLayout>
 
     <com.common.widget.HongBaoYuView

@@ -32,6 +32,7 @@ import com.test.util.base.MyBaseActivity;
 import com.test.util.network.HttpTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.sys_notice.NotificationMonitor;
+import com.test.util.sys_notice.SystemRing;
 import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
 
@@ -74,7 +75,8 @@ public class MainActivity extends MyBaseActivity {
             hby.stop();
         });
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
-
+        findViewById(R.id.btn_last).setOnClickListener(v -> SystemRing.getInstance().playLast());
+        findViewById(R.id.btn_next).setOnClickListener(v -> SystemRing.getInstance().playNext());
         floatButtonTest(contentView);
 
         openNotificationListenSettings();
