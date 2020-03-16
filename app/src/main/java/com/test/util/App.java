@@ -4,6 +4,7 @@ import com.common.CommApp;
 import com.common.utils.LogUtil;
 import com.common.helper.SoundPoolHelper;
 import com.example.jpushdemo.JGInit;
+import com.test.util.sys_notice.SystemRing;
 
 /**
  * Author:  L
@@ -24,6 +25,7 @@ public class App extends CommApp {
         LogUtil.logEnable(BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
         JGInit.init(this);
+        SystemRing.getInstance().init(this);
         LogUtil.i("===onCreate==App=========:" + BuildConfig.app_info);
     }
 }
