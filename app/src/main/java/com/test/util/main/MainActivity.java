@@ -68,13 +68,13 @@ public class MainActivity extends MyBaseActivity {
         findViewById(R.id.btn_stop).setOnClickListener(v -> hby.stop());
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
 
-        floatButtonTest();
+        floatButtonTest(contentView);
 
     }
 
-    private void floatButtonTest() {
+    private void floatButtonTest(View contentView) {
         ViewGroup viewGroup = (ViewGroup) contentView;
-        View float_btn = LayoutInflater.from(activity).inflate(R.layout.float_btn, viewGroup, false);
+        View float_btn = LayoutInflater.from(contentView.getContext()).inflate(R.layout.float_btn, viewGroup, false);
         float_btn.setOnClickListener(v -> ToastUtil.showLong("gaga"));
         viewGroup.addView(float_btn);
     }
