@@ -18,13 +18,14 @@ public class NotificationMonitor extends NotificationListenerService {
         Bundle extras = sbn.getNotification().extras;
         // 获取接收消息APP的包名
         String notificationPkg = sbn.getPackageName();
-        if(notificationPkg.contains("bishijie")){
-            // 获取接收消息的抬头
-            String title = extras.getString(Notification.EXTRA_TITLE);
-            // 获取接收消息的内容
-            String content = extras.getString(Notification.EXTRA_TEXT);
+
+        // 获取接收消息的抬头
+        String title = extras.getString(Notification.EXTRA_TITLE);
+        String content = extras.getString(Notification.EXTRA_TEXT);
+
+        LogUtil.i("消息标题 " + title + " content:" + content + "  :" + notificationPkg);
+        if (title != null && title.contains("策略")) {
             SystemRing.getInstance().play(0);
-            LogUtil.i("消息标题 " + title + " content:" + content);
         }
 
     }
@@ -35,14 +36,12 @@ public class NotificationMonitor extends NotificationListenerService {
         Bundle extras = sbn.getNotification().extras;
         // 获取接收消息APP的包名
         String notificationPkg = sbn.getPackageName();
-        if(notificationPkg.contains("bishijie")){
-            // 获取接收消息的抬头
-            String title = extras.getString(Notification.EXTRA_TITLE);
-            // 获取接收消息的内容
-            String content = extras.getString(Notification.EXTRA_TEXT);
-            SystemRing.getInstance().stop(0);
-            LogUtil.i("消息标题: " + title + " content: " + content);
-        }
+        // 获取接收消息的抬头
+        String title = extras.getString(Notification.EXTRA_TITLE);
+        // 获取接收消息的内容
+        String content = extras.getString(Notification.EXTRA_TEXT);
+        LogUtil.i("消息标题: " + title + " content: " + content + "  :" + notificationPkg);
+        SystemRing.getInstance().stop(0);
 
     }
 }
