@@ -16,6 +16,7 @@ import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.common.utils.LogUtil;
 import com.common.utils.ToastUtil;
 import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
@@ -88,7 +89,7 @@ public class MainActivity extends MyBaseActivity {
             }
             startActivity(intent);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.e(e);
         }
     }
 
