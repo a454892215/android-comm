@@ -14,10 +14,12 @@ import com.example.jpushdemo.JGInit;
 public class App extends CommApp {
 
     public SoundPoolHelper soundPoolUtil;
+    public static App app;
 
     @Override
     public void onCreate() {
         isInitX5Web = true;
+        app = this;
         super.onCreate();
         LogUtil.logEnable(BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);

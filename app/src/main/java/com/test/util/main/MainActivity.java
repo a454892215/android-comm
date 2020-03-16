@@ -20,6 +20,7 @@ import com.common.utils.LogUtil;
 import com.common.utils.ToastUtil;
 import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
+import com.test.util.App;
 import com.test.util.Constant;
 import com.test.util.JRTTTestActivity;
 import com.test.util.JetpackTestActivity;
@@ -68,7 +69,10 @@ public class MainActivity extends MyBaseActivity {
         HongBaoYuView hby = findViewById(R.id.hby);
 
         findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
-        findViewById(R.id.btn_stop).setOnClickListener(v -> hby.stop());
+        findViewById(R.id.btn_stop).setOnClickListener(v -> {
+            App.app.soundPoolUtil.repeatPlay(0);
+            hby.stop();
+        });
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
 
         floatButtonTest(contentView);

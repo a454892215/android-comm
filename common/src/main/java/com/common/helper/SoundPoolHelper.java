@@ -47,6 +47,9 @@ public class SoundPoolHelper {
         soundPool.play(loadedIdList.get(position), volume, volume, 0, 0, 1);
     }
 
+    public void repeatPlay(int position) {
+        soundPool.play(loadedIdList.get(position), volume, volume, 0, -1, 1);
+    }
 
     /**
      * 示例 soundPoolUtil.playOnlyOne(R.raw.music_activity, 4, activity)
