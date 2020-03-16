@@ -79,7 +79,7 @@ public class MainActivity extends MyBaseActivity {
         findViewById(R.id.btn_next).setOnClickListener(v -> SystemRing.getInstance().playNext());
         floatButtonTest(contentView);
 
-      //  openNotificationListenSettings();
+       // openNotificationListenSettings();
 
         Intent intent = new Intent(this, NotificationMonitor.class);
         startService(intent);

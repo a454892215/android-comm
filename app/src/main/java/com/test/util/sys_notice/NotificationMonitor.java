@@ -6,6 +6,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.common.utils.LogUtil;
+import com.common.utils.ToastUtil;
 
 /**
  * Author: Pan
@@ -22,8 +23,9 @@ public class NotificationMonitor extends NotificationListenerService {
         // 获取接收消息的抬头
         String title = extras.getString(Notification.EXTRA_TITLE);
         String content = extras.getString(Notification.EXTRA_TEXT);
-
-        LogUtil.i("消息标题 " + title + " content:" + content + "  :" + notificationPkg);
+        String msg  = "===接受到消息====消息标题 " + title + " content:" + content + "  :" + notificationPkg;
+        LogUtil.i(msg);
+        ToastUtil.showLong(msg);
         if (title != null && title.contains("策略")) {
             SystemRing.getInstance().play(0);
         }
@@ -40,9 +42,10 @@ public class NotificationMonitor extends NotificationListenerService {
         String title = extras.getString(Notification.EXTRA_TITLE);
         // 获取接收消息的内容
         String content = extras.getString(Notification.EXTRA_TEXT);
-        LogUtil.i("消息标题: " + title + " content: " + content + "  :" + notificationPkg);
-        SystemRing.getInstance().stop(0);
-
+        LogUtil.i("清除消息 ==== 消息标题: " + title + " content: " + content + "  :" + notificationPkg);
+        if (title != null && title.contains("策略")) {
+            SystemRing.getInstance().stop(0);
+        }
     }
 }
 
