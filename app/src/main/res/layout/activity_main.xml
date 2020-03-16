@@ -44,14 +44,14 @@
             android:id="@+id/btn_last"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="下一首"
+            android:text="上一首"
             tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/btn_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="上一首"
+            android:text="下一首"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
