@@ -1,12 +1,14 @@
 package com.test.util.sys_notice;
 
 import android.app.Notification;
+import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.common.utils.LogUtil;
 import com.common.utils.ToastUtil;
+import com.test.util.JetpackTestActivity;
 
 /**
  * Author: Pan
@@ -23,12 +25,17 @@ public class NotificationMonitor extends NotificationListenerService {
         // 获取接收消息的抬头
         String title = extras.getString(Notification.EXTRA_TITLE);
         String content = extras.getString(Notification.EXTRA_TEXT);
-        String msg  = "===接受到消息====消息标题 " + title + " content:" + content + "  :" + notificationPkg;
+        String msg = "===接受到消息====消息标题 " + title + " content:" + content + "  :" + notificationPkg;
         LogUtil.i(msg);
         ToastUtil.showLong(msg);
         if (title != null && title.contains("策略")) {
             SystemRing.getInstance().play(0);
+            Intent intent = new Intent(JetpackTestActivity.ACTION_NOTICE);
+            intent.putExtra("title", title);
+            intent.putExtra("content", content);
+            sendBroadcast(intent);
         }
+
 
     }
 

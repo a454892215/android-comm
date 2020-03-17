@@ -6,11 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:ignore="HardcodedText">
+
     <include layout="@layout/include_header" />
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="jetpack test" />
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rv"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"/>
 </LinearLayout>
