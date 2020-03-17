@@ -28,7 +28,7 @@ public class NotificationMonitor extends NotificationListenerService {
         String msg = "===接受到消息====消息标题 " + title + " content:" + content + "  :" + notificationPkg;
         LogUtil.i(msg);
         ToastUtil.showLong(msg);
-        if (title != null && title.contains("USB")) {
+        if (title != null && title.contains("策略")) {
             SystemRing.getInstance().play(0);
             Intent intent = new Intent(JetpackTestActivity.ACTION_NOTICE);
             intent.putExtra("title", title);
