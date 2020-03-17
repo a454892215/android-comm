@@ -1,4 +1,4 @@
-package com.test.util;
+package com.test.util.sys_notice;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.helper.AdapterHelper;
+import com.test.util.R;
 import com.test.util.base.MyBaseActivity;
-import com.test.util.sys_notice.NoticeAdapter;
 
 import java.util.ArrayList;
 

@@ -8,7 +8,6 @@ import android.service.notification.StatusBarNotification;
 
 import com.common.utils.LogUtil;
 import com.common.utils.ToastUtil;
-import com.test.util.JetpackTestActivity;
 
 /**
  * Author: Pan

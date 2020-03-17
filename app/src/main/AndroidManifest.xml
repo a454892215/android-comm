@@ -47,7 +47,7 @@
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity
-            android:name=".JetpackTestActivity"
+            android:name=".sys_notice.JetpackTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
             android:name=".web_agent.AgentWebActivity"

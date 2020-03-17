@@ -2,7 +2,6 @@ package com.test.util.main;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
@@ -24,7 +23,7 @@ import com.example.jpushdemo.JGMainActivity;
 import com.test.util.App;
 import com.test.util.Constant;
 import com.test.util.JRTTTestActivity;
-import com.test.util.JetpackTestActivity;
+import com.test.util.sys_notice.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
 import com.test.util.QRCodeTestActivity;
 import com.test.util.R;
@@ -36,8 +35,6 @@ import com.test.util.sys_notice.NotificationMonitor;
 import com.test.util.sys_notice.SystemRing;
 import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
-
-import static com.test.util.JetpackTestActivity.ACTION_NOTICE;
 
 /**
  * Author: L
