@@ -24,7 +24,7 @@ public class AdapterHelper {
 
     @SuppressWarnings("unchecked")
     public static void notifyAdapterLoadMore(List list, RecyclerView rv) {
-        BaseRVAdapter adapter = (BaseAppRVAdapter) rv.getAdapter();
+        BaseRVAdapter adapter = (BaseRVAdapter) rv.getAdapter();
         if (adapter != null && list != null) {
             adapter.getList().addAll(list);
             adapter.notifyDataSetChanged();

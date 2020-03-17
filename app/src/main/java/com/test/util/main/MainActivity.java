@@ -2,6 +2,7 @@ package com.test.util.main;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
@@ -35,6 +36,8 @@ import com.test.util.sys_notice.NotificationMonitor;
 import com.test.util.sys_notice.SystemRing;
 import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
+
+import static com.test.util.JetpackTestActivity.ACTION_NOTICE;
 
 /**
  * Author: L
@@ -81,6 +84,10 @@ public class MainActivity extends MyBaseActivity {
 
        // openNotificationListenSettings();
 
+        startMonitor();
+    }
+
+    private void startMonitor() {
         Intent intent = new Intent(this, NotificationMonitor.class);
         startService(intent);
     }

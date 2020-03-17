@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.helper.AdapterHelper;
-
 import com.test.util.base.MyBaseActivity;
 import com.test.util.sys_notice.NoticeAdapter;
 
@@ -29,10 +28,12 @@ public class JetpackTestActivity extends MyBaseActivity {
         NoticeAdapter adapter = new NoticeAdapter(activity, null);
         rv.setAdapter(adapter);
 
+        //注册广播
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_NOTICE);
-        NoticeReceiver noticeReceiver = new NoticeReceiver();
+        JetpackTestActivity.NoticeReceiver noticeReceiver = new JetpackTestActivity.NoticeReceiver();
         registerReceiver(noticeReceiver, filter);
+
     }
 
 
@@ -46,12 +47,11 @@ public class JetpackTestActivity extends MyBaseActivity {
      * 2020/3/17
      * Description:
      */
-    private class NoticeReceiver extends BroadcastReceiver {
+    public class NoticeReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String title = intent.getStringExtra("notificationTitle");
-            String text = intent.getStringExtra("notificationText");
-
+            String title = intent.getStringExtra("title");
+            String text = intent.getStringExtra("content");
             list.add(title + "\r\n" + text + "\r\n\r\n");
             AdapterHelper.notifyAdapterLoadMore(list, rv);
         }
