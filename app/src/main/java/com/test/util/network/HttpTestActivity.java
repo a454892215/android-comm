@@ -41,7 +41,7 @@ public class HttpTestActivity extends MyBaseActivity {
 
 
     private void requestData() {
-        httpUtil.requestData(api.getBtcCandle_old(), new HttpCallback() {
+        httpUtil.requestData(api.getBtcCandle(60), new HttpCallback() {
             @Override
             public void onSuccess(String text) {
 
