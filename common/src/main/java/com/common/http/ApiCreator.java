@@ -62,9 +62,17 @@ public class ApiCreator implements IApiCreator {
         builder.connectTimeout(60, TimeUnit.SECONDS);
         builder.writeTimeout(60, TimeUnit.SECONDS);
         builder.readTimeout(60, TimeUnit.SECONDS);
-        HttpSSLSetting.SSLParams sslParams1 = HttpSSLSetting.getSslSocketFactory();
-        builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
+        if(defaultHttpsEnable){
+            HttpSSLSetting.SSLParams sslParams1 = HttpSSLSetting.getSslSocketFactory();
+            builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
+        }
         return builder.build();
+    }
+
+    private boolean defaultHttpsEnable = true;
+
+    public void setDefaultHttpsEnable(boolean defaultHttpsEnable){
+        this.defaultHttpsEnable = defaultHttpsEnable;
     }
 
 
