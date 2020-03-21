@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -22,7 +24,7 @@ public class LogInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-     //   logRequestInfo(request);
+        logRequestInfo(request);
         Response response = chain.proceed(request);
         logResponseInfo(response);
         return response;
@@ -54,7 +56,7 @@ public class LogInterceptor implements Interceptor {
         }
     }
 
-/*    private static synchronized void logRequestInfo(Request request) {
+    private static synchronized void logRequestInfo(Request request) {
         try {
             long threadId = Thread.currentThread().getId();
             RequestBody requestBody = request.body();
@@ -78,6 +80,6 @@ public class LogInterceptor implements Interceptor {
         } catch (Exception e) {
             LogUtil.e(e);
         }
-    }*/
+    }
 
 }

@@ -13,7 +13,7 @@ import com.test.util.base.MyBaseActivity;
 
 public class HttpTestActivity extends MyBaseActivity {
 
-    private static JvHeApi api;
+    private static OkexApi api;
     private HttpUtil httpUtil;
 
     @Override
@@ -22,7 +22,7 @@ public class HttpTestActivity extends MyBaseActivity {
         if (api == null) {
             ApiCreator apiCreator = new ApiCreator();
             apiCreator.logEnable(BuildConfig.IS_DEBUG);
-            api = apiCreator.getApi(JvHeApi.baseUrl, JvHeApi.class);
+            api = apiCreator.getApi(OkexApi.baseUrl, OkexApi.class);
         }
 
         httpUtil = new HttpUtil(this);
@@ -41,7 +41,7 @@ public class HttpTestActivity extends MyBaseActivity {
 
 
     private void requestData() {
-        httpUtil.requestData(api.getTouTiao(), new HttpCallback() {
+        httpUtil.requestData(api.getBtcCandle_old(), new HttpCallback() {
             @Override
             public void onSuccess(String text) {
 
