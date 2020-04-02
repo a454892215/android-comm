@@ -1,13 +1,11 @@
-package com.test.util.sys_notice;
+package com.common.utils;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 
-import com.common.utils.LogUtil;
-import com.common.utils.MathUtil;
-import com.test.util.App;
+import com.common.CommApp;
 
 import java.util.ArrayList;
 
@@ -16,14 +14,14 @@ import java.util.ArrayList;
  * 2020/3/16
  * Description:
  */
-public class SystemRing {
+public class SystemRingUtil {
 
-    private static SystemRing systemRing = new SystemRing();
+    private static SystemRingUtil systemRing = new SystemRingUtil();
 
-    private SystemRing() {
+    private SystemRingUtil() {
     }
 
-    public static SystemRing getInstance() {
+    public static SystemRingUtil getInstance() {
         return systemRing;
     }
 
@@ -62,7 +60,7 @@ public class SystemRing {
     public void playNext() {
         currentIndex = MathUtil.clamp(++currentIndex, 0, ringToneList.size() - 1);
         Ringtone ringtone = ringToneList.get(currentIndex);
-        LogUtil.d("================playNext:" + currentIndex + "  :title:" + ringtone.getTitle(App.app));
+        LogUtil.d("================playNext:" + currentIndex + "  :title:" + ringtone.getTitle(CommApp.app));
         if (!ringtone.isPlaying()) {//不在播放状态
             stopRecentRing();
             ringtone.play();
@@ -73,7 +71,7 @@ public class SystemRing {
     public void playLast() {
         currentIndex = MathUtil.clamp(--currentIndex, 0, ringToneList.size() - 1);
         Ringtone ringtone = ringToneList.get(currentIndex);
-        LogUtil.d("================playLast:" + currentIndex + "  :title:" + ringtone.getTitle(App.app));
+        LogUtil.d("================playLast:" + currentIndex + "  :title:" + ringtone.getTitle(CommApp.app));
         if (!ringtone.isPlaying()) {//不在播放状态
             stopRecentRing();
             ringtone.play();

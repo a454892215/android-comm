@@ -7,6 +7,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
 import com.common.utils.LogUtil;
+import com.common.utils.SystemRingUtil;
 import com.common.utils.ToastUtil;
 
 /**
@@ -28,7 +29,7 @@ public class NotificationMonitor extends NotificationListenerService {
         LogUtil.i(msg);
         ToastUtil.showLong(msg);
         if (title != null && title.contains("策略")) {
-            SystemRing.getInstance().play(0);
+            SystemRingUtil.getInstance().play(0);
             Intent intent = new Intent(JetpackTestActivity.ACTION_NOTICE);
             intent.putExtra("title", title);
             intent.putExtra("content", content);
@@ -50,7 +51,7 @@ public class NotificationMonitor extends NotificationListenerService {
         String content = extras.getString(Notification.EXTRA_TEXT);
         LogUtil.i("清除消息 ==== 消息标题: " + title + " content: " + content + "  :" + notificationPkg);
         if (title != null && title.contains("策略")) {
-            SystemRing.getInstance().stop(0);
+            SystemRingUtil.getInstance().stop(0);
         }
     }
 }

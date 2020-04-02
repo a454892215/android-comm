@@ -17,6 +17,7 @@ import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
+import com.common.utils.SystemRingUtil;
 import com.common.utils.ToastUtil;
 import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
@@ -32,7 +33,6 @@ import com.test.util.base.MyBaseActivity;
 import com.test.util.network.HttpTestActivity;
 import com.test.util.custom_view.CustomViewTestActivity;
 import com.test.util.sys_notice.NotificationMonitor;
-import com.test.util.sys_notice.SystemRing;
 import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
 
@@ -75,8 +75,8 @@ public class MainActivity extends MyBaseActivity {
             hby.stop();
         });
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
-        findViewById(R.id.btn_last).setOnClickListener(v -> SystemRing.getInstance().playLast());
-        findViewById(R.id.btn_next).setOnClickListener(v -> SystemRing.getInstance().playNext());
+        findViewById(R.id.btn_last).setOnClickListener(v -> SystemRingUtil.getInstance().playLast());
+        findViewById(R.id.btn_next).setOnClickListener(v -> SystemRingUtil.getInstance().playNext());
         floatButtonTest(contentView);
 
        // openNotificationListenSettings();
