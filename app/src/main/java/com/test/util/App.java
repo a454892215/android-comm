@@ -3,7 +3,6 @@ package com.test.util;
 import com.common.CommApp;
 import com.common.utils.LogUtil;
 import com.common.helper.SoundPoolHelper;
-import com.common.utils.SystemRingUtil;
 import com.example.jpushdemo.JGInit;
 
 /**
@@ -25,7 +24,6 @@ public class App extends CommApp {
         LogUtil.logEnable(BuildConfig.DEBUG);
         soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
         JGInit.init(this);
-        SystemRingUtil.getInstance().init(this);
         LogUtil.i("===onCreate==App=========:" + BuildConfig.app_info);
     }
 }

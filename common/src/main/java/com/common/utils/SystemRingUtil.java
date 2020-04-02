@@ -1,11 +1,9 @@
 package com.common.utils;
 
-import android.content.Context;
+import android.app.Application;
 import android.database.Cursor;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-
-import com.common.CommApp;
 
 import java.util.ArrayList;
 
@@ -29,59 +27,61 @@ public class SystemRingUtil {
     private int currentIndex = -1;
     private Ringtone currentRingtone;
 
-    public void init(Context context) {
-        ringToneList.clear();
-        RingtoneManager ringtoneManager = new RingtoneManager(context); // 铃声管理器
-        Cursor cursor = ringtoneManager.getCursor(); //获取铃声表,根据表名取值
-        int count = cursor.getCount(); //获取铃声列表数量
-        for (int i = 0; i < count; i++) {
-            Ringtone ringtone = ringtoneManager.getRingtone(i);
-            LogUtil.d("========铃声:" + ringtone.getTitle(context) + " index ：" + i);
-            ringToneList.add(ringtone);
+    private void checkInit(Application context) {
+        if (ringToneList.size() == 0) {
+            try {
+                RingtoneManager ringtoneManager = new RingtoneManager(context); // 铃声管理器
+                Cursor cursor = ringtoneManager.getCursor(); //获取铃声表,根据表名取值
+                int count = cursor.getCount(); //获取铃声列表数量
+                for (int i = 0; i < count; i++) {
+                    Ringtone ringtone = ringtoneManager.getRingtone(i);
+                    LogUtil.d("========铃声:" + ringtone.getTitle(context) + " index ：" + i);
+                    ringToneList.add(ringtone);
+                }
+            } catch (Exception e) {
+                LogUtil.e(e);
+            }
         }
+
     }
 
-    public void play(int index) {
+    public void play(Application context, int index) {
+        checkInit(context);
+        stopRecentRing();
         Ringtone ringtone = ringToneList.get(index);
-        if (!ringtone.isPlaying()) {//不在播放状态
-            stopRecentRing();
-            ringtone.play();
-            currentRingtone = ringtone;
-        }
+        ringtone.play();
+        currentRingtone = ringtone;
     }
 
-    public void stop(int index) {
-        Ringtone ringtone = ringToneList.get(index);
-        if (ringtone.isPlaying()) {//不在播放状态
-            ringtone.stop();
-        }
-    }
-
-    public void playNext() {
+    public void playNext(Application context) {
+        checkInit(context);
         currentIndex = MathUtil.clamp(++currentIndex, 0, ringToneList.size() - 1);
+        stopRecentRing();
         Ringtone ringtone = ringToneList.get(currentIndex);
-        LogUtil.d("================playNext:" + currentIndex + "  :title:" + ringtone.getTitle(CommApp.app));
-        if (!ringtone.isPlaying()) {//不在播放状态
-            stopRecentRing();
-            ringtone.play();
-            currentRingtone = ringtone;
-        }
+        ringtone.play();
+        currentRingtone = ringtone;
     }
 
-    public void playLast() {
+    public void playLast(Application context) {
+        checkInit(context);
         currentIndex = MathUtil.clamp(--currentIndex, 0, ringToneList.size() - 1);
+        stopRecentRing();
         Ringtone ringtone = ringToneList.get(currentIndex);
-        LogUtil.d("================playLast:" + currentIndex + "  :title:" + ringtone.getTitle(CommApp.app));
-        if (!ringtone.isPlaying()) {//不在播放状态
-            stopRecentRing();
-            ringtone.play();
-            currentRingtone = ringtone;
-        }
+        ringtone.play();
+        currentRingtone = ringtone;
     }
-    
-    private void stopRecentRing() {
+
+    public void stopRecentRing() {
         if (currentRingtone != null && currentRingtone.isPlaying()) {
             currentRingtone.stop();
+        }
+    }
+
+    public void playOrStopRecentRing(Application app, int index) {
+        if (currentRingtone != null && currentRingtone.isPlaying()) {
+            currentRingtone.stop();
+        } else {
+            play(app, index);
         }
     }
 
