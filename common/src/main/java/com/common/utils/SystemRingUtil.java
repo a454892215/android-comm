@@ -27,6 +27,11 @@ public class SystemRingUtil {
     private int currentIndex = -1;
     private Ringtone currentRingtone;
 
+    //可以预先初始化
+    public void init(Application app){
+        checkInit(app);
+    }
+
     private void checkInit(Application context) {
         if (ringToneList.size() == 0) {
             try {
