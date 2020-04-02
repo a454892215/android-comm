@@ -54,6 +54,13 @@
             android:text="下一首"
             tools:ignore="HardcodedText" />
 
+        <Button
+            android:id="@+id/btn_stop_play_ring"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="停止铃声播放"
+            tools:ignore="HardcodedText" />
+
     </LinearLayout>
 
     <com.common.widget.HongBaoYuView

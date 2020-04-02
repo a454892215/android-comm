@@ -77,9 +77,10 @@ public class MainActivity extends MyBaseActivity {
         findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
         findViewById(R.id.btn_last).setOnClickListener(v -> SystemRingUtil.getInstance().playLast(App.app));
         findViewById(R.id.btn_next).setOnClickListener(v -> SystemRingUtil.getInstance().playNext(App.app));
+        findViewById(R.id.btn_stop_play_ring).setOnClickListener(v -> SystemRingUtil.getInstance().stopRecentRing());
         floatButtonTest(contentView);
 
-       // openNotificationListenSettings();
+        // openNotificationListenSettings();
 
         startMonitor();
     }
