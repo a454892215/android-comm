@@ -92,7 +92,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (loadingDialogFragment == null) {
             loadingDialogFragment = new LoadingDialogFragment();
         }
-        if (!loadingDialogFragment.isVisible()) {
+        if (!loadingDialogFragment.isVisible() && activity.isShowing) {
             loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
         }
 

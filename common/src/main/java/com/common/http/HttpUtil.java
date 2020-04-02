@@ -61,7 +61,11 @@ public class HttpUtil {
     private void startRequestData(Observable<ResponseBody> observable, HttpCallback httpCallback) {
         if (activity != null && showLoadingEnable) {
             if (activity instanceof BaseActivity) {
-                ((BaseActivity) activity).showDefaultLoadingView();
+                try {
+                    ((BaseActivity) activity).showDefaultLoadingView();
+                } catch (Exception e) {
+                    LogUtil.e(e);
+                }
             }
         }
         Disposable subscribe = observable.subscribeOn(Schedulers.io())
