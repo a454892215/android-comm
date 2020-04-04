@@ -44,4 +44,28 @@ public class MathUtil {
     public static float sub(float value1, float value2) {
         return new BigDecimal(String.valueOf(value1)).subtract(new BigDecimal(String.valueOf(value2))).floatValue();
     }
+
+    /**
+     * 获取最小值
+     */
+    public static float getMinValue(float... values) {
+        float min = Float.MAX_VALUE;
+        int length = values.length;
+        for (float value : values) {
+            min = min < value ? min : value;
+        }
+        return min;
+    }
+
+    /**
+     * 获取最大值
+     */
+    public static float getMaxValue(float... values) {
+        float max = Float.MIN_VALUE;
+        int length = values.length;
+        for (float value : values) {
+            max = max > value ? max : value;
+        }
+        return max;
+    }
 }

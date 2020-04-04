@@ -5,9 +5,6 @@ import android.graphics.Point;
 
 import com.common.widget.trend.MyPoint;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 /**
  * Author:  L
  * CreateDate: 2019/1/29 9:27
@@ -67,13 +64,8 @@ public class GeometryUtil {
         try {
             int y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
             int x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
-            ArrayList<Integer> xList = new ArrayList<>();
-            xList.add(x0);
-            xList.add(x1);
-            xList.add(x2);
-            xList.add(x3);
-            Integer minX = Collections.min(xList);
-            Integer maxX = Collections.max(xList);
+            float minX = MathUtil.getMinValue(x0, x1, x2, x3);
+            float maxX = MathUtil.getMaxValue(x0, x1, x2, x3);
             if (x >= minX && x <= maxX) {
                 return new Point(x, y);
             }
