@@ -35,4 +35,11 @@ public class FloatUtil {
     public static String getNum(int num, int numLength) {
         return String.format("%0" + numLength + "d", num);
     }
+
+    /**
+     * 获取百分数
+     */
+    public static String getPercent(float startValue, float endValue) {
+        return (((endValue - startValue) / startValue) * 100) + "%";
+    }
 }
