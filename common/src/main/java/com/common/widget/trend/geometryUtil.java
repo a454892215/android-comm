@@ -6,7 +6,7 @@ package com.common.widget.trend;
  * Description: No
  */
 
-class CoordinateComputeHelper {
+class geometryUtil {
     /**
      * Intersection of a line and a circle
      */
