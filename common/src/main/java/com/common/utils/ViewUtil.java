@@ -3,6 +3,7 @@ package com.common.utils;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Outline;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -182,5 +183,10 @@ public class ViewUtil {
     }
     public static float getPicHeightByWidth(Drawable drawable, float width) {
         return width * drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth();
+    }
+
+
+    private float getBaseLine(Paint paint, float centerY) {
+        return centerY - (paint.getFontMetricsInt().ascent + paint.getFontMetricsInt().descent) / 2f;
     }
 }
