@@ -1,7 +1,7 @@
 package com.test.util.custom_view.fragment;
 
 import com.common.base.BaseFragment;
-import com.common.widget.trend.Point;
+import com.common.widget.trend.MyPoint;
 import com.common.widget.trend.TrendChartView;
 import com.test.util.R;
 
@@ -20,9 +20,9 @@ public class TrendChartFragment_2 extends BaseFragment {
     protected void initView() {
 
         TrendChartView trend_chart = findViewById(R.id.trend_chart);
-        List<Point> list = new ArrayList<>();
+        List<MyPoint> list = new ArrayList<>();
         for (int i = 0; i < 35; i++) {
-            list.add(new Point(i, new Random().nextInt(100) + 20));
+            list.add(new MyPoint(i, new Random().nextInt(100) + 20));
         }
         trend_chart.setCoordinateList(list);
 

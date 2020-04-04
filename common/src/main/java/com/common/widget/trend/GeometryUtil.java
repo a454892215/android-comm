@@ -1,6 +1,8 @@
 package com.common.widget.trend;
 
 
+import android.graphics.Point;
+
 import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class GeometryUtil {
     /**
      * Intersection of a line and a circle
      */
-    static Point[] getIntersection(Point start, Point end, Point cC, float r) {
+    static MyPoint[] getIntersection(MyPoint start, MyPoint end, MyPoint cC, float r) {
         float k = (start.y - end.y) / (start.x - end.x);
         float b = start.y - k * start.x;
         float c = -cC.x;
@@ -39,9 +41,9 @@ public class GeometryUtil {
         float y1 = -(k * (comY + c) + d * kk - b) / (kk + 1);
         float y2 = -(k * (c - comY) + d * kk - b) / (kk + 1);
         if (x1 < x2) {
-            return new Point[]{new Point(Math.round(x1), Math.round(y1)), new Point(Math.round(x2), Math.round(y2))};
+            return new MyPoint[]{new MyPoint(Math.round(x1), Math.round(y1)), new MyPoint(Math.round(x2), Math.round(y2))};
         } else {
-            return new Point[]{new Point(Math.round(x2), Math.round(y2)), new Point(Math.round(x1), Math.round(y1))};
+            return new MyPoint[]{new MyPoint(Math.round(x2), Math.round(y2)), new MyPoint(Math.round(x1), Math.round(y1))};
         }
     }
 
@@ -52,7 +54,7 @@ public class GeometryUtil {
      *
      * @return 交点
      */
-    public static android.graphics.Point getIntersectionForTowLine(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3) {
+    public static Point getIntersectionForTowLine(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3) {
 /*       float a = y1 - y0;
         float b = x1 * y0 - x0 * y1;
         float c = x1 - x0;
@@ -73,7 +75,7 @@ public class GeometryUtil {
             Integer minX = Collections.min(xList);
             Integer maxX = Collections.max(xList);
             if (x >= minX && x <= maxX) {
-                return new android.graphics.Point(x, y);
+                return new Point(x, y);
             }
         } catch (Exception e) {
             LogUtil.e(e);

@@ -117,7 +117,7 @@ public class TrendChartView extends View {
         canvas.drawPath(dst, linePaint);
     }
 
-    public void setCoordinateList(List<Point> list) {
+    public void setCoordinateList(List<MyPoint> list) {
         int size = list.size();
         float startX = dp_1 * 15;
         float endPointMargin = dp_1 * 15;
@@ -131,7 +131,7 @@ public class TrendChartView extends View {
         //trendPath.close();
 
         for (int i = 0; i < size; i++) {
-            Point point_1 = list.get(i);
+            MyPoint point_1 = list.get(i);
             float x_dp_p1;
             if (i == 0) {
                 x_dp_p1 = startX;
