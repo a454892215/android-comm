@@ -12,7 +12,7 @@ import java.util.Collections;
  * Description: No
  */
 
-class geometryUtil {
+public class geometryUtil {
     /**
      * Intersection of a line and a circle
      */
