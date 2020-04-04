@@ -1,6 +1,6 @@
 package com.common.widget.trend;
 
-public class Point {
+public class Point extends android.graphics.Point {
 
     float x;
     float y;
