@@ -12,7 +12,7 @@ import java.util.Collections;
  * Description: No
  */
 
-public class geometryUtil {
+public class GeometryUtil {
     /**
      * Intersection of a line and a circle
      */
@@ -52,7 +52,7 @@ public class geometryUtil {
      *
      * @return 交点
      */
-    public static Point getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
+    public static android.graphics.Point getIntersectionForTowLine(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3) {
 /*       float a = y1 - y0;
         float b = x1 * y0 - x0 * y1;
         float c = x1 - x0;
@@ -63,17 +63,17 @@ public class geometryUtil {
         float x = (y * c - b) / a;
         return new Point(x, y);*/
         try {
-            float y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
-            float x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
-            ArrayList<Float> xList = new ArrayList<>();
+            int y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
+            int x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
+            ArrayList<Integer> xList = new ArrayList<>();
             xList.add(x0);
             xList.add(x1);
             xList.add(x2);
             xList.add(x3);
-            Float minX = Collections.min(xList);
-            Float maxX = Collections.max(xList);
+            Integer minX = Collections.min(xList);
+            Integer maxX = Collections.max(xList);
             if (x >= minX && x <= maxX) {
-                return new Point(x, y);
+                return new android.graphics.Point(x, y);
             }
         } catch (Exception e) {
             LogUtil.e(e);
