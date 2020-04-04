@@ -42,4 +42,18 @@ public class FloatUtil {
     public static String getPercent(float startValue, float endValue) {
         return (((endValue - startValue) / startValue) * 100) + "%";
     }
+
+    /**
+     * 从格式化字符串获取第1个float
+     */
+    public static float getF1(String startValue) {
+        return Float.parseFloat(startValue.split("-")[0]);
+    }
+
+    /**
+     * 从格式化字符串获取第2个float
+     */
+    public static float getF2(String startValue) {
+        return Float.parseFloat(startValue.split("-")[1]);
+    }
 }
