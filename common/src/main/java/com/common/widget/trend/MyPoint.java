@@ -5,7 +5,7 @@ public class MyPoint extends android.graphics.Point {
     public float x;
     public float y;
 
-    MyPoint() {
+    public MyPoint() {
     }
 
     public MyPoint(float x, float y) {

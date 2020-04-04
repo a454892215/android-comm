@@ -1,8 +1,5 @@
 package com.common.utils;
 
-
-import android.graphics.Point;
-
 import com.common.widget.trend.MyPoint;
 
 /**
@@ -51,28 +48,35 @@ public class GeometryUtil {
      *
      * @return 交点
      */
-    public static Point getIntersectionForTowLine(int x0, int y0, int x1, int y1, int x2, int y2, int x3, int y3) {
-/*       float a = y1 - y0;
-        float b = x1 * y0 - x0 * y1;
-        float c = x1 - x0;
-        float d = y3 - y2;
-        float e = x3 * y2 - x2 * y3;
-        float f = x3 - x2;
-        float y = (a * e - b * d) / (a * f - c * d);
-        float x = (y * c - b) / a;
-        return new Point(x, y);*/
+    public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
         try {
-            int y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
-            int x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
-            int minX = x0 < x1 ? x0 : x1;
+            float y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
+            float x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
+            float minX = x0 < x1 ? x0 : x1;
             minX = minX < x2 ? minX : x2;
             minX = minX < x3 ? minX : x3;
-            int maxX = x0 > x1 ? x0 : x1;
+
+            float maxX = x0 > x1 ? x0 : x1;
             maxX = maxX > x2 ? maxX : x2;
             maxX = maxX > x3 ? maxX : x3;
+
+
             if (x >= minX && x <= maxX) {
-                return new Point(x, y);
+                return x + "-" + y;
             }
+
+/*            float minY = y0 < y1 ? y0 : y1;
+            minY = minY < y2 ? minY : y2;
+            minY = minY < y3 ? minY : y3;
+
+            float maxY = y0 > y1 ? y0 : y1;
+            maxY = maxY > y2 ? maxY : y2;
+            maxY = maxY > y3 ? maxY : y3;
+
+
+            if (y >= minY && y <= maxY) { //防止精度损失 遗漏数据
+                   return x + "-" + y;
+            }*/
         } catch (Exception e) {
             LogUtil.e(e);
         }
