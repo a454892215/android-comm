@@ -1,9 +1,9 @@
-package com.common.widget.trend;
+package com.common.utils;
 
 
 import android.graphics.Point;
 
-import com.common.utils.LogUtil;
+import com.common.widget.trend.MyPoint;
 
 import java.util.ArrayList;
 import java.util.Collections;
