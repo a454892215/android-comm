@@ -64,8 +64,12 @@ public class GeometryUtil {
         try {
             int y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
             int x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
-            float minX = MathUtil.getMinValue(x0, x1, x2, x3);
-            float maxX = MathUtil.getMaxValue(x0, x1, x2, x3);
+            int minX = x0 < x1 ? x0 : x1;
+            minX = minX < x2 ? minX : x2;
+            minX = minX < x3 ? minX : x3;
+            int maxX = x0 > x1 ? x0 : x1;
+            maxX = maxX > x2 ? maxX : x2;
+            maxX = maxX > x3 ? maxX : x3;
             if (x >= minX && x <= maxX) {
                 return new Point(x, y);
             }
