@@ -40,7 +40,6 @@ public class SystemRingUtil {
                 int count = cursor.getCount(); //获取铃声列表数量
                 for (int i = 0; i < count; i++) {
                     Ringtone ringtone = ringtoneManager.getRingtone(i);
-                    LogUtil.d("========铃声:" + ringtone.getTitle(context) + " index ：" + i);
                     ringToneList.add(ringtone);
                 }
             } catch (Exception e) {
