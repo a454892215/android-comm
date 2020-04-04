@@ -50,10 +50,6 @@ public class GeometryUtil {
      */
     public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
         try {
-/*            float y = ((y0 - y1) * (y3 - y2) * x0 + (y3 - y2) * (x1 - x0) * y0 + (y1 - y0) * (y3 - y2) * x2 + (x2 - x3) * (y1 - y0) * y2) / ((x1 - x0) * (y3 - y2) + (y0 - y1) * (x3 - x2));
-            float x = x2 + (x3 - x2) * (y - y2) / (y3 - y2);
-        */
-
             float a = y1-y0;
             float b = x1*y0-x0*y1;
             float c = x1-x0;
