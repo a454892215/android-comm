@@ -186,7 +186,7 @@ public class ViewUtil {
     }
 
 
-    private float getBaseLine(Paint paint, float centerY) {
+    public static float getBaseLine(Paint paint, float centerY) {
         return centerY - (paint.getFontMetricsInt().ascent + paint.getFontMetricsInt().descent) / 2f;
     }
 }
