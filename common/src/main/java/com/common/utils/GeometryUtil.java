@@ -7,7 +7,7 @@ import com.common.widget.trend.MyPoint;
  * CreateDate: 2019/1/29 9:27
  * Description: No
  */
-
+@SuppressWarnings("unused")
 public class GeometryUtil {
     /**
      * Intersection of a line and a circle
