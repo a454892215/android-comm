@@ -59,7 +59,7 @@ public class SharedPreUtils {
         editor.apply();
     }
 
-    public static long getInt(String key, int defaultValue) {
+    public static int getInt(String key, int defaultValue) {
         SharedPreferences sharedPreferences = CommApp.app.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(key, defaultValue);
     }
