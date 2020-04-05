@@ -46,6 +46,20 @@ public class FloatUtil {
     }
 
     /**
+     * 获取保留2位小数的百分数
+     */
+    public static float get2DPercent(float startValue, float endValue) {
+        return ((int) ((((endValue - startValue) / startValue) * 100) * 100)) / 100;
+    }
+
+    /**
+     * 获取保留3位小数的百分数
+     */
+    public static float get3DPercent(float startValue, float endValue) {
+        return ((int) ((((endValue - startValue) / startValue) * 100) * 1000)) / 1000;
+    }
+
+    /**
      * 从格式化字符串获取第1个float
      */
     public static float getF1(String startValue) {
