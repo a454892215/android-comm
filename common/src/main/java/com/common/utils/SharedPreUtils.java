@@ -48,7 +48,7 @@ public class SharedPreUtils {
         return sharedPreferences.getLong(key, 0);
     }
 
-    public static long getLong(String key, int defaultValue) {
+    public static long getLong(String key, long defaultValue) {
         SharedPreferences sharedPreferences = CommApp.app.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         return sharedPreferences.getLong(key, defaultValue);
     }
@@ -56,6 +56,17 @@ public class SharedPreUtils {
     public static void putLong(String key, long value) {
         SharedPreferences.Editor editor = CommApp.app.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
         editor.putLong(key, value);
+        editor.apply();
+    }
+
+    public static long getInt(String key, int defaultValue) {
+        SharedPreferences sharedPreferences = CommApp.app.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, defaultValue);
+    }
+
+    public static void putInt(String key, int value) {
+        SharedPreferences.Editor editor = CommApp.app.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit();
+        editor.putInt(key, value);
         editor.apply();
     }
 
