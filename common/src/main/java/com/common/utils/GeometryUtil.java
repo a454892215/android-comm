@@ -50,14 +50,14 @@ public class GeometryUtil {
      */
     public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
         try {
-            float a = y1-y0;
-            float b = x1*y0-x0*y1;
-            float c = x1-x0;
-            float d = y3-y2;
-            float e = x3*y2-x2*y3;
-            float f = x3-x2;
-            float y = (a*e-b*d)/(a*f-c*d);
-            float x = (y*c-b)/a;
+            float a = y1 - y0;
+            float b = x1 * y0 - x0 * y1;
+            float c = x1 - x0;
+            float d = y3 - y2;
+            float e = x3 * y2 - x2 * y3;
+            float f = x3 - x2;
+            float y = (a * e - b * d) / (a * f - c * d);
+            float x = (y * c - b) / a;
 
             float minX = x0 < x1 ? x0 : x1;
             minX = minX < x2 ? minX : x2;
@@ -68,7 +68,7 @@ public class GeometryUtil {
             maxX = maxX > x3 ? maxX : x3;
 
             if (x >= minX && x <= maxX) {
-                return x + "-" + y;
+                return x + "-" + y + "-" + (a / c);
             }
 
 /*            float minY = y0 < y1 ? y0 : y1;
