@@ -1,5 +1,6 @@
 package com.common.utils;
 
+import com.common.comm.L;
 import com.common.widget.trend.MyPoint;
 
 /**
@@ -68,7 +69,7 @@ public class GeometryUtil {
             maxX = maxX > x3 ? maxX : x3;
 
             if (x >= minX && x <= maxX) {
-                return x + "-" + y + "-" + (a / c);
+                return x + L.split + y + L.split + (a / c);
             }
 
 /*            float minY = y0 < y1 ? y0 : y1;

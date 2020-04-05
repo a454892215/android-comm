@@ -1,5 +1,7 @@
 package com.common.utils;
 
+import com.common.comm.L;
+
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -47,13 +49,13 @@ public class FloatUtil {
      * 从格式化字符串获取第1个float
      */
     public static float getF1(String startValue) {
-        return Float.parseFloat(startValue.split("-")[0]);
+        return Float.parseFloat(startValue.split(L.split)[0]);
     }
 
     /**
      * 从格式化字符串获取第2个float
      */
     public static float getF2(String startValue) {
-        return Float.parseFloat(startValue.split("-")[1]);
+        return Float.parseFloat(startValue.split(L.split)[1]);
     }
 }
