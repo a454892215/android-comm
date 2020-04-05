@@ -46,6 +46,13 @@ public class FloatUtil {
     }
 
     /**
+     * 获取百分数
+     */
+    public static float get2D(float value) {
+        return ((int) (value * 100)) / 100f;
+    }
+
+    /**
      * 获取保留2位小数的百分数
      */
     public static float get2DPercent(float startValue, float endValue) {
