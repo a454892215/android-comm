@@ -95,12 +95,9 @@ public class GeometryUtil {
             float f = x3 - x2;
             float y = (a * e - b * d) / (a * f - c * d);
             float x = (y * c - b) / a;
-            //  if (index > 100 && index < 120) { //12小时图
             boolean isIn = x >= minX && x <= maxX;
             LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " a:" + a);
-            //  }
-            if (x >= minX - 1 && x <= maxX + 1) { //+-1弥补精度误差 //为了保证弥补精度后 x值在此区间 需要对X值重新处理吗？
-                x = MathUtil.clamp(x, minX, maxX);
+            if (x >= minX && x <= maxX) {
                 return x + L.split + y + L.split + (a / c);
             }
 
