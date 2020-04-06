@@ -51,24 +51,18 @@ public class GeometryUtil {
      */
     public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
         try {
+            if (x0 != x2 || x1 != x3) {
+                LogUtil.d("数据异常： x0：" + x0 + " x2：" + x2 + " x1：" + x1 + " x3：" + x3);
+            }
             float minX = x0 < x1 ? x0 : x1;
-            minX = minX < x2 ? minX : x2;
-            minX = minX < x3 ? minX : x3;
-
             float maxX = x0 > x1 ? x0 : x1;
-            maxX = maxX > x2 ? maxX : x2;
-            maxX = maxX > x3 ? maxX : x3;
-
-
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
-                //判断第2根线段的y取值 是否在第一根线段y区间
-                LogUtil.d("========1,2根线段都是是水平的=========");
                 return null;
             }
             //如果第1根线段是水平的
             if (y1 - y0 == 0) {
-                String crossPoint = getCrossPointForOneHorizontal(y0, x2, y3, x3, y3);
+                String crossPoint = getCrossPointForOneHorizontal(y0, x2, y2, x3, y3);
                 LogUtil.d("========第1根线段是水平的===:" + crossPoint + "  y0:" + y0);
                 assert crossPoint != null;
                 float x = FloatUtil.getF1(crossPoint);
@@ -81,7 +75,7 @@ public class GeometryUtil {
             //如果第2根线段是水平的
             if (y3 - y2 == 0) {
                 String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1);
-                LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3);
+                //  LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3);
                 assert crossPoint != null;
                 float x = FloatUtil.getF1(crossPoint);
                 if (x >= minX && x <= maxX) {
