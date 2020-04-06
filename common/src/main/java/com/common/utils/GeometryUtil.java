@@ -51,6 +51,15 @@ public class GeometryUtil {
      */
     public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
         try {
+            float minX = x0 < x1 ? x0 : x1;
+            minX = minX < x2 ? minX : x2;
+            minX = minX < x3 ? minX : x3;
+
+            float maxX = x0 > x1 ? x0 : x1;
+            maxX = maxX > x2 ? maxX : x2;
+            maxX = maxX > x3 ? maxX : x3;
+
+
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
                 //判断第2根线段的y取值 是否在第一根线段y区间
@@ -60,14 +69,25 @@ public class GeometryUtil {
             //如果第1根线段是水平的
             if (y1 - y0 == 0) {
                 String crossPoint = getCrossPointForOneHorizontal(y0, x2, y3, x3, y3);
-                LogUtil.d("========第1根线段是水平的===:" + crossPoint);
-                return crossPoint;
+                LogUtil.d("========第1根线段是水平的===:" + crossPoint + "  y0:" + y0);
+                assert crossPoint != null;
+                float x = FloatUtil.getF1(crossPoint);
+                if (x >= minX && x <= maxX) {
+                    return crossPoint;
+                }
+                return null;
             }
+
             //如果第2根线段是水平的
             if (y3 - y2 == 0) {
                 String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1);
-                LogUtil.d("========第2根线段是水平的=========:" + crossPoint);
-                return crossPoint;
+                LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3);
+                assert crossPoint != null;
+                float x = FloatUtil.getF1(crossPoint);
+                if (x >= minX && x <= maxX) {
+                    return crossPoint;
+                }
+                return null;
             }
 
             float a = y1 - y0;
@@ -79,31 +99,9 @@ public class GeometryUtil {
             float y = (a * e - b * d) / (a * f - c * d);
             float x = (y * c - b) / a;
 
-            float minX = x0 < x1 ? x0 : x1;
-            minX = minX < x2 ? minX : x2;
-            minX = minX < x3 ? minX : x3;
-
-            float maxX = x0 > x1 ? x0 : x1;
-            maxX = maxX > x2 ? maxX : x2;
-            maxX = maxX > x3 ? maxX : x3;
-
-
             if (x >= minX && x <= maxX) {
                 return x + L.split + y + L.split + (a / c);
             }
-
-/*            float minY = y0 < y1 ? y0 : y1;
-            minY = minY < y2 ? minY : y2;
-            minY = minY < y3 ? minY : y3;
-
-            float maxY = y0 > y1 ? y0 : y1;
-            maxY = maxY > y2 ? maxY : y2;
-            maxY = maxY > y3 ? maxY : y3;
-
-
-            if (y >= minY && y <= maxY) { //防止精度损失 遗漏数据
-                   return x + "-" + y;
-            }*/
         } catch (Exception e) {
             LogUtil.e(e);
         }
@@ -125,23 +123,15 @@ public class GeometryUtil {
      * 当两根线段 其中一根水平的情况 获取交点坐标
      */
     private static String getCrossPointForOneHorizontal(float horizontalLineY, float x1, float y1, float x2, float y2) {
-        //判断第2根线段的y取值 是否穿过第一根线段
-        float line2MinY = y1 < y2 ? y1 : y2; //线段2最小Y
-        float line2MaxY = y1 > y2 ? y1 : y2; //线段2最大Y
-        if (horizontalLineY >= line2MinY && horizontalLineY <= line2MaxY) { //相交
-            //获取Y2 K和B
-            String kAndBForLine = getKAndBForLine(x1, y1, x2, y2);
-            if (kAndBForLine != null) {
-                float line2K = FloatUtil.getF1(kAndBForLine);
-                float line2B = FloatUtil.getF2(kAndBForLine);
-                float crossPointX = (horizontalLineY - line2B) / line2K;
-                return crossPointX + L.split + horizontalLineY + L.split + line2K; //当第一根线水平 则返回第二根线的斜率
-            } else {
-                LogUtil.d("============发生异常===========");
-            }
-
+        //获取Y2 K和B
+        String kAndBForLine = getKAndBForLine(x1, y1, x2, y2);
+        if (kAndBForLine != null) {
+            float line2K = FloatUtil.getF1(kAndBForLine);
+            float line2B = FloatUtil.getF2(kAndBForLine);
+            float crossPointX = (horizontalLineY - line2B) / line2K;
+            return crossPointX + L.split + horizontalLineY + L.split + line2K; //当第一根线水平 则返回第二根线的斜率
         } else {
-            return null;
+            LogUtil.e("===============发生异常 ， 两个X坐标不能相同");
         }
         return null;
     }
