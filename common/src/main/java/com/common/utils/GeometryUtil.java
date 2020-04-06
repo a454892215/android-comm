@@ -99,7 +99,8 @@ public class GeometryUtil {
             boolean isIn = x >= minX && x <= maxX;
             LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " a:" + a);
             //  }
-            if (x >= minX - 1 && x <= maxX + 1) { //+-1弥补精度误差
+            if (x >= minX - 1 && x <= maxX + 1) { //+-1弥补精度误差 //为了保证弥补精度后 x值在此区间 需要对X值重新处理吗？
+                x = MathUtil.clamp(x, minX, maxX);
                 return x + L.split + y + L.split + (a / c);
             }
 
