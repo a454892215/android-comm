@@ -32,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected FragmentManager fm;
     public static int bottomVirtualKeyHeight;
     public static int contentViewHeight;
-    protected View contentView;
+    public View contentView;
     protected boolean isSetLayoutId = true;
     private LoadingDialogFragment loadingDialogFragment;
 
