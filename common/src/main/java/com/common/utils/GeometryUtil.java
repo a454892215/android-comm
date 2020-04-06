@@ -49,7 +49,7 @@ public class GeometryUtil {
      *
      * @return 交点
      */
-    public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3) {
+    public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, int index) {
         try {
             if (x0 != x2 || x1 != x3) {
                 LogUtil.d("数据异常： x0：" + x0 + " x2：" + x2 + " x1：" + x1 + " x3：" + x3);
@@ -58,29 +58,32 @@ public class GeometryUtil {
             float maxX = x0 > x1 ? x0 : x1;
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
+                LogUtil.d(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
                 return null;
             }
             //如果第1根线段是水平的
             if (y1 - y0 == 0) {
-                String crossPoint = getCrossPointForOneHorizontal(y0, x2, y2, x3, y3);
-                LogUtil.d("========第1根线段是水平的===:" + crossPoint + "  y0:" + y0);
+              /*  String crossPoint = getCrossPointForOneHorizontal(y0, x2, y2, x3, y3);
+                LogUtil.d("========第1根线段是水平的==222=crossPoint:" + crossPoint + "  y0:" + y0 + " x0：" + x0 + " x1：" + x1);
                 assert crossPoint != null;
                 float x = FloatUtil.getF1(crossPoint);
                 if (x >= minX && x <= maxX) {
                     return crossPoint;
-                }
+                }*/
+                LogUtil.d(index + "=========第1根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
                 return null;
             }
 
             //如果第2根线段是水平的
             if (y3 - y2 == 0) {
-                String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1);
+              /*  String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1);
                 //  LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3);
                 assert crossPoint != null;
                 float x = FloatUtil.getF1(crossPoint);
                 if (x >= minX && x <= maxX) {
                     return crossPoint;
-                }
+                }*/
+                LogUtil.d(index + "=========第2根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
                 return null;
             }
 
@@ -92,10 +95,14 @@ public class GeometryUtil {
             float f = x3 - x2;
             float y = (a * e - b * d) / (a * f - c * d);
             float x = (y * c - b) / a;
-
-            if (x >= minX && x <= maxX) {
+            //  if (index > 100 && index < 120) { //12小时图
+            boolean isIn = x >= minX && x <= maxX;
+            LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " a:" + a);
+            //  }
+            if (x >= minX - 1 && x <= maxX + 1) { //+-1弥补精度误差
                 return x + L.split + y + L.split + (a / c);
             }
+
         } catch (Exception e) {
             LogUtil.e(e);
         }
