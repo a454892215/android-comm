@@ -96,9 +96,8 @@ public class GeometryUtil {
             double f = x3 - x2;
             double y = (a * e - b * d) / (a * f - c * d);
             double x = (y * c - b) / a;
-            //避免精度损失遗漏数据
-            boolean isIn = x >= minX && x <= maxX;
-            LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " k:" + (a / c));
+          //  boolean isIn = x >= minX && x <= maxX;
+          //  LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " k:" + (a / c));
             if (x >= minX && x <= maxX) {
                 return x + L.split + y + L.split + (a / c);
             }
