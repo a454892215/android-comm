@@ -102,8 +102,8 @@ public class GeometryUtil {
             if(x > maxX && x - maxX < 0.1f){
                 x = maxX;
             }*/
-         //   boolean isIn = x >= minX && x <= maxX;
-          //  LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " a:" + a);
+            boolean isIn = x >= minX && x <= maxX;
+            LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " k:" + (a / c));
             if (x >= minX && x <= maxX) {
                 return x + L.split + y + L.split + (a / c);
             }
