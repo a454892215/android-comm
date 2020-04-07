@@ -32,13 +32,23 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
     }
 
     @Override
+    public boolean onInterceptHoverEvent(MotionEvent event) {
+        if (scrollEnable) {
+            return super.onInterceptHoverEvent(event);
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (scrollEnable) {
             return super.dispatchTouchEvent(ev);
         } else {
             View view = getChildAt(0);
             if (view != null) {
-                view.dispatchTouchEvent(ev);
+                return view.dispatchTouchEvent(ev);
             }
         }
         return true;
