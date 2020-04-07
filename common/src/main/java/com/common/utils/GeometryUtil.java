@@ -95,7 +95,13 @@ public class GeometryUtil {
             float f = x3 - x2;
             float y = (a * e - b * d) / (a * f - c * d);
             float x = (y * c - b) / a;
-            x = (float)Math.round(x); //进度损失可能达到0.03 以至于本在此区间的数 遗漏 所以round
+         //避免精度损失遗漏数据
+            if(x < minX && minX - x < 0.1f){
+                x = minX;
+            }
+            if(x > maxX && x - maxX < 0.1f){
+                x = maxX;
+            }
          //   boolean isIn = x >= minX && x <= maxX;
           //  LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " a:" + a);
             if (x >= minX && x <= maxX) {
