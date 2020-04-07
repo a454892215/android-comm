@@ -20,6 +20,10 @@ public class MyScrollView extends ScrollView {
         super(context, attrs, defStyle);
     }
 
+    public boolean isScrollEnable() {
+        return scrollEnable;
+    }
+
     private boolean scrollEnable = true;
 
     @Override

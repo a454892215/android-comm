@@ -46,6 +46,10 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         this.scrollEnable = scrollEnable;
     }
 
+    public boolean isScrollEnable() {
+        return scrollEnable;
+    }
+
 
     public interface OnScrollViewListener {
         void onScrollChanged(MyHorizontalScrollView scrollView, int x, int y, int oldx, int oldy);
