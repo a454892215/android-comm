@@ -58,32 +58,33 @@ public class GeometryUtil {
             double maxX = x0 > x1 ? x0 : x1;
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
-                LogUtil.e(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
+                LogUtil.d(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
                 return null;
             }
             //如果第1根线段是水平的
             if (y1 - y0 == 0) {
-              /*  String crossPoint = getCrossPointForOneHorizontal(y0, x2, y2, x3, y3);
-                LogUtil.d("========第1根线段是水平的==222=crossPoint:" + crossPoint + "  y0:" + y0 + " x0：" + x0 + " x1：" + x1);
+                String crossPoint = getCrossPointForOneHorizontal(y0, x2, y2, x3, y3);
                 assert crossPoint != null;
-                float x = FloatUtil.getF1(crossPoint);
+                double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
+                    LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
-                }*/
-                LogUtil.e(index + "=========第1根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
+                }
+                LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
                 return null;
             }
 
             //如果第2根线段是水平的
             if (y3 - y2 == 0) {
-              /*  String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1);
+                String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1);
                 //  LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3);
                 assert crossPoint != null;
-                float x = FloatUtil.getF1(crossPoint);
+                double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
+                    LogUtil.d("=========第2根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
-                }*/
-                LogUtil.e(index + "=========第2根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
+                }
+                LogUtil.d(index + "===第2根线段是水平的===没有相交====== index:" + index);
                 return null;
             }
 
@@ -95,13 +96,7 @@ public class GeometryUtil {
             double f = x3 - x2;
             double y = (a * e - b * d) / (a * f - c * d);
             double x = (y * c - b) / a;
-         //避免精度损失遗漏数据
-     /*       if(x < minX && minX - x < 0.1f){
-                x = minX;
-            }
-            if(x > maxX && x - maxX < 0.1f){
-                x = maxX;
-            }*/
+            //避免精度损失遗漏数据
             boolean isIn = x >= minX && x <= maxX;
             LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " k:" + (a / c));
             if (x >= minX && x <= maxX) {
@@ -115,7 +110,7 @@ public class GeometryUtil {
     }
 
     //直线公式 y = kx +b
-    public static String getKAndBForLine(double x0, double y0, double x1, double y1) {
+    private static String getKAndBForLine(double x0, double y0, double x1, double y1) {
         if (x1 - x0 == 0) {
             return null;
         }
