@@ -114,8 +114,8 @@ public class GeometryUtil {
         if (x1 - x0 == 0) {
             return null;
         }
-        double k = y1 - y0 / x1 - x0;
-        double b = y0 - k * x0;
+        double k = (y1 - y0) / (x1 - x0);
+        double b = y0 - (k * x0);
         return k + L.split + b;
     }
 
