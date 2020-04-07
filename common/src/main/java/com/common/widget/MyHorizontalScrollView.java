@@ -2,6 +2,7 @@ package com.common.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.widget.HorizontalScrollView;
 
 public class MyHorizontalScrollView extends HorizontalScrollView {
@@ -27,6 +28,22 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         if (scrollViewListener != null) {
             scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
         }
+    }
+
+
+    private boolean scrollEnable = true;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (scrollEnable) {
+            return super.onTouchEvent(ev);
+        }
+        return false;
+    }
+
+
+    public void setScrollEnable(boolean scrollEnable) {
+        this.scrollEnable = scrollEnable;
     }
 
 
