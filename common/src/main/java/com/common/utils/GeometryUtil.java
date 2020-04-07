@@ -52,13 +52,13 @@ public class GeometryUtil {
     public static String getIntersectionForTowLine(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3, int index) {
         try {
             if (x0 != x2 || x1 != x3) {
-                LogUtil.d("数据异常： x0：" + x0 + " x2：" + x2 + " x1：" + x1 + " x3：" + x3);
+                LogUtil.e("数据异常： x0：" + x0 + " x2：" + x2 + " x1：" + x1 + " x3：" + x3);
             }
             double minX = x0 < x1 ? x0 : x1;
             double maxX = x0 > x1 ? x0 : x1;
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
-                LogUtil.d(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
+                LogUtil.e(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
                 return null;
             }
             //如果第1根线段是水平的
@@ -70,7 +70,7 @@ public class GeometryUtil {
                 if (x >= minX && x <= maxX) {
                     return crossPoint;
                 }*/
-                LogUtil.d(index + "=========第1根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
+                LogUtil.e(index + "=========第1根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
                 return null;
             }
 
@@ -83,7 +83,7 @@ public class GeometryUtil {
                 if (x >= minX && x <= maxX) {
                     return crossPoint;
                 }*/
-                LogUtil.d(index + "=========第2根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
+                LogUtil.e(index + "=========第2根线段是水平的=========  " + " y0" + y0 + " y2" + y2);
                 return null;
             }
 
