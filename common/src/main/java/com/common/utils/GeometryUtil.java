@@ -49,13 +49,13 @@ public class GeometryUtil {
      *
      * @return 交点
      */
-    public static String getIntersectionForTowLine(float x0, float y0, float x1, float y1, float x2, float y2, float x3, float y3, int index) {
+    public static String getIntersectionForTowLine(double x0, double y0, double x1, double y1, double x2, double y2, double x3, double y3, int index) {
         try {
             if (x0 != x2 || x1 != x3) {
                 LogUtil.d("数据异常： x0：" + x0 + " x2：" + x2 + " x1：" + x1 + " x3：" + x3);
             }
-            float minX = x0 < x1 ? x0 : x1;
-            float maxX = x0 > x1 ? x0 : x1;
+            double minX = x0 < x1 ? x0 : x1;
+            double maxX = x0 > x1 ? x0 : x1;
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
                 LogUtil.d(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
@@ -87,21 +87,21 @@ public class GeometryUtil {
                 return null;
             }
 
-            float a = y1 - y0;
-            float b = x1 * y0 - x0 * y1;
-            float c = x1 - x0;
-            float d = y3 - y2;
-            float e = x3 * y2 - x2 * y3;
-            float f = x3 - x2;
-            float y = (a * e - b * d) / (a * f - c * d);
-            float x = (y * c - b) / a;
+            double a = y1 - y0;
+            double b = x1 * y0 - x0 * y1;
+            double c = x1 - x0;
+            double d = y3 - y2;
+            double e = x3 * y2 - x2 * y3;
+            double f = x3 - x2;
+            double y = (a * e - b * d) / (a * f - c * d);
+            double x = (y * c - b) / a;
          //避免精度损失遗漏数据
-            if(x < minX && minX - x < 0.1f){
+     /*       if(x < minX && minX - x < 0.1f){
                 x = minX;
             }
             if(x > maxX && x - maxX < 0.1f){
                 x = maxX;
-            }
+            }*/
          //   boolean isIn = x >= minX && x <= maxX;
           //  LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " a:" + a);
             if (x >= minX && x <= maxX) {

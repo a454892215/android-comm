@@ -79,4 +79,18 @@ public class FloatUtil {
     public static float getF2(String startValue) {
         return Float.parseFloat(startValue.split(L.split)[1]);
     }
+
+    /**
+     * 从格式化字符串获取第1个double
+     */
+    public static double getD1(String startValue) {
+        return Double.parseDouble(startValue.split(L.split)[0]);
+    }
+
+    /**
+     * 从格式化字符串获取第2个double
+     */
+    public static double getD2(String startValue) {
+        return Double.parseDouble(startValue.split(L.split)[1]);
+    }
 }
