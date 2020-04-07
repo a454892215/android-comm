@@ -70,7 +70,7 @@ public class GeometryUtil {
                     LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
-                LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
+              //  LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
                 return null;
             }
 
@@ -84,7 +84,7 @@ public class GeometryUtil {
                     LogUtil.d("=========第2根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
-                LogUtil.d(index + "===第2根线段是水平的===没有相交====== index:" + index);
+             //   LogUtil.d(index + "===第2根线段是水平的===没有相交====== index:" + index);
                 return null;
             }
 
