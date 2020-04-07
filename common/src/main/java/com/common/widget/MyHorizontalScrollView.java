@@ -30,7 +30,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
             scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
         }
     }
-
+/*
     @Override
     public boolean onInterceptHoverEvent(MotionEvent event) {
         if (scrollEnable) {
@@ -39,7 +39,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
             return false;
         }
 
-    }
+    }*/
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -48,7 +48,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         } else {
             View view = getChildAt(0);
             if (view != null) {
-                return view.dispatchTouchEvent(ev);
+                view.dispatchTouchEvent(ev);
             }
         }
         return true;
@@ -61,7 +61,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         if (scrollEnable) {
             return super.onTouchEvent(ev);
         }
-        return false;
+        return true;
     }
 
 
