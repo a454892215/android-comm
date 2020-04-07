@@ -115,12 +115,12 @@ public class GeometryUtil {
     }
 
     //直线公式 y = kx +b
-    public static String getKAndBForLine(float x0, float y0, float x1, float y1) {
+    public static String getKAndBForLine(double x0, double y0, double x1, double y1) {
         if (x1 - x0 == 0) {
             return null;
         }
-        float k = y1 - y0 / x1 - x0;
-        float b = y0 - k * x0;
+        double k = y1 - y0 / x1 - x0;
+        double b = y0 - k * x0;
         return k + L.split + b;
     }
 
@@ -128,13 +128,13 @@ public class GeometryUtil {
     /**
      * 当两根线段 其中一根水平的情况 获取交点坐标
      */
-    private static String getCrossPointForOneHorizontal(float horizontalLineY, float x1, float y1, float x2, float y2) {
+    private static String getCrossPointForOneHorizontal(double horizontalLineY, double x1, double y1, double x2, double y2) {
         //获取Y2 K和B
         String kAndBForLine = getKAndBForLine(x1, y1, x2, y2);
         if (kAndBForLine != null) {
-            float line2K = FloatUtil.getF1(kAndBForLine);
-            float line2B = FloatUtil.getF2(kAndBForLine);
-            float crossPointX = (horizontalLineY - line2B) / line2K;
+            double line2K = FloatUtil.getF1(kAndBForLine);
+            double line2B = FloatUtil.getF2(kAndBForLine);
+            double crossPointX = (horizontalLineY - line2B) / line2K;
             return crossPointX + L.split + horizontalLineY + L.split + line2K; //当第一根线水平 则返回第二根线的斜率
         } else {
             LogUtil.e("===============发生异常 ， 两个X坐标不能相同");
