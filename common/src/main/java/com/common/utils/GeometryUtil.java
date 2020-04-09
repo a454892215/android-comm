@@ -67,10 +67,10 @@ public class GeometryUtil {
                 assert crossPoint != null;
                 double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
-                //    LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
+                    //    LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
-              //  LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
+                //  LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
                 return null;
             }
 
@@ -81,10 +81,10 @@ public class GeometryUtil {
                 assert crossPoint != null;
                 double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
-                 //   LogUtil.d("=========第2根线段是水平的===并且相交======  index:" + index);
+                    //   LogUtil.d("=========第2根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
-             //   LogUtil.d(index + "===第2根线段是水平的===没有相交====== index:" + index);
+                //   LogUtil.d(index + "===第2根线段是水平的===没有相交====== index:" + index);
                 return null;
             }
 
@@ -96,10 +96,20 @@ public class GeometryUtil {
             double f = x3 - x2;
             double y = (a * e - b * d) / (a * f - c * d);
             double x = (y * c - b) / a;
-          //  boolean isIn = x >= minX && x <= maxX;
-          //  LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + "  是否在区间内：" + isIn + " k:" + (a / c));
+
+            double k1 = a / c;
+            double k2 = d / f;
+            double k = k1 - k2;
+
+           /* boolean isIn = x >= minX && x <= maxX;
+            if (isIn) {
+                String k1_ = new DecimalFormat("#.########").format(k1);
+                String k2_ = new DecimalFormat("#.########").format(k2);
+                LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + " k1:" + k1_ + " k2:" + k2_);
+            }*/
+
             if (x >= minX && x <= maxX) {
-                return x + L.split + y + L.split + (a / c);
+                return x + L.split + y + L.split + k;
             }
 
         } catch (Exception e) {
