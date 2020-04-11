@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
@@ -188,5 +189,11 @@ public class ViewUtil {
 
     public static float getBaseLine(Paint paint, float centerY) {
         return centerY - (paint.getFontMetricsInt().ascent + paint.getFontMetricsInt().descent) / 2f;
+    }
+
+    public static View addChildView(ViewGroup parentView, int layoutId) {
+        View view = LayoutInflater.from(parentView.getContext()).inflate(layoutId, parentView, false);
+        parentView.addView(view);
+        return view;
     }
 }
