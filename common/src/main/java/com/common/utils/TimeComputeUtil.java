@@ -44,20 +44,20 @@ public class TimeComputeUtil {
         return seconds;
     }
 
-    public String getSecondsStr(){
+    public String getSecondsStr() {
         return StringUtil.addZeroOnLessTen(seconds);
     }
 
-    public String getMinutesStr(){
+    public String getMinutesStr() {
         return StringUtil.addZeroOnLessTen(minutes);
     }
 
-    public String getHourStr(){
+    public String getHourStr() {
         return StringUtil.addZeroOnLessTen(hours);
     }
 
-    public String getFormatTime(){
-        return days +"天"+ getHourStr() +"小时" + getMinutesStr() +"分" +getSecondsStr() +"秒";
+    public String getFormatTime() {
+        return days + "天" + getHourStr() + "小时" + getMinutesStr() + "分" + getSecondsStr() + "秒";
     }
 
 }
