@@ -67,7 +67,7 @@ public class GeometryUtil {
                 assert crossPoint != null;
                 double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
-                        LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
+                     //   LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
                 //  LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
@@ -81,7 +81,7 @@ public class GeometryUtil {
                 assert crossPoint != null;
                 double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
-                       LogUtil.d("=========第2根线段是水平的===并且相交======  index:" + index);
+                     //  LogUtil.d("=========第2根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
                 //   LogUtil.d(index + "===第2根线段是水平的===没有相交====== index:" + index);
