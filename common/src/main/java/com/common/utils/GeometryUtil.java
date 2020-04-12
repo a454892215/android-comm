@@ -58,7 +58,7 @@ public class GeometryUtil {
             double maxX = x0 > x1 ? x0 : x1;
             //如果第1,2根线段都是是水平的
             if (y1 - y0 == 0 && y3 - y2 == 0) {
-                LogUtil.d(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
+              //  LogUtil.d(index + "=========第1,2根线段都是是水平的=========：" + " y0" + y0 + " y2" + y2);
                 return null;
             }
             //如果第1根线段是水平的，K值取第二根线的斜率相反数
