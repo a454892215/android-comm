@@ -6,8 +6,10 @@ import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
@@ -65,5 +67,9 @@ public interface ApiTemplate {
     @POST("agency/lowerList")
     @Headers({"Accept: application/x.tg.v2+json",})
     Observable<ResponseBody> getLowerListObservable(@Query("page") int pager, @Body Map<String, String> params);
+
+
+    @HTTP(method = "GET", path = "blog/{id}")
+    Observable<ResponseBody> getCall(@Path("id") int id);
 
 }
