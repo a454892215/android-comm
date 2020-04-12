@@ -52,4 +52,12 @@ public class TimeComputeUtil {
         return StringUtil.addZeroOnLessTen(minutes);
     }
 
+    public String getHourStr(){
+        return StringUtil.addZeroOnLessTen(hours);
+    }
+
+    public String getFormatTime(){
+        return days +"天"+ getHourStr() +"小时" + getMinutesStr() +"分" +getSecondsStr() +"秒";
+    }
+
 }
