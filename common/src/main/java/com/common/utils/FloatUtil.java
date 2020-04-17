@@ -29,6 +29,17 @@ public class FloatUtil {
         }
     }
 
+    public static String get4DecimalNum(String floatValue) {
+        if (StringUtil.isFloat(floatValue)) {
+            DecimalFormat df = new DecimalFormat("0.0000");
+            df.setRoundingMode(RoundingMode.HALF_UP);//四舍五入
+            return df.format(Float.parseFloat(floatValue));
+        } else {
+            LogUtil.e("非法数据，不能保留4位小数");
+            return "0.0000";
+        }
+    }
+
 
     /**
      * 0 指前面补充零
