@@ -38,7 +38,6 @@ public class StringUtil {
      * 包含int 类型
      */
     public static boolean isFloat(String str) {
-        LogUtil.d("================str:"+str);
         try {
             Float.parseFloat(str);
             return true;
