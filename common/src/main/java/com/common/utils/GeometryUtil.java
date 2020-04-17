@@ -3,6 +3,8 @@ package com.common.utils;
 import com.common.comm.L;
 import com.common.widget.trend.MyPoint;
 
+import java.text.DecimalFormat;
+
 /**
  * Author:  L
  * CreateDate: 2019/1/29 9:27
@@ -67,7 +69,7 @@ public class GeometryUtil {
                 assert crossPoint != null;
                 double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
-                     //   LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
+                        LogUtil.d("=========第1根线段是水平的===并且相交======  index:" + index);
                     return crossPoint;
                 }
                 //  LogUtil.d("=========第1根线段是水平的===没有相交======  index:" + index);
@@ -77,7 +79,7 @@ public class GeometryUtil {
             //如果第2根线段是水平的,則K值取第一根快线斜率即可
             if (y3 - y2 == 0) {
                 String crossPoint = getCrossPointForOneHorizontal(y3, x0, y0, x1, y1, false);
-                //  LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3);
+                  LogUtil.d("========第2根线段是水平的===:" + crossPoint + "  y3:" + y3+ "  index:" + index);
                 assert crossPoint != null;
                 double x = FloatUtil.getD1(crossPoint);
                 if (x >= minX && x <= maxX) {
@@ -101,12 +103,12 @@ public class GeometryUtil {
             double k2 = d / f;
             double k = k1 - k2;
 
-           /* boolean isIn = x >= minX && x <= maxX;
+            boolean isIn = x >= minX && x <= maxX;
             if (isIn) {
                 String k1_ = new DecimalFormat("#.########").format(k1);
                 String k2_ = new DecimalFormat("#.########").format(k2);
                 LogUtil.d(index + "==================x:" + x + " minX: " + minX + " maxX: " + maxX + " k1:" + k1_ + " k2:" + k2_);
-            }*/
+            }
 
             if (x >= minX && x <= maxX) {
                 return x + L.split + y + L.split + k;
@@ -140,7 +142,7 @@ public class GeometryUtil {
             double line2B = FloatUtil.getF2(kAndBForLine);
             double crossPointX = (horizontalLineY - line2B) / line2K;
             double k = isCLReverse ? -line2K : line2K;
-            return crossPointX + L.split + horizontalLineY + L.split + line2K; //当第一根线水平 则返回第二根线的斜率
+            return crossPointX + L.split + horizontalLineY + L.split + k;
         } else {
             LogUtil.e("===============发生异常 ， 两个X坐标不能相同");
         }
