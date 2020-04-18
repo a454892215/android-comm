@@ -29,6 +29,13 @@ public class FloatUtil {
         }
     }
 
+    public static float get2DecimalNum(double floatValue) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setRoundingMode(RoundingMode.HALF_UP);//四舍五入
+        String format = df.format(floatValue);
+        return Float.parseFloat(format);
+    }
+
     public static String get4DecimalNum(String floatValue) {
         if (StringUtil.isFloat(floatValue)) {
             DecimalFormat df = new DecimalFormat("0.0000");
