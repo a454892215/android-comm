@@ -50,6 +50,7 @@ public class HttpUtil {
         if (checkNetworkEnable) {
             if (!SystemUtils.isNetWorkConnected(activity)) {
                 ToastUtil.showShort("请检测网络是否连接");
+                LogUtil.e("=========网络异常==========");
                 return;
             }
         }
