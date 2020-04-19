@@ -89,8 +89,7 @@ public class HttpUtil {
             if (successExcToastEnable) {
                 ToastUtil.showShort("请求数据完毕后处理异常：" + e);
             }
-            e.printStackTrace();
-            LogUtil.e("Http:===requestData====:" +  StringUtil.getThrowableInfo(e));
+            LogUtil.e("Http:=请求数据完毕后处理异常：==requestData====:" + StringUtil.getThrowableInfo(e));
         }
     }
 
@@ -100,7 +99,7 @@ public class HttpUtil {
                 ((BaseActivity) activity).dismissDefaultLoadingView();
             }
         }
-        LogUtil.e(e);
+        LogUtil.e("=======请求数据失败：==========" + StringUtil.getThrowableInfo(e));
         httpCallback.onFail(e);
     }
 }
