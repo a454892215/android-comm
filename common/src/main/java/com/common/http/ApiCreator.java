@@ -30,6 +30,8 @@ public class ApiCreator implements IApiCreator {
 
     private List<Interceptor> interceptorList = new ArrayList<>();
 
+    private ConnectionPool connectionPool;
+
     @Override
     public <T> T getApi(String baseUrl, Class<T> api) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -63,7 +65,7 @@ public class ApiCreator implements IApiCreator {
         builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
         builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
         builder.readTimeout(readTimeout, TimeUnit.SECONDS);
-        ConnectionPool connectionPool = new ConnectionPool(32, 5, TimeUnit.MINUTES);
+        connectionPool = new ConnectionPool(32, 5, TimeUnit.MINUTES);
         builder.connectionPool(connectionPool);
         if(defaultHttpsEnable){
             HttpSSLSetting.SSLParams sslParams1 = HttpSSLSetting.getSslSocketFactory();
@@ -91,6 +93,11 @@ public class ApiCreator implements IApiCreator {
     int readTimeout = 60;
     public void setReadTimeout(int readTimeout){
         this.readTimeout = readTimeout;
+    }
+
+
+    public ConnectionPool getConnectionPool() {
+        return connectionPool;
     }
 
     @Override
