@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.ConnectionPool;
 import okhttp3.Interceptor;
 import okhttp3.JavaNetCookieJar;
 import okhttp3.OkHttpClient;
@@ -59,9 +60,11 @@ public class ApiCreator implements IApiCreator {
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         builder.cookieJar(new JavaNetCookieJar(cookieManager));
         //手动创建一个OkHttpClient并设置超时时间
-        builder.connectTimeout(60, TimeUnit.SECONDS);
-        builder.writeTimeout(60, TimeUnit.SECONDS);
-        builder.readTimeout(60, TimeUnit.SECONDS);
+        builder.connectTimeout(connectTimeout, TimeUnit.SECONDS);
+        builder.writeTimeout(writeTimeout, TimeUnit.SECONDS);
+        builder.readTimeout(readTimeout, TimeUnit.SECONDS);
+        ConnectionPool connectionPool = new ConnectionPool(32, 5, TimeUnit.MINUTES);
+        builder.connectionPool(connectionPool);
         if(defaultHttpsEnable){
             HttpSSLSetting.SSLParams sslParams1 = HttpSSLSetting.getSslSocketFactory();
             builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
@@ -75,6 +78,20 @@ public class ApiCreator implements IApiCreator {
         this.defaultHttpsEnable = defaultHttpsEnable;
     }
 
+    int connectTimeout = 60;
+    public void setConnectTimeout(int connectTimeout){
+        this.connectTimeout = connectTimeout;
+    }
+
+    int writeTimeout = 60;
+    public void setWriteTimeout(int writeTimeout){
+        this.writeTimeout = writeTimeout;
+    }
+
+    int readTimeout = 60;
+    public void setReadTimeout(int readTimeout){
+        this.readTimeout = readTimeout;
+    }
 
     @Override
     public void addInterceptor(Interceptor interceptor) {
