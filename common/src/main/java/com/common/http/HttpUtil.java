@@ -99,7 +99,7 @@ public class HttpUtil {
                 ((BaseActivity) activity).dismissDefaultLoadingView();
             }
         }
-        LogUtil.e("=======请求数据失败：==========" + StringUtil.getThrowableInfo(e));
+      //  LogUtil.e("=======请求数据失败：==========" + StringUtil.getThrowableInfo(e));
         httpCallback.onFail(e);
     }
 }
