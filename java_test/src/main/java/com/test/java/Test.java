@@ -11,19 +11,8 @@ import java.util.TimerTask;
 public class Test {
 
     public static void main(String[] args) {
-        Timer timer = new Timer();
-        for (int i = 0; i < 5; i++) {
-         //   int random = new Random().nextInt(3) + 1;
-            int finalI = i;
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    LogUtil.d("===============random:" + finalI);
-                }
-            }, 1000 * i);
-
-        }
-
+        DecimalFormat df1 = new DecimalFormat("0.00");
+        LogUtil.d(df1.format(0.1));
 
     }
 

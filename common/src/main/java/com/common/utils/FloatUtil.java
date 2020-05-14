@@ -36,6 +36,12 @@ public class FloatUtil {
         return Float.parseFloat(format);
     }
 
+    public static String get2DecimalNum2(double floatValue) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setRoundingMode(RoundingMode.HALF_UP);//四舍五入
+        return df.format(floatValue);
+    }
+
     public static String get4DecimalNum(String floatValue) {
         if (StringUtil.isFloat(floatValue)) {
             DecimalFormat df = new DecimalFormat("0.0000");
