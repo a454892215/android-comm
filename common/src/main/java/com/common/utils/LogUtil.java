@@ -34,11 +34,11 @@ public class LogUtil {
     }
 
     public static void v(String msg) {
-        Log.e(TAG + getLineNum(), unicodeToUTF_8(msg));
+        Log.v(TAG + getLineNum(), unicodeToUTF_8(msg));
     }
 
     public static void w(String msg) {
-        Log.e(TAG + getLineNum(), unicodeToUTF_8(msg));
+        Log.w(TAG + getLineNum(), unicodeToUTF_8(msg));
     }
 
     public static void e(String msg) {
