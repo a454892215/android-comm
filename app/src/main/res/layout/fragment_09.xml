@@ -5,9 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#eeeeee"
-    android:gravity="center"
     android:orientation="vertical"
     tools:ignore="HardcodedText">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/dp_5"
+        android:text="可滚动内容的View测试"/>
 
     <com.common.widget.HScrollView
         android:layout_width="match_parent"
