@@ -60,7 +60,7 @@ public class HScrollContentView extends View {
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(L.dp_1 * 8);
 
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 2000; i++) {
             ViewItem viewItem = new ViewItem();
             viewItem.data = i + "";
             viewItem.index = i;
@@ -94,7 +94,7 @@ public class HScrollContentView extends View {
     private void onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //   if(flingAnim != null) flingAnim.cancel();
+                if (flingAnim != null) flingAnim.cancel();
                 startX = ev.getRawX();
                 startY = ev.getRawY();
                 orientation = 0;
