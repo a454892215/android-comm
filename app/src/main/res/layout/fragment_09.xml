@@ -12,11 +12,20 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="@dimen/dp_5"
-        android:text="可滚动内容的View测试"/>
+        android:text="可滚动内容的View测试" />
 
     <com.common.widget.HScrollView
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_height="400dp">
+
+        <TextView
+            android:layout_width="720dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/dp_5"
+            android:background="#33ff0000"
+            android:text="可滚动内容的View测试11111    可滚动内容的View测试11111" />
+    </com.common.widget.HScrollView>
 
 
 </LinearLayout>
