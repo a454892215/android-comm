@@ -135,15 +135,20 @@ public class HScrollContentView extends View {
     }
 
 
-    private float maxScrollWidth = L.dp_1 * 360;
+    public void setMaxScrollWidth(float maxScrollWidth) {
+        this.maxScrollWidth = maxScrollWidth;
+    }
+
+    private float maxScrollWidth;
 
     @Override
     public void draw(Canvas canvas) {
+        super.draw(canvas);
         test(canvas);
     }
 
     private void test(Canvas canvas) {
-        super.draw(canvas);
+
         float itemWidth = L.dp_1 * 40;
         int size = 1000;
         maxScrollWidth = itemWidth * size - getMeasuredWidth();
