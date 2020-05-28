@@ -44,7 +44,7 @@ public class HScrollContentView extends View {
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
         mScroller = new Scroller(context);
         mScroller.forceFinished(true);
-        maxVelocity = (int) L.dp_1 * 1500;
+        maxVelocity = (int) L.dp_1 * 3500;
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
@@ -139,17 +139,21 @@ public class HScrollContentView extends View {
 
     @Override
     public void draw(Canvas canvas) {
+        test(canvas);
+    }
+
+    private void test(Canvas canvas) {
         super.draw(canvas);
         float itemWidth = L.dp_1 * 40;
-        maxScrollWidth = itemWidth * 100;
-        for (int i = 0; i < 100; i++) {
+        int size = 1000;
+        maxScrollWidth = itemWidth * size - getMeasuredWidth();
+        for (int i = 0; i < size; i++) {
             float itemHeight = L.dp_1 * 20;
             float left = i * itemWidth;
             float top = L.dp_1 * 20;
             paint.setColor(i % 2 == 0 ? Color.RED : Color.GREEN);
             canvas.drawRect(left, top, left + itemWidth, top + itemHeight, paint);
             canvas.drawText(i + "", left + itemWidth / 2f, top, paint);
-
         }
     }
 
