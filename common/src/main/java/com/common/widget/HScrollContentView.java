@@ -60,14 +60,14 @@ public class HScrollContentView extends View {
         paint.setTextSize(L.dp_1 * 8);
 
 
-        for (int i = 0; i < 2000; i++) {
+      /*  for (int i = 0; i < 2000; i++) {
             ViewItem viewItem = new ViewItem();
             viewItem.data = i + "";
             viewItem.index = i;
             testTotalData.add(viewItem);
-        }
+        }*/
     }
-    List<ViewItem> testTotalData = new ArrayList<>();
+ //   List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -167,7 +167,7 @@ public class HScrollContentView extends View {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        test(canvas);
+      //  test(canvas);
     }
 
 
@@ -176,7 +176,7 @@ public class HScrollContentView extends View {
     private void test(Canvas canvas) {
         float itemWidth = L.dp_1 * 40;
         float itemHeight = L.dp_1 * 20;
-        computerDrawingList(itemWidth, testTotalData);
+        computeDrawingList(itemWidth, null);
         int drawListSize = drawList.size();
         for (int i = 0; i < drawListSize; i++) {
             ViewItem viewItem = drawList.get(i);
@@ -190,7 +190,7 @@ public class HScrollContentView extends View {
         }
     }
 
-    protected void computerDrawingList(float itemWidth, List<ViewItem> totalList) {
+    protected void computeDrawingList(float itemWidth, List<ViewItem> totalList) {
         if (totalList == null || totalList.size() == 0) return;
         int totalSize = totalList.size();
         maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
