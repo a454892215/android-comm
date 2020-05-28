@@ -151,7 +151,7 @@ public class HScrollContentView extends View {
                         executeScrollXBy(-value);
                     });
                     flingAnim.start();
-                    LogUtil.d("==============fling===================xVelocity:" + xVelocity);
+                    // LogUtil.d("==============fling===================xVelocity:" + xVelocity);
                     invalidate();
                 }
                 return false;
@@ -179,6 +179,22 @@ public class HScrollContentView extends View {
         float itemWidth = L.dp_1 * 40;
         float itemHeight = L.dp_1 * 20;
         int totalSize = testData.size();
+        computerDrawingList(itemWidth, totalSize);
+
+        int drawListSize = drawList.size();
+        for (int i = 0; i < drawListSize; i++) {
+            ViewItem viewItem = drawList.get(i);
+            viewItem.start = viewItem.offset + i * itemWidth;
+            viewItem.end = viewItem.start + itemWidth;
+            viewItem.top = L.dp_1 * 20;
+            viewItem.bottom = viewItem.top + itemHeight;
+            paint.setColor(viewItem.index % 2 == 0 ? Color.RED : Color.GREEN);
+            canvas.drawRect(viewItem.start, viewItem.top, viewItem.end, viewItem.bottom, paint);
+            canvas.drawText(viewItem.data.toString(), viewItem.start + itemWidth / 2f, viewItem.top, paint);
+        }
+    }
+
+    private void computerDrawingList(float itemWidth, int totalSize) {
         maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
         float scrolledX = mScroller.getFinalX(); //已经滚过的距离
 
@@ -201,18 +217,6 @@ public class HScrollContentView extends View {
                 }
 
             }
-        }
-
-        int drawListSize = drawList.size();
-        for (int i = 0; i < drawListSize; i++) {
-            ViewItem viewItem = drawList.get(i);
-            viewItem.start = viewItem.offset + i * itemWidth;
-            viewItem.end = viewItem.start + itemWidth;
-            viewItem.top = L.dp_1 * 20;
-            viewItem.bottom = viewItem.top + itemHeight;
-            paint.setColor(viewItem.index % 2 == 0 ? Color.RED : Color.GREEN);
-            canvas.drawRect(viewItem.start, viewItem.top, viewItem.end, viewItem.bottom, paint);
-            canvas.drawText(viewItem.data.toString(), viewItem.start + itemWidth / 2f, viewItem.top, paint);
         }
     }
 
