@@ -35,6 +35,7 @@ public class HScrollContentView extends View {
     private Scroller mScroller;
     private int maxVelocity;
     private TextPaint paint;
+    private ValueAnimator flingAnim;
 
     public HScrollContentView(Context context) {
         this(context, null);
@@ -51,7 +52,7 @@ public class HScrollContentView extends View {
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
         mScroller = new Scroller(context);
         mScroller.forceFinished(true);
-        maxVelocity = (int) L.dp_1 * 3500;
+        maxVelocity = (int) L.dp_1 * 1500;
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
@@ -93,6 +94,7 @@ public class HScrollContentView extends View {
     private void onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                //   if(flingAnim != null) flingAnim.cancel();
                 startX = ev.getRawX();
                 startY = ev.getRawY();
                 orientation = 0;
@@ -140,7 +142,16 @@ public class HScrollContentView extends View {
                     float xVelocity = velocityTracker.getXVelocity();
                     //  LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
                     mScroller.abortAnimation();
-                    mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
+                    //  mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
+                    if (flingAnim != null) flingAnim.cancel();
+                    flingAnim = ValueAnimator.ofFloat(xVelocity / 100 * L.dp_1, 0);
+                    flingAnim.setDuration(Math.abs((int) xVelocity) / 2);
+                    flingAnim.addUpdateListener(animation -> {
+                        float value = (float) animation.getAnimatedValue();
+                        executeScrollXBy(-value);
+                    });
+                    flingAnim.start();
+                    LogUtil.d("==============fling===================xVelocity:" + xVelocity);
                     invalidate();
                 }
                 return false;
@@ -167,12 +178,13 @@ public class HScrollContentView extends View {
     private void test(Canvas canvas) {
         float itemWidth = L.dp_1 * 40;
         float itemHeight = L.dp_1 * 20;
-        maxScrollWidth = itemWidth * testData.size() - getMeasuredWidth();
+        int totalSize = testData.size();
+        maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
         float scrolledX = mScroller.getFinalX(); //已经滚过的距离
 
         //  LogUtil.d("===========scrolledX:" + scrolledX);
-        //每次最多只绘制2屏
-        int sizeOfOneDraw = (int) (getMeasuredWidth() * 4 / itemWidth);
+        //每次最多只绘制1屏
+        int sizeOfOneDraw = (int) (getMeasuredWidth() / itemWidth + 1);
         if (drawList.size() == 0) {
             for (int i = 0; i < sizeOfOneDraw; i++) {
                 drawList.add(testData.get(i));
@@ -182,9 +194,12 @@ public class HScrollContentView extends View {
             float scrolledItemSize = scrolledX / itemWidth; //已经滚过的Item数目
             int start = (int) Math.floor(scrolledItemSize);
             for (int i = start; i < start + sizeOfOneDraw; i++) {
-                ViewItem viewItem = testData.get(i);
-                viewItem.offset = -(scrolledItemSize - start) * itemWidth;
-                drawList.add(viewItem);
+                if (i < totalSize) {
+                    ViewItem viewItem = testData.get(i);
+                    viewItem.offset = -(scrolledItemSize - start) * itemWidth;
+                    drawList.add(viewItem);
+                }
+
             }
         }
 
