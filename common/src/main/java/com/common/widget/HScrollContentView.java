@@ -16,6 +16,11 @@ import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.comm.L;
+import com.common.utils.LogUtil;
+import com.common.widget.entity.ViewItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: L
@@ -39,6 +44,8 @@ public class HScrollContentView extends View {
         this(context, attrs, -1);
     }
 
+    List<ViewItem> testData = new ArrayList<>();
+
     public HScrollContentView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
@@ -51,6 +58,13 @@ public class HScrollContentView extends View {
         paint = new TextPaint();
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(L.dp_1 * 8);
+
+        for (int i = 0; i < 10000; i++) {
+            ViewItem viewItem = new ViewItem();
+            viewItem.data = i + "";
+            viewItem.index = i;
+            testData.add(viewItem);
+        }
     }
 
 
@@ -147,20 +161,46 @@ public class HScrollContentView extends View {
         test(canvas);
     }
 
-    private void test(Canvas canvas) {
 
+    private List<ViewItem> drawList = new ArrayList<>();
+
+    private void test(Canvas canvas) {
         float itemWidth = L.dp_1 * 40;
-        int size = 1000;
-        maxScrollWidth = itemWidth * size - getMeasuredWidth();
-        for (int i = 0; i < size; i++) {
-            float itemHeight = L.dp_1 * 20;
-            float left = i * itemWidth;
-            float top = L.dp_1 * 20;
-            paint.setColor(i % 2 == 0 ? Color.RED : Color.GREEN);
-            canvas.drawRect(left, top, left + itemWidth, top + itemHeight, paint);
-            canvas.drawText(i + "", left + itemWidth / 2f, top, paint);
+        float itemHeight = L.dp_1 * 20;
+        maxScrollWidth = itemWidth * testData.size() - getMeasuredWidth();
+        float scrolledX = mScroller.getFinalX(); //已经滚过的距离
+
+        //  LogUtil.d("===========scrolledX:" + scrolledX);
+        //每次最多只绘制2屏
+        int sizeOfOneDraw = (int) (getMeasuredWidth() * 4 / itemWidth);
+        if (drawList.size() == 0) {
+            for (int i = 0; i < sizeOfOneDraw; i++) {
+                drawList.add(testData.get(i));
+            }
+        } else {
+            drawList.clear();
+            float scrolledItemSize = scrolledX / itemWidth; //已经滚过的Item数目
+            int start = (int) Math.floor(scrolledItemSize);
+            for (int i = start; i < start + sizeOfOneDraw; i++) {
+                ViewItem viewItem = testData.get(i);
+                viewItem.offset = -(scrolledItemSize - start) * itemWidth;
+                drawList.add(viewItem);
+            }
+        }
+
+        int drawListSize = drawList.size();
+        for (int i = 0; i < drawListSize; i++) {
+            ViewItem viewItem = drawList.get(i);
+            viewItem.start = viewItem.offset + i * itemWidth;
+            viewItem.end = viewItem.start + itemWidth;
+            viewItem.top = L.dp_1 * 20;
+            viewItem.bottom = viewItem.top + itemHeight;
+            paint.setColor(viewItem.index % 2 == 0 ? Color.RED : Color.GREEN);
+            canvas.drawRect(viewItem.start, viewItem.top, viewItem.end, viewItem.bottom, paint);
+            canvas.drawText(viewItem.data.toString(), viewItem.start + itemWidth / 2f, viewItem.top, paint);
         }
     }
+
 
     @Override
     public boolean performClick() {
@@ -170,7 +210,7 @@ public class HScrollContentView extends View {
     @Override
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
-            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            //  scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             invalidate();
         }
         super.computeScroll();
