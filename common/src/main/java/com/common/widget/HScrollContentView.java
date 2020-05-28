@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -15,7 +16,6 @@ import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.comm.L;
-import com.common.utils.LogUtil;
 
 /**
  * Author: L
@@ -29,7 +29,7 @@ public class HScrollContentView extends View {
     private float min_scroll_unit;
     private Scroller mScroller;
     private int maxVelocity;
-    private Paint paint;
+    private TextPaint paint;
 
     public HScrollContentView(Context context) {
         this(context, null);
@@ -48,7 +48,9 @@ public class HScrollContentView extends View {
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
-        paint = new Paint();
+        paint = new TextPaint();
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(L.dp_1 * 8);
     }
 
 
@@ -122,7 +124,7 @@ public class HScrollContentView extends View {
                 if (Math.abs(dx) > min_scroll_unit / 2) {
                     velocityTracker.computeCurrentVelocity(2000, maxVelocity);
                     float xVelocity = velocityTracker.getXVelocity();
-                    LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
+                    //  LogUtil.d("===========xVelocity:" + xVelocity + " maxVelocity:" + maxVelocity);
                     mScroller.abortAnimation();
                     mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
                     invalidate();
@@ -133,16 +135,21 @@ public class HScrollContentView extends View {
     }
 
 
+    private float maxScrollWidth = L.dp_1 * 360;
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+        float itemWidth = L.dp_1 * 40;
+        maxScrollWidth = itemWidth * 100;
         for (int i = 0; i < 100; i++) {
-            float itemWidth = L.dp_1 * 8;
             float itemHeight = L.dp_1 * 20;
-            float left = i * L.dp_1 * 8;
+            float left = i * itemWidth;
             float top = L.dp_1 * 20;
             paint.setColor(i % 2 == 0 ? Color.RED : Color.GREEN);
             canvas.drawRect(left, top, left + itemWidth, top + itemHeight, paint);
+            canvas.drawText(i + "", left + itemWidth / 2f, top, paint);
+
         }
     }
 
@@ -170,8 +177,6 @@ public class HScrollContentView extends View {
         mScroller.startScroll(mScroller.getFinalX(), 0, (int) dx, 0, 180);
         invalidate();
     }
-
-    private float maxScrollWidth = L.dp_1 * 360;
 
 
     @Override
