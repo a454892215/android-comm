@@ -60,14 +60,15 @@ public class HScrollContentView extends View {
         paint.setTextSize(L.dp_1 * 8);
 
 
- /*       for (int i = 0; i < 2000; i++) {
+        for (int i = 0; i < 2000; i++) {
             ViewItem viewItem = new ViewItem();
             viewItem.data = i + "";
             viewItem.colorIndex = i;
             testTotalData.add(viewItem);
-        }*/
+        }
     }
-    //   List<ViewItem> testTotalData = new ArrayList<>();
+
+   private List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -168,14 +169,14 @@ public class HScrollContentView extends View {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-      //  test(canvas);
+        test(canvas);
     }
 
 
     private List<ViewItem> drawList = new ArrayList<>();
 
     private void test(Canvas canvas) {
-        computeDrawingList(ViewItem.itemWidth, null);
+        computeDrawingList(ViewItem.itemWidth, testTotalData);
         int drawListSize = drawList.size();
         for (int i = 0; i < drawListSize; i++) {
             ViewItem viewItem = drawList.get(i);
@@ -190,8 +191,8 @@ public class HScrollContentView extends View {
         int totalSize = totalList.size();
         maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
         float scrolledX = mScroller.getFinalX(); //已经滚过的距离
-        //每次最多只绘制1屏
-        int sizeOfOneDraw = (int) (getMeasuredWidth() / itemWidth + 1);
+        //每次最多只绘制N屏
+        int sizeOfOneDraw = (int) (getMeasuredWidth() * 5 / itemWidth + 1);
         drawList.clear();
         float scrolledItemSize = scrolledX / itemWidth; //已经滚过的Item数目
         int start = (int) Math.floor(scrolledItemSize);
