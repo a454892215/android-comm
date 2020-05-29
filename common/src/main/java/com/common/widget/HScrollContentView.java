@@ -67,7 +67,7 @@ public class HScrollContentView extends View {
             testTotalData.add(viewItem);
         }*/
     }
- //   List<ViewItem> testTotalData = new ArrayList<>();
+    //   List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -167,26 +167,21 @@ public class HScrollContentView extends View {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-      //  test(canvas);
+        //  test(canvas);
     }
 
 
     private List<ViewItem> drawList = new ArrayList<>();
 
     private void test(Canvas canvas) {
-        float itemWidth = L.dp_1 * 40;
-        float itemHeight = L.dp_1 * 20;
-        computeDrawingList(itemWidth, null);
+
+        computeDrawingList(ViewItem.itemWidth, null);
         int drawListSize = drawList.size();
         for (int i = 0; i < drawListSize; i++) {
             ViewItem viewItem = drawList.get(i);
-            viewItem.start = viewItem.offset + i * itemWidth;
-            viewItem.end = viewItem.start + itemWidth;
-            viewItem.top = L.dp_1 * 20;
-            viewItem.bottom = viewItem.top + itemHeight;
             paint.setColor(viewItem.colorIndex % 2 == 0 ? Color.RED : Color.GREEN);
             canvas.drawRect(viewItem.start, viewItem.top, viewItem.end, viewItem.bottom, paint);
-            canvas.drawText(viewItem.data.toString(), viewItem.start + itemWidth / 2f, viewItem.top, paint);
+            canvas.drawText(viewItem.data.toString(), viewItem.start + ViewItem.itemWidth / 2f, viewItem.top, paint);
         }
     }
 
@@ -211,6 +206,10 @@ public class HScrollContentView extends View {
                 if (i < totalSize) {
                     ViewItem viewItem = totalList.get(i);
                     viewItem.offset = -(scrolledItemSize - start) * itemWidth;
+                    viewItem.start = viewItem.offset + i * itemWidth;
+                    viewItem.end = viewItem.start + itemWidth;
+                    viewItem.top = L.dp_1 * 20;
+                    viewItem.bottom = viewItem.top + ViewItem.itemHeight;
                     drawList.add(viewItem);
                 }
 
