@@ -60,12 +60,12 @@ public class HScrollContentView extends View {
         paint.setTextSize(L.dp_1 * 8);
 
 
-        for (int i = 0; i < 2000; i++) {
+       /* for (int i = 0; i < 2000; i++) {
             ViewItem viewItem = new ViewItem();
             viewItem.data = i + "";
             viewItem.colorIndex = i;
             testTotalData.add(viewItem);
-        }
+        }*/
     }
 
    private List<ViewItem> testTotalData = new ArrayList<>();
@@ -158,18 +158,12 @@ public class HScrollContentView extends View {
         }
         return true;
     }
-
-
-    public void setMaxScrollWidth(float maxScrollWidth) {
-        this.maxScrollWidth = maxScrollWidth;
-    }
-
     protected float maxScrollWidth;
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        test(canvas);
+      //  test(canvas);
     }
 
 
