@@ -172,7 +172,7 @@ public class HScrollContentView extends View {
     }
 
 
-    protected List<ViewItem> drawList = new ArrayList<>();
+    private List<ViewItem> drawList = new ArrayList<>();
 
     private void test(Canvas canvas) {
         computeDrawingList(ViewItem.itemWidth, null);
@@ -185,7 +185,7 @@ public class HScrollContentView extends View {
         }
     }
 
-    protected void computeDrawingList(float itemWidth, List<ViewItem> totalList) {
+    private void computeDrawingList(float itemWidth, List<ViewItem> totalList) {
         if (totalList == null || totalList.size() == 0) return;
         int totalSize = totalList.size();
         maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
