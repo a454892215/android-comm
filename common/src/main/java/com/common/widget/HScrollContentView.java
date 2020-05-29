@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Scroller;
 
 import androidx.annotation.Nullable;
@@ -145,6 +146,7 @@ public class HScrollContentView extends View {
                     if (flingAnim != null) flingAnim.cancel();
                     flingAnim = ValueAnimator.ofFloat(xVelocity / 100 * L.dp_1, 0);
                     flingAnim.setDuration(Math.abs((int) xVelocity) / 2);
+                    flingAnim.setInterpolator(new DecelerateInterpolator());
                     flingAnim.addUpdateListener(animation -> {
                         float value = (float) animation.getAnimatedValue();
                         executeScrollXBy(-value);
