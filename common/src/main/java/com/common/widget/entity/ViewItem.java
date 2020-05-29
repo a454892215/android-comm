@@ -1,7 +1,5 @@
 package com.common.widget.entity;
 
-import android.view.View;
-
 /**
  * Author: Pan
  * 2020/5/28
@@ -13,7 +11,7 @@ public class ViewItem {
     public float start;
     public float end;
     public Object data;
-    public int index;
+    public int colorIndex;
     public float offset;
 
 }

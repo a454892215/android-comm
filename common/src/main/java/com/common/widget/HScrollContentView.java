@@ -184,7 +184,7 @@ public class HScrollContentView extends View {
             viewItem.end = viewItem.start + itemWidth;
             viewItem.top = L.dp_1 * 20;
             viewItem.bottom = viewItem.top + itemHeight;
-            paint.setColor(viewItem.index % 2 == 0 ? Color.RED : Color.GREEN);
+            paint.setColor(viewItem.colorIndex % 2 == 0 ? Color.RED : Color.GREEN);
             canvas.drawRect(viewItem.start, viewItem.top, viewItem.end, viewItem.bottom, paint);
             canvas.drawText(viewItem.data.toString(), viewItem.start + itemWidth / 2f, viewItem.top, paint);
         }
