@@ -190,29 +190,20 @@ public class HScrollContentView extends View {
         int totalSize = totalList.size();
         maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
         float scrolledX = mScroller.getFinalX(); //已经滚过的距离
-
-        //  LogUtil.d("===========scrolledX:" + scrolledX);
         //每次最多只绘制1屏
         int sizeOfOneDraw = (int) (getMeasuredWidth() / itemWidth + 1);
-        if (drawList.size() == 0) {
-            for (int i = 0; i < sizeOfOneDraw; i++) {
-                drawList.add(totalList.get(i));
-            }
-        } else {
-            drawList.clear();
-            float scrolledItemSize = scrolledX / itemWidth; //已经滚过的Item数目
-            int start = (int) Math.floor(scrolledItemSize);
-            for (int i = start; i < start + sizeOfOneDraw; i++) {
-                if (i < totalSize) {
-                    ViewItem viewItem = totalList.get(i);
-                    viewItem.offset = -(scrolledItemSize - start) * itemWidth;
-                    viewItem.start = viewItem.offset + i * itemWidth;
-                    viewItem.end = viewItem.start + itemWidth;
-                    viewItem.top = L.dp_1 * 20;
-                    viewItem.bottom = viewItem.top + ViewItem.itemHeight;
-                    drawList.add(viewItem);
-                }
-
+        drawList.clear();
+        float scrolledItemSize = scrolledX / itemWidth; //已经滚过的Item数目
+        int start = (int) Math.floor(scrolledItemSize);
+        for (int i = start; i < start + sizeOfOneDraw; i++) {
+            if (i < totalSize) {
+                ViewItem viewItem = totalList.get(i);
+                viewItem.offset = -(scrolledItemSize - start) * itemWidth;
+                viewItem.start = viewItem.offset + i * itemWidth;
+                viewItem.end = viewItem.start + itemWidth;
+                viewItem.top = L.dp_1 * 20;
+                viewItem.bottom = viewItem.top + ViewItem.itemHeight;
+                drawList.add(viewItem);
             }
         }
     }
