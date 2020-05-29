@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.comm.L;
-import com.common.utils.LogUtil;
 import com.common.widget.entity.ViewItem;
 
 import java.util.ArrayList;
@@ -33,7 +32,7 @@ public class HScrollContentView extends View {
     private VelocityTracker velocityTracker;
     private ValueAnimator anim;
     private float min_scroll_unit;
-    private Scroller mScroller;
+    protected Scroller mScroller;
     private int maxVelocity;
     private TextPaint paint;
     private ValueAnimator flingAnim;
@@ -61,14 +60,14 @@ public class HScrollContentView extends View {
         paint.setTextSize(L.dp_1 * 8);
 
 
-        for (int i = 0; i < 2000; i++) {
+ /*       for (int i = 0; i < 2000; i++) {
             ViewItem viewItem = new ViewItem();
             viewItem.data = i + "";
             viewItem.colorIndex = i;
             testTotalData.add(viewItem);
-        }
+        }*/
     }
-       List<ViewItem> testTotalData = new ArrayList<>();
+    //   List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -164,19 +163,19 @@ public class HScrollContentView extends View {
         this.maxScrollWidth = maxScrollWidth;
     }
 
-    private float maxScrollWidth;
+    protected float maxScrollWidth;
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        test(canvas);
+      //  test(canvas);
     }
 
 
-    private List<ViewItem> drawList = new ArrayList<>();
+    protected List<ViewItem> drawList = new ArrayList<>();
 
     private void test(Canvas canvas) {
-        computeDrawingList(ViewItem.itemWidth, testTotalData);
+        computeDrawingList(ViewItem.itemWidth, null);
         int drawListSize = drawList.size();
         for (int i = 0; i < drawListSize; i++) {
             ViewItem viewItem = drawList.get(i);
