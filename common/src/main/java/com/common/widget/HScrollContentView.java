@@ -246,4 +246,12 @@ public class HScrollContentView extends View {
             velocityTracker = null;
         }
     }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (velocityTracker == null) {
+            velocityTracker = VelocityTracker.obtain();
+        }
+    }
 }
