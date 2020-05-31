@@ -68,7 +68,7 @@ public class HScrollContentView extends View {
         }*/
     }
 
-   private List<ViewItem> testTotalData = new ArrayList<>();
+    private List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -144,7 +144,7 @@ public class HScrollContentView extends View {
                     mScroller.abortAnimation();
                     //  mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
                     if (flingAnim != null) flingAnim.cancel();
-                    flingAnim = ValueAnimator.ofFloat(xVelocity / 100 * L.dp_1, 0);
+                    flingAnim = ValueAnimator.ofFloat(getFlingDistance(xVelocity), 0);
                     flingAnim.setDuration(Math.abs((int) xVelocity) / 2);
                     flingAnim.setInterpolator(new DecelerateInterpolator());
                     flingAnim.addUpdateListener(animation -> {
@@ -158,14 +158,18 @@ public class HScrollContentView extends View {
         }
         return true;
     }
+
     protected float maxScrollWidth;
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-      //  test(canvas);
+        //  test(canvas);
     }
 
+    protected float getFlingDistance(float xVelocity) {
+        return xVelocity / 100 * L.dp_1;
+    }
 
     private List<ViewItem> drawList = new ArrayList<>();
 
