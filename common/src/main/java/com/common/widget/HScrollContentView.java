@@ -226,7 +226,9 @@ public class HScrollContentView extends View {
         super.computeScroll();
     }
 
+    protected boolean scrollEnable = true;
     private void executeScrollXBy(float dx) {
+        if(!scrollEnable) return;
         if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
             dx = 0 - mScroller.getFinalX();
         }
