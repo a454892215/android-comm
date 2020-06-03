@@ -225,12 +225,17 @@ public class HScrollContentView extends View {
         }
         super.computeScroll();
     }
+    protected boolean scrollEnable = true;
 
     public void setScrollEnable(boolean scrollEnable) {
         this.scrollEnable = scrollEnable;
     }
 
-    protected boolean scrollEnable = true;
+    public boolean isScrollEnable() {
+        return scrollEnable;
+    }
+
+
     private void executeScrollXBy(float dx) {
         if(!scrollEnable) return;
         if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
