@@ -159,6 +159,10 @@ public class HScrollContentView extends View {
         return true;
     }
 
+    public float getMaxScrollWidth() {
+        return maxScrollWidth;
+    }
+
     protected float maxScrollWidth;
 
     @Override
