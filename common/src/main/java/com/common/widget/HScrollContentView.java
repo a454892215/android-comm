@@ -229,6 +229,7 @@ public class HScrollContentView extends View {
         }
         super.computeScroll();
     }
+
     protected boolean scrollEnable = true;
 
     public void setScrollEnable(boolean scrollEnable) {
@@ -241,13 +242,22 @@ public class HScrollContentView extends View {
 
 
     private void executeScrollXBy(float dx) {
-        if(!scrollEnable) return;
+        if (!scrollEnable) return;
         if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
             dx = 0 - mScroller.getFinalX();
         }
         if (mScroller.getFinalX() + dx > maxScrollWidth) {
             dx = maxScrollWidth - mScroller.getFinalX();
         }
+        mScroller.startScroll(mScroller.getFinalX(), 0, (int) dx, 0, 180);
+        invalidate();
+    }
+
+    public void executeScrollToX(float x) {
+        if (!scrollEnable) return;
+        if (x < 0) x = 0;
+        if (x > maxScrollWidth) x = maxScrollWidth;
+        dx = x - mScroller.getFinalX();
         mScroller.startScroll(mScroller.getFinalX(), 0, (int) dx, 0, 180);
         invalidate();
     }
