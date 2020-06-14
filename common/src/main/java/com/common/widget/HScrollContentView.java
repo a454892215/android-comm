@@ -225,6 +225,9 @@ public class HScrollContentView extends View {
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             //  scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            if(onScrollListener != null){
+                onScrollListener.onScroll(mScroller.getFinalX());
+            }
             invalidate();
         }
         super.computeScroll();
@@ -282,5 +285,15 @@ public class HScrollContentView extends View {
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
+    }
+
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
+    }
+
+    private OnScrollListener onScrollListener;
+
+    public interface OnScrollListener{
+       void onScroll(float currentX);
     }
 }
