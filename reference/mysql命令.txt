@@ -3,24 +3,6 @@ net stop mysql   停止数据库
 mysql -uroot -p 登陆数据库
 
 
-create database dbname;                    # 创建名为dbname的数据库
-CREATE DATABASE `todo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;  # 创建todo数据库，并指定字符集
-show databases;                            # 显示所有数据库
-alter database character set utf8;         # 修改数据库字符集
-use dbname;                                # 选择数据库
-status;                                    # 查看当前选择（use）的数据库
-drop database dbname;                      # 删除数据库
-
-
-
-show tables;                               # 显示所有表
-desc tablename;                            # 表结构详细描述
-create table newtable like oldtable;       # 复制表结构
-insert into newtable select * from oldtable;  #复制表数据
-rename table tablelname to new_tablelname  # 重命名表，同时命名多个表用逗号“,”分割
-drop table tablename;                      # 删除表
-
-
 #   修改root的密码
 mysqladmin -u root password                     # 原始密码为空的情况
 New password: <输入新的密码>
@@ -28,7 +10,7 @@ Confirm new password: <再次输入新密码>
 
 mysqladmin -u root -p password                  # 原始密码不为空的情况
 Enter password: <输入旧的密码>
-New password: <输入新的密码>
+New password: <输入新的密码>tr
 Confirm new password: <再次输入新密码>
 
 mysqladmin -uroot -p123456 password             # 原始密码不为空的情况，效果和第二种方法一样，只是显式的输入了原始密码
@@ -51,12 +33,25 @@ $ mysqldump -u root -p -d dbname tablename > tablename.sql        # 备份数据
 $ mysqladmin -u root -p create dbname       # 恢复数据库步骤1：创建数据库
 $ mysql -u root -p dbname < dbname.sql      # 恢复数据库步骤2：恢复数据
 
-create table <表名> (<字段名1> <类型1> [,..<字段名n> <类型n>]);      #创建表
-#   数据的类型之后还可以包含：数据宽度 + 是否为空 + 是否主键 + 自动增加 + 默认值，它们书写时不限顺序。但是字段名和字段类型必须是第一和第二位。
-mysql> create table user(
-    -> id int(4) not null primary key auto_increment,
-    -> name char(20) not null,
-    -> sex int(4) not null default '0',
-    -> degree double(16,2)
-    -> );
+
+数据库操作：
+create database if not exists test2 character set utf8;   创建数据库全语法
+create database dbname;                    # 创建数据库简单语法
+show databases;                            # 显示所有数据库
+alter dbname character set utf8;         # 修改数据库字符集
+use dbname;                                # 选择数据库
+status;                                    # 查看当前选择（use）的数据库
+drop database dbname;                      # 删除数据库
+select database();                         查询当前正在使用的数据库名称
+
+
+表操作：
+show tables;                               # 显示所有表
+desc tablename;                            # 表结构详细描述
+create table newtable like oldtable;       # 复制表结构
+insert into newtable select * from oldtable;  #复制表数据
+rename table tablelname to new_tablelname  # 重命名表，同时命名多个表用逗号“,”分割
+drop table tablename;                      # 删除表
+示例：
+create table student(id int,name varchar(32), age int,score double(4,1),birthday date,insert_time timestamp);
 
