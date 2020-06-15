@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="25dp"
     android:gravity="center"
-    android:textSize="@dimen/sp_15"
+    android:textSize="@dimen/sp_11"
     android:textColor="#424242"
     app:bottom_line_color="#9E9E9E"
     app:bottom_line_height="@dimen/dp_1"
