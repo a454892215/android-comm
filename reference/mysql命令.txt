@@ -41,7 +41,8 @@ show databases;                            # 显示所有数据库
 alter dbname character set utf8;         # 修改数据库字符集
 use dbname;                                # 选择数据库
 status;                                    # 查看当前选择（use）的数据库
-drop database dbname;                      # 删除数据库
+drop table tablename;                      # 删除表
+drop table if exists tablename;            # 删除表
 select database();                         查询当前正在使用的数据库名称
 
 
@@ -51,7 +52,10 @@ desc tablename;                            # 表结构详细描述
 create table newtable like oldtable;       # 复制表结构
 insert into newtable select * from oldtable;  #复制表数据
 rename table tablelname to new_tablelname  # 重命名表，同时命名多个表用逗号“,”分割
-drop table tablename;                      # 删除表
+
+alter table tbname add 列名 数据类型       给表新增字段
+alter table tbname drop 列名               删除表字段
+
 示例：
 create table student(id int,name varchar(32), age int,score double(4,1),birthday date,insert_time timestamp);
 
