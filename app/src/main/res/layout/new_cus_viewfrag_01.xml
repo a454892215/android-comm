@@ -19,6 +19,6 @@
   <com.test.util.custom_view2.widget.TestCusView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="#E8B5A5"/>
+      android:background="#A8D6AA"/>
 
 </LinearLayout>
