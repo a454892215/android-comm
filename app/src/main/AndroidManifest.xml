@@ -39,6 +39,11 @@
         <activity
             android:name=".custom_view.CustomViewTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
+
+        <activity
+            android:name=".custom_view2.CustomViewTestActivity2"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+
         <activity
             android:name=".XposedTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />

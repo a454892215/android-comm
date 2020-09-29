@@ -24,6 +24,7 @@ import com.example.jpushdemo.JGMainActivity;
 import com.test.util.App;
 import com.test.util.Constant;
 import com.test.util.JRTTTestActivity;
+import com.test.util.custom_view2.CustomViewTestActivity2;
 import com.test.util.sys_notice.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
 import com.test.util.QRCodeTestActivity;
@@ -42,9 +43,9 @@ import com.test.util.x5web.X5WebTestActivity;
  */
 public class MainActivity extends MyBaseActivity {
 
-    private String[] names = {"View 相关", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack|通知监听",
+    private String[] names = {"View 相关", "View 相关2", "Xposed框架", "Bugly测试", "X5WebView", "Android Jetpack|通知监听",
             "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码"};
-    private Class[] classArr = {CustomViewTestActivity.class, XposedTestActivity.class,
+    private Class[] classArr = {CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
             BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class,
             HttpTestActivity.class, AgentWebActivity.class, JRTTTestActivity.class, JGMainActivity.class,
             QRCodeTestActivity.class};
