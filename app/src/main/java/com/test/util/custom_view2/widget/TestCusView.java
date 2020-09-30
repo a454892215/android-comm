@@ -43,7 +43,7 @@ public class TestCusView extends View {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 图层混合模式使用 必须关闭硬件加速
         paint = new Paint();
         textPaint = new TextPaint();
-        textPaint.setTextSize(L.dp_1 * 12);
+        textPaint.setTextSize(L.dp_1 * 10);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
     }
