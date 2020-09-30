@@ -73,7 +73,7 @@
             android:configChanges="screenSize|keyboardHidden|orientation"
             android:exported="false"
             android:launchMode="singleTask"
-            android:process=":web"
+            android:process=""
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.SplashTheme"
             android:windowSoftInputMode="stateHidden|adjustPan">

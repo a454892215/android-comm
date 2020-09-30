@@ -33,6 +33,7 @@ public class X5WebView extends WebView {
     }
 
     private Activity activity;
+
     @SuppressLint("SetJavaScriptEnabled")
     public void initWebViewSettings(Activity activity, WebViewInfoCallBack webViewInfoCallBack) {
         try {
@@ -90,15 +91,23 @@ public class X5WebView extends WebView {
         }
     }
 
+    private String lastUrl = null;
+
     public boolean onWebBack() {
         if (canGoBack()) {
             //getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             goBack();
-            LogUtil.d("========onWebBack===1===");
+            String url = getUrl();
+            boolean isEquLastUrl = url.equals(lastUrl);
+            LogUtil.d("========onWebBack===1===lastUrl:" + lastUrl + "  isEquLastUrl:" + isEquLastUrl);
+            if (isEquLastUrl || lastUrl == null) {
+                activity.finish();
+            }
+            lastUrl = url;
             return true;
-        }else {
-            activity.onBackPressed();
-            LogUtil.d("发生异常========onWebBack==2===");
+        } else {
+            activity.finish();
+            LogUtil.d("========onWebBack===3===lastUrl:" + lastUrl);
         }
         return false;
     }
