@@ -65,6 +65,7 @@ public class TestCusView2 extends View {
         //缩放示例
         // canvas.translate(-L.dp_1 * 70, 0); // 复位方式1
         canvas.restore();// 复位方式2
+        canvas.save();
         canvas.scale(0.5f, 0.5f, left, top); // 缩放, 不会影响之前的操作
         paint.setColor(Color.parseColor("#cccccc"));
         canvas.drawRect(left, top, right, bottom, paint);
@@ -73,11 +74,21 @@ public class TestCusView2 extends View {
         //旋转示例
         // canvas.scale(2, 2, left, top); // 复位方式1
         canvas.restore();// 复位方式2
+        canvas.save();
         canvas.translate(L.dp_1 * 150, 0); //先平移, 不会影响之前的操作
         canvas.rotate(45, left + right / 2f, top + bottom / 2f); //旋转, 不会影响之前的操作
         paint.setColor(Color.parseColor("#cccccc"));
         canvas.drawRect(left, top, right, bottom, paint);
         canvas.drawText("旋转示例", left, ViewUtil.getBaseLine(textPaint, bottom + L.dp_1 * 12), textPaint);
+
+        //斜切示例
+        canvas.restore();// 复位
+        canvas.save();
+        canvas.translate(L.dp_1 * 230, 0); //先平移, 不会影响之前的操作
+        canvas.skew(1, 0); // X方向倾斜45度， 宽度大，高不变
+        paint.setColor(Color.parseColor("#cccccc"));
+        canvas.drawRect(left, top, right, bottom, paint);
+        canvas.drawText("斜切示例", left, ViewUtil.getBaseLine(textPaint, bottom + L.dp_1 * 12), textPaint);
     }
 
 
