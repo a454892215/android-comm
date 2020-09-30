@@ -27,8 +27,6 @@ import com.common.utils.ViewUtil;
 public class TestCusView extends View {
     private Paint paint;
     private Paint textPaint;
-    private Context context;
-    private PorterDuffXfermode xfermode;
 
 
     public TestCusView(Context context) {
@@ -42,37 +40,66 @@ public class TestCusView extends View {
 
     public TestCusView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
         setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 图层混合模式使用 必须关闭硬件加速
         paint = new Paint();
         textPaint = new TextPaint();
         textPaint.setTextSize(L.dp_1 * 12);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.CENTER);
-
-        xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float bottom = testStrokeCap(canvas);
-        testXMode(canvas, bottom);
+
+        float left_1 = L.dp_1 * 20;
+        float left_2 = left_1 + L.dp_1 * 90;
+        float left_3 = left_2 + L.dp_1 * 90;
+        float left_4 = left_3 + L.dp_1 * 90;
+        testXMode(canvas, left_1, bottom, PorterDuff.Mode.SRC, "SRC");
+        testXMode(canvas, left_2, bottom, PorterDuff.Mode.CLEAR, "CLEAR");
+        testXMode(canvas, left_3, bottom, PorterDuff.Mode.DST, "DST");
+        testXMode(canvas, left_4, bottom, PorterDuff.Mode.SRC_OVER, "SRC_OVER");
+
+        bottom = bottom + L.dp_1 * 70;
+        testXMode(canvas, left_1, bottom, PorterDuff.Mode.DST_OVER, "DST_OVER");
+        testXMode(canvas, left_2, bottom, PorterDuff.Mode.SRC_IN, "SRC_IN");
+        testXMode(canvas, left_3, bottom, PorterDuff.Mode.DST_IN, "DST_IN");
+        testXMode(canvas, left_4, bottom, PorterDuff.Mode.SRC_OUT, "SRC_OUT");
+
+        bottom = bottom + L.dp_1 * 70;
+        testXMode(canvas, left_1, bottom, PorterDuff.Mode.DST_OUT, "DST_OUT");
+        testXMode(canvas, left_2, bottom, PorterDuff.Mode.SRC_ATOP, "SRC_ATOP");
+        testXMode(canvas, left_3, bottom, PorterDuff.Mode.DST_ATOP, "DST_ATOP");
+        testXMode(canvas, left_4, bottom, PorterDuff.Mode.XOR, "XOR");
+
+        bottom = bottom + L.dp_1 * 70;
+        testXMode(canvas, left_1, bottom, PorterDuff.Mode.DARKEN, "DARKEN");
+        testXMode(canvas, left_2, bottom, PorterDuff.Mode.LIGHTEN, "LIGHTEN");
+        testXMode(canvas, left_3, bottom, PorterDuff.Mode.MULTIPLY, "MULTIPLY");
+        testXMode(canvas, left_4, bottom, PorterDuff.Mode.SCREEN, "SCREEN");
+
         drawGrid(canvas);
     }
 
-    private void testXMode(Canvas canvas, float bottom) {
+    private void testXMode(Canvas canvas, float left, float bottom, PorterDuff.Mode mode, String name) {
+        float radius = L.dp_1 * 20;
+        float cx = radius + left;
+        float cy = bottom + radius + L.dp_1 * 10;
+        //DST_OUT
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
         paint.setXfermode(null);
         paint.setStrokeWidth(1);
         paint.setColor(Color.parseColor("#58985A"));
-        float radius = L.dp_1 * 30;
-        float x = radius + L.dp_1 * 10;
-        float y = bottom + radius + L.dp_1 * 10;
-        canvas.drawCircle(x, y, radius, paint);
+        canvas.drawCircle(cx, cy, radius, paint);
         paint.setColor(Color.YELLOW);
-        paint.setXfermode(xfermode);
-        canvas.drawCircle(x + radius, y, radius, paint);
+        paint.setXfermode(new PorterDuffXfermode(mode));
+        canvas.drawCircle(cx + radius, cy, radius, paint);
         paint.setXfermode(null);
+        bottom = cy + radius + L.dp_1 * 10;
+        canvas.drawText(name, cx, ViewUtil.getBaseLine(textPaint, bottom), textPaint);
+        canvas.restoreToCount(layerId);
     }
 
     private void drawGrid(Canvas canvas) {
