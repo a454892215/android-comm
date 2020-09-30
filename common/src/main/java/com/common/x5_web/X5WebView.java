@@ -91,23 +91,13 @@ public class X5WebView extends WebView {
         }
     }
 
-    private String lastUrl = null;
-
     public boolean onWebBack() {
         if (canGoBack()) {
-            //getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             goBack();
-            String url = getUrl();
-            boolean isEquLastUrl = url.equals(lastUrl);
-            LogUtil.d("========onWebBack===1===lastUrl:" + lastUrl + "  isEquLastUrl:" + isEquLastUrl);
-            if (isEquLastUrl || lastUrl == null) {
-                postDelayed(() -> activity.finish(), 200);
-            }
-            lastUrl = url;
             return true;
         } else {
             activity.finish();
-            LogUtil.d("========onWebBack===3===lastUrl:" + lastUrl);
         }
         return false;
     }
