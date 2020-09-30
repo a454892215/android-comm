@@ -115,7 +115,6 @@ public class MainActivity extends MyBaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        LogUtil.d("=========onKeyDown============");
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             moveTaskToBack(false);
             return true;
@@ -123,16 +122,4 @@ public class MainActivity extends MyBaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public void finish() {
-        LogUtil.d("========finish==========");
-        super.finish();
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        LogUtil.d("========onDestroy==========");
-        super.onDestroy();
-    }
 }
