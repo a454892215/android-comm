@@ -11,6 +11,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.common.comm.L;
+import com.common.utils.ViewUtil;
 
 
 /**
@@ -40,7 +41,7 @@ public class TestCusView2 extends View {
         textPaint = new TextPaint();
         textPaint.setTextSize(L.dp_1 * 10);
         textPaint.setColor(Color.WHITE);
-        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTextAlign(Paint.Align.LEFT);
     }
 
     @Override
@@ -59,6 +60,7 @@ public class TestCusView2 extends View {
         canvas.translate(L.dp_1 * 70, 0); // 平移, 不会影响之前的操作
         paint.setColor(Color.parseColor("#58985A"));
         canvas.drawRect(left, top, right, bottom, paint);
+        canvas.drawText("平移示例", left, ViewUtil.getBaseLine(textPaint, bottom + L.dp_1 * 12), textPaint);
 
         //缩放示例
         // canvas.translate(-L.dp_1 * 70, 0); // 复位方式1
@@ -66,6 +68,7 @@ public class TestCusView2 extends View {
         canvas.scale(0.5f, 0.5f, left, top); // 缩放, 不会影响之前的操作
         paint.setColor(Color.parseColor("#cccccc"));
         canvas.drawRect(left, top, right, bottom, paint);
+        canvas.drawText("缩放示例", left, ViewUtil.getBaseLine(textPaint, bottom + L.dp_1 * 12), textPaint);
 
         //旋转示例
         // canvas.scale(2, 2, left, top); // 复位方式1
@@ -74,6 +77,7 @@ public class TestCusView2 extends View {
         canvas.rotate(45, left + right / 2f, top + bottom / 2f); //旋转, 不会影响之前的操作
         paint.setColor(Color.parseColor("#cccccc"));
         canvas.drawRect(left, top, right, bottom, paint);
+        canvas.drawText("旋转示例", left, ViewUtil.getBaseLine(textPaint, bottom + L.dp_1 * 12), textPaint);
     }
 
 
