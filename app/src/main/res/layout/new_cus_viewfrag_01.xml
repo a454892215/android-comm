@@ -14,7 +14,7 @@
       android:background="#58985A"
       android:textColor="#ffffff"
       android:textSize="12sp"
-      android:text="画笔示例等"/>
+      android:text="画笔示例1"/>
 
   <com.test.util.custom_view2.widget.TestCusView
       android:layout_width="match_parent"
