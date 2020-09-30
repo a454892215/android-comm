@@ -91,9 +91,9 @@ public class TestCusView extends View {
         int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
         paint.setXfermode(null);
         paint.setStrokeWidth(1);
-        paint.setColor(Color.parseColor("#58985A"));
+        paint.setColor(Color.parseColor("#9958985A"));
         canvas.drawCircle(cx, cy, radius, paint);
-        paint.setColor(Color.YELLOW);
+        paint.setColor(Color.parseColor("#99cccccc"));
         paint.setXfermode(new PorterDuffXfermode(mode));
         canvas.drawCircle(cx + radius, cy, radius, paint);
         paint.setXfermode(null);
