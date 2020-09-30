@@ -52,7 +52,11 @@ public class TestCusView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float bottom = testStrokeCap(canvas);
+        testXModes(canvas, bottom);
+        drawGrid(canvas);
+    }
 
+    private void testXModes(Canvas canvas, float bottom) {
         float left_1 = L.dp_1 * 20;
         float left_2 = left_1 + L.dp_1 * 90;
         float left_3 = left_2 + L.dp_1 * 90;
@@ -82,9 +86,6 @@ public class TestCusView extends View {
 
         bottom = bottom + L.dp_1 * 80;
         canvas.drawText("16种图层模式示例", getWidth() / 2f, ViewUtil.getBaseLine(textPaint, bottom), textPaint);
-
-
-        drawGrid(canvas);
     }
 
     private void testXMode(Canvas canvas, float left, float bottom, PorterDuff.Mode mode, String name) {
