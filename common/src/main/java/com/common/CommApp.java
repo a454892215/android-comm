@@ -58,16 +58,16 @@ public class CommApp extends Application {
     }
 
     private void initX5WebView() {
-        QbSdk.setTbsLogClient(new MyTbsLogClient(this));
-        QbSdk.setDownloadWithoutWifi(true);
-        QbSdk.setTbsListener(new MyTbsListener());
+
         HashMap<String, Object> map = new HashMap<>();
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
         QbSdk.initTbsSettings(map);
-       // QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
 
-
+        QbSdk.setTbsLogClient(new MyTbsLogClient(this));
+        QbSdk.setDownloadWithoutWifi(true);
+        QbSdk.setTbsListener(new MyTbsListener());
+        QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
 
     }
 
