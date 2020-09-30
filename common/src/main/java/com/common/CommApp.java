@@ -15,9 +15,12 @@ import com.common.x5_web.MyPreInitCallback;
 import com.common.x5_web.MyTbsListener;
 import com.common.x5_web.MyTbsLogClient;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
 
 import org.litepal.LitePal;
+
+import java.util.HashMap;
 
 /**
  * Author:  L
@@ -58,7 +61,14 @@ public class CommApp extends Application {
         QbSdk.setTbsLogClient(new MyTbsLogClient(this));
         QbSdk.setDownloadWithoutWifi(true);
         QbSdk.setTbsListener(new MyTbsListener());
-        QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
+        HashMap<String, Object> map = new HashMap<>();
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
+        map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
+        QbSdk.initTbsSettings(map);
+       // QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
+
+
+
     }
 
 
