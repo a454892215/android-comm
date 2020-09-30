@@ -54,10 +54,26 @@ public class TestCusView2 extends View {
         canvas.drawRect(left, top, right, bottom, paint);
         drawGrid(canvas);
         canvas.save();
-        canvas.translate(L.dp_1 * 70, 0); // 平移
+
+        // 平移示例
+        canvas.translate(L.dp_1 * 70, 0); // 平移, 不会影响之前的操作
         paint.setColor(Color.parseColor("#58985A"));
         canvas.drawRect(left, top, right, bottom, paint);
-        canvas.restore();
+
+        //缩放示例
+        // canvas.translate(-L.dp_1 * 70, 0); // 复位方式1
+        canvas.restore();// 复位方式2
+        canvas.scale(0.5f, 0.5f, left, top); // 缩放, 不会影响之前的操作
+        paint.setColor(Color.parseColor("#cccccc"));
+        canvas.drawRect(left, top, right, bottom, paint);
+
+        //旋转示例
+        // canvas.scale(2, 2, left, top); // 复位方式1
+        canvas.restore();// 复位方式2
+        canvas.translate(L.dp_1 * 150, 0); //先平移, 不会影响之前的操作
+        canvas.rotate(45, left + right / 2f, top + bottom / 2f); //旋转, 不会影响之前的操作
+        paint.setColor(Color.parseColor("#cccccc"));
+        canvas.drawRect(left, top, right, bottom, paint);
     }
 
 
