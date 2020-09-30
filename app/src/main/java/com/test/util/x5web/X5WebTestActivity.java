@@ -37,7 +37,7 @@ public class X5WebTestActivity extends MyBaseActivity {
             web_view.destroy();
         }
         super.onDestroy();
-        android.os.Process.killProcess(android.os.Process.myPid());
+        // android.os.Process.killProcess(android.os.Process.myPid());
 
     }
 

@@ -123,4 +123,16 @@ public class MainActivity extends MyBaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    public void finish() {
+        LogUtil.d("========finish==========");
+        super.finish();
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        LogUtil.d("========onDestroy==========");
+        super.onDestroy();
+    }
 }
