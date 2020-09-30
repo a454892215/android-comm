@@ -34,7 +34,7 @@ public class MyTbsLogClient extends TbsLogClient {
     @Override
     public void i(String s, String s1) {
         super.i(s, s1);
-        LogUtil.i("==========s:" + s + "          s1:" + s1);
+       // LogUtil.i("==========s:" + s + "          s1:" + s1);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MyTbsLogClient extends TbsLogClient {
     @Override
     public void d(String s, String s1) {
         super.d(s, s1);
-        LogUtil.d("==========s:" + s + "          s1:" + s1);
+      //  LogUtil.d("==========s:" + s + "          s1:" + s1);
     }
 
     @Override
