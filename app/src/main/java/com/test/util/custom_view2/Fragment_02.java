@@ -13,9 +13,6 @@ public class Fragment_02 extends BaseFragment {
     @Override
     protected void initView() {
 
-
-
-
     }
 
 }
