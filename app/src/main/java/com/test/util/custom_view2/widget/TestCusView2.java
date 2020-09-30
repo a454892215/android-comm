@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -89,6 +90,20 @@ public class TestCusView2 extends View {
         paint.setColor(Color.parseColor("#cccccc"));
         canvas.drawRect(left, top, right, bottom, paint);
         canvas.drawText("斜切示例", left, ViewUtil.getBaseLine(textPaint, bottom + L.dp_1 * 12), textPaint);
+
+        //裁剪示例
+        canvas.restore();// 复位
+        canvas.save();
+        canvas.translate(L.dp_1 * 30, L.dp_1 * 120); //先平移, 不会影响之前的操作
+
+        paint.setColor(Color.parseColor("#99ffcccc"));
+        canvas.drawText("外部裁剪示例", -L.dp_1 * 20, ViewUtil.getBaseLine(textPaint, L.dp_1 * 30), textPaint);
+        // canvas.drawRect(-L.dp_1 * 20, -L.dp_1 * 15, L.dp_1 * 20, L.dp_1 * 15, paint);
+        canvas.clipRect(-L.dp_1 * 20, -L.dp_1 * 15, L.dp_1 * 20, L.dp_1 * 15); //外部范围不能再绘制
+        //   canvas.clipOutRect(); //内范围不能再绘制
+        paint.setColor(Color.parseColor("#58985A"));
+        canvas.drawCircle(0, 0, L.dp_1 * 20, paint);
+
     }
 
 
