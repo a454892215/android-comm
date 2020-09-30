@@ -20,7 +20,6 @@ public class X5WebTestActivity extends MyBaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFormat(PixelFormat.TRANSLUCENT);//网页中的视频，上屏幕的时候，可能出现闪烁的情况
         StatusBarUtil.setStatusBarBgColor(this, Color.parseColor("#cccccc"));
-        com.jaeger.library.StatusBarUtil.setColor(this, Color.parseColor("#000000"));
         setTitle("X5WebView测试");
 
         multi_view_float = findViewById(R.id.multi_view);
