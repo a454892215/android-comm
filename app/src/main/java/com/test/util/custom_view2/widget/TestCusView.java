@@ -40,7 +40,6 @@ public class TestCusView extends View {
         super(context, attrs, defStyleAttr);
         this.context = context;
         paint = new Paint();
-        paint.setColor(Color.RED);
 
         textPaint = new TextPaint();
         textPaint.setTextSize(L.dp_1 * 12);
@@ -68,6 +67,7 @@ public class TestCusView extends View {
         float startX = L.dp_1 * 5;
         float startY = L.dp_1 * 10;
         float endX = L.dp_1 * 280;
+        paint.setColor(Color.parseColor("#58985A"));
         paint.setStrokeWidth(L.dp_1 * 10);
         paint.setStrokeCap(Paint.Cap.BUTT);
         canvas.drawLine(startX, L.dp_1 * 20, endX, L.dp_1 * 20, paint);
