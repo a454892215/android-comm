@@ -2,7 +2,7 @@
 <com.common.widget.float_window.MultiViewFloatLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dp_22"
+    android:paddingTop="25dp"
     android:id="@+id/multi_view">
 
     <include layout="@layout/layout_x5web_item" />

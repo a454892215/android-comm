@@ -82,7 +82,7 @@ public class X5WebView extends WebView {
                 data.putBoolean("supportLiteWnd", true); //false：关闭小窗；true：开启小窗；不设置默认true，
                 data.putInt("DefaultVideoScreen", 1); //1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
                 extension.invokeMiscMethod("setVideoParams", data);
-                LogUtil.e("=================== X5WebView extension 加载成功");
+                LogUtil.d("=================== X5WebView extension 加载成功");
             } else {
                 LogUtil.e("=================== X5WebView extension 是 null");
             }

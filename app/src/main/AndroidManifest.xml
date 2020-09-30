@@ -75,7 +75,7 @@
             android:launchMode="singleTask"
             android:process=""
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.SplashTheme"
+            android:theme="@style/CommonAppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="com.tencent.smtt.tbs.video.PLAY" />
