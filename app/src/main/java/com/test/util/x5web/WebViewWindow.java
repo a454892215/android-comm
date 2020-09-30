@@ -140,7 +140,7 @@ public class WebViewWindow implements View.OnClickListener {
             } else {
                 progress_bar.setVisibility(View.VISIBLE);
             }
-            LogUtil.d("=============progress:" + progress);
+         //   LogUtil.d("=============progress:" + progress);
         }
 
         @Override
