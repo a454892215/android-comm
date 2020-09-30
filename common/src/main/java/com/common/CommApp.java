@@ -8,7 +8,6 @@ import android.webkit.WebView;
 
 import com.common.bugs.CrashHandler;
 import com.common.comm.L;
-import com.common.hotfix.HotFixCallback;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
 import com.common.x5_web.MyPreInitCallback;
@@ -21,6 +20,8 @@ import com.tencent.smtt.sdk.QbSdk;
 import org.litepal.LitePal;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Author:  L
@@ -63,6 +64,36 @@ public class CommApp extends Application {
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER, true);
         map.put(TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE, true);
         QbSdk.initTbsSettings(map);
+
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
+        strategy.setCrashHandleCallback(new CrashReport.CrashHandleCallback() {
+            public Map<String, String> onCrashHandleStart(
+                    int crashType,
+                    String errorType,
+                    String errorMessage,
+                    String errorStack) {
+
+                LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
+                String x5CrashInfo = com.tencent.smtt.sdk.WebView.getCrashExtraMessage(getApplicationContext());
+                map.put("x5crashInfo", x5CrashInfo);
+                return map;
+            }
+
+            @Override
+            public byte[] onCrashHandleStart2GetExtraDatas(
+                    int crashType,
+                    String errorType,
+                    String errorMessage,
+                    String errorStack) {
+                try {
+                    return "Extra data.".getBytes("UTF-8");
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+
+        });
+        CrashReport.initCrashReport(this, getPackageName(), true, strategy);
 
         QbSdk.setTbsLogClient(new MyTbsLogClient(this));
         QbSdk.setDownloadWithoutWifi(true);
