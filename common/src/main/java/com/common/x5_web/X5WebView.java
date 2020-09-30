@@ -101,7 +101,7 @@ public class X5WebView extends WebView {
             boolean isEquLastUrl = url.equals(lastUrl);
             LogUtil.d("========onWebBack===1===lastUrl:" + lastUrl + "  isEquLastUrl:" + isEquLastUrl);
             if (isEquLastUrl || lastUrl == null) {
-                activity.finish();
+                postDelayed(() -> activity.finish(), 200);
             }
             lastUrl = url;
             return true;
