@@ -80,6 +80,10 @@ public class TestCusView extends View {
         testXMode(canvas, left_3, bottom, PorterDuff.Mode.MULTIPLY, "MULTIPLY");
         testXMode(canvas, left_4, bottom, PorterDuff.Mode.SCREEN, "SCREEN");
 
+        bottom = bottom + L.dp_1 * 70;
+        canvas.drawText("16种图层模式示例", getWidth() / 2f, ViewUtil.getBaseLine(textPaint, bottom), textPaint);
+
+
         drawGrid(canvas);
     }
 
