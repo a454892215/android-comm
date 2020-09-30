@@ -32,9 +32,11 @@ public class X5WebView extends WebView {
         super(context, attributeSet, i);
     }
 
+    private Activity activity;
     @SuppressLint("SetJavaScriptEnabled")
     public void initWebViewSettings(Activity activity, WebViewInfoCallBack webViewInfoCallBack) {
         try {
+            this.activity = activity;
             setWebViewClient(new MyWebViewClient(activity, webViewInfoCallBack));
             setWebChromeClient(new MyWebChromeClient(webViewInfoCallBack));
             setDownloadListener(new MyDownloadListener(activity));
@@ -90,9 +92,13 @@ public class X5WebView extends WebView {
 
     public boolean onWebBack() {
         if (canGoBack()) {
-            getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+            //getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
             goBack();
+            LogUtil.d("========onWebBack===1===");
             return true;
+        }else {
+            activity.onBackPressed();
+            LogUtil.d("发生异常========onWebBack==2===");
         }
         return false;
     }

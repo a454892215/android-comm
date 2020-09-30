@@ -36,18 +36,19 @@ public class CommApp extends Application {
     public void onCreate() {
         super.onCreate();
         LitePal.initialize(this);
-        if(SystemUtils.isMainProcess(this)){
+        if (SystemUtils.isMainProcess(this)) {
             app = this;
             CrashHandler.init(this);
             CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
             setWebViewPath(this);
             if (isInitX5Web) initX5WebView();
+            LogUtil.d("==========是否初始化X5Web:" + isInitX5Web);
             L.init(this);
     /*        hotFixCallback = new HotFixCallback();
             hotFixCallback.init(this);
             registerActivityLifecycleCallbacks(hotFixCallback);*/
             LogUtil.d("=======主线程开始初始化完毕======");
-        }else{
+        } else {
             LogUtil.d("=======其他线程开始初始化完毕======");
         }
     }
