@@ -182,8 +182,23 @@ public class ViewUtil {
         }
         return list;
     }
+
     public static float getPicHeightByWidth(Drawable drawable, float width) {
         return width * drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth();
+    }
+
+    public static Rect getScaledRect(Drawable drawable, float needWidth, float needHeight) {
+        Rect rect = new Rect(0, 0, (int) needWidth, (int) needHeight);
+        // 以较小比例一边为基准缩放
+        float rate_origin = drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth();
+        float rate = needHeight / needWidth;
+        if (rate_origin > rate) { //原图height比重大 ， 以宽度为基准缩放
+            rect.bottom = (int) (needWidth * drawable.getIntrinsicHeight() / (float) drawable.getIntrinsicWidth());
+        } else { // 以高度为基准缩放
+            rect.right = (int) (needHeight * drawable.getIntrinsicWidth() / (float) drawable.getIntrinsicHeight());
+
+        }
+        return rect;
     }
 
 

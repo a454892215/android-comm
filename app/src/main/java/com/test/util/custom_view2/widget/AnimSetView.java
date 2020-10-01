@@ -46,7 +46,7 @@ public class AnimSetView extends View {
     // 6个小圆半径
     private float ball_radius = L.dp_1 * 3;
     private float curAngle = 0;
-    private BitmapDrawable bitmapDrawable;
+    private BitmapDrawable drawable;
 
 
     public AnimSetView(Context context) {
@@ -74,8 +74,8 @@ public class AnimSetView extends View {
             invalidate();
             return true;
         });
-        Bitmap bitmap_fj = BitmapFactory.decodeResource(context.getResources(), R.mipmap.feng_jing_pic);
-        bitmapDrawable = new BitmapDrawable(context.getResources(), bitmap_fj);
+        Bitmap bitmap_fj = BitmapFactory.decodeResource(context.getResources(), R.mipmap.feng_jing);
+        drawable = new BitmapDrawable(context.getResources(), bitmap_fj);
     }
 
     @NotNull
@@ -114,14 +114,13 @@ public class AnimSetView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         centerX = getMeasuredWidth() / 2f;
         centerY = getMeasuredHeight() / 2f;
-        int pic_bottom = (int) ViewUtil.getPicHeightByWidth(bitmapDrawable, getMeasuredWidth());
-        bitmapDrawable.setBounds(0, 0, getMeasuredWidth(), pic_bottom);
+        drawable.setBounds(ViewUtil.getScaledRect(drawable, getMeasuredWidth(), getMeasuredHeight()));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        bitmapDrawable.draw(canvas);
+        drawable.draw(canvas);
         float per_rad = (float) (Math.PI * 2 / color_arr.length);
         // 绘制6个小球
         for (int i = 0; i < color_arr.length; i++) {
