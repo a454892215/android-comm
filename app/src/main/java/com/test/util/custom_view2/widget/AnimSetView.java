@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AnimSetView extends View {
     private Paint mPaint = new Paint();
+    private Paint mHolePaint = new Paint();
     private int[] color_arr = {Color.RED, Color.YELLOW, Color.BLACK, Color.BLUE, Color.GREEN, Color.CYAN};
     // 旋转圆中心坐标
     private float centerX;
@@ -47,6 +50,9 @@ public class AnimSetView extends View {
     private float ball_radius = L.dp_1 * 3;
     private float curAngle = 0;
     private BitmapDrawable drawable;
+
+    private float bg_circle_radius = 0;
+    private PorterDuffXfermode mode;
 
 
     public AnimSetView(Context context) {
@@ -62,6 +68,7 @@ public class AnimSetView extends View {
     public AnimSetView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 图层混合模式使用 必须关闭硬件加速
+        mHolePaint.setColor(Color.WHITE);
         ValueAnimator animator_1 = prepareAnim1();
         setOnClickListener(v -> {
             cur_circle_radius = L.dp_1 * 20; //旋转圆半径
@@ -76,6 +83,7 @@ public class AnimSetView extends View {
         });
         Bitmap bitmap_fj = BitmapFactory.decodeResource(context.getResources(), R.mipmap.feng_jing);
         drawable = new BitmapDrawable(context.getResources(), bitmap_fj);
+        mode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
     }
 
     @NotNull
@@ -106,7 +114,33 @@ public class AnimSetView extends View {
             cur_circle_radius = (float) anim.getAnimatedValue();
             invalidate();
         });
+        animator_2.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                startAnim3();
+            }
+        });
         animator_2.start();
+    }
+
+    private void startAnim3() {
+        ValueAnimator animator_3 = ValueAnimator.ofFloat(max_circle_radius, getHeight() / 2f);
+        animator_3.setDuration(500);
+        animator_3.setInterpolator(new AccelerateInterpolator());
+        animator_3.addUpdateListener(anim -> {
+            bg_circle_radius = (float) anim.getAnimatedValue();
+            invalidate();
+        });
+        animator_3.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                bg_circle_radius = 0;
+                invalidate();
+            }
+        });
+        animator_3.start();
     }
 
     @Override
@@ -121,6 +155,8 @@ public class AnimSetView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawable.draw(canvas);
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);//保留上层 标记1
+        canvas.drawColor(Color.GRAY);
         float per_rad = (float) (Math.PI * 2 / color_arr.length);
         // 绘制6个小球
         for (int i = 0; i < color_arr.length; i++) {
@@ -130,6 +166,11 @@ public class AnimSetView extends View {
             mPaint.setColor(color_arr[i]);
             canvas.drawCircle(cx, cy, ball_radius, mPaint);
         }
+        //mHolePaint.setStrokeWidth(L.dp_1*720 - bg_circle_radius);
+
+        mHolePaint.setXfermode(mode); //分界线 ，清空标记1 到setXfermode 之间的内容
+        canvas.drawCircle(centerX, centerY, bg_circle_radius, mHolePaint);
+        canvas.restoreToCount(layerId);
     }
 
 
