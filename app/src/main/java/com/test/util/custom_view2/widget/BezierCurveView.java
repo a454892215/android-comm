@@ -45,19 +45,21 @@ public class BezierCurveView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setStyle(Paint.Style.STROKE);
-        float startX = L.dp_1 * 20;
-        float StartY = L.dp_1 * 100;
 
-        float controlX = L.dp_1 * 60;
-        float controlY = L.dp_1 * 100;
+        float startX = L.dp_1 * 20;
+        float StartY = L.dp_1 * 200;
+
+        float controlX = L.dp_1 * 90;
+        float controlY = L.dp_1 * 150;
 
         float endX = L.dp_1 * 220;
-        float endY = L.dp_1 * 100;
+        float endY = L.dp_1 * 200;
 
         path.moveTo(startX, StartY); // 起点
         path.quadTo(controlX, controlY, endX, endY); // 控制点和终点
-        paint.setColor(Color.GREEN);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(L.dp_1 * 3);
         canvas.drawPath(path, paint);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.RED);
