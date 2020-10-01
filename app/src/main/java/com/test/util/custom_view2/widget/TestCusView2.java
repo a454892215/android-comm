@@ -55,7 +55,7 @@ public class TestCusView2 extends View {
         paint.setColor(Color.parseColor("#58985A"));
         canvas.drawRect(left, top, right, bottom, paint);
         drawGrid(canvas);
-        canvas.save();
+        canvas.save();// 保存画布的变换状态
 
         // 平移示例
         canvas.translate(L.dp_1 * 70, 0); // 平移, 不会影响之前的操作
@@ -65,7 +65,7 @@ public class TestCusView2 extends View {
 
         //缩放示例
         // canvas.translate(-L.dp_1 * 70, 0); // 复位方式1
-        canvas.restore();// 复位方式2
+        canvas.restore();// 复位方式2 - 回到上个保存的画布变换状态
         canvas.save();
         canvas.scale(0.5f, 0.5f, left, top); // 缩放, 不会影响之前的操作
         paint.setColor(Color.parseColor("#cccccc"));
