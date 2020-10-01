@@ -10,25 +10,25 @@ import java.math.BigDecimal;
 public class MathUtil {
 
     public static float clamp(float num, float min, float max) {
-        num = num < min ? min : num;
-        num = num > max ? max : num;
+        num = Math.max(num, min);
+        num = Math.min(num, max);
         return num;
     }
 
     public static int clamp(int num, int min, int max) {
-        num = num < min ? min : num;
-        num = num > max ? max : num;
+        num = Math.max(num, min);
+        num = Math.min(num, max);
         return num;
     }
 
 
     public static float absClamp(float num, float min, float max) {
         if (num > 0) {
-            num = num < min ? min : num;
-            num = num > max ? max : num;
+            num = Math.max(num, min);
+            num = Math.min(num, max);
         } else {
-            num = num < -max ? -max : num;
-            num = num > -min ? -min : num;
+            num = Math.max(num, -max);
+            num = Math.min(num, -min);
         }
         return num;
     }
@@ -52,7 +52,7 @@ public class MathUtil {
         float min = Float.MAX_VALUE;
         int length = values.length;
         for (float value : values) {
-            min = min < value ? min : value;
+            min = Math.min(min, value);
         }
         return min;
     }
@@ -64,7 +64,7 @@ public class MathUtil {
         float max = Float.MIN_VALUE;
         int length = values.length;
         for (float value : values) {
-            max = max > value ? max : value;
+            max = Math.max(max, value);
         }
         return max;
     }
