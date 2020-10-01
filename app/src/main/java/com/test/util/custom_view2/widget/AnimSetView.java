@@ -12,7 +12,6 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.Nullable;
 
 import com.common.comm.L;
-import com.common.utils.LogUtil;
 import com.common.utils.MathUtil;
 
 
@@ -32,12 +31,13 @@ public class AnimSetView extends View {
     private float centerY;
 
     // 最大扩散圆半径
-    private float circle_radius = L.dp_1 * 20; //旋转圆半径
-    private float min_circle_radius = L.dp_1 * 5; //旋转圆半径
-    private float max_circle_radius = L.dp_1 * 30;
+    private float circle_radius = L.dp_1 * 16; //旋转圆半径
+    private float min_circle_radius = L.dp_1 * 3; //旋转圆半径
+    private float max_circle_radius = L.dp_1 * 24;
     // 6个小圆半径
     private float ball_radius = L.dp_1 * 3;
     private float curAngle = 0;
+    private ValueAnimator animator_1;
 
 
     public AnimSetView(Context context) {
@@ -54,32 +54,46 @@ public class AnimSetView extends View {
         setLayerType(View.LAYER_TYPE_SOFTWARE, null); // 图层混合模式使用 必须关闭硬件加速
         mHolePaint.setColor(mbgColor);
 
-        ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-        animator.setRepeatCount(-1);
-        animator.setDuration(2000);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.addUpdateListener(animation -> {
+        animator_1 = ValueAnimator.ofFloat(0, 1);
+        animator_1.setRepeatCount(-1);
+        animator_1.setDuration(2000);
+        animator_1.setInterpolator(new LinearInterpolator());
+        animator_1.addUpdateListener(animation -> {
             updateUI();
             invalidate();
         });
-        setOnClickListener(v -> animator.start());
+        setOnClickListener(v -> {
+                    to_max_radius_count = 0;
+                    animator_1.start();
+                }
+        );
 
         setOnLongClickListener(v -> {
-            animator.pause();
-            animator.cancel();
+            animator_1.pause();
+            animator_1.cancel();
+            to_max_radius_count = 0;
             invalidate();
             return true;
         });
 
     }
 
-    int rotate_v = 1; // 旋转半径变化速度
+    private float rotate_radius_v = 0.5f; // 旋转半径变化速度
+    private static final float rotate_v = 4f; // 圆环旋转速度
+    private int to_max_radius_count = 0;
 
     private void updateUI() {
-        curAngle += Math.PI / 180f * 2;
-        if (circle_radius == min_circle_radius) rotate_v *= -1;
-        if (circle_radius == max_circle_radius) rotate_v *= -1;
-        circle_radius += rotate_v;
+        curAngle += Math.PI / 180f * rotate_v;
+        if (circle_radius == min_circle_radius) rotate_radius_v *= -1;
+        if (circle_radius == max_circle_radius) {
+            rotate_radius_v *= -1;
+            to_max_radius_count++;
+            if (animator_1.isRunning() && to_max_radius_count == 2) {
+                animator_1.pause();
+                animator_1.cancel();
+            }
+        }
+        circle_radius += rotate_radius_v;
         circle_radius = MathUtil.clamp(circle_radius, min_circle_radius, max_circle_radius);
     }
 
