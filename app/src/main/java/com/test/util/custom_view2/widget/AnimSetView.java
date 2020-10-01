@@ -22,6 +22,7 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.Nullable;
 
 import com.common.comm.L;
+import com.common.utils.FastClickUtil;
 import com.common.utils.ViewUtil;
 import com.test.util.R;
 
@@ -71,6 +72,7 @@ public class AnimSetView extends View {
         mHolePaint.setColor(Color.WHITE);
         ValueAnimator animator_1 = prepareAnim1();
         setOnClickListener(v -> {
+            FastClickUtil.isFastClick(2000);
             cur_circle_radius = L.dp_1 * 20; //旋转圆半径
             animator_1.start();
         });
@@ -78,6 +80,7 @@ public class AnimSetView extends View {
         setOnLongClickListener(v -> {
             animator_1.pause();
             animator_1.cancel();
+            bg_circle_radius = 0;
             invalidate();
             return true;
         });
@@ -126,19 +129,11 @@ public class AnimSetView extends View {
 
     private void startAnim3() {
         ValueAnimator animator_3 = ValueAnimator.ofFloat(max_circle_radius, getHeight() / 2f);
-        animator_3.setDuration(500);
+        animator_3.setDuration(800);
         animator_3.setInterpolator(new AccelerateInterpolator());
         animator_3.addUpdateListener(anim -> {
             bg_circle_radius = (float) anim.getAnimatedValue();
             invalidate();
-        });
-        animator_3.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                bg_circle_radius = 0;
-                invalidate();
-            }
         });
         animator_3.start();
     }
@@ -155,8 +150,8 @@ public class AnimSetView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawable.draw(canvas);
-        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);//保留上层 标记1
-        canvas.drawColor(Color.GRAY);
+        int layerId = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);//记录上层 标记1
+        canvas.drawColor(Color.WHITE);
         float per_rad = (float) (Math.PI * 2 / color_arr.length);
         // 绘制6个小球
         for (int i = 0; i < color_arr.length; i++) {
@@ -168,7 +163,7 @@ public class AnimSetView extends View {
         }
         //mHolePaint.setStrokeWidth(L.dp_1*720 - bg_circle_radius);
 
-        mHolePaint.setXfermode(mode); //分界线 ，清空标记1 到setXfermode 之间的内容
+        mHolePaint.setXfermode(mode); //标记2 分界线 ，清空标记1 到（标记2）setXfermode 之间的内容
         canvas.drawCircle(centerX, centerY, bg_circle_radius, mHolePaint);
         canvas.restoreToCount(layerId);
     }
