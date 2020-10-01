@@ -119,7 +119,7 @@ public class TestCusView2 extends View {
         canvas.setMatrix(matrix);
         paint.setColor(Color.parseColor("#99ffcccc"));
         canvas.drawRect(left, L.dp_1 * 170, right, L.dp_1 * 220, paint);
-        canvas.restoreToCount(savedLayerId);
+        canvas.restoreToCount(savedLayerId); // 裁剪掉 超过画布保存尺寸的内容（最后会自动调用？）
         canvas.drawText("画布尺寸遮挡和Matrix", left, ViewUtil.getBaseLine(textPaint, L.dp_1 * 230), textPaint);
     }
 
