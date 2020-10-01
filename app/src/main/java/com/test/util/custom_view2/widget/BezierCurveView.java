@@ -1,5 +1,6 @@
 package com.test.util.custom_view2.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -8,10 +9,14 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 
 import com.common.comm.L;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,7 +29,8 @@ public class BezierCurveView extends View {
     private Paint paint;
     private Path path;
     private float controlX = L.dp_1 * 90;
-    private float controlY = L.dp_1 * 150;
+    private static final float initControlY = L.dp_1 * 150;
+    private float controlY = initControlY;
 
     public BezierCurveView(Context context) {
         this(context, null);
@@ -46,10 +52,31 @@ public class BezierCurveView extends View {
     public boolean dispatchTouchEvent(MotionEvent event) {
         controlX = event.getX();
         controlY = event.getY();
+
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            playAnim();
+        }
         invalidate();
         return true;
     }
 
+    private void playAnim() {
+        List<Float> zhen_dang_pos_list = new ArrayList<>();
+        float distance = controlY - initControlY;
+        while (distance >= 1) {
+
+            zhen_dang_pos_list.add(0f);
+        }
+
+        ValueAnimator animator_1 = ValueAnimator.ofFloat(0, 1);
+        animator_1.setDuration(1000);
+        animator_1.setInterpolator(new LinearInterpolator());
+        animator_1.addUpdateListener(animation -> {
+
+            invalidate();
+        });
+
+    }
 
 
     @Override
