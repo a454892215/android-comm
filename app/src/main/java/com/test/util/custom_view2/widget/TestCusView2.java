@@ -3,6 +3,7 @@ package com.test.util.custom_view2.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.text.TextPaint;
@@ -24,6 +25,7 @@ import com.common.utils.ViewUtil;
 public class TestCusView2 extends View {
     private Paint paint;
     private Paint textPaint;
+    private Matrix matrix;
 
 
     public TestCusView2(Context context) {
@@ -43,6 +45,7 @@ public class TestCusView2 extends View {
         textPaint.setTextSize(L.dp_1 * 10);
         textPaint.setColor(Color.WHITE);
         textPaint.setTextAlign(Paint.Align.LEFT);
+        matrix = new Matrix();
     }
 
     @Override
@@ -104,6 +107,20 @@ public class TestCusView2 extends View {
         paint.setColor(Color.parseColor("#58985A"));
         canvas.drawCircle(0, 0, L.dp_1 * 20, paint);
 
+
+        // Matrix 平移示例
+        canvas.restore();// 复位
+        canvas.save();
+        paint.setColor(Color.parseColor("#58985A"));
+        int savedLayerId = canvas.saveLayer(left, L.dp_1 * 170, right, L.dp_1 * 220, null);// 保存指定尺寸画布
+        canvas.drawRect(left, L.dp_1 * 170, right, L.dp_1 * 220, paint);
+        matrix.reset();
+        matrix.setTranslate(L.dp_1 * 10, L.dp_1 * 10);
+        canvas.setMatrix(matrix);
+        paint.setColor(Color.parseColor("#99ffcccc"));
+        canvas.drawRect(left, L.dp_1 * 170, right, L.dp_1 * 220, paint);
+        canvas.restoreToCount(savedLayerId);
+        canvas.drawText("画布尺寸遮挡和Matrix", left, ViewUtil.getBaseLine(textPaint, L.dp_1 * 230), textPaint);
     }
 
 
