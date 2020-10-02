@@ -16,7 +16,7 @@ android {
         flavorDimensions "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" // , "x86", "mips"
         }
     }
 
