@@ -1,6 +1,8 @@
 package com.common.utils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author:  L
@@ -67,5 +69,25 @@ public class MathUtil {
             max = Math.max(max, value);
         }
         return max;
+    }
+
+    // 获取震荡数
+    public static List<Float> getZhenD(float start, float dis) {
+        List<Float> list = new ArrayList<>();
+        list.add(start);
+        int size = list.size();
+        while (start != 0) {
+            if (start > 0) {
+                // 其下次震荡数是小于等于0的数
+                start = -start + dis;
+                if (start > 0) start = 0;
+            } else {
+                // 其下次震荡数是大于等于0的数
+                start = -start - dis;
+                if (start < 0) start = 0;
+            }
+            list.add(start);
+        }
+        return list;
     }
 }

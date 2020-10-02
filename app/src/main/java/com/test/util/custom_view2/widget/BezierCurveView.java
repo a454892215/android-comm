@@ -14,6 +14,8 @@ import android.view.animation.LinearInterpolator;
 import androidx.annotation.Nullable;
 
 import com.common.comm.L;
+import com.common.utils.LogUtil;
+import com.common.utils.MathUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,19 +62,18 @@ public class BezierCurveView extends View {
         return true;
     }
 
+    private List<Float> zhen_dang_pos_list = new ArrayList<>();
+
     private void playAnim() {
-        List<Float> zhen_dang_pos_list = new ArrayList<>();
-        float distance = controlY - initControlY;
-        while (distance >= 1) {
+        zhen_dang_pos_list.clear();
+        zhen_dang_pos_list = MathUtil.getZhenD(controlY, L.dp_1 * 5);
 
-            zhen_dang_pos_list.add(0f);
-        }
 
+        LogUtil.d(" zhen_dang_pos_list:" + zhen_dang_pos_list.size() + "  :" + zhen_dang_pos_list);
         ValueAnimator animator_1 = ValueAnimator.ofFloat(0, 1);
         animator_1.setDuration(1000);
         animator_1.setInterpolator(new LinearInterpolator());
         animator_1.addUpdateListener(animation -> {
-
             invalidate();
         });
 
@@ -102,7 +103,11 @@ public class BezierCurveView extends View {
         paint.setColor(Color.YELLOW);
         canvas.drawCircle(endX, endY, L.dp_1 * 3, paint); // 绘制控终点
 
+        // 绘制回弹轨迹点
+        for (int i = 0; i < zhen_dang_pos_list.size(); i++) {
+            paint.setColor(Color.GRAY);
+            canvas.drawCircle(controlX, zhen_dang_pos_list.get(i), L.dp_1 * 3, paint); // 绘制控终点
+        }
     }
-
 
 }
