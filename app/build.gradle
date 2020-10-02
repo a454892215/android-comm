@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 
 // 引用自定义在外包的变量
-println("compileSdkVersion:" + "${rootProject.ext.app_info.compileSdkVersion}")
-println("minSdkVersion:" + "${rootProject.ext.app_info.minSdkVersion}")
-println("targetSdkVersion:" + "${rootProject.ext.app_info.targetSdkVersion}")
+println("app compileSdkVersion:" + "${rootProject.ext.app_info.compileSdkVersion}")
+println("app minSdkVersion:" + "${rootProject.ext.app_info.minSdkVersion}")
+println("app targetSdkVersion:" + "${rootProject.ext.app_info.targetSdkVersion}")
 
 
 android {

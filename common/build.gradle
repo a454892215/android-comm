@@ -1,11 +1,15 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
+// 引用自定义在外包的变量
+println("common compileSdkVersion:" + "${rootProject.ext.app_info.compileSdkVersion}")
+println("common minSdkVersion:" + "${rootProject.ext.app_info.minSdkVersion}")
+println("common targetSdkVersion:" + "${rootProject.ext.app_info.targetSdkVersion}")
 android {
-    compileSdkVersion 28
+    compileSdkVersion rootProject.ext.app_info.compileSdkVersion
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
+        minSdkVersion rootProject.ext.app_info.minSdkVersion
+        targetSdkVersion rootProject.ext.app_info.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
         flavorDimensions "1"
