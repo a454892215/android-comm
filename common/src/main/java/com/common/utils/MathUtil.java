@@ -90,4 +90,11 @@ public class MathUtil {
         }
         return list;
     }
+
+    /**
+     * nearRate : 接近系数
+     */
+    public static float getNearNum(float start, float to, float nearRate) {
+        return start + (to - start) * nearRate;
+    }
 }

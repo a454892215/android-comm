@@ -80,19 +80,22 @@ public class BezierCurveView extends View {
         animator_1.setInterpolator(new DecelerateInterpolator());
         animator_1.addUpdateListener(ani -> {
             controlY = (float) ani.getAnimatedValue();
+            controlX = MathUtil.getNearNum(controlX, CenterX, 0.04f);
             invalidate();
         });
         animator_1.start();
     }
+
+    private static final float startX = L.dp_1 * 80;
+    private static final float endX = L.dp_1 * 280;
+    private static final float CenterX = startX + (endX - startX) / 2f;
 
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         path.reset(); // 必须清空
-        float startX = L.dp_1 * 80;
         float StartY = startAndEndY;
-        float endX = L.dp_1 * 280;
         float endY = startAndEndY;
 
         path.moveTo(startX, StartY); // 起点
