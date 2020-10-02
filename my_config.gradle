@@ -2,4 +2,11 @@
 
 ext {
     app_name = "==this is my custom var=="
+
+
+    app_info = [
+            compileSdkVersion : 28,
+            minSdkVersion : 21,
+            targetSdkVersion : 28,
+    ]
 }
