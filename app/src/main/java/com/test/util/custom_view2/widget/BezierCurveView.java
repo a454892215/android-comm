@@ -1,5 +1,6 @@
 package com.test.util.custom_view2.widget;
 
+import android.animation.FloatEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,6 +10,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
@@ -31,6 +33,7 @@ public class BezierCurveView extends View {
     private Paint paint;
     private Path path;
     private float controlX = L.dp_1 * 90;
+    private static final float startAndEndY = L.dp_1 * 200;
     private static final float initControlY = L.dp_1 * 150;
     private float controlY = initControlY;
 
@@ -66,17 +69,20 @@ public class BezierCurveView extends View {
 
     private void playAnim() {
         zhen_dang_pos_list.clear();
-        zhen_dang_pos_list = MathUtil.getZhenD(controlY, L.dp_1 * 5);
-
-
-        LogUtil.d(" zhen_dang_pos_list:" + zhen_dang_pos_list.size() + "  :" + zhen_dang_pos_list);
-        ValueAnimator animator_1 = ValueAnimator.ofFloat(0, 1);
-        animator_1.setDuration(1000);
-        animator_1.setInterpolator(new LinearInterpolator());
-        animator_1.addUpdateListener(animation -> {
+        zhen_dang_pos_list = MathUtil.getZhenD(controlY - startAndEndY, L.dp_1 * 8);
+        int size = zhen_dang_pos_list.size();
+        for (int i = 0; i < size; i++) {
+            Float value = zhen_dang_pos_list.get(i);
+            zhen_dang_pos_list.set(i, value + startAndEndY);
+        }
+        ValueAnimator animator_1 = ValueAnimator.ofObject(new FloatEvaluator(), zhen_dang_pos_list.toArray());
+        animator_1.setDuration(2000);
+        animator_1.setInterpolator(new DecelerateInterpolator());
+        animator_1.addUpdateListener(ani -> {
+            controlY = (float) ani.getAnimatedValue();
             invalidate();
         });
-
+        animator_1.start();
     }
 
 
@@ -85,9 +91,9 @@ public class BezierCurveView extends View {
         super.onDraw(canvas);
         path.reset(); // 必须清空
         float startX = L.dp_1 * 80;
-        float StartY = L.dp_1 * 200;
+        float StartY = startAndEndY;
         float endX = L.dp_1 * 280;
-        float endY = L.dp_1 * 200;
+        float endY = startAndEndY;
 
         path.moveTo(startX, StartY); // 起点
         path.quadTo(controlX, controlY, endX, endY); // 控制点和终点
@@ -104,10 +110,10 @@ public class BezierCurveView extends View {
         canvas.drawCircle(endX, endY, L.dp_1 * 3, paint); // 绘制控终点
 
         // 绘制回弹轨迹点
-        for (int i = 0; i < zhen_dang_pos_list.size(); i++) {
-            paint.setColor(Color.GRAY);
-            canvas.drawCircle(controlX, zhen_dang_pos_list.get(i), L.dp_1 * 3, paint); // 绘制控终点
-        }
+//        for (int i = 0; i < zhen_dang_pos_list.size(); i++) {
+//            paint.setColor(Color.GRAY);
+//            canvas.drawCircle(controlX, zhen_dang_pos_list.get(i), L.dp_1 * 3, paint); // 绘制控终点
+//        }
     }
 
 }

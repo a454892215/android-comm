@@ -71,7 +71,7 @@ public class MathUtil {
         return max;
     }
 
-    // 获取震荡数
+    // 获取震荡数, 相对0 轴对称
     public static List<Float> getZhenD(float start, float dis) {
         List<Float> list = new ArrayList<>();
         list.add(start);
