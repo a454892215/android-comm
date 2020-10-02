@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+// 引用自定义在外包的变量
+println("${app_name}")
 android {
     compileSdkVersion 28
     defaultConfig {
