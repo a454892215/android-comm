@@ -11,7 +11,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 
@@ -36,6 +35,7 @@ public class BezierCurveView extends View {
     private static final float startAndEndY = L.dp_1 * 200;
     private static final float initControlY = L.dp_1 * 150;
     private float controlY = initControlY;
+    private ValueAnimator animator_1;
 
     public BezierCurveView(Context context) {
         this(context, null);
@@ -57,6 +57,12 @@ public class BezierCurveView extends View {
     public boolean dispatchTouchEvent(MotionEvent event) {
         controlX = event.getX();
         controlY = event.getY();
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            if (animator_1 != null && animator_1.isRunning()) {
+                animator_1.pause();
+                animator_1.cancel();
+            }
+        }
 
         if (event.getAction() == MotionEvent.ACTION_UP) {
             playAnim();
@@ -64,6 +70,7 @@ public class BezierCurveView extends View {
         invalidate();
         return true;
     }
+
 
     private List<Float> zhen_dang_pos_list = new ArrayList<>();
 
@@ -75,7 +82,7 @@ public class BezierCurveView extends View {
             Float value = zhen_dang_pos_list.get(i);
             zhen_dang_pos_list.set(i, value + startAndEndY);
         }
-        ValueAnimator animator_1 = ValueAnimator.ofObject(new FloatEvaluator(), zhen_dang_pos_list.toArray());
+        animator_1 = ValueAnimator.ofObject(new FloatEvaluator(), zhen_dang_pos_list.toArray());
         animator_1.setDuration(2000);
         animator_1.setInterpolator(new DecelerateInterpolator());
         animator_1.addUpdateListener(ani -> {
