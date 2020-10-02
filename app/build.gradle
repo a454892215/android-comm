@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 // 引用自定义在外包的变量
-println("${app_name}")
+println("${app_name}" + "==1")
+println("${rootProject.ext.app_name}" + "==2")
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -17,9 +18,9 @@ android {
             cmake {
                 cppFlags "-std=c++11 -D__CORRECT_ISO_CPP_WCHAR_H_PROTO"
             }
-           /* ndk {
-                abiFilters "armeabi-v7a","arm64-v8a"
-            }*/
+            /* ndk {
+                 abiFilters "armeabi-v7a","arm64-v8a"
+             }*/
         }
     }
 
@@ -105,7 +106,7 @@ android {
             def appInfo = "V" + variant.versionName + getAppInfo() + variant.name
             appInfo = appInfo.replaceAll("\"", "")
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
-         //   variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
+            //   variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
             outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
@@ -149,6 +150,6 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     implementation project(path: ':JPushExample')
 
-   //
+    //
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
