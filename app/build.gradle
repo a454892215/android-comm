@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 
 // 引用自定义在外包的变量
-println("app compileSdkVersion:" + "${rootProject.ext.app_info.compileSdkVersion}")
-println("app minSdkVersion:" + "${rootProject.ext.app_info.minSdkVersion}")
-println("app targetSdkVersion:" + "${rootProject.ext.app_info.targetSdkVersion}")
+def app_info = rootProject.ext.app_info
+println("app compileSdkVersion:" + "${app_info.compileSdkVersion}")
+println("app minSdkVersion:" + "${app_info.minSdkVersion}")
+println("app targetSdkVersion:" + "${app_info.targetSdkVersion}")
 
 
 android {
-    compileSdkVersion rootProject.ext.app_info.compileSdkVersion
+    compileSdkVersion app_info.compileSdkVersion
     defaultConfig {
         applicationId "com.test.util2"
-        minSdkVersion rootProject.ext.app_info.minSdkVersion
-        targetSdkVersion rootProject.ext.app_info.targetSdkVersion
+        minSdkVersion app_info.minSdkVersion
+        targetSdkVersion app_info.targetSdkVersion
         versionCode 1
         versionName "1.0"
         flavorDimensions "1"
