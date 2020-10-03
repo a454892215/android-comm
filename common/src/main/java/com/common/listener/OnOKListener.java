@@ -8,5 +8,5 @@ package com.common.listener;
 
 public interface OnOKListener {
 
-    void OnOK(Object object);
+    void onOK(Object object);
 }
