@@ -111,6 +111,13 @@ android {
             appInfo = appInfo.replaceAll("\"", "")
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
             //   variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
+
+            File file = new File("apk_dir")
+            if (!file.exists()) {
+                file.mkdirs()
+            }
+            // println("cur path: " + file.getAbsolutePath() + "  exist:" + file.exists())
+            variant.packageApplication.outputDirectory  = file
             outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
