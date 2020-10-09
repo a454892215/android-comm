@@ -58,7 +58,7 @@ android {
             debuggable false
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'true'
             signingConfig signingConfigs.signing
@@ -117,7 +117,9 @@ android {
                 file.mkdirs()
             }
             // println("cur path: " + file.getAbsolutePath() + "  exist:" + file.exists())
-            variant.packageApplication.outputDirectory  = file
+            if (name.contains("Release")) {
+                variant.packageApplication.outputDirectory = file
+            }
             outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
