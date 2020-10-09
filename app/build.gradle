@@ -117,11 +117,11 @@ android {
                 file.mkdirs()
             }
             // println("cur path: " + file.getAbsolutePath() + "  exist:" + file.exists())
-            if (name.contains("Release")) {
-             //   variant.packageApplication.outputDirectory = file
-            }
+//            if (name.contains("Release")) {
+//                variant.packageApplication.outputDirectory = file
+//            }
             def cur_time = new Date().format('yy年MM月dd日HH时mm分ss秒')
-            outputFileName = cur_time + "_V" + +variant.versionName + "-" + variant.name + ".apk"
+            outputFileName = "T" + cur_time + "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
 }
