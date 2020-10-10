@@ -74,7 +74,7 @@
 
 
 # -keep public class com.common.base.**{*;}
-# -keep public class com.test.util.main.MainAdapter{*;}
+-keep public class com.test.util.main.MainAdapter{*;}
 
 # 保留继承的
 -keep public class * extends android.support.v4.**
