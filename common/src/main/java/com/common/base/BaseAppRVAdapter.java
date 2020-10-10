@@ -20,8 +20,8 @@ public class BaseAppRVAdapter extends BaseRVAdapter<Object> {
             Object[] parameters = {context, list};
             adapter = (BaseAppRVAdapter) constructor.newInstance(parameters);
         } catch (Exception e) {
-            LogUtil.e("动态反射创建对象 异常================");
-            e.printStackTrace();
+            LogUtil.e("动态反射创建对象 异常================:" + e.toString());
+            LogUtil.e(e);
         }
 
         return adapter;

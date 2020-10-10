@@ -39,6 +39,8 @@
 # 保持哪些类不被混淆
 #继承activity,application,service,broadcastReceiver,contentprovider....不进行混淆
 -keep public class * extends android.app.Activity
+-keep public class * extends com.test.util.base.MyBaseActivity
+-keep public class * extends com.common.base.BaseActivity
 -keep public class * extends android.app.Application
 -keep public class * extends android.support.multidex.MultiDexApplication
 -keep public class * extends android.app.Service
@@ -53,6 +55,10 @@
 -keep public class com.android.vending.licensing.ILicensingService
 #表示不混淆上面声明的类，最后这两个类我们基本也用不上，是接入Google原生的一些服务时使用的。
 #----------------------------------------------------
+
+
+-keep public class com.common.base.BaseAppRVAdapter
+-keep public class com.test.util.main.MainAdapter
 
 # 保留继承的
 -keep public class * extends android.support.v4.**

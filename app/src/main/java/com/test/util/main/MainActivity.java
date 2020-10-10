@@ -58,32 +58,36 @@ public class MainActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("API验证");
-        RecyclerView rv = findViewById(R.id.recycler_view);
-        BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, DataHelper.getMapList(names), rv, MainAdapter.class);
-        adapter.setOnItemClick((itemView, position) -> {
-            if (FastClickUtil.isFastClick()) return;
-            Intent intent = new Intent(activity, classArr[position]);
-            intent.putExtra(Constant.KEY_HEADER_TITLE, names[position]);
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
-        });
+        try {
+            setTitle("API验证");
+            RecyclerView rv = findViewById(R.id.recycler_view);
+            BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, DataHelper.getMapList(names), rv, MainAdapter.class);
+            adapter.setOnItemClick((itemView, position) -> {
+                if (FastClickUtil.isFastClick()) return;
+                Intent intent = new Intent(activity, classArr[position]);
+                intent.putExtra(Constant.KEY_HEADER_TITLE, names[position]);
+                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+            });
 
-        HongBaoYuView hby = findViewById(R.id.hby);
+            HongBaoYuView hby = findViewById(R.id.hby);
 
-        findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
-        findViewById(R.id.btn_stop).setOnClickListener(v -> {
-            App.app.soundPoolUtil.play(0);
-            hby.stop();
-        });
-        findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
-        findViewById(R.id.btn_last).setOnClickListener(v -> SystemRingUtil.getInstance().playLast(App.app));
-        findViewById(R.id.btn_next).setOnClickListener(v -> SystemRingUtil.getInstance().playNext(App.app));
-        findViewById(R.id.btn_stop_play_ring).setOnClickListener(v -> SystemRingUtil.getInstance().stopRecentRing());
-        //floatButtonTest(contentView);
+            findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
+            findViewById(R.id.btn_stop).setOnClickListener(v -> {
+                App.app.soundPoolUtil.play(0);
+                hby.stop();
+            });
+            findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
+            findViewById(R.id.btn_last).setOnClickListener(v -> SystemRingUtil.getInstance().playLast(App.app));
+            findViewById(R.id.btn_next).setOnClickListener(v -> SystemRingUtil.getInstance().playNext(App.app));
+            findViewById(R.id.btn_stop_play_ring).setOnClickListener(v -> SystemRingUtil.getInstance().stopRecentRing());
+            //floatButtonTest(contentView);
 
-        // openNotificationListenSettings();
+            // openNotificationListenSettings();
 
-        startMonitor();
+            startMonitor();
+        } catch (Exception e) {
+            LogUtil.e(e);
+        }
     }
 
     private void startMonitor() {
