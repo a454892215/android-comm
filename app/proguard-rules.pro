@@ -57,8 +57,6 @@
 # 保持哪些类不被混淆
 #继承activity,application,service,broadcastReceiver,contentprovider....不进行混淆
 -keep public class * extends android.app.Activity
--keep public class * extends com.test.util.base.**{*;}
--keep public class * extends com.common.base.BaseActivity
 -keep public class * extends android.app.Application
 -keep public class * extends android.support.multidex.MultiDexApplication
 -keep public class * extends android.app.Service
@@ -75,9 +73,8 @@
 #----------------------------------------------------
 
 
--keep public class com.common.base.**{*;}
--keep public class com.test.util.main.**{*;}
--keep public class com.test.util.main.MainAdapter{*;}
+# -keep public class com.common.base.**{*;}
+# -keep public class com.test.util.main.MainAdapter{*;}
 
 # 保留继承的
 -keep public class * extends android.support.v4.**
