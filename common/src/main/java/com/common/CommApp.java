@@ -39,22 +39,26 @@ public class CommApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LitePal.initialize(this);
-        LogUtil.d("=======Application===初始化=======ProcessName:" + getProcessName(this));
-        if (SystemUtils.isMainProcess(this)) {
-            app = this;
-            CrashHandler.init(this);
-            CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
-            setWebViewPath(this);
-            if (isInitX5Web) initX5WebView();
-            LogUtil.d("==========是否初始化X5Web:" + isInitX5Web);
-            L.init(this);
-    /*        hotFixCallback = new HotFixCallback();
-            hotFixCallback.init(this);
-            registerActivityLifecycleCallbacks(hotFixCallback);*/
-            LogUtil.d("=======主进程初始化完毕======");
-        } else {
-            LogUtil.d("=======其他进程初始化完毕======");
+        try {
+            LitePal.initialize(this);
+            LogUtil.d("=======Application===初始化=======ProcessName:" + getProcessName(this));
+            if (SystemUtils.isMainProcess(this)) {
+                app = this;
+                CrashHandler.init(this);
+                CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
+                setWebViewPath(this);
+                if (isInitX5Web) initX5WebView();
+                LogUtil.d("==========是否初始化X5Web:" + isInitX5Web);
+                L.init(this);
+        /*        hotFixCallback = new HotFixCallback();
+                hotFixCallback.init(this);
+                registerActivityLifecycleCallbacks(hotFixCallback);*/
+                LogUtil.d("=======主进程初始化完毕======");
+            } else {
+                LogUtil.d("=======其他进程初始化完毕======");
+            }
+        } catch (Exception e) {
+            LogUtil.e(e);
         }
     }
 
