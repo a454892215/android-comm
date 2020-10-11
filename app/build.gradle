@@ -5,6 +5,8 @@ def app_info = rootProject.ext.app_info
 println("app compileSdkVersion:" + "${app_info.compileSdkVersion}")
 println("app minSdkVersion:" + "${app_info.minSdkVersion}")
 println("app targetSdkVersion:" + "${app_info.targetSdkVersion}")
+println("app debug_minifyEnabled:" + "${app_info.debug_minifyEnabled}")
+println("app release_minifyEnabled:" + "${app_info.release_minifyEnabled}")
 
 
 android {
@@ -51,14 +53,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled truapp_info.release_minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'false'
             signingConfig signingConfigs.signing
             debuggable false
         }
         debug {
-            minifyEnabled true
+            minifyEnabled truapp_info.debug_minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'true'
             signingConfig signingConfigs.signing
