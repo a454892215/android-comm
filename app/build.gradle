@@ -53,14 +53,14 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled truapp_info.release_minifyEnabled
+            minifyEnabled app_info.release_minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'false'
             signingConfig signingConfigs.signing
             debuggable false
         }
         debug {
-            minifyEnabled truapp_info.debug_minifyEnabled
+            minifyEnabled app_info.debug_minifyEnabled
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'true'
             signingConfig signingConfigs.signing

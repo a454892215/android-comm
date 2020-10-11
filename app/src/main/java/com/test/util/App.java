@@ -18,12 +18,16 @@ public class App extends CommApp {
 
     @Override
     public void onCreate() {
-        isInitX5Web = true;
-        app = this;
-        super.onCreate();
-        LogUtil.logEnable(BuildConfig.DEBUG);
-        soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
-        JGInit.init(this);
-        LogUtil.i("===onCreate==App=========:" + BuildConfig.app_info);
+        try {
+            isInitX5Web = true;
+            app = this;
+            super.onCreate();
+            LogUtil.logEnable(BuildConfig.DEBUG);
+            soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
+            JGInit.init(this);
+            LogUtil.i("===onCreate==App=========:" + BuildConfig.app_info);
+        } catch (Exception e) {
+            LogUtil.e(e);
+        }
     }
 }
