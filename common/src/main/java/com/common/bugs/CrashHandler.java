@@ -27,7 +27,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         try {
             String throwableInfo = StringUtil.getThrowableInfo(e);
             Executors.newSingleThreadExecutor().execute(() -> {
-                LogUtil.d("捕获未处理异常： 线程名" + t.getName() + " 线程Id:" + t.getId()
+                LogUtil.d("捕获未处理异常： 线程名:" + t.getName() + " 线程Id:" + t.getId()
                         + " 进程ID：" + android.os.Process.myPid() + " uid:" + android.os.Process.myUid());
                 LogUtil.e(throwableInfo);
             });
