@@ -31,6 +31,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 }
             }
         });
+        LogUtil.d("异常捕获初始化完成");
     }
 
     @Override
