@@ -2,6 +2,8 @@ package com.test.util;
 
 import android.os.Bundle;
 import android.view.View;
+
+import com.common.utils.LogUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.test.util.base.MyBaseActivity;
 
@@ -24,11 +26,15 @@ public class BuglyTestActivity extends MyBaseActivity {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.btn_java_main_thread_e_1:
-                throw new RuntimeException("java层 主线程 自定义RuntimeException异常");
+                runOnUiThread(() -> {
+                    throw new RuntimeException("java层 主线程 自定义RuntimeException异常");
+                });
+                LogUtil.d("====执行了吗===1==");
             case R.id.btn_java_io_thread_e_1:
                 Executors.newSingleThreadExecutor().execute(() -> {
                     throw new RuntimeException("java层 子线程 自定义RuntimeException异常");
                 });
+                LogUtil.d("====执行了吗===2==");
                 break;
             case R.id.btn_main_to_c_e:
                 throw new RuntimeException("java主线程  到C代码 异常");
