@@ -1,7 +1,9 @@
 package com.common.bugs;
 
-import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
+import com.common.CommApp;
 import com.common.utils.LogUtil;
 import com.common.utils.StringUtil;
 
@@ -12,29 +14,42 @@ import java.util.concurrent.Executors;
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
-    private CrashHandler(Context context) {
-        this.context = context;
+    private CrashHandler() {
     }
 
-    public static void init(Context context) {
-        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(context));
+    public static void init() {
+        //处理子线程未捕获异常
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+        //处理主线程未捕获异常
+        new Handler(Looper.getMainLooper()).post(() -> {
+            //主线程异常拦截
+            while (true) {
+                try {
+                    Looper.loop();//主线程的异常会从这里抛出
+                } catch (Throwable e) {
+                    onException(Thread.currentThread(), e);
+                }
+            }
+        });
     }
-
-    private Context context;
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
         try {
-            String throwableInfo = StringUtil.getThrowableInfo(e);
-            Executors.newSingleThreadExecutor().execute(() -> {
-                LogUtil.d("捕获未处理异常： 线程名:" + t.getName() + " 线程Id:" + t.getId()
-                        + " 进程ID：" + android.os.Process.myPid() + " uid:" + android.os.Process.myUid());
-                LogUtil.e(throwableInfo);
-            });
-            LocalBugHelper.appendTextToBugsFile(context, throwableInfo);
+            onException(t, e);
             Thread.sleep(5000);
         } catch (Exception ex) {
             LogUtil.e(ex);
         }
+    }
+
+    private static void onException(Thread t, Throwable e) {
+        String throwableInfo = StringUtil.getThrowableInfo(e);
+        Executors.newSingleThreadExecutor().execute(() -> {
+            LogUtil.e("捕获未处理异常： 线程名:" + t.getName() + " 线程Id:" + t.getId()
+                    + " 进程ID：" + android.os.Process.myPid() + " uid:" + android.os.Process.myUid());
+            LogUtil.e(throwableInfo);
+        });
+        LocalBugHelper.appendTextToBugsFile(CommApp.app, throwableInfo);
     }
 }

@@ -44,7 +44,7 @@ public class CommApp extends Application {
             LogUtil.d("=======Application===初始化=======ProcessName:" + getProcessName(this));
             if (SystemUtils.isMainProcess(this)) {
                 app = this;
-                CrashHandler.init(this);
+                CrashHandler.init();
                 CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
                 setWebViewPath(this);
                 if (isInitX5Web) initX5WebView();

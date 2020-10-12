@@ -2,7 +2,6 @@ package com.test.util;
 
 import android.os.Bundle;
 import android.view.View;
-
 import com.tencent.bugly.crashreport.CrashReport;
 import com.test.util.base.MyBaseActivity;
 
