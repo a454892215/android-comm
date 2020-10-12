@@ -208,3 +208,9 @@
 -dontwarn com.google.gson.**
 -keep class com.google.gson.**{*;}
 -keep interface com.google.gson.**{*;}
+
+# x5web
+-dontwarn dalvik.**
+-dontwarn com.tencent.smtt.**
+-keep class com.tencent.smtt.** {*;}
+-keep class com.tencent.tbs.** {*;}
