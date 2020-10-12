@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <include layout="@layout/include_header" />
+
+    <Button
+        android:id="@+id/btn_java_main_thread_e_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="java主线程未处理运行时异常" />
+    <Button
+        android:id="@+id/btn_java_io_thread_e_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="java子线程未处理运行时异常" />
+    <Button
+        android:id="@+id/btn_main_to_c_e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="主线程到c代码层异常" />
+
+    <Button
+        android:id="@+id/btn_io_to_c_e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="子线程到c代码层异常" />
+
+    <Button
+        android:id="@+id/btn_bugly_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="bugly异常上报测试" />
+
+</LinearLayout>
