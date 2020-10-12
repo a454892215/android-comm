@@ -60,7 +60,7 @@ android {
             debuggable false
         }
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'boolean', 'IS_DEBUG', 'true'
             signingConfig signingConfigs.signing
