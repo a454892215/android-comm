@@ -18,7 +18,7 @@ import com.test.util.base.MyBaseActivity;
 import java.util.Arrays;
 import java.util.Random;
 
-public class JRTTTestActivity extends MyBaseActivity {
+public class JRTTAndJNITestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

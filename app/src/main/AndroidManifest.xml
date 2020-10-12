@@ -61,7 +61,7 @@
             android:name=".network.HttpTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
-            android:name=".JRTTTestActivity"
+            android:name=".JRTTAndJNITestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity

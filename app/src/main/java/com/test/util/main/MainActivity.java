@@ -23,7 +23,7 @@ import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
 import com.test.util.App;
 import com.test.util.Constant;
-import com.test.util.JRTTTestActivity;
+import com.test.util.JRTTAndJNITestActivity;
 import com.test.util.custom_view2.CustomViewTestActivity2;
 import com.test.util.sys_notice.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
@@ -47,7 +47,7 @@ public class MainActivity extends MyBaseActivity {
             "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码"};
     private Class[] classArr = {CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
             BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class,
-            HttpTestActivity.class, AgentWebActivity.class, JRTTTestActivity.class, JGMainActivity.class,
+            HttpTestActivity.class, AgentWebActivity.class, JRTTAndJNITestActivity.class, JGMainActivity.class,
             QRCodeTestActivity.class};
 
     @Override
