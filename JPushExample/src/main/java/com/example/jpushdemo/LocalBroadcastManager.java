@@ -118,13 +118,13 @@ final class LocalBroadcastManager {
             Set categories = intent.getCategories();
             boolean debug = (intent.getFlags() & 8) != 0;
             if (debug) {
-                Logger.v("Resolving type " + type + " scheme " + scheme + " of intent " + intent);
+                LogUtil.v("Resolving type " + type + " scheme " + scheme + " of intent " + intent);
             }
 
             ArrayList entries = this.mActions.get(intent.getAction());
             if (entries != null) {
                 if (debug) {
-                    Logger.v("Action list: " + entries);
+                    LogUtil.v("Action list: " + entries);
                 }
 
                 ArrayList receivers = null;
@@ -133,18 +133,18 @@ final class LocalBroadcastManager {
                 for (i = 0; i < entries.size(); ++i) {
                     LocalBroadcastManager.ReceiverRecord receiver = (LocalBroadcastManager.ReceiverRecord) entries.get(i);
                     if (debug) {
-                        Logger.v("Matching against filter " + receiver.filter);
+                        LogUtil.v("Matching against filter " + receiver.filter);
                     }
 
                     if (receiver.broadcasting) {
                         if (debug) {
-                            Logger.v("  Filter\'s target already added");
+                            LogUtil.v("  Filter\'s target already added");
                         }
                     } else {
                         int match = receiver.filter.match(action, type, scheme, data, categories, "LocalBroadcastManager");
                         if (match >= 0) {
                             if (debug) {
-                                Logger.v("  Filter matched!  match=0x" + Integer.toHexString(match));
+                                LogUtil.v("  Filter matched!  match=0x" + Integer.toHexString(match));
                             }
 
                             if (receivers == null) {
@@ -172,7 +172,7 @@ final class LocalBroadcastManager {
                                     reason = "unknown reason";
                             }
 
-                            Logger.v("  Filter did not match: " + reason);
+                            LogUtil.v("  Filter did not match: " + reason);
                         }
                     }
                 }
