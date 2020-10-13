@@ -1,5 +1,6 @@
 package com.common.base;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,9 +14,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.common.CommApp;
 import com.common.R;
 import com.common.utils.LogUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 
 public abstract class BaseDialogFragment extends DialogFragment {
@@ -51,7 +53,13 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().setCanceledOnTouchOutside(canceledOnTouchOutside);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
+        } else {
+            LogUtil.e("dialog = null");
+        }
+
         if (rootView == null) {
             rootView = inflater.inflate(getLayoutId(), container, false);
             initView();
@@ -64,7 +72,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void show(FragmentManager manager, String tag) {
+    public void show(@NotNull FragmentManager manager, String tag) {
         if (!isAdded()) {
             super.show(manager, tag);
         }
@@ -80,27 +88,33 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     private void setWindow() {
-        window = getDialog().getWindow();
-        //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
-        if (window != null) {
-            window.setBackgroundDrawableResource(android.R.color.transparent);
-            window.getDecorView().setPadding(0, 0, 0, 0);
-            WindowManager.LayoutParams lp = window.getAttributes();
-            lp.gravity = gravity;
-            lp.width = width;
-            lp.height = height;
-            // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-            lp.dimAmount = dimeAmount;
-            lp.x = x;
-            lp.y = y;
-            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            window.setAttributes(lp);
-            if (animStyle > 0) {
-                window.setWindowAnimations(animStyle);
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            window = getDialog().getWindow();
+            //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
+            if (window != null) {
+                window.setBackgroundDrawableResource(android.R.color.transparent);
+                window.getDecorView().setPadding(0, 0, 0, 0);
+                WindowManager.LayoutParams lp = window.getAttributes();
+                lp.gravity = gravity;
+                lp.width = width;
+                lp.height = height;
+                // lp.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                lp.dimAmount = dimeAmount;
+                lp.x = x;
+                lp.y = y;
+                window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                window.setAttributes(lp);
+                if (animStyle > 0) {
+                    window.setWindowAnimations(animStyle);
+                }
+            } else {
+                LogUtil.e("==========window == null =======");
             }
         } else {
-            LogUtil.e("==========window == null =======");
+            LogUtil.e("dialog = null");
         }
+
     }
 
     protected Object param;
@@ -146,7 +160,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public View getRootView() {
         return rootView;
     }
-
 
 
     protected abstract int getLayoutId();
