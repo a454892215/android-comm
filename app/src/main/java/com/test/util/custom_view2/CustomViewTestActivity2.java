@@ -2,6 +2,7 @@ package com.test.util.custom_view2;
 
 import android.os.Bundle;
 
+import com.common.base.BaseFragment;
 import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
 import com.test.util.R;
@@ -15,7 +16,7 @@ public class CustomViewTestActivity2 extends MyBaseActivity {
         return R.layout.activity_custom_view_test2;
     }
 
-    private Class[] fragmentArr ={Fragment_01.class, Fragment_02.class, Fragment_03.class,
+    private Class<?>[] fragmentArr ={Fragment_01.class, Fragment_02.class, Fragment_03.class,
             Fragment_04.class, Fragment_05.class, Fragment_06.class};
     private String[] tabNames = {"画笔1", "画笔2", "粒子效果", "动画集", "贝塞尔曲线", "翻页效果"};
 

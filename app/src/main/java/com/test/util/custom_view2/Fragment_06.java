@@ -6,7 +6,7 @@ import com.test.util.R;
 public class Fragment_06 extends BaseFragment {
     @Override
     protected int getLayoutId() {
-        return R.layout.new_cus_viewfrag_05;
+        return R.layout.new_cus_viewfrag_06;
     }
 
     @Override
