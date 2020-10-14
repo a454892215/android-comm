@@ -4,9 +4,6 @@ import android.util.SparseArray;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
-import com.common.CommApp;
-import com.common.base.BaseFragment;
 import com.common.utils.CastUtil;
 import com.common.utils.LogUtil;
 
