@@ -15,8 +15,9 @@ public class CustomViewTestActivity2 extends MyBaseActivity {
         return R.layout.activity_custom_view_test2;
     }
 
-    Class[] fragmentArr = {Fragment_01.class, Fragment_02.class, Fragment_03.class, Fragment_04.class, Fragment_05.class};
-    String[] tabNames = {"画笔1", "画笔2", "粒子效果", "动画集", "贝塞尔曲线"};
+    private Class[] fragmentArr ={Fragment_01.class, Fragment_02.class, Fragment_03.class,
+            Fragment_04.class, Fragment_05.class, Fragment_06.class};
+    private String[] tabNames = {"画笔1", "画笔2", "粒子效果", "动画集", "贝塞尔曲线", "翻页效果"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
