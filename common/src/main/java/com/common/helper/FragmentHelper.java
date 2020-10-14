@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.CommApp;
+import com.common.base.BaseFragment;
 import com.common.utils.CastUtil;
 import com.common.utils.LogUtil;
 
@@ -15,7 +16,7 @@ public class FragmentHelper {
     private int contentViewId;
     private SparseArray<Fragment> fragmentInstanceArr = new SparseArray<>();
 
-    public FragmentHelper(FragmentManager fm, Class[] fragmentArr, int contentViewId) {
+    public FragmentHelper(FragmentManager fm, Class<?>[] fragmentArr, int contentViewId) {
         this.fm = fm;
         this.contentViewId = contentViewId;
         for (int i = 0; i < fragmentArr.length; i++) {
