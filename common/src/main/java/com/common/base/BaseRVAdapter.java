@@ -21,7 +21,7 @@ import java.util.List;
 
 public abstract class BaseRVAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
 
-    protected static final int VIEW_TYPE_EMPTY = 1;
+    public static final int VIEW_TYPE_EMPTY = 1;
     private static final int VIEW_TYPE_1 = 0;
 
     protected Context context;

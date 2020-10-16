@@ -6,6 +6,7 @@ import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.base.BaseAppRVAdapter;
 import com.common.base.BasePop;
+import com.common.base.BaseRVAdapter;
 import com.common.helper.RVHelper;
 import com.common.listener.OnClickListener;
 import com.common.utils.CastUtil;
@@ -38,6 +39,7 @@ public class SearchRecordPop extends BasePop {
         rv = findViewById(R.id.rv);
         BaseAppRVAdapter adapter = RVHelper.initVerticalRV(activity, null, rv, SearchRecordAdapter.class);
         adapter.setOnItemClick((view, position) -> {
+            if(adapter.getItemViewType(position) == BaseRVAdapter.VIEW_TYPE_EMPTY) return;
             SearchRecordEntity entity = CastUtil.cast(adapter.getList().get(position));
             String url = entity.getUrl();
             if (onClickListener != null) {
