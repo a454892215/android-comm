@@ -11,7 +11,6 @@ import android.widget.ProgressBar;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.base.BaseActivity;
-import com.common.utils.LogUtil;
 import com.common.widget.CommonEditText;
 import com.common.widget.float_window.MultiViewFloatLayout;
 import com.common.x5_web.WebViewInfoCallBack;
@@ -126,9 +125,8 @@ public class WebViewWindow implements View.OnClickListener {
 
     private class MyWebViewInfoCallBack extends WebViewInfoCallBack {
         @Override
-        public void onReceivedTitle(String title) {
-            super.onReceivedTitle(title);
-            et_url_info.setText(title);
+        public void onUrlChange(String url) {
+            et_url_info.setText(url);
         }
 
         @Override
