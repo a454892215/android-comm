@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
 println("app compileSdkVersion:" + "${app_info.compileSdkVersion}")
@@ -166,6 +167,7 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     implementation project(path: ':JPushExample')
 
-    //
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.1.0'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
