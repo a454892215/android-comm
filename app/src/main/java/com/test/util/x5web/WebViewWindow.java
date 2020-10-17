@@ -29,10 +29,10 @@ public class WebViewWindow implements View.OnClickListener {
     private String home_url = "https://hao.360.cn";
     private SearchRecordPop searchRecordPop;
     private View rootView;
-    private BaseActivity activity;
+    private X5WebTestActivity activity;
     private MultiViewFloatLayout multi_view_float;
 
-    WebViewWindow(View itemView, BaseActivity activity, MultiViewFloatLayout multi_view_float) {
+    WebViewWindow(View itemView, X5WebTestActivity activity, MultiViewFloatLayout multi_view_float) {
         rootView = itemView;
         this.multi_view_float = multi_view_float;
         this.activity = activity;
@@ -150,7 +150,8 @@ public class WebViewWindow implements View.OnClickListener {
             transport.setWebView(web_view);
             web_view.setWebChromeClient(view.getWebChromeClient());
             resultMsg.sendToTarget();
-            new WebViewWindow(item_view, activity, multi_view_float);
+            WebViewWindow webViewWindow = new WebViewWindow(item_view, activity, multi_view_float);
+            activity.getWindowList().add(webViewWindow);
             return true;
         }
     }

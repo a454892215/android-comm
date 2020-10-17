@@ -10,11 +10,19 @@ import com.common.x5_web.X5WebView;
 import com.test.util.R;
 import com.test.util.base.MyBaseActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class X5WebTestActivity extends MyBaseActivity {
 
 
     private MultiViewFloatLayout multi_view_float;
 
+    public List<WebViewWindow> getWindowList() {
+        return WindowList;
+    }
+
+    private List<WebViewWindow> WindowList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +31,8 @@ public class X5WebTestActivity extends MyBaseActivity {
         setTitle("X5WebView测试");
 
         multi_view_float = findViewById(R.id.multi_view);
-        new WebViewWindow(multi_view_float.getChildAt(0), this, multi_view_float);
+        WebViewWindow webViewWindow = new WebViewWindow(multi_view_float.getChildAt(0), this, multi_view_float);
+        WindowList.add(webViewWindow);
     }
 
 
