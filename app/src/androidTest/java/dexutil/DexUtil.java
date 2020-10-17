@@ -11,7 +11,7 @@ public class DexUtil {
     //class 文件路径
     private static final String CLASS_DIR = "app/hot_fix/classes";
     //dex输出路径
-    private static final String DEX_OUT_DIR = "app/hot_fix/" + HotFixCallback.dexFileName;
+    private static final String DEX_OUT_DIR = "app/hot_fix/" + "app_dex.dex";
 
     public static void main(String[] args) {
         String cmd = DEX_FULL_PATH + " --dex --output =" + DEX_OUT_DIR + " " + new File(CLASS_DIR).getAbsolutePath();
