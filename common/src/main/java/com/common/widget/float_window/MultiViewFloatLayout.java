@@ -2,7 +2,9 @@ package com.common.widget.float_window;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import androidx.annotation.Nullable;
+
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -191,10 +193,19 @@ public class MultiViewFloatLayout extends FrameLayout {
                 float translationX = view.getTranslationX();
                 if (translationX <= -view.getWidth() || translationX >= getWidth()) {
                     removeView(view);
+                    if(onRemoveViewListener != null) onRemoveViewListener.onRemoveListener();
                     openWindowMode();
                 }
             }
         }
     }
 
+    public void setOnRemoveViewListener(OnRemoveViewListener onRemoveViewListener) {
+        this.onRemoveViewListener = onRemoveViewListener;
+    }
+
+    private OnRemoveViewListener onRemoveViewListener;
+    public interface OnRemoveViewListener {
+        void onRemoveListener();
+    }
 }

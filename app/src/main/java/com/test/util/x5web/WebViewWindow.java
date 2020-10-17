@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 
 import androidx.fragment.app.FragmentManager;
 
-import com.common.base.BaseActivity;
 import com.common.widget.CommonEditText;
 import com.common.widget.float_window.MultiViewFloatLayout;
 import com.common.x5_web.WebViewInfoCallBack;
@@ -42,6 +41,7 @@ public class WebViewWindow implements View.OnClickListener {
         searchRecordPop = new SearchRecordPop(activity);
         searchRecordPop.setOnClickListener(url -> web_view.goUrl(url[0], activity));
         web_view.loadUrl(home_url);
+
         //web_view.requestFocus();
         setBrowserHeader();
         setBrowserFooter();
@@ -150,8 +150,7 @@ public class WebViewWindow implements View.OnClickListener {
             transport.setWebView(web_view);
             web_view.setWebChromeClient(view.getWebChromeClient());
             resultMsg.sendToTarget();
-            WebViewWindow webViewWindow = new WebViewWindow(item_view, activity, multi_view_float);
-            activity.getWindowList().add(webViewWindow);
+            new WebViewWindow(item_view, activity, multi_view_float);
             return true;
         }
     }
