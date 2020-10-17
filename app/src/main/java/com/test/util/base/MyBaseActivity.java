@@ -29,8 +29,8 @@ public abstract class MyBaseActivity extends BaseActivity implements View.OnClic
         String title = getIntent().getStringExtra(Constant.KEY_HEADER_TITLE);
         if (!TextUtils.isEmpty(title)) setTitle(title);
 
-        getWindow().setEnterTransition(new Slide(Gravity.BOTTOM).setDuration(600));
-        getWindow().setExitTransition(new Fade().setDuration(200));
+        //getWindow().setEnterTransition(new Slide(Gravity.BOTTOM).setDuration(200));
+        // getWindow().setExitTransition(new Fade().setDuration(200));
         TimerTest.testFPS(this, 60);
 
     }
