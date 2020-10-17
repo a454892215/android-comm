@@ -40,6 +40,7 @@ public class WebViewWindow implements View.OnClickListener {
         web_view.initWebViewSettings(activity, new MyWebViewInfoCallBack());
         searchRecordPop = new SearchRecordPop(activity);
         searchRecordPop.setOnClickListener(url -> web_view.goUrl(url[0], activity));
+        web_view.setOnTouchDownListener(() -> et_url_info.setText(web_view.getUrl()));
         web_view.loadUrl(home_url);
 
         //web_view.requestFocus();
@@ -130,6 +131,11 @@ public class WebViewWindow implements View.OnClickListener {
         }
 
         @Override
+        public void onReceivedTitle(String title) {
+            super.onReceivedTitle(title);
+        }
+
+        @Override
         public void onProgressChanged(int progress) {
             super.onProgressChanged(progress);
             progress_bar.setProgress(progress);
@@ -138,7 +144,7 @@ public class WebViewWindow implements View.OnClickListener {
             } else {
                 progress_bar.setVisibility(View.VISIBLE);
             }
-         //   LogUtil.d("=============progress:" + progress);
+            //   LogUtil.d("=============progress:" + progress);
         }
 
         @Override

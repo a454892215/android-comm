@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
@@ -137,4 +138,26 @@ public class X5WebView extends WebView {
         removeAllViews();
     }
 
+
+    private OnTouchDown onTouchDownListener;
+
+    public void setOnTouchDownListener(OnTouchDown onTouchDownListener) {
+        this.onTouchDownListener = onTouchDownListener;
+    }
+
+    public interface OnTouchDown {
+        void onTouchDown();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            if (onTouchDownListener != null) {
+                onTouchDownListener.onTouchDown();
+                requestFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+
+    }
 }
