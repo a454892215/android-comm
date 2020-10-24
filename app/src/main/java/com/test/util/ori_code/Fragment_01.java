@@ -38,8 +38,10 @@ public class Fragment_01 extends BaseFragment {
 
     /**
      * 写法2：（编译器无内存泄露警告） handler1 handler2 的区别是什么, 为什么写法2是正常的，没有内存泄露警告？
+     *       handle之所以会内存泄露 是因为如果不主动销毁，其正常的生命周期会比外部类长，而其如果持有外部类对象，
+     *       会导致外部类对象不能及时回收。此种写法，直接持有外部类对象的是Handler.Callback，而非handler2
      */
-    Handler handler2 = new Handler(new Handler.Callback() {
+    private Handler handler2 = new Handler(new Handler.Callback() {
         @SuppressLint("SetTextI18n")
         @Override
         public boolean handleMessage(Message msg) {
