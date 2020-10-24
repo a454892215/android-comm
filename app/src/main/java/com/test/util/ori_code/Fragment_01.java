@@ -22,7 +22,8 @@ public class Fragment_01 extends BaseFragment {
 
     /**
      * /写法1： 匿名内部类写法 （编译器有内存泄露警告）
-     * 此时即使把 handler1 设为static也依然会有内存泄露警告（问题？ 既然设置为static 并且编译通过，那么匿名内部类对象Handler1是不会依赖外部对象的，
+     * 此时即使把 handler1 设为static也依然会有内存泄露警告（问题？ 既然设置为static 并且编译通过，
+     * 那么匿名内部类对象Handler1是不会依赖外部对象的，
      * 因为静态成员初始化优先于对象，为什么还会有内存泄露警告？是编译器警告的bug?）
      */
     private Handler handler1 = new Handler() {
