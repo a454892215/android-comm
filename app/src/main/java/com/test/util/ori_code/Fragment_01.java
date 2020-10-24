@@ -31,7 +31,7 @@ public class Fragment_01 extends BaseFragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                textInfo.setText("handler2收到了信息： what:" + msg.what);
+                textInfo.setText("handler1收到了信息： what:" + msg.what);
             }
         }
     };
@@ -47,7 +47,7 @@ public class Fragment_01 extends BaseFragment {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what == 3) {
-                textInfo.setText("handler1收到了信息： what:" + msg.what);
+                textInfo.setText("handler2收到了信息： what:" + msg.what);
             }
             return false;
         }
