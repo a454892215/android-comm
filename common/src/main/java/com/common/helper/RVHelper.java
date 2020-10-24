@@ -9,7 +9,7 @@ import com.common.utils.LogUtil;
 
 import java.util.List;
 import java.util.Map;
-@Deprecated
+
 public class RVHelper {
 
     public static BaseAppRVAdapter initVerticalRV(BaseActivity activity, List<?> list, RecyclerView rv, Class<? extends BaseAppRVAdapter> typeClass) {

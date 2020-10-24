@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseAppRVAdapter;
@@ -20,6 +21,7 @@ import com.test.util.App;
 import com.test.util.Constant;
 import com.test.util.JRTTAndJNITestActivity;
 import com.test.util.custom_view2.CustomViewTestActivity2;
+import com.test.util.ori_code.OriCodeActivity;
 import com.test.util.sys_notice.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
 import com.test.util.QRCodeTestActivity;
@@ -39,9 +41,9 @@ import com.test.util.x5web.X5WebTestActivity;
 @SuppressWarnings("unused")
 public class MainActivity extends MyBaseActivity {
 
-    private String[] names = {"View 相关", "View 相关2", "Xposed框架", "Bugly和各种异常捕获", "X5WebView", "Android Jetpack|通知监听",
+    private String[] names = {"源码验证", "View 相关", "View 相关2", "Xposed框架", "Bugly和各种异常捕获", "X5WebView", "Android Jetpack|通知监听",
             "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码"};
-    private Class[] classArr = {CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
+    private Class<?>[] classArr = {OriCodeActivity.class, CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
             BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class,
             HttpTestActivity.class, AgentWebActivity.class, JRTTAndJNITestActivity.class, JGMainActivity.class,
             QRCodeTestActivity.class};
