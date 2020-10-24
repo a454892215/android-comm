@@ -5,10 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.base.BaseAppRVAdapter;
@@ -18,7 +14,6 @@ import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemRingUtil;
-import com.common.utils.ToastUtil;
 import com.common.widget.HongBaoYuView;
 import com.example.jpushdemo.JGMainActivity;
 import com.test.util.App;
@@ -41,6 +36,7 @@ import com.test.util.x5web.X5WebTestActivity;
  * Author: L
  * Description:
  */
+@SuppressWarnings("unused")
 public class MainActivity extends MyBaseActivity {
 
     private String[] names = {"View 相关", "View 相关2", "Xposed框架", "Bugly和各种异常捕获", "X5WebView", "Android Jetpack|通知监听",
@@ -107,14 +103,6 @@ public class MainActivity extends MyBaseActivity {
         } catch (Exception e) {
             LogUtil.e(e);
         }
-    }
-
-
-    private void floatButtonTest(View contentView) {
-        ViewGroup viewGroup = (ViewGroup) contentView;
-        View float_btn = LayoutInflater.from(contentView.getContext()).inflate(R.layout.float_btn, viewGroup, false);
-        float_btn.setOnClickListener(v -> ToastUtil.showLong("gaga"));
-        viewGroup.addView(float_btn);
     }
 
     @Override
