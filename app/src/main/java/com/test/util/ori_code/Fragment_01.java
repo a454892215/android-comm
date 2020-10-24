@@ -37,7 +37,7 @@ public class Fragment_01 extends BaseFragment {
 
 
     /**
-     * 写法2：（编译器无内存泄露警告） handler1 handler2 的区别是什么？
+     * 写法2：（编译器无内存泄露警告） handler1 handler2 的区别是什么, 为什么写法2是正常的，没有内存泄露警告？
      */
     Handler handler2 = new Handler(new Handler.Callback() {
         @SuppressLint("SetTextI18n")
