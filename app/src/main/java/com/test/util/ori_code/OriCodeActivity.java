@@ -6,7 +6,6 @@ import com.common.helper.FragmentHelper;
 import com.common.widget.CommonTabLayout;
 import com.test.util.R;
 import com.test.util.base.MyBaseActivity;
-import com.test.util.custom_view2.Fragment_02;
 
 
 public class OriCodeActivity extends MyBaseActivity {
