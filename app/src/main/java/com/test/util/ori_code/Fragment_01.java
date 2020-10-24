@@ -6,6 +6,7 @@ import android.os.Message;
 import android.widget.TextView;
 
 import com.common.base.BaseFragment;
+import com.common.utils.LogUtil;
 import com.test.util.R;
 
 import java.lang.ref.WeakReference;
@@ -30,9 +31,9 @@ public class Fragment_01 extends BaseFragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1) {
-                textInfo.setText("handler1收到了信息： what:" + msg.what);
-            }
+            String text = "handler1收到了信息： what:" + msg.what;
+            LogUtil.d(text);
+            textInfo.setText(text);
         }
     };
 
@@ -46,9 +47,9 @@ public class Fragment_01 extends BaseFragment {
         @SuppressLint("SetTextI18n")
         @Override
         public boolean handleMessage(Message msg) {
-            if (msg.what == 3) {
-                textInfo.setText("handler2收到了信息： what:" + msg.what);
-            }
+            String text = "handler2收到了信息： what:" + msg.what;
+            LogUtil.d(text);
+            textInfo.setText(text);
             return false;
         }
     });
@@ -67,12 +68,11 @@ public class Fragment_01 extends BaseFragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 6) {
-                Fragment_01 fragment_01 = weakReference.get();
-                if (fragment_01 != null) {
-                    fragment_01.textInfo.setText("handler3收到了信息： what:" + msg.what);
-                }
-
+            String text = "handler3收到了信息： what:" + msg.what;
+            LogUtil.d(text);
+            Fragment_01 fragment_01 = weakReference.get();
+            if (fragment_01 != null) {
+                fragment_01.textInfo.setText(text);
             }
         }
     }
@@ -81,11 +81,20 @@ public class Fragment_01 extends BaseFragment {
     protected void initView() {
 
         textInfo = findViewById(R.id.text_info);
+        //即时消息测试
         findViewById(R.id.btn_1).setOnClickListener(v -> handler1.sendEmptyMessage(1));
+        findViewById(R.id.btn_2).setOnClickListener(v -> handler2.sendEmptyMessage(2));
+        findViewById(R.id.btn_3).setOnClickListener(v -> new MyHandle(this).sendEmptyMessage(3));
 
-        findViewById(R.id.btn_2).setOnClickListener(v -> handler2.sendEmptyMessage(3));
-
-        findViewById(R.id.btn_3).setOnClickListener(v -> new MyHandle(this).sendEmptyMessage(6));
+        //延迟消息测试 内存泄露问题
+        findViewById(R.id.btn_1_test).setOnClickListener(v -> handler1.sendEmptyMessageDelayed(11, 3000));
+        findViewById(R.id.btn_2_test).setOnClickListener(v -> handler2.sendEmptyMessageDelayed(22, 3000));
+        findViewById(R.id.btn_3_test).setOnClickListener(v -> new MyHandle(this).sendEmptyMessageDelayed(33, 3000));
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.d("========onDestroy=============");
+    }
 }
