@@ -32,7 +32,7 @@ public class Fragment_01 extends BaseFragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String text = "handler1收到了信息： what:" + msg.what;
-            LogUtil.d(text);
+            LogUtil.d(text + " this:" + textInfo);
             textInfo.setText(text);
         }
     };
@@ -48,7 +48,7 @@ public class Fragment_01 extends BaseFragment {
         @Override
         public boolean handleMessage(Message msg) {
             String text = "handler2收到了信息： what:" + msg.what;
-            LogUtil.d(text);
+            LogUtil.d(text + " this:" + textInfo);
             textInfo.setText(text);
             return false;
         }
@@ -69,8 +69,9 @@ public class Fragment_01 extends BaseFragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String text = "handler3收到了信息： what:" + msg.what;
-            LogUtil.d(text);
+
             Fragment_01 fragment_01 = weakReference.get();
+            LogUtil.d(text + " this:" + fragment_01);
             if (fragment_01 != null) {
                 fragment_01.textInfo.setText(text);
             }
