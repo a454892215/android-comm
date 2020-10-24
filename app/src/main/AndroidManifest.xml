@@ -45,6 +45,10 @@
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity
+            android:name=".ori_code.OriCodeActivity"
+            android:configChanges="screenSize|keyboardHidden|orientation" />
+
+        <activity
             android:name=".XposedTestActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
         <activity
