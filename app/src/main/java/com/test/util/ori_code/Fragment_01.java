@@ -101,6 +101,7 @@ public class Fragment_01 extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        handler2.removeCallbacksAndMessages(null);
         LogUtil.d("========onDestroy=============");
     }
 }
