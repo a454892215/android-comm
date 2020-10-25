@@ -10,7 +10,11 @@ import com.common.utils.LogUtil;
 import com.test.util.R;
 
 import java.lang.ref.WeakReference;
+import java.util.concurrent.Executors;
 
+/**
+ * Handler验证
+ */
 public class Fragment_01 extends BaseFragment {
 
     private TextView textInfo;
@@ -40,8 +44,8 @@ public class Fragment_01 extends BaseFragment {
 
     /**
      * 写法2：（编译器无内存泄露警告） handler1 handler2 的区别是什么, 为什么写法2是正常的，没有内存泄露警告？
-     *       handle之所以会内存泄露 是因为如果不主动销毁，其正常的生命周期会比外部类长，而其如果持有外部类对象，
-     *       会导致外部类对象不能及时回收。此种写法，直接持有外部类对象的是Handler.Callback，而非handler2??
+     * handle之所以会内存泄露 是因为如果不主动销毁，其正常的生命周期会比外部类长，而其如果持有外部类对象，
+     * 会导致外部类对象不能及时回收。此种写法，直接持有外部类对象的是Handler.Callback，而非handler2??
      */
     private Handler handler2 = new Handler(new Handler.Callback() {
         @SuppressLint("SetTextI18n")
@@ -80,17 +84,18 @@ public class Fragment_01 extends BaseFragment {
 
     @Override
     protected void initView() {
-
         textInfo = findViewById(R.id.text_info);
-        //即时消息测试
-        findViewById(R.id.btn_1).setOnClickListener(v -> handler1.sendEmptyMessage(1));
-        findViewById(R.id.btn_2).setOnClickListener(v -> handler2.sendEmptyMessage(2));
-        findViewById(R.id.btn_3).setOnClickListener(v -> new MyHandle(this).sendEmptyMessage(3));
+        Executors.newSingleThreadExecutor().execute(() -> {
+            //即时消息测试
+            findViewById(R.id.btn_1).setOnClickListener(v -> handler1.sendEmptyMessage(1));
+            findViewById(R.id.btn_2).setOnClickListener(v -> handler2.sendEmptyMessage(2));
+            findViewById(R.id.btn_3).setOnClickListener(v -> new MyHandle(this).sendEmptyMessage(3));
 
-        //延迟消息测试 内存泄露问题
-        findViewById(R.id.btn_1_test).setOnClickListener(v -> handler1.sendEmptyMessageDelayed(11, 3000));
-        findViewById(R.id.btn_2_test).setOnClickListener(v -> handler2.sendEmptyMessageDelayed(22, 3000));
-        findViewById(R.id.btn_3_test).setOnClickListener(v -> new MyHandle(this).sendEmptyMessageDelayed(33, 3000));
+            //延迟消息测试 内存泄露问题
+            findViewById(R.id.btn_1_test).setOnClickListener(v -> handler1.sendEmptyMessageDelayed(11, 3000));
+            findViewById(R.id.btn_2_test).setOnClickListener(v -> handler2.sendEmptyMessageDelayed(22, 3000));
+            findViewById(R.id.btn_3_test).setOnClickListener(v -> new MyHandle(this).sendEmptyMessageDelayed(33, 3000));
+        });
     }
 
     @Override
