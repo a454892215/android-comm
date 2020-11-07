@@ -64,7 +64,8 @@ public class MainActivity extends MyBaseActivity {
                 if (FastClickUtil.isFastClick()) return;
                 Intent intent = new Intent(activity, classArr[position]);
                 intent.putExtra(Constant.KEY_HEADER_TITLE, names[position]);
-                startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+               // startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                startActivity(intent);
             });
 
             HongBaoYuView hby = findViewById(R.id.hby);
