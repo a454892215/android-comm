@@ -16,7 +16,7 @@
       android:textSize="12sp"
       android:text="ListView吸附效果2"/>
 
-  <ListView
+  <com.test.util.widget.MyListView
       android:id="@+id/list_view"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
