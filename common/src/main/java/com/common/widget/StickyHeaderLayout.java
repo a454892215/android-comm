@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.comm.L;
+import com.common.utils.LogUtil;
 import com.common.widget.entity.ViewItem;
 
 import java.util.ArrayList;
@@ -58,17 +59,10 @@ public class StickyHeaderLayout extends LinearLayout {
 
     float startX;
     float startY;
-    int orientation = 0;
-    int orientation_vertical = 1;
-    int orientation_horizontal = 2;
-
-    private static final int max_compute_times = 3;
-    private int compute_times = 0;
-    private float xScrollSum;
-    private float yScrollSum;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
+        // LogUtil.d("====dispatchTouchEvent======:");
         onInterceptTouchEvent(ev);
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             velocityTracker.clear();
@@ -77,16 +71,13 @@ public class StickyHeaderLayout extends LinearLayout {
         return true;
     }
 
-    private void preHandleMotionEvent(MotionEvent ev) {
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+       // LogUtil.d("====onInterceptTouchEvent======:");
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (flingAnim != null) flingAnim.cancel();
                 startX = ev.getRawX();
                 startY = ev.getRawY();
-                orientation = 0;
-                xScrollSum = 0;
-                yScrollSum = 0;
-                compute_times = 0;
                 break;
             case MotionEvent.ACTION_MOVE:
                 float currentX = ev.getRawX();
@@ -95,28 +86,18 @@ public class StickyHeaderLayout extends LinearLayout {
                 dy = currentY - startY;
                 startX = currentX;
                 startY = currentY;
-
-                if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit) && Math.abs(xScrollSum) < min_scroll_unit) {
-                    xScrollSum += dx;
-                    yScrollSum += dy;
-                    compute_times++;
-                } else {
-                    if (Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
-                        if (orientation == 0) orientation = orientation_horizontal;
-                    } else if (Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
-                        if (orientation == 0) orientation = orientation_vertical;
-                    }
-                }
                 break;
         }
-        if (orientation == orientation_horizontal) {
-            onTouchEvent(ev);
-        }
+//        if (orientation == orientation_vertical) {
+//
+//        }
+        onTouchEvent(ev);
+        return true;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        super.onTouchEvent(ev);
+      //  super.onTouchEvent(ev);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 executeScrollY(-Math.round(dy));
@@ -138,7 +119,7 @@ public class StickyHeaderLayout extends LinearLayout {
                     flingAnim.start();
                     invalidate();
                 }
-                return false;
+                return true;
         }
         return true;
     }
@@ -147,7 +128,7 @@ public class StickyHeaderLayout extends LinearLayout {
         return maxScrollHeight;
     }
 
-    protected float maxScrollHeight;
+    protected float maxScrollHeight = L.dp_1 * 200;
 
     protected float getFlingDistance(float yVelocity) {
         return yVelocity / 100 * L.dp_1;
@@ -162,7 +143,7 @@ public class StickyHeaderLayout extends LinearLayout {
     @Override
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
-            //  scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+            scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             if (onScrollListener != null) {
                 onScrollListener.onScroll(mScroller.getFinalY());
             }
@@ -182,10 +163,13 @@ public class StickyHeaderLayout extends LinearLayout {
     }
 
 
+    private static final float minY = 0;
+
     private void executeScrollY(float dy) {
         if (!scrollEnable) return;
-        if (mScroller.getFinalY() + dy < 0) {//getFinalX 避免延迟
-            dy = 0f - mScroller.getFinalY();
+        LogUtil.d("============getFinalY:" +  mScroller.getFinalY());
+        if (mScroller.getFinalY() + dy < minY) {//getFinalX 避免延迟
+            dy = minY - mScroller.getFinalY();
         }
         if (mScroller.getFinalY() + dy > maxScrollHeight) {
             dy = maxScrollHeight - mScroller.getFinalY();
