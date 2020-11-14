@@ -32,6 +32,7 @@ public class StickyHeaderLayout extends LinearLayout {
     protected Scroller mScroller;
     private int maxVelocity;
     private ValueAnimator flingAnim;
+    private float dy;
 
     public StickyHeaderLayout(Context context) {
         this(context, null);
@@ -65,7 +66,6 @@ public class StickyHeaderLayout extends LinearLayout {
     private int compute_times = 0;
     private float xScrollSum;
     private float yScrollSum;
-    private float dx;
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -91,8 +91,8 @@ public class StickyHeaderLayout extends LinearLayout {
             case MotionEvent.ACTION_MOVE:
                 float currentX = ev.getRawX();
                 float currentY = ev.getRawY();
-                dx = currentX - startX;
-                float dy = currentY - startY;
+                float dx = currentX - startX;
+                dy = currentY - startY;
                 startX = currentX;
                 startY = currentY;
 
@@ -119,22 +119,21 @@ public class StickyHeaderLayout extends LinearLayout {
         super.onTouchEvent(ev);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                executeScrollXBy(-Math.round(dx));
+                executeScrollY(-Math.round(dy));
                 break;
             case MotionEvent.ACTION_UP:
                 performClick();
-                if (Math.abs(dx) > min_scroll_unit / 2) {
+                if (Math.abs(dy) > min_scroll_unit / 2) {
                     velocityTracker.computeCurrentVelocity(2000, maxVelocity);
-                    float xVelocity = velocityTracker.getXVelocity();
+                    float yVelocity = velocityTracker.getYVelocity();
                     mScroller.abortAnimation();
-                    //  mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
                     if (flingAnim != null) flingAnim.cancel();
-                    flingAnim = ValueAnimator.ofFloat(getFlingDistance(xVelocity), 0);
-                    flingAnim.setDuration(Math.abs((int) xVelocity) / 2);
+                    flingAnim = ValueAnimator.ofFloat(getFlingDistance(yVelocity), 0);
+                    flingAnim.setDuration(Math.abs((int) yVelocity) / 2);
                     flingAnim.setInterpolator(new DecelerateInterpolator());
                     flingAnim.addUpdateListener(animation -> {
                         float value = (float) animation.getAnimatedValue();
-                        executeScrollXBy(-value);
+                        executeScrollY(-value);
                     });
                     flingAnim.start();
                     invalidate();
@@ -144,14 +143,14 @@ public class StickyHeaderLayout extends LinearLayout {
         return true;
     }
 
-    public float getMaxScrollWidth() {
-        return maxScrollWidth;
+    public float getMaxScrollHeight() {
+        return maxScrollHeight;
     }
 
-    protected float maxScrollWidth;
+    protected float maxScrollHeight;
 
-    protected float getFlingDistance(float xVelocity) {
-        return xVelocity / 100 * L.dp_1;
+    protected float getFlingDistance(float yVelocity) {
+        return yVelocity / 100 * L.dp_1;
     }
 
 
@@ -164,8 +163,8 @@ public class StickyHeaderLayout extends LinearLayout {
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             //  scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-            if(onScrollListener != null){
-                onScrollListener.onScroll(mScroller.getFinalX());
+            if (onScrollListener != null) {
+                onScrollListener.onScroll(mScroller.getFinalY());
             }
             invalidate();
         }
@@ -183,24 +182,24 @@ public class StickyHeaderLayout extends LinearLayout {
     }
 
 
-    private void executeScrollXBy(float dx) {
+    private void executeScrollY(float dy) {
         if (!scrollEnable) return;
-        if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
-            dx = 0f - mScroller.getFinalX();
+        if (mScroller.getFinalY() + dy < 0) {//getFinalX 避免延迟
+            dy = 0f - mScroller.getFinalY();
         }
-        if (mScroller.getFinalX() + dx > maxScrollWidth) {
-            dx = maxScrollWidth - mScroller.getFinalX();
+        if (mScroller.getFinalY() + dy > maxScrollHeight) {
+            dy = maxScrollHeight - mScroller.getFinalY();
         }
-        mScroller.startScroll(mScroller.getFinalX(), 0, (int) dx, 0, 180);
+        mScroller.startScroll(0, mScroller.getFinalY(), 0, (int) dy, 180);
         invalidate();
     }
 
-    public void executeScrollToX(float x) {
+    public void executeScrollToY(float y) {
         if (!scrollEnable) return;
-        if (x < 0) x = 0;
-        if (x > maxScrollWidth) x = maxScrollWidth;
-        dx = x - mScroller.getFinalX();
-        mScroller.startScroll(mScroller.getFinalX(), 0, (int) dx, 0, 180);
+        if (y < 0) y = 0;
+        if (y > maxScrollHeight) y = maxScrollHeight;
+        dy = y - mScroller.getFinalY();
+        mScroller.startScroll(0, mScroller.getFinalY(), 0, (int) dy, 180);
         invalidate();
     }
 
@@ -232,7 +231,7 @@ public class StickyHeaderLayout extends LinearLayout {
 
     private OnScrollListener onScrollListener;
 
-    public interface OnScrollListener{
-       void onScroll(float currentX);
+    public interface OnScrollListener {
+        void onScroll(float currentX);
     }
 }
