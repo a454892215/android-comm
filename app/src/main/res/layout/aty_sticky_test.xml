@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +10,10 @@
 
     <include layout="@layout/include_header" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#B54040"/>
 
     <com.common.widget.CommonTabLayout
         android:id="@+id/tab_layout"
@@ -17,31 +22,46 @@
         android:layout_height="40dp">
 
         <com.common.widget.CommonTextView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:gravity="center"
-            android:text="tab1"
-            android:textColor="@drawable/selector_text_color"
-            android:textSize="@dimen/sp_13" />
+            android:padding="@dimen/dp_3"
+            android:text="TAB-1"
+            android:textColor="@drawable/selector_text_color_1"
+            android:background="@drawable/selector_bg_color"
+            android:textSize="@dimen/sp_13"
+            app:clip_radius="@dimen/dp_4" />
 
         <com.common.widget.CommonTextView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:gravity="center"
-            android:text="tab2"
-            android:textColor="@drawable/selector_text_color"
-            android:textSize="@dimen/sp_13" />
+            android:padding="@dimen/dp_3"
+            android:text="TAB-2"
+            android:textColor="@drawable/selector_text_color_1"
+            android:background="@drawable/selector_bg_color"
+            android:textSize="@dimen/sp_13"
+            app:clip_radius="@dimen/dp_4" />
 
         <com.common.widget.CommonTextView
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:gravity="center"
-            android:text="tab3"
-            android:textColor="@drawable/selector_text_color"
-            android:textSize="@dimen/sp_13" />
+            android:padding="@dimen/dp_3"
+            android:text="TAB-3"
+            android:textColor="@drawable/selector_text_color_1"
+            android:background="@drawable/selector_bg_color"
+            android:textSize="@dimen/sp_13"
+            app:clip_radius="@dimen/dp_4" />
     </com.common.widget.CommonTabLayout>
 
     <androidx.viewpager.widget.ViewPager

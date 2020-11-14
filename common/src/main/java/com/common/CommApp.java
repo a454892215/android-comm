@@ -97,12 +97,16 @@ public class CommApp extends Application {
             }
 
         });
-        CrashReport.initCrashReport(this, getPackageName(), true, strategy);
+        try {
+            CrashReport.initCrashReport(this, getPackageName(), true, strategy);
 
-        QbSdk.setTbsLogClient(new MyTbsLogClient(this));
-        QbSdk.setDownloadWithoutWifi(true);
-        QbSdk.setTbsListener(new MyTbsListener());
-        QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
+            QbSdk.setTbsLogClient(new MyTbsLogClient(this));
+            QbSdk.setDownloadWithoutWifi(true);
+            QbSdk.setTbsListener(new MyTbsListener());
+            QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
+        } catch (Throwable e) {
+           LogUtil.e(e);
+        }
 
     }
 
