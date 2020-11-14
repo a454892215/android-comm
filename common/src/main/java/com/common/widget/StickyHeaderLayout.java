@@ -72,9 +72,11 @@ public class StickyHeaderLayout extends LinearLayout {
             velocityTracker.clear();
         }
         velocityTracker.addMovement(ev);
+        super.dispatchTouchEvent(ev);
         return true;
     }
 
+    // 什么情况拦截自己处理 什么情况系统处理
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // LogUtil.d("====onInterceptTouchEvent======:");
         switch (ev.getAction()) {
