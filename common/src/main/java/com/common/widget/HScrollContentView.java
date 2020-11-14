@@ -27,6 +27,7 @@ import java.util.List;
  * 2018/12/26
  * Description:
  */
+@SuppressWarnings("unused")
 public class HScrollContentView extends View {
 
     private VelocityTracker velocityTracker;
@@ -247,7 +248,7 @@ public class HScrollContentView extends View {
     private void executeScrollXBy(float dx) {
         if (!scrollEnable) return;
         if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
-            dx = 0 - mScroller.getFinalX();
+            dx = 0f - mScroller.getFinalX();
         }
         if (mScroller.getFinalX() + dx > maxScrollWidth) {
             dx = maxScrollWidth - mScroller.getFinalX();
