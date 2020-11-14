@@ -23,6 +23,7 @@ import com.test.util.JRTTAndJNITestActivity;
 import com.test.util.custom_view2.CustomViewTestActivity2;
 import com.test.util.ori_code.OriCodeActivity;
 import com.test.util.sticky.StickyTestActivity;
+import com.test.util.sticky.StickyTestActivity2;
 import com.test.util.sys_notice.JetpackTestActivity;
 import com.test.util.BuglyTestActivity;
 import com.test.util.QRCodeTestActivity;
