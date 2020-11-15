@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +8,27 @@
     tools:ignore="HardcodedText">
 
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="30dp"
-      android:gravity="center"
-      android:background="#58985A"
-      android:textColor="#ffffff"
-      android:textSize="12sp"
-      android:text="ListView吸附效果2"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#58985A"
+        android:gravity="center"
+        android:text="ListView吸附效果2"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
 
-  <com.test.util.widget.MyListView
-      android:id="@+id/list_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+    <!--5.0系统才有效-->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.test.util.widget.NestedListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.core.widget.NestedScrollView>
+
 
 </LinearLayout>
