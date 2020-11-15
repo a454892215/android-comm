@@ -1,10 +1,10 @@
 package com.common.widget.banner;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,9 +23,11 @@ import androidx.viewpager.widget.ViewPager;
 
 
 import com.common.R;
-import com.common.widget.banner.listener.OnBannerClickListener;
+import com.common.utils.LogUtil;
 import com.common.widget.banner.listener.OnBannerListener;
 import com.common.widget.banner.loader.ImageLoaderInterface;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -73,10 +75,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private ImageLoaderInterface imageLoader;
     private BannerPagerAdapter adapter;
     private ViewPager.OnPageChangeListener mOnPageChangeListener;
-    private BannerScroller mScroller;
-    private OnBannerClickListener bannerListener;
     private OnBannerListener listener;
-    private DisplayMetrics dm;
 
     private WeakHandler handler = new WeakHandler();
 
@@ -95,7 +94,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         imageUrls = new ArrayList<>();
         imageViews = new ArrayList<>();
         indicatorImages = new ArrayList<>();
-        dm = context.getResources().getDisplayMetrics();
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
         indicatorSize = dm.widthPixels / 80;
         initView(context, attrs);
     }
@@ -143,11 +142,11 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         try {
             Field mField = ViewPager.class.getDeclaredField("mScroller");
             mField.setAccessible(true);
-            mScroller = new BannerScroller(viewPager.getContext());
+            BannerScroller mScroller = new BannerScroller(viewPager.getContext());
             mScroller.setDuration(scrollTime);
             mField.set(viewPager, mScroller);
         } catch (Exception e) {
-            Log.e(tag, e.getMessage());
+            LogUtil.e(e.getMessage());
         }
     }
 
@@ -170,13 +169,13 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public Banner setIndicatorGravity(int type) {
         switch (type) {
             case BannerConfig.LEFT:
-                this.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
+                this.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
                 break;
             case BannerConfig.CENTER:
                 this.gravity = Gravity.CENTER;
                 break;
             case BannerConfig.RIGHT:
-                this.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
+                this.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
                 break;
         }
         return this;
@@ -186,7 +185,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         try {
             setPageTransformer(true, transformer.newInstance());
         } catch (Exception e) {
-            Log.e(tag, "Please set the PageTransformer class");
+            LogUtil.e("Please set the PageTransformer class");
         }
         return this;
     }
@@ -206,9 +205,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return this;
     }
 
-    public Banner setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
+    public void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
         viewPager.setPageTransformer(reverseDrawingOrder, transformer);
-        return this;
     }
 
     public Banner setBannerTitles(List<String> titles) {
@@ -289,7 +287,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
     private void setBannerStyleUI() {
-        int visibility =count > 1 ? View.VISIBLE :View.GONE;
+        int visibility = count > 1 ? View.VISIBLE : View.GONE;
         switch (bannerStyle) {
             case BannerConfig.CIRCLE_INDICATOR:
                 indicator.setVisibility(visibility);
@@ -312,6 +310,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void initImages() {
         imageViews.clear();
         if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
@@ -328,7 +327,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private void setImageList(List<?> imagesUrl) {
         if (imagesUrl == null || imagesUrl.size() <= 0) {
             bannerDefaultImage.setVisibility(VISIBLE);
-            Log.e(tag, "The image data set is empty.");
+            LogUtil.e("The image data set is empty.");
             return;
         }
         bannerDefaultImage.setVisibility(GONE);
@@ -342,7 +341,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                 imageView = new ImageView(context);
             }
             setScaleType(imageView);
-            Object url = null;
+            Object url;
             if (i == 0) {
                 url = imagesUrl.get(count - 1);
             } else if (i == count + 1) {
@@ -354,7 +353,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             if (imageLoader != null)
                 imageLoader.displayImage(context, url, imageView);
             else
-                Log.e(tag, "Please set images loader.");
+                LogUtil.e("Please set images loader.");
         }
     }
 
@@ -451,7 +450,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         public void run() {
             if (count > 1 && isAutoPlay) {
                 currentItem = currentItem % (count + 1) + 1;
-//                Log.i(tag, "curr:" + currentItem + " count:" + count);
                 if (currentItem == 1) {
                     viewPager.setCurrentItem(currentItem, false);
                     handler.post(task);
@@ -465,7 +463,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-//        Log.i(tag, ev.getAction() + "--" + isAutoPlay);
         if (isAutoPlay) {
             int action = ev.getAction();
             if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL
@@ -479,8 +476,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
     /**
-     * 返回真实的位置
-     * @return 下标从0开始
+     * @return 从0开始
      */
     public int toRealPosition(int position) {
         int realPosition = (position - 1) % count;
@@ -497,37 +493,23 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
 
         @Override
-        public boolean isViewFromObject(View view, Object object) {
+        public boolean isViewFromObject(@NotNull View view, @NotNull Object object) {
             return view == object;
         }
 
+        @NotNull
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             container.addView(imageViews.get(position));
             View view = imageViews.get(position);
-            if (bannerListener != null) {
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.e(tag, "你正在使用旧版点击事件接口，下标是从1开始，" +
-                                "为了体验请更换为setOnBannerListener，下标从0开始计算");
-                        bannerListener.OnBannerClick(position);
-                    }
-                });
-            }
             if (listener != null) {
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.OnBannerClick(toRealPosition(position));
-                    }
-                });
+                view.setOnClickListener(v -> listener.OnBannerClick(toRealPosition(position)));
             }
             return view;
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
+        public void destroyItem(ViewGroup container, int position, @NotNull Object object) {
             container.removeView((View) object);
         }
 
@@ -538,7 +520,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageScrollStateChanged(state);
         }
-//        Log.i(tag,"currentItem: "+currentItem);
         switch (state) {
             case 0://No operation
                 if (currentItem == 0) {
@@ -566,9 +547,10 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onPageSelected(int position) {
-        currentItem=position;
+        currentItem = position;
         if (mOnPageChangeListener != null) {
             mOnPageChangeListener.onPageSelected(toRealPosition(position));
         }
@@ -592,24 +574,12 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                 bannerTitle.setText(titles.get(position - 1));
                 break;
             case BannerConfig.CIRCLE_INDICATOR_TITLE:
-                bannerTitle.setText(titles.get(position - 1));
-                break;
             case BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE:
                 bannerTitle.setText(titles.get(position - 1));
                 break;
         }
-
     }
 
-    @Deprecated
-    public Banner setOnBannerClickListener(OnBannerClickListener listener) {
-        this.bannerListener = listener;
-        return this;
-    }
-
-    /**
-     * 废弃了旧版接口，新版的接口下标是从1开始，同时解决下标越界问题
-     */
     public Banner setOnBannerListener(OnBannerListener listener) {
         this.listener = listener;
         return this;
