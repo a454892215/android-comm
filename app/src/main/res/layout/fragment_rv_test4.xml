@@ -7,10 +7,10 @@
     tools:ignore="HardcodedText">
 
 
-    <com.common.widget.banner.Banner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_220" />
+<!--    <com.common.widget.banner.Banner-->
+<!--        android:id="@+id/banner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/dp_220" />-->
 
     <com.common.widget.banner.BannerLayout
         android:layout_marginTop="20dp"
