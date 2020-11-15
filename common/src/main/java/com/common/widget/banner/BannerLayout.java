@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.comm.timer.MyTimer;
-import com.common.utils.LogUtil;
 
 import java.util.List;
 
@@ -148,13 +147,12 @@ public class BannerLayout extends FrameLayout {
         }
     }
 
-    private void updateIndicator(int pageIndex) {
-        LogUtil.d("====updateIndicator======:" + pageIndex);
+    private void updateIndicator(int curPagerIndex) {
         int indicatorCount = llt_indicators.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
             llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
-        llt_indicators.getChildAt(pageIndex).setBackgroundColor(showingIndicatorColor);
+        llt_indicators.getChildAt(curPagerIndex).setBackgroundColor(showingIndicatorColor);
     }
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
