@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.comm.timer.MyTimer;
+import com.common.utils.LogUtil;
 
 import java.util.List;
 
@@ -68,13 +69,24 @@ public class BannerLayout extends FrameLayout {
         rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                View child0 = recyclerView.getChildAt(0);
-                if (child0 != null) {
-                    updateIndicator(child0, urlList.size());
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_DRAGGING://正在拖拽
+                        break;
+                    case RecyclerView.SCROLL_STATE_IDLE: //滑动停止
+                        View child0 = recyclerView.getChildAt(0);
+                        if (child0 != null) {
+                            updateIndicator(child0, urlList.size());
+                        }
+                        break;
+                    case RecyclerView.SCROLL_STATE_SETTLING: //惯性滑动中
+                        break;
                 }
+
             }
         });
+
     }
 
     private boolean loopScrollEnable;
@@ -124,8 +136,8 @@ public class BannerLayout extends FrameLayout {
 
     private int defaultIndicatorColor = Color.WHITE;
 
-    private void updateIndicator(View child, int urlListSize) {
-        int adapterPosition = rv.getChildAdapterPosition(child);
+    private void updateIndicator(View child_0, int urlListSize) {
+        int adapterPosition = rv.getChildAdapterPosition(child_0);
         int indicatorCount = llt_indicators.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
             llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
