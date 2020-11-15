@@ -4,16 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.Scroller;
 import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -23,11 +23,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.common.R;
 import com.common.comm.L;
 import com.common.utils.LogUtil;
-import com.common.widget.banner.listener.OnBannerListener;
-import com.common.widget.banner.loader.ImageLoaderInterface;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,32 +38,27 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class Banner extends FrameLayout implements ViewPager.OnPageChangeListener {
-    public String tag = "banner";
-    private int mIndicatorMargin = BannerConfig.PADDING_SIZE;
+    private int mIndicatorMargin;
     private int mIndicatorWidth;
     private int mIndicatorHeight;
-    private int bannerStyle = BannerConfig.CIRCLE_INDICATOR;
-    private int delayTime = BannerConfig.TIME;
-    private int scrollTime = BannerConfig.DURATION;
-    private boolean isAutoPlay = BannerConfig.IS_AUTO_PLAY;
-    private boolean isScroll = BannerConfig.IS_SCROLL;
-    private int mIndicatorSelectedResId = Color.GRAY;
-    private int mIndicatorUnselectedResId = Color.WHITE;
+    private int delayTime = 2000;
+    private static final int scrollTime = 800;
+    private boolean isAutoPlay = true;
+    private int selectedIndicatorColor = Color.GRAY;
+    private int unselectedIndicatorColor = Color.WHITE;
     private int mLayoutResId = R.layout.banner;
     private int count = 0;
     private int currentItem;
-    private int gravity = -1;
     private int lastPosition = 1;
     private ScaleType scaleType = ScaleType.CENTER_CROP;
-    private List<Object> imageUrls;
-    private List<View> imageViews;
-    private List<ImageView> indicatorImages;
+    private List<String> imageUrls;
+    private List<View> imageViewList;
     private Context context;
     private BannerViewPager viewPager;
     private TextView numIndicator;
-    private LinearLayout indicator;
+    private LinearLayout lltIndicatorParent;
     private ImageView bannerDefaultImage;
-    private ImageLoaderInterface<View> imageLoader;
+    private ImageLoader imageLoader;
     private BannerPagerAdapter adapter;
     private ViewPager.OnPageChangeListener mOnPageChangeListener;
     private OnBannerListener listener;
@@ -83,36 +77,25 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         super(context, attrs, defStyle);
         this.context = context;
         imageUrls = new ArrayList<>();
-        imageViews = new ArrayList<>();
-        indicatorImages = new ArrayList<>();
-        DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        int indicatorSize = dm.widthPixels / 80;
-        initView(context, attrs);
-    }
 
-    private void initView(Context context, AttributeSet attrs) {
-        imageViews.clear();
-        handleTypedArray(context, attrs);
-        View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
-        bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
-        viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
-        indicator = (LinearLayout) view.findViewById(R.id.circleIndicator);
-        numIndicator = (TextView) view.findViewById(R.id.numIndicator);
-        // bannerDefaultImage.setImageResource(R.drawable.no_banner);
+        initView(context, attrs);
         initViewPagerScroll();
     }
 
-    private void handleTypedArray(Context context, AttributeSet attrs) {
-        if (attrs == null) {
-            return;
-        }
+    private void initView(Context context, AttributeSet attrs) {
+        imageViewList = new ArrayList<>();
         mIndicatorWidth = (int) (L.dp_1 * 4);
         mIndicatorHeight = (int) (L.dp_1 * 4);
         mIndicatorMargin = (int) (L.dp_1 * 6);
         scaleType = ScaleType.CENTER_CROP;
         delayTime = 2000;
-        scrollTime = 800;
         isAutoPlay = true;
+        View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
+        bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
+        viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
+        lltIndicatorParent = (LinearLayout) view.findViewById(R.id.llt_indicator_parent);
+        numIndicator = (TextView) view.findViewById(R.id.numIndicator);
+        // bannerDefaultImage.setImageResource(R.drawable.no_banner);
     }
 
     private void initViewPagerScroll() {
@@ -120,42 +103,16 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             Field mField = ViewPager.class.getDeclaredField("mScroller");
             mField.setAccessible(true);
             BannerScroller mScroller = new BannerScroller(viewPager.getContext());
-            mScroller.setDuration(scrollTime);
             mField.set(viewPager, mScroller);
         } catch (Exception e) {
             LogUtil.e(e.getMessage());
         }
     }
 
-
-    public Banner isAutoPlay(boolean isAutoPlay) {
-        this.isAutoPlay = isAutoPlay;
-        return this;
-    }
-
-    public void setImageLoader(ImageLoaderInterface<View> imageLoader) {
+    public void setImageLoader(ImageLoader imageLoader) {
         this.imageLoader = imageLoader;
     }
 
-    public Banner setDelayTime(int delayTime) {
-        this.delayTime = delayTime;
-        return this;
-    }
-
-    public Banner setIndicatorGravity(int type) {
-        switch (type) {
-            case BannerConfig.LEFT:
-                this.gravity = Gravity.START | Gravity.CENTER_VERTICAL;
-                break;
-            case BannerConfig.CENTER:
-                this.gravity = Gravity.CENTER;
-                break;
-            case BannerConfig.RIGHT:
-                this.gravity = Gravity.END | Gravity.CENTER_VERTICAL;
-                break;
-        }
-        return this;
-    }
 
     public Banner setBannerAnimation(Class<? extends ViewPager.PageTransformer> transformer) {
         try {
@@ -166,99 +123,42 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return this;
     }
 
-    public Banner setOffscreenPageLimit(int limit) {
-        if (viewPager != null) {
-            viewPager.setOffscreenPageLimit(limit);
-        }
-        return this;
-    }
-
     public void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
         viewPager.setPageTransformer(reverseDrawingOrder, transformer);
     }
 
-    public void setBannerStyle(int bannerStyle) {
-        this.bannerStyle = bannerStyle;
-    }
-
-    public Banner setViewPagerIsScroll(boolean isScroll) {
-        this.isScroll = isScroll;
-        return this;
-    }
-
-    public void setImages(List<Object> imageUrls) {
+    public void setImageUrls(List<String> imageUrls) {
         this.imageUrls = imageUrls;
         this.count = imageUrls.size();
     }
 
-    public void update(List<Object> imageUrls) {
+    public void update(List<String> imageUrls) {
         this.imageUrls.clear();
-        this.imageViews.clear();
-        this.indicatorImages.clear();
         this.imageUrls.addAll(imageUrls);
+        this.imageViewList.clear();
         this.count = this.imageUrls.size();
         start();
     }
 
-    public void updateBannerStyle(int bannerStyle) {
-        indicator.setVisibility(GONE);
-        numIndicator.setVisibility(GONE);
-        this.bannerStyle = bannerStyle;
-        start();
-    }
-
-    public Banner start() {
-        setBannerStyleUI();
+    public void start() {
         setImageList(imageUrls);
-        setData();
-        return this;
-    }
-
-    private void setBannerStyleUI() {
-        int visibility = count > 1 ? View.VISIBLE : View.GONE;
-        switch (bannerStyle) {
-            case BannerConfig.CIRCLE_INDICATOR:
-            case BannerConfig.CIRCLE_INDICATOR_TITLE:
-                indicator.setVisibility(visibility);
-                break;
-            case BannerConfig.NUM_INDICATOR:
-                numIndicator.setVisibility(visibility);
-                break;
-        }
+        setIndicator();
+        setViewPagerData();
     }
 
     @SuppressLint("SetTextI18n")
-    private void initImages() {
-        imageViews.clear();
-        if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
-                bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE ||
-                bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE) {
-            createIndicator();
-        }  else if (bannerStyle == BannerConfig.NUM_INDICATOR) {
-            numIndicator.setText("1/" + count);
-        }
-    }
-
-    private void setImageList(List<?> imagesUrl) {
+    private void setImageList(List<String> imagesUrl) {
         if (imagesUrl == null || imagesUrl.size() <= 0) {
             bannerDefaultImage.setVisibility(VISIBLE);
-            LogUtil.e("The image data set is empty.");
+            LogUtil.e("The Banner data set is empty.");
             return;
         }
         bannerDefaultImage.setVisibility(GONE);
-        initImages();
+        imageViewList.clear();
         for (int i = 0; i <= count + 1; i++) {
-            View imageView = null;
-            if (imageLoader != null) {
-                imageView = imageLoader.createImageView(context);
-            }
-            if (imageView == null) {
-                imageView = new ImageView(context);
-            }
-            if (imageView instanceof ImageView) {
-                ((ImageView) imageView).setScaleType(scaleType);
-            }
-            Object url;
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(scaleType);
+            String url;
             if (i == 0) {
                 url = imagesUrl.get(count - 1);
             } else if (i == count + 1) {
@@ -266,39 +166,32 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             } else {
                 url = imagesUrl.get(i - 1);
             }
-            imageViews.add(imageView);
-            if (imageLoader != null)
+            imageViewList.add(imageView);
+            if (imageLoader != null) {
                 imageLoader.displayImage(context, url, imageView);
-            else
+            } else {
                 LogUtil.e("Please set images loader.");
+            }
         }
     }
 
-
-    private void createIndicator() {
-        indicatorImages.clear();
-        indicator.removeAllViews();
+    @SuppressLint("SetTextI18n")
+    private void setIndicator() {
+        lltIndicatorParent.removeAllViews();
+        lltIndicatorParent.setVisibility(count > 1 ? View.VISIBLE : View.GONE);
+        numIndicator.setVisibility(count > 1 ? View.VISIBLE : View.GONE);
+        numIndicator.setText("1/" + count);
         for (int i = 0; i < count; i++) {
-            ImageView imageView = new ImageView(context);
-            imageView.setScaleType(ScaleType.CENTER_CROP);
+            View indicatorView = new View(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mIndicatorWidth, mIndicatorHeight);
             params.leftMargin = mIndicatorMargin;
             params.rightMargin = mIndicatorMargin;
-            if (i == 0) {
-                imageView.setBackgroundColor(mIndicatorSelectedResId);
-            } else {
-                imageView.setBackgroundColor(mIndicatorUnselectedResId);
-            }
-            indicatorImages.add(imageView);
-            if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
-                    bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE)
-                indicator.addView(imageView, params);
-
+            indicatorView.setBackgroundColor(i == 0 ? selectedIndicatorColor : unselectedIndicatorColor);
+            lltIndicatorParent.addView(indicatorView, params);
         }
     }
 
-
-    private void setData() {
+    private void setViewPagerData() {
         currentItem = 1;
         if (adapter == null) {
             adapter = new BannerPagerAdapter();
@@ -307,17 +200,11 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         viewPager.setAdapter(adapter);
         viewPager.setFocusable(true);
         viewPager.setCurrentItem(1);
-        if (gravity != -1)
-            indicator.setGravity(gravity);
-        if (isScroll && count > 1) {
-            viewPager.setScrollable(true);
-        } else {
-            viewPager.setScrollable(false);
-        }
-        if (isAutoPlay)
+        viewPager.setScrollable(count > 1);
+        if (isAutoPlay) {
             startAutoPlay();
+        }
     }
-
 
     public void startAutoPlay() {
         handler.removeCallbacks(task);
@@ -361,7 +248,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     /**
      * @return 从0开始
      */
-    public int toRealPosition(int position) {
+    public int getRealPosition(int position) {
         int realPosition = (position - 1) % count;
         if (realPosition < 0)
             realPosition += count;
@@ -372,7 +259,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
         @Override
         public int getCount() {
-            return imageViews.size();
+            return imageViewList.size();
         }
 
         @Override
@@ -383,10 +270,10 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         @NotNull
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            container.addView(imageViews.get(position));
-            View view = imageViews.get(position);
+            container.addView(imageViewList.get(position));
+            View view = imageViewList.get(position);
             if (listener != null) {
-                view.setOnClickListener(v -> listener.OnBannerClick(toRealPosition(position)));
+                view.setOnClickListener(v -> listener.OnBannerClick(getRealPosition(position)));
             }
             return view;
         }
@@ -426,7 +313,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (mOnPageChangeListener != null) {
-            mOnPageChangeListener.onPageScrolled(toRealPosition(position), positionOffset, positionOffsetPixels);
+            mOnPageChangeListener.onPageScrolled(getRealPosition(position), positionOffset, positionOffsetPixels);
         }
     }
 
@@ -435,26 +322,14 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public void onPageSelected(int position) {
         currentItem = position;
         if (mOnPageChangeListener != null) {
-            mOnPageChangeListener.onPageSelected(toRealPosition(position));
+            mOnPageChangeListener.onPageSelected(getRealPosition(position));
         }
-        if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
-                bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE ||
-                bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE) {
-            indicatorImages.get((lastPosition - 1 + count) % count).setBackgroundColor(mIndicatorUnselectedResId);
-            indicatorImages.get((position - 1 + count) % count).setBackgroundColor(mIndicatorSelectedResId);
-            lastPosition = position;
-        }
+        lltIndicatorParent.getChildAt((lastPosition - 1 + count) % count).setBackgroundColor(unselectedIndicatorColor);
+        lltIndicatorParent.getChildAt((position - 1 + count) % count).setBackgroundColor(selectedIndicatorColor);
+        lastPosition = position;
         if (position == 0) position = count;
         if (position > count) position = 1;
-        switch (bannerStyle) {
-            case BannerConfig.CIRCLE_INDICATOR:
-                break;
-            case BannerConfig.NUM_INDICATOR:
-                numIndicator.setText(position + "/" + count);
-                break;
-            case BannerConfig.CIRCLE_INDICATOR_TITLE:
-
-        }
+        numIndicator.setText(position + "/" + count);
     }
 
     public Banner setOnBannerListener(OnBannerListener listener) {
@@ -469,5 +344,40 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public void releaseBanner() {
         handler.removeCallbacksAndMessages(null);
     }
+
+    public interface OnBannerListener {
+        void OnBannerClick(int position);
+    }
+
+    public static class BannerScroller extends Scroller {
+
+        public BannerScroller(Context context) {
+            super(context);
+        }
+
+        public BannerScroller(Context context, Interpolator interpolator) {
+            super(context, interpolator);
+        }
+
+        public BannerScroller(Context context, Interpolator interpolator, boolean flywheel) {
+            super(context, interpolator, flywheel);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+            super.startScroll(startX, startY, dx, dy, scrollTime);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy) {
+            super.startScroll(startX, startY, dx, dy, scrollTime);
+        }
+
+    }
+
+    public interface ImageLoader extends Serializable {
+        void displayImage(Context context, String path, ImageView imageView);
+    }
+
 }
 
