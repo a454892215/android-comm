@@ -49,7 +49,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private int currentItem;
     private int lastPosition = 1;
     private ScaleType scaleType = ScaleType.CENTER_CROP;
-    private List<String> imageUrls;
+    private List<String> imageUrls = new ArrayList<>();
     private List<View> imageViewList;
     private Context context;
     private BannerViewPager viewPager;
@@ -73,8 +73,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public Banner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-        imageUrls = new ArrayList<>();
-
         initView(context, attrs);
         initViewPagerScroll();
     }
@@ -88,9 +86,9 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         delayTime = 2000;
         isAutoPlay = true;
         View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
-        bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
-        viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
-        lltIndicatorParent = (LinearLayout) view.findViewById(R.id.llt_indicator_parent);
+        bannerDefaultImage = view.findViewById(R.id.bannerDefaultImage);
+        viewPager =  view.findViewById(R.id.bannerViewPager);
+        lltIndicatorParent =  view.findViewById(R.id.llt_indicator_parent);
         // bannerDefaultImage.setImageResource(R.drawable.no_banner);
     }
 
