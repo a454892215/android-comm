@@ -65,7 +65,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private TextView bannerTitle, numIndicatorInside, numIndicator;
     private LinearLayout indicator, indicatorInside, titleView;
     private ImageView bannerDefaultImage;
-    private ImageLoaderInterface imageLoader;
+    private ImageLoaderInterface<View> imageLoader;
     private BannerPagerAdapter adapter;
     private ViewPager.OnPageChangeListener mOnPageChangeListener;
     private OnBannerListener listener;
@@ -139,7 +139,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return this;
     }
 
-    public void setImageLoader(ImageLoaderInterface imageLoader) {
+    public void setImageLoader(ImageLoaderInterface<View> imageLoader) {
         this.imageLoader = imageLoader;
     }
 
