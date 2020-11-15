@@ -41,7 +41,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private int mIndicatorWidth;
     private int mIndicatorHeight;
     private int delayTime = 2000;
-    private static final int scrollTime = 800;
     private boolean isAutoPlay = true;
     private int selectedIndicatorColor = Color.GRAY;
     private int unselectedIndicatorColor = Color.WHITE;
@@ -100,6 +99,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             Field mField = ViewPager.class.getDeclaredField("mScroller");
             mField.setAccessible(true);
             BannerScroller mScroller = new BannerScroller(viewPager.getContext());
+            int scrollTime = 1000;
+            mScroller.setScrollTime(scrollTime);
             mField.set(viewPager, mScroller);
         } catch (Exception e) {
             LogUtil.e(e.getMessage());
@@ -342,6 +343,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
     public static class BannerScroller extends Scroller {
+        private int scrollTime = 800;
 
         public BannerScroller(Context context) {
             super(context);
@@ -363,6 +365,10 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         @Override
         public void startScroll(int startX, int startY, int dx, int dy) {
             super.startScroll(startX, startY, dx, dy, scrollTime);
+        }
+
+        public void setScrollTime(int scrollTime) {
+            this.scrollTime = scrollTime;
         }
 
     }
