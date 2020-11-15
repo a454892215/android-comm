@@ -56,14 +56,13 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private int gravity = -1;
     private int lastPosition = 1;
     private ScaleType scaleType = ScaleType.CENTER_CROP;
-    private List<String> titles;
     private List<Object> imageUrls;
     private List<View> imageViews;
     private List<ImageView> indicatorImages;
     private Context context;
     private BannerViewPager viewPager;
-    private TextView bannerTitle, numIndicatorInside, numIndicator;
-    private LinearLayout indicator, indicatorInside, titleView;
+    private TextView numIndicator;
+    private LinearLayout indicator;
     private ImageView bannerDefaultImage;
     private ImageLoaderInterface<View> imageLoader;
     private BannerPagerAdapter adapter;
@@ -83,7 +82,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public Banner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
-        titles = new ArrayList<>();
         imageUrls = new ArrayList<>();
         imageViews = new ArrayList<>();
         indicatorImages = new ArrayList<>();
@@ -98,12 +96,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
         bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
         viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
-        titleView = (LinearLayout) view.findViewById(R.id.titleView);
         indicator = (LinearLayout) view.findViewById(R.id.circleIndicator);
-        indicatorInside = (LinearLayout) view.findViewById(R.id.indicatorInside);
-        bannerTitle = (TextView) view.findViewById(R.id.bannerTitle);
         numIndicator = (TextView) view.findViewById(R.id.numIndicator);
-        numIndicatorInside = (TextView) view.findViewById(R.id.numIndicatorInside);
         // bannerDefaultImage.setImageResource(R.drawable.no_banner);
         initViewPagerScroll();
     }
@@ -172,14 +166,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return this;
     }
 
-    /**
-     * Set the number of pages that should be retained to either side of the
-     * current page in the view hierarchy in an idle state. Pages beyond this
-     * limit will be recreated from the adapter when needed.
-     *
-     * @param limit How many pages will be kept offscreen in an idle state.
-     * @return Banner
-     */
     public Banner setOffscreenPageLimit(int limit) {
         if (viewPager != null) {
             viewPager.setOffscreenPageLimit(limit);
@@ -189,11 +175,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
 
     public void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
         viewPager.setPageTransformer(reverseDrawingOrder, transformer);
-    }
-
-    public Banner setBannerTitles(List<String> titles) {
-        this.titles = titles;
-        return this;
     }
 
     public void setBannerStyle(int bannerStyle) {
@@ -210,12 +191,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         this.count = imageUrls.size();
     }
 
-    public void update(List<Object> imageUrls, List<String> titles) {
-        this.titles.clear();
-        this.titles.addAll(titles);
-        update(imageUrls);
-    }
-
     public void update(List<Object> imageUrls) {
         this.imageUrls.clear();
         this.imageViews.clear();
@@ -228,10 +203,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     public void updateBannerStyle(int bannerStyle) {
         indicator.setVisibility(GONE);
         numIndicator.setVisibility(GONE);
-        numIndicatorInside.setVisibility(GONE);
-        indicatorInside.setVisibility(GONE);
-        bannerTitle.setVisibility(View.GONE);
-        titleView.setVisibility(View.GONE);
         this.bannerStyle = bannerStyle;
         start();
     }
@@ -243,37 +214,15 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         return this;
     }
 
-    private void setTitleStyleUI() {
-        if (titles.size() != imageUrls.size()) {
-            throw new RuntimeException("[Banner] --> The number of titles and images is different");
-        }
-        if (titles.size() > 0) {
-            bannerTitle.setText(titles.get(0));
-            bannerTitle.setVisibility(View.VISIBLE);
-            titleView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void setBannerStyleUI() {
         int visibility = count > 1 ? View.VISIBLE : View.GONE;
         switch (bannerStyle) {
             case BannerConfig.CIRCLE_INDICATOR:
+            case BannerConfig.CIRCLE_INDICATOR_TITLE:
                 indicator.setVisibility(visibility);
                 break;
             case BannerConfig.NUM_INDICATOR:
                 numIndicator.setVisibility(visibility);
-                break;
-            case BannerConfig.NUM_INDICATOR_TITLE:
-                numIndicatorInside.setVisibility(visibility);
-                setTitleStyleUI();
-                break;
-            case BannerConfig.CIRCLE_INDICATOR_TITLE:
-                indicator.setVisibility(visibility);
-                setTitleStyleUI();
-                break;
-            case BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE:
-                indicatorInside.setVisibility(visibility);
-                setTitleStyleUI();
                 break;
         }
     }
@@ -285,9 +234,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE ||
                 bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE) {
             createIndicator();
-        } else if (bannerStyle == BannerConfig.NUM_INDICATOR_TITLE) {
-            numIndicatorInside.setText("1/" + count);
-        } else if (bannerStyle == BannerConfig.NUM_INDICATOR) {
+        }  else if (bannerStyle == BannerConfig.NUM_INDICATOR) {
             numIndicator.setText("1/" + count);
         }
     }
@@ -308,7 +255,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             if (imageView == null) {
                 imageView = new ImageView(context);
             }
-            if(imageView instanceof ImageView){
+            if (imageView instanceof ImageView) {
                 ((ImageView) imageView).setScaleType(scaleType);
             }
             Object url;
@@ -331,7 +278,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private void createIndicator() {
         indicatorImages.clear();
         indicator.removeAllViews();
-        indicatorInside.removeAllViews();
         for (int i = 0; i < count; i++) {
             ImageView imageView = new ImageView(context);
             imageView.setScaleType(ScaleType.CENTER_CROP);
@@ -347,8 +293,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             if (bannerStyle == BannerConfig.CIRCLE_INDICATOR ||
                     bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE)
                 indicator.addView(imageView, params);
-            else if (bannerStyle == BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE)
-                indicatorInside.addView(imageView, params);
+
         }
     }
 
@@ -507,14 +452,8 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             case BannerConfig.NUM_INDICATOR:
                 numIndicator.setText(position + "/" + count);
                 break;
-            case BannerConfig.NUM_INDICATOR_TITLE:
-                numIndicatorInside.setText(position + "/" + count);
-                bannerTitle.setText(titles.get(position - 1));
-                break;
             case BannerConfig.CIRCLE_INDICATOR_TITLE:
-            case BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE:
-                bannerTitle.setText(titles.get(position - 1));
-                break;
+
         }
     }
 
