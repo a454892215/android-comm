@@ -109,7 +109,9 @@ public class BannerLayout extends FrameLayout {
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         if (visibility == View.VISIBLE) {
-            if (loopScrollEnable) startLoopScroll();
+            if (loopScrollEnable){
+                postDelayed(this::startLoopScroll, 2000);
+            }
         } else {
             if (downTimer != null) downTimer.cancel();
         }
