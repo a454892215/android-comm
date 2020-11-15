@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.common.R;
 import com.common.base.BaseActivity;
 import com.common.comm.timer.MyTimer;
-import com.common.utils.LogUtil;
 
 import java.util.List;
 
@@ -34,6 +33,7 @@ public class BannerLayout extends FrameLayout {
     private LinearLayout llt_indicators;
     private RecyclerView rv;
     private MyTimer downTimer;
+    private int bannerCount;
 
     public BannerLayout(@NonNull Context context) {
         this(context, null);
@@ -58,7 +58,8 @@ public class BannerLayout extends FrameLayout {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
         rv = view.findViewById(R.id.rv);
         llt_indicators = view.findViewById(R.id.llt_indicators);
-        for (int i = 0; i < urlList.size(); i++) {
+        bannerCount = urlList.size();
+        for (int i = 0; i < bannerCount; i++) {
             LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, llt_indicators, true);
         }
         new PagerSnapHelper().attachToRecyclerView(rv);
@@ -66,24 +67,22 @@ public class BannerLayout extends FrameLayout {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(new BannerAdapter(activity, urlList));
-        rv.scrollToPosition(Integer.MAX_VALUE / 2 + urlList.size() - 3);
+        rv.scrollToPosition(Integer.MAX_VALUE / 2 + bannerCount - 3);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                switch (newState) {
-                    case RecyclerView.SCROLL_STATE_DRAGGING://正在拖拽
-                        break;
-                    case RecyclerView.SCROLL_STATE_IDLE: //滑动停止
-                        View child0 = recyclerView.getChildAt(0);
-                        if (child0 != null) {
-                            updateIndicator(child0, urlList.size());
-                        }
-                        break;
-                    case RecyclerView.SCROLL_STATE_SETTLING: //惯性滑动中
-                        break;
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View child0 = recyclerView.getChildAt(0);
+                View child1 = recyclerView.getChildAt(1);
+                float validInRate = 1f / 3f;
+                //第1个itemView 从左边进入， 进入超过2/3， 计入有效入屏 此时: child0.left > -width * 1/3f
+                if (child0 != null && child0.getLeft() > -child0.getWidth() * validInRate) {
+                    updatePageIndex(child0, bannerCount);
                 }
-
+                //第2个itemView 从右边进入， 进入超过2/3， 计入有效入屏 此时: child1.left < width * 1/3f
+                if (child1 != null && child1.getLeft() < child1.getWidth() * validInRate) {
+                    updatePageIndex(child1, bannerCount);
+                }
             }
         });
 
@@ -136,13 +135,24 @@ public class BannerLayout extends FrameLayout {
 
     private int defaultIndicatorColor = Color.WHITE;
 
-    private void updateIndicator(View child_0, int urlListSize) {
-        int adapterPosition = rv.getChildAdapterPosition(child_0);
+    private int lastPageIndex = -1;
+
+    private void updatePageIndex(View curItemView, int urlListSize) {
+        int adapterPosition = rv.getChildAdapterPosition(curItemView);
+        int pageIndex = adapterPosition % urlListSize;
+        if (pageIndex != lastPageIndex) {
+            updateIndicator(pageIndex);
+            lastPageIndex = adapterPosition;
+        }
+    }
+
+    private void updateIndicator(int pageIndex) {
         int indicatorCount = llt_indicators.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
             llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
-        llt_indicators.getChildAt(adapterPosition % urlListSize).setBackgroundColor(showingIndicatorColor);
+        llt_indicators.getChildAt(pageIndex).setBackgroundColor(showingIndicatorColor);
+
     }
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
