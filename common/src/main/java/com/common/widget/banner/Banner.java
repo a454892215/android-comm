@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
-import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -55,7 +54,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private List<View> imageViewList;
     private Context context;
     private BannerViewPager viewPager;
-    private TextView numIndicator;
     private LinearLayout lltIndicatorParent;
     private ImageView bannerDefaultImage;
     private ImageLoader imageLoader;
@@ -94,7 +92,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         bannerDefaultImage = (ImageView) view.findViewById(R.id.bannerDefaultImage);
         viewPager = (BannerViewPager) view.findViewById(R.id.bannerViewPager);
         lltIndicatorParent = (LinearLayout) view.findViewById(R.id.llt_indicator_parent);
-        numIndicator = (TextView) view.findViewById(R.id.numIndicator);
         // bannerDefaultImage.setImageResource(R.drawable.no_banner);
     }
 
@@ -179,8 +176,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private void setIndicator() {
         lltIndicatorParent.removeAllViews();
         lltIndicatorParent.setVisibility(count > 1 ? View.VISIBLE : View.GONE);
-        numIndicator.setVisibility(count > 1 ? View.VISIBLE : View.GONE);
-        numIndicator.setText("1/" + count);
         for (int i = 0; i < count; i++) {
             View indicatorView = new View(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mIndicatorWidth, mIndicatorHeight);
@@ -327,9 +322,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         lltIndicatorParent.getChildAt((lastPosition - 1 + count) % count).setBackgroundColor(unselectedIndicatorColor);
         lltIndicatorParent.getChildAt((position - 1 + count) % count).setBackgroundColor(selectedIndicatorColor);
         lastPosition = position;
-        if (position == 0) position = count;
-        if (position > count) position = 1;
-        numIndicator.setText(position + "/" + count);
     }
 
     public Banner setOnBannerListener(OnBannerListener listener) {

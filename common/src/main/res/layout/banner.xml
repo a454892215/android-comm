@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:clipChildren="false">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.common.widget.banner.BannerViewPager
         android:id="@+id/bannerViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,19 +26,6 @@
             android:orientation="horizontal"
             android:padding="10dp"
             android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/numIndicator"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="8dp"
-            android:background="#736C6C"
-            android:gravity="center"
-            android:text="1/1"
-            android:textColor="#ffffff"
-            android:visibility="gone"
-            tools:ignore="HardcodedText" />
     </RelativeLayout>
 
     <ImageView
