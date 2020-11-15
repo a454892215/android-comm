@@ -77,11 +77,11 @@ public class BannerLayout extends FrameLayout {
                 float validInRate = 1f / 3f;
                 //第1个itemView 从左边进入， 进入超过2/3， 计入有效入屏 此时: child0.left > -width * 1/3f
                 if (child0 != null && child0.getLeft() > -child0.getWidth() * validInRate) {
-                    updatePageIndex(child0, bannerCount);
+                    checkPageIndexChange(child0, bannerCount);
                 }
                 //第2个itemView 从右边进入， 进入超过2/3， 计入有效入屏 此时: child1.left < width * 1/3f
                 if (child1 != null && child1.getLeft() < child1.getWidth() * validInRate) {
-                    updatePageIndex(child1, bannerCount);
+                    checkPageIndexChange(child1, bannerCount);
                 }
             }
         });
@@ -137,7 +137,7 @@ public class BannerLayout extends FrameLayout {
 
     private int lastPageIndex = -1;
 
-    private void updatePageIndex(View curItemView, int urlListSize) {
+    private void checkPageIndexChange(View curItemView, int urlListSize) {
         int adapterPosition = rv.getChildAdapterPosition(curItemView);
         int pageIndex = adapterPosition % urlListSize;
         if (pageIndex != lastPageIndex) {
@@ -152,7 +152,6 @@ public class BannerLayout extends FrameLayout {
             llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
         llt_indicators.getChildAt(pageIndex).setBackgroundColor(showingIndicatorColor);
-
     }
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
