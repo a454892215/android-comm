@@ -25,10 +25,10 @@ import java.util.List;
  * CreateDate: 2019/6/17 9:57
  * Description: No
  */
-
+@SuppressWarnings("unused")
 public class BannerLayout extends FrameLayout {
     private Context context;
-    private LinearLayout llt_indicators;
+    private LinearLayout indicatorParentView;
     private RecyclerView rv;
     private int bannerCount;
     private BannerAdapter bannerAdapter;
@@ -46,18 +46,13 @@ public class BannerLayout extends FrameLayout {
         this.context = context;
     }
 
-
-    public RecyclerView getRv() {
-        return rv;
-    }
-
-    public void init() {
+    private void init() {
         if (rv == null) {
             View view = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
             rv = view.findViewById(R.id.rv);
-            llt_indicators = view.findViewById(R.id.llt_indicators);
+            indicatorParentView = view.findViewById(R.id.llt_indicators);
             for (int i = 0; i < bannerCount; i++) {
-                LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, llt_indicators, true);
+                LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, indicatorParentView, true);
             }
             new PagerSnapHelper().attachToRecyclerView(rv);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -100,9 +95,6 @@ public class BannerLayout extends FrameLayout {
         }
     }
 
-
-    public long lastUpTime = 0;
-
     public void play(long delay) {
         postDelayed(loopTask, delay);
     }
@@ -131,7 +123,6 @@ public class BannerLayout extends FrameLayout {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 play(3000);
-                lastUpTime = System.currentTimeMillis();
                 break;
         }
         return super.dispatchTouchEvent(ev);
@@ -153,11 +144,11 @@ public class BannerLayout extends FrameLayout {
     }
 
     private void updateIndicator(int curPagerIndex) {
-        int indicatorCount = llt_indicators.getChildCount();
+        int indicatorCount = indicatorParentView.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
-            llt_indicators.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
+            indicatorParentView.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
-        llt_indicators.getChildAt(curPagerIndex).setBackgroundColor(showingIndicatorColor);
+        indicatorParentView.getChildAt(curPagerIndex).setBackgroundColor(showingIndicatorColor);
     }
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
@@ -166,5 +157,13 @@ public class BannerLayout extends FrameLayout {
 
     public void setDefaultIndicatorColor(int defaultIndicatorColor) {
         this.defaultIndicatorColor = defaultIndicatorColor;
+    }
+
+    public RecyclerView getRv() {
+        return rv;
+    }
+
+    public LinearLayout getIndicatorParentView() {
+        return indicatorParentView;
     }
 }
