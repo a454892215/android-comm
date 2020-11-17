@@ -21,9 +21,9 @@ public class RVTest4Fragment extends BaseFragment {
 
     @Override
     protected void initView() {
-      //  BannerUtil.initBanner(findViewById(R.id.banner), Arrays.asList(imgUrl));
+        //  BannerUtil.initBanner(findViewById(R.id.banner), Arrays.asList(imgUrl));
         BannerLayout bannerLayout = findViewById(R.id.banner_layout);
-        bannerLayout.init(activity, Arrays.asList(imgUrl));
+        bannerLayout.updateBanner(Arrays.asList(imgUrl));
         bannerLayout.play(2000);
     }
 

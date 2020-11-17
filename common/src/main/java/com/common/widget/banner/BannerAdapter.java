@@ -15,8 +15,8 @@ import java.util.List;
 
 public class BannerAdapter extends BaseRVAdapter<String> {
 
-    BannerAdapter(Context activity, List<String> list) {
-        super(activity, R.layout.adapter_banner, list);
+    BannerAdapter(Context context) {
+        super(context, R.layout.adapter_banner, null);
         isLoopMode = true;
     }
 
