@@ -100,12 +100,16 @@ public class BannerLayout extends FrameLayout {
         removeCallbacks(loopTask);
     }
 
+    private boolean isNeedDefIndicator = true;
+
     public BannerLayout updateBanner(List<String> urlList) {
         if (rv == null) init();
         bannerCount = urlList.size();
         indicatorParentView.removeAllViews();
-        for (int i = 0; i < bannerCount; i++) {
-            LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, indicatorParentView, true);
+        if (isNeedDefIndicator) {
+            for (int i = 0; i < bannerCount; i++) {
+                LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, indicatorParentView, true);
+            }
         }
         bannerAdapter.getList().clear();
         bannerAdapter.getList().addAll(urlList);
@@ -150,7 +154,13 @@ public class BannerLayout extends FrameLayout {
         for (int j = 0; j < indicatorCount; j++) {
             indicatorParentView.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
         }
-        indicatorParentView.getChildAt(curPagerIndex).setBackgroundColor(showingIndicatorColor);
+        View curView = indicatorParentView.getChildAt(curPagerIndex);
+        if (curView != null) {
+            curView.setBackgroundColor(showingIndicatorColor);
+        }
+        if (onBannerChangedListener != null) {
+            onBannerChangedListener.onChanged(curPagerIndex);
+        }
     }
 
     public void setShowingIndicatorColor(int showingIndicatorColor) {
@@ -168,4 +178,19 @@ public class BannerLayout extends FrameLayout {
     public LinearLayout getIndicatorParentView() {
         return indicatorParentView;
     }
+
+    public void setNeedDefIndicator(boolean needDefIndicator) {
+        isNeedDefIndicator = needDefIndicator;
+    }
+
+    private OnBannerChangedListener onBannerChangedListener;
+
+    public void setNeedDefIndicator(OnBannerChangedListener listener) {
+        onBannerChangedListener = listener;
+    }
+
+    public interface OnBannerChangedListener {
+        void onChanged(int curPagerIndex);
+    }
+
 }
