@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
 import com.common.base.BaseActivity;
-import com.common.comm.timer.MyTimer;
 
 import java.util.List;
 
@@ -32,8 +31,8 @@ public class BannerLayout extends FrameLayout {
     private Context context;
     private LinearLayout llt_indicators;
     private RecyclerView rv;
-    private MyTimer downTimer;
     private int bannerCount;
+    private BannerAdapter bannerAdapter;
 
     public BannerLayout(@NonNull Context context) {
         this(context, null);
@@ -53,8 +52,7 @@ public class BannerLayout extends FrameLayout {
         return rv;
     }
 
-    public void init(BaseActivity activity, List<String> urlList, boolean loopScrollEnable) {
-        this.loopScrollEnable = loopScrollEnable;
+    public void init(BaseActivity activity, List<String> urlList) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
         rv = view.findViewById(R.id.rv);
         llt_indicators = view.findViewById(R.id.llt_indicators);
@@ -66,7 +64,8 @@ public class BannerLayout extends FrameLayout {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rv.setLayoutManager(linearLayoutManager);
-        rv.setAdapter(new BannerAdapter(activity, urlList));
+        bannerAdapter = new BannerAdapter(activity, urlList);
+        rv.setAdapter(bannerAdapter);
         rv.scrollToPosition(Integer.MAX_VALUE / 2 + bannerCount - 3);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -88,46 +87,46 @@ public class BannerLayout extends FrameLayout {
 
     }
 
-    private boolean loopScrollEnable;
 
-    private void startLoopScroll() {
-        if (downTimer == null) {
-            downTimer = new MyTimer(Long.MAX_VALUE, 3000);
-            downTimer.setOnTickListener((time, count) -> {
-                View child = rv.getChildAt(0);
-                if (child != null && !isPressing && child.getLeft() == 0 && System.currentTimeMillis() - lastUpTime > 2000) {
-                    rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
-                }
-            });
-        }
-        downTimer.start(); //不能延迟执行
-    }
+    private LoopTask loopTask = new LoopTask();
 
-    private boolean isPressing;
-
-    @Override
-    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
-        super.onVisibilityChanged(changedView, visibility);
-        if (visibility == View.VISIBLE) {
-            if (loopScrollEnable){
-                postDelayed(this::startLoopScroll, 2000);
+    private class LoopTask implements Runnable {
+        @Override
+        public void run() {
+            View child = rv.getChildAt(0);
+            if (child != null) {
+                rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
             }
-        } else {
-            if (downTimer != null) downTimer.cancel();
+            postDelayed(loopTask, 3000);
         }
     }
 
-    private long lastUpTime = 0;
+
+    public long lastUpTime = 0;
+
+    public void play(long delay) {
+        postDelayed(loopTask, delay);
+    }
+
+    public void stop() {
+        removeCallbacks(loopTask);
+    }
+
+    public void updateBannerUrl(List<String> urlList) {
+        bannerAdapter.getList().clear();
+        bannerAdapter.getList().addAll(urlList);
+        bannerAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                isPressing = true;
+                stop();
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                isPressing = false;
+                play(3000);
                 lastUpTime = System.currentTimeMillis();
                 break;
         }
