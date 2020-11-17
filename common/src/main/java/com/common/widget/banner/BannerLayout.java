@@ -111,7 +111,7 @@ public class BannerLayout extends FrameLayout {
         removeCallbacks(loopTask);
     }
 
-    public void updateBanner(List<String> urlList) {
+    public BannerLayout updateBanner(List<String> urlList) {
         if (rv == null) {
             init();
         }
@@ -119,6 +119,7 @@ public class BannerLayout extends FrameLayout {
         bannerAdapter.getList().clear();
         bannerAdapter.getList().addAll(urlList);
         bannerAdapter.notifyDataSetChanged();
+        return this;
     }
 
     @Override

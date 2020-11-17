@@ -23,8 +23,7 @@ public class RVTest4Fragment extends BaseFragment {
     protected void initView() {
         //  BannerUtil.initBanner(findViewById(R.id.banner), Arrays.asList(imgUrl));
         BannerLayout bannerLayout = findViewById(R.id.banner_layout);
-        bannerLayout.updateBanner(Arrays.asList(imgUrl));
-        bannerLayout.play(2000);
+        bannerLayout.updateBanner(Arrays.asList(imgUrl)).play(2000);
     }
 
 }
