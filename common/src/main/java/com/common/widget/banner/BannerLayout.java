@@ -17,13 +17,14 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.common.R;
+import com.common.utils.LogUtil;
 
 import java.util.List;
 
 /**
  * Author:  L
  * CreateDate: 2019/6/17 9:57
- * Description: No
+ * Description: 基于RecyclerView的 Banner
  */
 @SuppressWarnings("unused")
 public class BannerLayout extends FrameLayout {
@@ -51,16 +52,12 @@ public class BannerLayout extends FrameLayout {
             View view = LayoutInflater.from(context).inflate(R.layout.layout_banner, this, true);
             rv = view.findViewById(R.id.rv);
             indicatorParentView = view.findViewById(R.id.llt_indicators);
-            for (int i = 0; i < bannerCount; i++) {
-                LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, indicatorParentView, true);
-            }
             new PagerSnapHelper().attachToRecyclerView(rv);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
             rv.setLayoutManager(linearLayoutManager);
             bannerAdapter = new BannerAdapter(context);
             rv.setAdapter(bannerAdapter);
-            rv.scrollToPosition(Integer.MAX_VALUE / 2 + bannerCount - 3);
             rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
                 @Override
                 public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -104,13 +101,17 @@ public class BannerLayout extends FrameLayout {
     }
 
     public BannerLayout updateBanner(List<String> urlList) {
-        if (rv == null) {
-            init();
-        }
+        if (rv == null) init();
         bannerCount = urlList.size();
+        indicatorParentView.removeAllViews();
+        for (int i = 0; i < bannerCount; i++) {
+            LayoutInflater.from(context).inflate(R.layout.layout_banner_indicator, indicatorParentView, true);
+        }
         bannerAdapter.getList().clear();
         bannerAdapter.getList().addAll(urlList);
         bannerAdapter.notifyDataSetChanged();
+        int centerPos = Integer.MAX_VALUE / 2;
+        rv.scrollToPosition(centerPos - (centerPos % bannerCount));
         return this;
     }
 
@@ -144,6 +145,7 @@ public class BannerLayout extends FrameLayout {
     }
 
     private void updateIndicator(int curPagerIndex) {
+        LogUtil.d("=======curPagerIndex:" + curPagerIndex);
         int indicatorCount = indicatorParentView.getChildCount();
         for (int j = 0; j < indicatorCount; j++) {
             indicatorParentView.getChildAt(j).setBackgroundColor(defaultIndicatorColor);
