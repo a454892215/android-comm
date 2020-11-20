@@ -190,6 +190,8 @@ public class CommonTabLayout extends LinearLayout {
     }
 
     public void bindViewPagerAndIndicator(ViewPager viewPager) {
+        isBindViewPager = true;
+        setOnSelectChangedListener(viewPager::setCurrentItem);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -201,7 +203,7 @@ public class CommonTabLayout extends LinearLayout {
 
             @Override
             public void onPageSelected(int position) {
-
+                setCurrentPosition(position);
             }
 
             @Override

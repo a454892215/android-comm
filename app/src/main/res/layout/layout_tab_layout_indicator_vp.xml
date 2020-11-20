@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="160dp"
+    android:layout_height="40dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,SpUsage">
+
+    <com.common.widget.CommonTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:showIn="@layout/aty_sticky_test2">
+
+
+        <com.common.widget.CommonTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="按鈕0"
+            android:textColor="@drawable/selector_text_color_1"
+            android:textSize="@dimen/sp_13"
+            tools:ignore="SpUsage" />
+
+
+        <com.common.widget.CommonTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="按鈕1"
+            android:textColor="@drawable/selector_text_color_1"
+            android:textSize="@dimen/sp_13" />
+
+
+        <com.common.widget.CommonTextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="按鈕2"
+            android:textColor="@drawable/selector_text_color_1"
+            android:textSize="@dimen/sp_13" />
+    </com.common.widget.CommonTabLayout>
+
+    <FrameLayout
+        android:id="@+id/flt_indicator"
+        android:layout_width="50dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="-3dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#5598FC" />
+    </FrameLayout>
+</LinearLayout>
+

@@ -1,6 +1,7 @@
 package com.test.util.sticky;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -23,29 +24,11 @@ public class StickyTestActivity2 extends MyBaseActivity {
         list.add(new Fragment__sticky_01());
         list.add(new Fragment__sticky_02());
         list.add(new Fragment__sticky_01());
-        list.add(new Fragment__sticky_02());
-        list.add(new Fragment__sticky_01());
-        list.add(new Fragment__sticky_02());
-        list.add(new Fragment__sticky_01());
         view_pager.setAdapter(new MyFragmentAdapter(fm, list));
-        view_pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                float progress = position + positionOffset;
-                LogUtil.d("===========position:" + position + "  progress:" + progress);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
+        CommonTabLayout tab_layout = findViewById(R.id.tab_layout);
+        tab_layout.setIndicatorViewId(R.id.flt_indicator);
+        tab_layout.bindViewPagerAndIndicator(view_pager);
+        tab_layout.setCurrentPosition(0);
         // CommonTabLayout tab_layout = findViewById(R.id.tab_layout);
 
 
