@@ -44,7 +44,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private boolean isAutoPlay = true;
     private int selectedIndicatorColor = Color.GRAY;
     private int unselectedIndicatorColor = Color.WHITE;
-    private int mLayoutResId = R.layout.banner;
     private int count = 0;
     private int currentItem;
     private int lastPosition = 1;
@@ -85,7 +84,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         scaleType = ScaleType.CENTER_CROP;
         delayTime = 2000;
         isAutoPlay = true;
-        View view = LayoutInflater.from(context).inflate(mLayoutResId, this, true);
+        View view = LayoutInflater.from(context).inflate( R.layout.banner, this, true);
         bannerDefaultImage = view.findViewById(R.id.bannerDefaultImage);
         viewPager =  view.findViewById(R.id.bannerViewPager);
         lltIndicatorParent =  view.findViewById(R.id.llt_indicator_parent);
