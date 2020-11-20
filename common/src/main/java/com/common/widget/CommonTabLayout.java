@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 
 import com.common.R;
 import com.common.listener.OnSelectChangedListener;
@@ -72,6 +73,8 @@ public class CommonTabLayout extends LinearLayout {
         updateAllTabView();
     }
 
+    boolean isBindViewPager = false;
+
     private void updateAllTabView() {
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -87,7 +90,7 @@ public class CommonTabLayout extends LinearLayout {
                 changeItemViewSelectedState(v, true);
                 currentPosition = indexInParent;
                 if (listener != null) listener.OnSelectChanged(indexInParent);
-                if (indicatorView != null) {
+                if (indicatorView != null && !isBindViewPager) {
                     indicatorView.animate().setInterpolator(new DecelerateInterpolator()).x(indicatorWidth * indexInParent).setDuration(250).start();
                 }
             });
@@ -108,7 +111,7 @@ public class CommonTabLayout extends LinearLayout {
         currentPosition = position;
         updateAllTabView();
         if (listener != null) listener.OnSelectChanged(currentPosition);
-        if (indicatorView != null) {
+        if (indicatorView != null && !isBindViewPager) {
             indicatorView.animate().setInterpolator(new DecelerateInterpolator()).x(indicatorWidth * position).setDuration(250).start();
         }
     }
@@ -135,9 +138,9 @@ public class CommonTabLayout extends LinearLayout {
         return list;
     }
 
-    OnSelectChangedListener listener;
-    View indicatorView;
-    int indicatorWidth;
+    private OnSelectChangedListener listener;
+    private View indicatorView;
+    private int indicatorWidth;
 
     @Override
     protected void onAttachedToWindow() {
@@ -146,13 +149,12 @@ public class CommonTabLayout extends LinearLayout {
             View childView = getChildAt(0);
             if (childView != null && indicatorViewId != 0) {
                 View parentView = (View) getParent();//设置水平indicator
-                View flt_tab_indicator = parentView.findViewById(indicatorViewId);
-                if (flt_tab_indicator != null) {
-                    indicatorView = flt_tab_indicator;
+                indicatorView = parentView.findViewById(indicatorViewId);
+                if (indicatorView != null) {
                     indicatorWidth = childView.getMeasuredWidth();
-                    ViewGroup.LayoutParams lp = flt_tab_indicator.getLayoutParams();
+                    ViewGroup.LayoutParams lp = indicatorView.getLayoutParams();
                     lp.width = indicatorWidth;
-                    flt_tab_indicator.setLayoutParams(lp);
+                    indicatorView.setLayoutParams(lp);
                 } else {
                     LogUtil.e("=======flt_tab_indicator 为 null================");
                 }
@@ -185,5 +187,27 @@ public class CommonTabLayout extends LinearLayout {
 
     public void setRepeatClickEnable(boolean repeatClickEnable) {
         this.repeatClickEnable = repeatClickEnable;
+    }
+
+    public void bindViewPagerAndIndicator(ViewPager viewPager) {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                float progress = position + positionOffset;
+                if (indicatorView != null) {
+                    indicatorView.setTranslationX(progress * indicatorWidth);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }
