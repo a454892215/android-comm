@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.common.utils.LogUtil;
 import com.common.widget.CommonTabLayout;
+import com.google.android.material.appbar.AppBarLayout;
 import com.test.util.R;
 import com.test.util.base.MyBaseActivity;
 
@@ -29,6 +30,22 @@ public class StickyTestActivity2 extends MyBaseActivity {
         tab_layout.setIndicatorViewId(R.id.flt_indicator);
         tab_layout.bindViewPagerAndIndicator(view_pager);
         tab_layout.setCurrentPosition(0);
+
+
+        AppBarLayout app_bar_layout = findViewById(R.id.app_bar_layout);
+        app_bar_layout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            private int lastVerticalOffset = 0;
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(lastVerticalOffset != verticalOffset){
+                    float totalScrollRange = appBarLayout.getTotalScrollRange();
+                    float percent = Math.abs(verticalOffset / totalScrollRange);
+                    lastVerticalOffset = verticalOffset;
+                    LogUtil.d("verticalOffset:" + verticalOffset + "   percent:" + percent + " totalScrollRange:" + totalScrollRange);
+                }
+
+            }
+        });
         // CommonTabLayout tab_layout = findViewById(R.id.tab_layout);
 
 
