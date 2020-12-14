@@ -36,6 +36,9 @@ import com.test.util.sys_notice.NotificationMonitor;
 import com.test.util.web_agent.AgentWebActivity;
 import com.test.util.x5web.X5WebTestActivity;
 
+import java.util.Date;
+import java.util.concurrent.Executors;
+
 /**
  * Author: L
  * Description:
@@ -80,7 +83,10 @@ public class MainActivity extends MyBaseActivity {
             findViewById(R.id.bt_timer).setOnClickListener(v -> TimerTest.testFPS(activity, 60));
             findViewById(R.id.btn_last).setOnClickListener(v -> SystemRingUtil.getInstance().playLast(App.app));
             findViewById(R.id.btn_next).setOnClickListener(v -> SystemRingUtil.getInstance().playNext(App.app));
-            findViewById(R.id.btn_stop_play_ring).setOnClickListener(v -> SystemRingUtil.getInstance().stopRecentRing());
+            findViewById(R.id.btn_stop_play_ring).setOnClickListener(v -> {
+                // SystemRingUtil.getInstance().stopRecentRing();
+                Executors.newSingleThreadExecutor().execute(()-> compute());
+            });
             //floatButtonTest(contentView);
 
             // openNotificationListenSettings();
@@ -89,6 +95,21 @@ public class MainActivity extends MyBaseActivity {
         } catch (Exception e) {
             LogUtil.e(e);
         }
+    }
+
+    private void compute() {
+        LogUtil.d(" 开始 cost time:" );
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 10000000; i++) {
+            /*for (int j = 0; j < 1000; j++) {
+
+            }*/
+            Date date = new Date();
+        }
+        long end = System.currentTimeMillis();
+        long t = end - start;
+       // System.out.println("  cost time:" + t);
+        LogUtil.d("  cost time:" + t);
     }
 
     private void startMonitor() {
