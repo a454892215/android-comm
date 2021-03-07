@@ -79,7 +79,7 @@
             android:layout_height="30dp"
             android:textSize="13dp"
             android:padding="0dp"
-            android:text="停止铃声播放"
+            android:text="socket发送消息到PC"
             tools:ignore="HardcodedText" />
 
     </LinearLayout>
