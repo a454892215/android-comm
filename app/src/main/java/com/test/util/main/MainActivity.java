@@ -1,6 +1,5 @@
 package com.test.util.main;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -8,6 +7,7 @@ import android.view.KeyEvent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adb_forward.AdbForwardThread;
 import com.common.base.BaseAppRVAdapter;
 import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
@@ -90,6 +90,10 @@ public class MainActivity extends MyBaseActivity {
             //floatButtonTest(contentView);
 
             // openNotificationListenSettings();
+
+            findViewById(R.id.btn_test).setOnClickListener(v -> {
+                AdbForwardThread.getInstance().send("你好gaga");
+            });
 
             startMonitor();
         } catch (Exception e) {

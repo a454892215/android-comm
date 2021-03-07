@@ -5,11 +5,9 @@ import com.common.utils.LogUtil;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /**
  * Created by sgll on 2018/12/10.
@@ -18,6 +16,12 @@ import java.util.Arrays;
 public class AdbForwardThread extends Thread {
 
     private Socket socket;
+
+    public static AdbForwardThread instance = new AdbForwardThread();
+
+    public static AdbForwardThread getInstance() {
+        return instance;
+    }
 
     @Override
     public void run() {
@@ -48,7 +52,7 @@ public class AdbForwardThread extends Thread {
         StringBuilder text = new StringBuilder();
         while ((index = inputStream.read(buffer)) != -1) {
             text.append(new String(buffer, 0, index).trim());
-            if (text.toString().endsWith("==end")) {
+            if (text.toString().endsWith(end_mark)) {
                 LogUtil.d("收到信息 :" + text);
                 text.delete(0, text.length());
                 buffer = new byte[1024 * 1024 * 10];
@@ -56,13 +60,16 @@ public class AdbForwardThread extends Thread {
         }
     }
 
-    private void send(String text) {
+    public static final String end_mark = ":==END";
+
+    public void send(String text) {
         try {
             if (socket == null) {
                 LogUtil.e("socket是null");
                 return;
             }
             if (!socket.isClosed()) {
+                text = text + end_mark;
                 DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
                 outputStream.write(text.getBytes(StandardCharsets.UTF_8));
                 outputStream.flush();

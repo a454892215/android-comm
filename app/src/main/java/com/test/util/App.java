@@ -27,8 +27,7 @@ public class App extends CommApp {
             soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
             JGInit.init(this);
             LogUtil.i("===onCreate==App=========:" + BuildConfig.app_info);
-            AdbForwardThread adbForwardThread = new AdbForwardThread();
-            adbForwardThread.start();
+            AdbForwardThread.getInstance().start();
         } catch (Exception e) {
             LogUtil.e(e);
         }

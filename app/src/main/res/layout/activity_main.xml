@@ -73,6 +73,15 @@
             android:text="停止铃声播放"
             tools:ignore="HardcodedText" />
 
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:textSize="13dp"
+            android:padding="0dp"
+            android:text="停止铃声播放"
+            tools:ignore="HardcodedText" />
+
     </LinearLayout>
 
     <com.common.widget.HongBaoYuView
