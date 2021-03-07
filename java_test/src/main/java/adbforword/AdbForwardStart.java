@@ -18,7 +18,8 @@ public class AdbForwardStart {
             socket = new Socket("127.0.0.1", 8000);
             AdbForwardStart start = new AdbForwardStart();
             start.receiveInfo();
-            start.sendInfo();
+            start.inputAndSend();
+            start.sendInfo("我是来自PC的信息");
         } catch (Exception e) {
             System.out.println("设置端口转发失败");
             e.printStackTrace();
@@ -27,15 +28,19 @@ public class AdbForwardStart {
 
     public static final String end_mark = ":==END";
 
-    private void sendInfo() throws IOException {
+    private void inputAndSend() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("请输入...");
         while (true) {
-            String msg = scanner.next();
-            DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(msg + end_mark);
-            dos.flush();
+            sendInfo(scanner.next());
+            System.out.println("请输入...");
         }
+    }
+
+    private void sendInfo(String msg) throws IOException {
+        DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+        dos.writeUTF(msg + end_mark);
+        dos.flush();
     }
 
     private void receiveInfo() throws IOException {

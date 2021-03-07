@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executors;
 
 /**
  * Created by sgll on 2018/12/10.
@@ -18,6 +19,7 @@ public class AdbForwardThread extends Thread {
     private Socket socket;
 
     public static AdbForwardThread instance = new AdbForwardThread();
+
 
     public static AdbForwardThread getInstance() {
         return instance;
@@ -34,6 +36,7 @@ public class AdbForwardThread extends Thread {
                 //从连接队列中取出一个连接，如果没有则等待
                 socket = serverSocket.accept();
                 LogUtil.d("发现新连接：" + socket.getInetAddress().getHostName());
+                send("我是来自Android端的信息");
                 //  socket.sendUrgentData(0xFF);  // 发送心跳包，单线程中使用，判断socket是否断开
                 receiveInfo();
             } catch (Exception e) {
@@ -63,23 +66,26 @@ public class AdbForwardThread extends Thread {
     public static final String end_mark = ":==END";
 
     public void send(String text) {
-        try {
-            if (socket == null) {
-                LogUtil.e("socket是null");
-                return;
-            }
-            if (!socket.isClosed()) {
-                text = text + end_mark;
-                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-                outputStream.write(text.getBytes(StandardCharsets.UTF_8));
-                outputStream.flush();
-            } else {
-                LogUtil.e("socket是关闭状态");
-            }
+        Executors.newSingleThreadExecutor().execute(() -> {
+            try {
+                if (socket == null) {
+                    LogUtil.e("socket是null");
+                    return;
+                }
+                if (!socket.isClosed()) {
+                    String sendText = text + end_mark;
+                    DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+                    outputStream.write(sendText.getBytes(StandardCharsets.UTF_8));
+                    outputStream.flush();
+                } else {
+                    LogUtil.e("socket是关闭状态");
+                }
 
-        } catch (IOException e) {
-            LogUtil.e(e);
-        }
+            } catch (IOException e) {
+                LogUtil.e(e);
+            }
+        });
+
     }
 
 }
