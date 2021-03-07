@@ -1,6 +1,7 @@
 package com.adb_forward;
 
 import com.common.utils.LogUtil;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -25,9 +26,9 @@ public class ServerThread extends Thread {
             try {
                 //从连接队列中取出一个连接，如果没有则等待
                 socket = serverSocket.accept();
+                LogUtil.d("发现新连接：" + socket.getInetAddress().getHostName());
                 while (true) {
-                    // 发送心跳包，单线程中使用，判断socket是否断开
-                    socket.sendUrgentData(0xFF);
+                    //  socket.sendUrgentData(0xFF);  // 发送心跳包，单线程中使用，判断socket是否断开
                     receiveInfo();
                 }
             } catch (Exception e) {
@@ -50,13 +51,13 @@ public class ServerThread extends Thread {
                 break;
             }
         }
-        LogUtil.d("text:" + text);
+        LogUtil.d("收到信息 :" + text);
     }
 
     private void send(String text) {
         try {
             if (socket == null) {
-                System.err.println("socket是null");
+                LogUtil.e("socket是null");
                 return;
             }
             if (!socket.isClosed()) {
@@ -64,11 +65,11 @@ public class ServerThread extends Thread {
                 outputStream.write(text.getBytes(StandardCharsets.UTF_8));
                 outputStream.flush();
             } else {
-                System.out.println("socket是关闭状态");
+                LogUtil.e("socket是关闭状态");
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.e(e);
         }
     }
 
