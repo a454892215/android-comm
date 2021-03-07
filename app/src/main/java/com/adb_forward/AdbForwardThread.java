@@ -46,14 +46,12 @@ public class AdbForwardThread extends Thread {
         byte[] buffer = new byte[1024 * 1024 * 10];
         int index;
         StringBuilder text = new StringBuilder();
-        while (true) {
-            while ((index = inputStream.read(buffer)) != -1) {
-                text.append(new String(buffer, 0, index).trim());
-                if (text.toString().endsWith("==end")) {
-                    LogUtil.d("收到信息 :" + text);
-                    text.delete(0, text.length());
-                    buffer = new byte[1024 * 1024 * 10];
-                }
+        while ((index = inputStream.read(buffer)) != -1) {
+            text.append(new String(buffer, 0, index).trim());
+            if (text.toString().endsWith("==end")) {
+                LogUtil.d("收到信息 :" + text);
+                text.delete(0, text.length());
+                buffer = new byte[1024 * 1024 * 10];
             }
         }
     }
