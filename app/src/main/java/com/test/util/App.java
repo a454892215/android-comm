@@ -1,5 +1,6 @@
 package com.test.util;
 
+import com.adb_forward.AdbForwardThread;
 import com.common.CommApp;
 import com.common.utils.LogUtil;
 import com.common.helper.SoundPoolHelper;
@@ -26,6 +27,8 @@ public class App extends CommApp {
             soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
             JGInit.init(this);
             LogUtil.i("===onCreate==App=========:" + BuildConfig.app_info);
+            AdbForwardThread adbForwardThread = new AdbForwardThread();
+            adbForwardThread.start();
         } catch (Exception e) {
             LogUtil.e(e);
         }

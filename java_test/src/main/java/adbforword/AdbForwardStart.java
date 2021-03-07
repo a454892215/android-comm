@@ -16,7 +16,7 @@ public class AdbForwardStart {
             System.out.println("连接手机成功...");
             Socket socket = new Socket("127.0.0.1", 8000);
             receiveInfo(socket);
-          //  sendInfo(socket);
+            sendInfo(socket);
         } catch (Exception e) {
             System.out.println("设置端口转发失败");
             e.printStackTrace();
@@ -25,10 +25,11 @@ public class AdbForwardStart {
 
     private static void sendInfo(Socket socket) throws IOException {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("请输入...");
         while (true) {
             String msg = scanner.next();
             DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-            dos.writeUTF(msg);
+            dos.writeUTF(msg + "==end");
             dos.flush();
         }
     }
@@ -37,9 +38,9 @@ public class AdbForwardStart {
         new Thread(() -> {
             try {
                 while (!socket.isClosed()) {
-                    DataInputStream dis = new DataInputStream(socket.getInputStream());
+                    DataInputStream inputStream = new DataInputStream(socket.getInputStream());
                     byte[] buffer = new byte[10 * 1024 * 6];
-                    int len = dis.read(buffer);
+                    int len = inputStream.read(buffer);
                     if (len > 0) {
                         System.out.println("\n接收到：" + new String(buffer, 0, len, StandardCharsets.UTF_8));
                     }

@@ -2,18 +2,20 @@ package com.adb_forward;
 
 import com.common.utils.LogUtil;
 
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Created by sgll on 2018/12/10.
  */
 @SuppressWarnings("unused")
-public class ServerThread extends Thread {
+public class AdbForwardThread extends Thread {
 
     private Socket socket;
 
@@ -21,16 +23,15 @@ public class ServerThread extends Thread {
     public void run() {
         super.run();
         try {
+            LogUtil.d("AdbForwardThread==启动=======:");
             //设置Android端口为9000
             ServerSocket serverSocket = new ServerSocket(9000);
             try {
                 //从连接队列中取出一个连接，如果没有则等待
                 socket = serverSocket.accept();
                 LogUtil.d("发现新连接：" + socket.getInetAddress().getHostName());
-                while (true) {
-                    //  socket.sendUrgentData(0xFF);  // 发送心跳包，单线程中使用，判断socket是否断开
-                    receiveInfo();
-                }
+                //  socket.sendUrgentData(0xFF);  // 发送心跳包，单线程中使用，判断socket是否断开
+                receiveInfo();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -41,17 +42,20 @@ public class ServerThread extends Thread {
 
 
     private void receiveInfo() throws IOException {
-        DataInputStream inputStream = new DataInputStream(socket.getInputStream());
-        byte[] buffer = new byte[1024 * 10];
+        InputStream inputStream = socket.getInputStream();
+        byte[] buffer = new byte[1024 * 1024 * 10];
         int index;
         StringBuilder text = new StringBuilder();
-        while ((index = inputStream.read(buffer)) != -1) {
-            text.append(new String(buffer, 0, index).trim());
-            if (text.toString().endsWith("-vvv")) {
-                break;
+        while (true) {
+            while ((index = inputStream.read(buffer)) != -1) {
+                text.append(new String(buffer, 0, index).trim());
+                if (text.toString().endsWith("==end")) {
+                    LogUtil.d("收到信息 :" + text);
+                    text.delete(0, text.length());
+                    buffer = new byte[1024 * 1024 * 10];
+                }
             }
         }
-        LogUtil.d("收到信息 :" + text);
     }
 
     private void send(String text) {
