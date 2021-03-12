@@ -16,6 +16,7 @@ import com.common.x5_web.MyTbsLogClient;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.export.external.TbsCoreSettings;
 import com.tencent.smtt.sdk.QbSdk;
+import com.youth.banner.Banner;
 
 import org.litepal.LitePal;
 
@@ -39,6 +40,7 @@ public class CommApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        new Banner();
         try {
             LitePal.initialize(this);
             LogUtil.d("=======Application===初始化=======ProcessName:" + getProcessName(this));

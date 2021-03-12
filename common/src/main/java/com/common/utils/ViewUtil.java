@@ -211,4 +211,22 @@ public class ViewUtil {
         parentView.addView(view);
         return view;
     }
+
+    /**
+     * 获取子View在父View中相对自身的可见宽度比率
+     */
+    public static float getVisibleRatio(ViewGroup parent, View child) {
+        float ratio = 0f;
+        if (child.getRight() > parent.getPaddingStart() && child.getLeft() < parent.getWidth() - parent.getPaddingEnd()) { //可见区域范围
+            float visibleWidth = 0;//左边隐藏
+            if (child.getLeft() < parent.getPaddingStart()) {
+                visibleWidth = child.getWidth() + child.getLeft();
+            }
+            if (child.getRight() > parent.getWidth() - parent.getPaddingEnd()) { // 右边隐藏
+                visibleWidth = child.getWidth() - (child.getRight() - (parent.getWidth() - parent.getPaddingEnd()));
+            }
+            ratio = visibleWidth / parent.getWidth();
+        }
+        return ratio;
+    }
 }
