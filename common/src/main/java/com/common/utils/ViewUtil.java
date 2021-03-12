@@ -215,7 +215,7 @@ public class ViewUtil {
     /**
      * 获取子View在父View中相对自身的可见宽度比率
      */
-    public static float getVisibleRatio(ViewGroup parent, View child) {
+    public static float getVisibleWidthRatio(ViewGroup parent, View child) {
         float ratio = 0f;
         if (child.getRight() > parent.getPaddingStart() && child.getLeft() < parent.getWidth() - parent.getPaddingEnd()) { //可见区域范围
             float visibleWidth = 0;//左边隐藏
