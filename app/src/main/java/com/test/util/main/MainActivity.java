@@ -7,7 +7,6 @@ import android.view.KeyEvent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adb_forward.AdbForwardThread;
 import com.common.base.BaseAppRVAdapter;
 import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
@@ -92,7 +91,9 @@ public class MainActivity extends MyBaseActivity {
             // openNotificationListenSettings();
 
             findViewById(R.id.btn_test).setOnClickListener(v -> {
-                AdbForwardThread.getInstance().send("你好gaga");
+
+             LogUtil.d("start111111111111111111111111222222222222222222222222333333333333333333333" +
+                     "444444444444444444444444444444445555555555555555555555553end");
             });
 
             startMonitor();
