@@ -40,7 +40,6 @@ public class CommApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        new Banner();
         try {
             LitePal.initialize(this);
             LogUtil.d("=======Application===初始化=======ProcessName:" + getProcessName(this));
