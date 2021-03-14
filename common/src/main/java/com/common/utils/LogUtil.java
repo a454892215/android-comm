@@ -23,8 +23,8 @@ public class LogUtil {
                 int count = 1024 * 3;
                 int times = length / count + 1;
                 for (int i = 0; i < times; i++) {
-                    int end = (i + 1) * count > msg.length() ? msg.length() : (i + 1) * count;
-                    Log.d(TAG + getLineNum(), "  text:  " + unicodeToUTF_8(msg.substring(i * count, end)));
+                    int end = Math.min((i + 1) * count, msg.length());
+                    Log.d(TAG + getLineNum(), unicodeToUTF_8(msg.substring(i * count, end)));
                 }
             }
         }
@@ -74,6 +74,6 @@ public class LogUtil {
 
     private static String getLineNum() {
         StackTraceElement ste = new Throwable().getStackTrace()[2];
-        return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ") ";
+        return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ")";
     }
 }
