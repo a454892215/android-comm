@@ -21,12 +21,12 @@ class AndroidLogCat {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream(), Charset.forName("GBK")));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                LogUtil.d(line);
+                System.out.println("Log:" + line);
             }
             bufferedReader.close();
-            LogUtil.d("执行结果：" + process.waitFor());
+            System.out.println("执行结果：" + process.waitFor());
         } catch (Exception e) {
-            LogUtil.e("======:" + e);
+         e.printStackTrace();
         }
     }
 

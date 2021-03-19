@@ -73,7 +73,6 @@ public class MainActivity extends MyBaseActivity {
             });
 
             HongBaoYuView hby = findViewById(R.id.hby);
-
             findViewById(R.id.btn_play).setOnClickListener(v -> hby.play());
             findViewById(R.id.btn_stop).setOnClickListener(v -> {
                 App.app.soundPoolUtil.play(0);
