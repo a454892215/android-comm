@@ -12,6 +12,7 @@ import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.FastClickUtil;
+import com.common.utils.IPUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemRingUtil;
 import com.common.widget.HongBaoYuView;
@@ -90,9 +91,7 @@ public class MainActivity extends MyBaseActivity {
             // openNotificationListenSettings();
 
             findViewById(R.id.btn_test).setOnClickListener(v -> {
-
-             LogUtil.d("start111111111111111111111111222222222222222222222222333333333333333333333" +
-                     "444444444444444444444444444444445555555555555555555555553end");
+                IPUtil.getIP(this);
             });
 
             startMonitor();
