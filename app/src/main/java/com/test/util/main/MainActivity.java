@@ -91,7 +91,7 @@ public class MainActivity extends MyBaseActivity {
             // openNotificationListenSettings();
 
             findViewById(R.id.btn_test).setOnClickListener(v -> {
-                IPUtil.getIP(this);
+               IPUtil.getInstance().init(getApplication());
             });
 
             startMonitor();
