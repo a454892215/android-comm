@@ -64,7 +64,7 @@ public class IPUtil {
                     }
                 }
             }
-        } catch (SocketException e) {
+        } catch (Exception e) {
             LogUtil.e(e);
         }
     }
