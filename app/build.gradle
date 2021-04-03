@@ -177,14 +177,20 @@ dependencies {
 }
 
 /*
-自定义gradle插件 方式一
+自定义gradle插件 方式1
 */
 apply plugin: testPluginLp
+apply plugin: 'test-plugin-lp' // 自定义gradle插件 方式2
 class testPluginLp implements Plugin<Project>{
 
     @Override
     void apply(Project target) {
-        println("=======this is a testPluginLp ==========：" + target.getPath())
+        def tasks = target.getTasks()
+        for(def task: tasks){
+            println(" LLpp taskName:" + task.getName())
+        }
+        target.getParent()
+        println("自定义插件方式一：内置式self：" + target.getPath() + " parent:" + target.getParent().toString())
     }
 }
 
