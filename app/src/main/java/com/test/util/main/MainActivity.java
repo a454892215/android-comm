@@ -11,6 +11,7 @@ import com.common.base.BaseAppRVAdapter;
 import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
+import com.common.utils.AssertsUtil;
 import com.common.utils.FastClickUtil;
 import com.common.utils.IPUtil;
 import com.common.utils.LogUtil;
@@ -89,9 +90,9 @@ public class MainActivity extends MyBaseActivity {
             //floatButtonTest(contentView);
 
             // openNotificationListenSettings();
-
+            String text = AssertsUtil.getText(this, "china_city.txt");
             findViewById(R.id.btn_test).setOnClickListener(v -> {
-               IPUtil.getInstance().init(getApplication());
+             LogUtil.d(text);
             });
 
             startMonitor();
