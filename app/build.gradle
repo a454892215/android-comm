@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'davis'
+//apply plugin: 'davis'
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
 println("app compileSdkVersion:" + "${app_info.compileSdkVersion}")
@@ -175,3 +175,16 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
+
+/*
+自定义gradle插件 方式一
+*/
+apply plugin: testPluginLp
+class testPluginLp implements Plugin<Project>{
+
+    @Override
+    void apply(Project target) {
+        println("=======this is a testPluginLp ==========：" + target.getPath())
+    }
+}
+
