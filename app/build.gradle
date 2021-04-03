@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'davis'
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
 println("app compileSdkVersion:" + "${app_info.compileSdkVersion}")
@@ -153,6 +154,7 @@ static String getGitInfo(p1) {
 dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
+
 
     testImplementation 'junit:junit:4.13-rc-2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
