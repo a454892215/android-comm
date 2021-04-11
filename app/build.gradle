@@ -116,10 +116,10 @@ android {
             buildConfigField('String', 'app_info', "\"" + appInfo + "\"")
             //   variant.getPackageApplication().outputDirectory = new File("app/product_1/all")
 
-            File file = new File("apk_dir")
+           /* File file = new File("apk_dir")
             if (!file.exists()) {
                 file.mkdirs()
-            }
+            }*/
             // println("cur path: " + file.getAbsolutePath() + "  exist:" + file.exists())
 //            if (name.contains("Release")) {
 //                variant.packageApplication.outputDirectory = file
@@ -180,7 +180,12 @@ dependencies {
 自定义gradle插件 方式1
 */
 apply plugin: testPluginLp
-apply plugin: 'test-plugin-lp' // 自定义gradle插件 方式2
+
+/*
+// 自定义gradle插件 方式2 buildSrc module
+插件名（‘test-plugin-lp’）即文件'test-plugin-lp.properties' 文件名
+*/
+apply plugin: 'test-plugin-lp'
 class testPluginLp implements Plugin<Project>{
 
     @Override

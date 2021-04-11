@@ -6,8 +6,6 @@ import org.gradle.api.Project
 class PluginImpl implements Plugin<Project>{
 
     void apply(Project project){
-        System.out.println("========================");
-        System.out.println("hello gradle plugin!");
-        System.out.println("========================");
+        System.out.println("=====自定义gradle插件 方式3===================");
     }
 }
