@@ -6,8 +6,6 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
-import org.gradle.api.Plugin
-import org.gradle.api.Project
 
 class InsertTransform extends Transform {
 

@@ -12,9 +12,9 @@ allprojects {
 }
 
 dependencies{
-    compileOnly gradleApi()
-    compileOnly localGroovy()
-    compileOnly  'com.android.tools.build:gradle:4.0.2'
+  //  compileOnly gradleApi()
+  //  compileOnly localGroovy()
+    api 'com.android.tools.build:gradle:4.0.2'
 }
 
 uploadArchives {
