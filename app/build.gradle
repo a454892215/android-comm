@@ -186,6 +186,7 @@ apply plugin: testPluginLp
 插件名（‘test-plugin-lp’）即文件'test-plugin-lp.properties' 文件名
 */
 apply plugin: 'test-plugin-lp'
+
 class testPluginLp implements Plugin<Project>{
 
     @Override

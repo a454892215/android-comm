@@ -61,10 +61,10 @@ public class DecompileApk {
      * 把所有dex文件转换成jar文件,并且使用JD_GUI打开所有的jar
      */
     private static void dex2Jar() {
+        List<String> dexFiles = getDexFiles();
         File jarOutDir = new File(JAR_OUT_DIR_PATH);
         FileUtil.deleteDir(jarOutDir.getAbsolutePath());
         FileUtil.createDir(jarOutDir);
-        List<String> dexFiles = getDexFiles();
         for (int i = 0; i < dexFiles.size(); i++) {
             CmdUtil.startCmd(new File(DEX2JAR_BAT_PATH).getAbsolutePath() + " " + dexFiles.get(i), jarOutDir);
         }
@@ -127,9 +127,11 @@ public class DecompileApk {
                 String name = zipEntry.getName();
                 if (name.endsWith(".dex")) {
                     String filePath = unzipFileFromZip(zipFile, zipEntry, name, DEX_OUT_DIR_PATH + File.separator);
+                    LogUtil.d("解压dex文件：" + filePath);
                     list.add(filePath);
                 }
             }
+            LogUtil.d("解压dex文件解压完毕，保存路径：" + DEX_OUT_DIR_PATH);
         } catch (Exception e) {
             e.printStackTrace();
         }

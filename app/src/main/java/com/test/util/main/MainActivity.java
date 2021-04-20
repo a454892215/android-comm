@@ -62,6 +62,7 @@ public class MainActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.d("=========apply changes app======3=========");
         try {
             setTitle("API验证");
             RecyclerView rv = findViewById(R.id.recycler_view);

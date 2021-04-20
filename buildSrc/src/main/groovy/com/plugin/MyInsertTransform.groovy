@@ -1,18 +1,27 @@
 package com.plugin
 
+import com.android.annotations.NonNull
 import com.android.build.api.transform.Context
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import com.google.common.io.Files
 
-class InsertTransform extends Transform {
+class MyInsertTransform extends Transform {
 
+
+    public MyInsertTransform(@NonNull String path, boolean addDependencies) {
+        this.name = Files.getNameWithoutExtension(path);
+        this.path = path;
+        this.addDependencies = addDependencies;
+    }
 
     //设置我们自定义的Transform对应的Task名称
     @Override
     String getName() {
+        System.out.println("======自定义gradle插件========getName===");
         return "LLpp01_Transform"
     }
 
@@ -40,7 +49,7 @@ class InsertTransform extends Transform {
                    TransformOutputProvider outputProvider,
                    boolean isIncremental) throws IOException,
             TransformException, InterruptedException {
-
+        System.out.println("======自定义gradle插件=====transform======");
     }
 
 }
