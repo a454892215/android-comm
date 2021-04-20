@@ -16,18 +16,19 @@ import brut.androlib.ApkDecoder;
 @SuppressWarnings("unused")
 public class DecompileApk {
 
-    //private static final String APK_PATH = "java_test/build/app.apk";
+    //apk路径
     private static final String APK_PATH = "java_test/build/app.apk";
+    //jd-gui.exe 路径
     private static final String JD_GUI_PATH = "reference/DecompileApk/2019_12_18/jd-gui.exe";
 
     //反编译后的apk输出目录
     private static final String APK_FILES_OUT_DIR_PATH = "java_test/build/apk";
 
     //dex文件输出目录
-    private static final String DEX_OUT_DIR_PATH = "reference/DecompileApk/2019_12_18/dex2jar-2.0";
+    private static final String DEX_OUT_DIR_PATH = "java_test/build";
 
     //d2j-dex2jar.bat 文件路径
-    private static final String DEX2JAR_BAT_PATH = DEX_OUT_DIR_PATH + "/d2j-dex2jar.bat";
+    private static final String DEX2JAR_BAT_PATH = "reference\\DecompileApk\\2019_12_18\\dex-tools-2.1-20190905-lanchon\\d2j-dex2jar.bat";
 
     //dex反编译成jar文件输出目录
     private static final String JAR_OUT_DIR_PATH = "java_test/build/jarOut";
