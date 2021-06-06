@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
@@ -93,14 +94,20 @@ public abstract class BaseActivity extends AppCompatActivity {
             loadingDialogFragment = new LoadingDialogFragment();
         }
         if (!loadingDialogFragment.isVisible() && activity.isShowing) {
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.remove(loadingDialogFragment);
             loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
+            transaction.commit();
         }
 
     }
 
     public void dismissDefaultLoadingView() {
         if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.remove(loadingDialogFragment);
             loadingDialogFragment.dismiss();
+            transaction.commit();
         }
     }
 
