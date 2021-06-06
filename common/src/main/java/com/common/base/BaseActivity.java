@@ -99,9 +99,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             loadingDialogFragment = new LoadingDialogFragment();
         }
         String tag = loadingDialogFragment.hashCode() + "-" + loadingDialogFragment.getClass().getName();
-        Fragment fragment = fm.findFragmentByTag(tag);
-        LogUtil.d("===showDefaultLoadingView==isVisible:" + loadingDialogFragment.isVisible() + " fragmentByTag:" + fragment);
-        if (!loadingDialogFragment.isVisible() && fragment == null) {
+        LogUtil.d("===showDefaultLoadingView==isVisible:" + loadingDialogFragment.isVisible());
+        if (!loadingDialogFragment.isVisible()) {
+            fm.beginTransaction().remove(loadingDialogFragment).commit();
             loadingDialogFragment.show(fm, tag);
         }
 
