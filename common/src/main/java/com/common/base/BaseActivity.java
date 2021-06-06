@@ -10,13 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.common.dialog.LoadingDialogFragment;
 import com.common.listener.OnBackPressedListener;
 import com.common.listener.OnRequestPermissionFinish;
 import com.common.utils.DensityMatcherUtil;
 import com.common.utils.DensityUtils;
+import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,30 +88,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         bottomVirtualKeyHeight = realScreenHeight - contentViewHeight - location_content[1];
     }
 
+    public boolean isShowLoadingDialogFragment() {
+        return loadingDialogFragment != null && loadingDialogFragment.isVisible();
+    }
+
 
     public void showDefaultLoadingView() {
+        LogUtil.d("=======showDefaultLoadingView===========");
         if (loadingDialogFragment == null) {
             loadingDialogFragment = new LoadingDialogFragment();
         }
         if (!loadingDialogFragment.isVisible() && activity.isShowing) {
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.remove(loadingDialogFragment);
             loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
-            transaction.commit();
         }
 
     }
 
     public void dismissDefaultLoadingView() {
+        LogUtil.d("=======dismissDefaultLoadingView===========");
         if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
-            FragmentTransaction transaction = fm.beginTransaction();
-            transaction.remove(loadingDialogFragment);
             loadingDialogFragment.dismiss();
-            transaction.commit();
         }
     }
 
-    private List<OnBackPressedListener> onBackPressedListenerList = new ArrayList<>();
+    private final List<OnBackPressedListener> onBackPressedListenerList = new ArrayList<>();
 
     @Override
     public final void onBackPressed() {

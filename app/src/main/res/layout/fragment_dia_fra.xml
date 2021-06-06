@@ -26,6 +26,7 @@
 
 
         <Button
+            android:id="@+id/btn_center_dialog"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_35"
             android:layout_marginTop="@dimen/dp_5"
@@ -35,12 +36,23 @@
             tools:ignore="UnusedAttribute" />
 
         <Button
+            android:id="@+id/btn_bottom_dialog"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_35"
             android:layout_marginTop="@dimen/dp_5"
             android:background="#cccccc"
             android:foreground="?selectableItemBackground"
             android:text="底部弹窗"
+            tools:ignore="UnusedAttribute" />
+
+        <Button
+            android:id="@+id/loading_fragment_test"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="#cccccc"
+            android:foreground="?selectableItemBackground"
+            android:text="Loading Fragment弹窗"
             tools:ignore="UnusedAttribute" />
 
     </LinearLayout>

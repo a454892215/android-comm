@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import com.common.R;
 import com.common.base.BaseDialogFragment;
 
+
 public class LoadingDialogFragment extends BaseDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,8 +26,6 @@ public class LoadingDialogFragment extends BaseDialogFragment {
 
     @Override
     protected void initView() {
-
     }
-
 
 }

@@ -1,12 +1,9 @@
 package com.test.util.custom_view.fragment;
 
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.common.base.BaseFragment;
 import com.common.comm.timer.MyTimer;
@@ -22,7 +19,7 @@ import com.common.base.BaseDropDialogFragment;
 
 public class DialogTestFragment_03 extends BaseFragment {
 
-    private Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
+    private final Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
     private MyTimer timer;
 
     @Override
@@ -39,15 +36,23 @@ public class DialogTestFragment_03 extends BaseFragment {
             drop_2.showAsDropDown(anchorView, 0, 0);
         });
 
-        LinearLayout llt_root = findViewById(R.id.llt_content);
-        int childCount = llt_root.getChildCount();
-        FragmentManager fm = getChildFragmentManager();
-        for (int i = 0; i < childCount; i++) {
-            View view = llt_root.getChildAt(i);
-            int finalI = i;
-            DialogFragment dialogFragment = (DialogFragment) FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[finalI]));//缓存模式 无懒加载
-            view.setOnClickListener(v -> dialogFragment.show(fm, fragmentArr[finalI].getName()));
-        }
+        findViewById(R.id.btn_center_dialog).setOnClickListener(v -> {
+            DialogFragment dialogFragment = (DialogFragment) FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[0]));//缓存模式 无懒加载
+            dialogFragment.show(fm, fragmentArr[0].getName());
+        });
+
+        findViewById(R.id.btn_bottom_dialog).setOnClickListener(v -> {
+            DialogFragment dialogFragment = (DialogFragment) FragmentHelper.getInstance(fm, CastUtil.cast(fragmentArr[1]));//缓存模式 无懒加载
+            dialogFragment.show(fm, fragmentArr[1].getName());
+        });
+
+        findViewById(R.id.loading_fragment_test).setOnClickListener(v -> {
+            if (activity.isShowLoadingDialogFragment()) {
+                activity.dismissDefaultLoadingView();
+            } else {
+                activity.showDefaultLoadingView();
+            }
+        });
 
         ProgressBar progress_bar = findViewById(R.id.progress_bar);
         progress_bar.setProgress(100);
