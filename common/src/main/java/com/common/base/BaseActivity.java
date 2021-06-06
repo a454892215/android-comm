@@ -94,10 +94,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     public void showDefaultLoadingView() {
-        LogUtil.d("=======showDefaultLoadingView===========");
+
         if (loadingDialogFragment == null) {
             loadingDialogFragment = new LoadingDialogFragment();
         }
+        LogUtil.d("=======showDefaultLoadingView===========isVisible:" + loadingDialogFragment.isVisible());
         if (!loadingDialogFragment.isVisible() && activity.isShowing) {
             loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
         }
@@ -105,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void dismissDefaultLoadingView() {
-        LogUtil.d("=======dismissDefaultLoadingView===========");
+        LogUtil.d("=======dismissDefaultLoadingView===========isVisible:" + loadingDialogFragment.isVisible());
         if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
             loadingDialogFragment.dismiss();
         }
