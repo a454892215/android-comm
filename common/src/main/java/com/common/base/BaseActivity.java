@@ -9,6 +9,7 @@ import android.view.Window;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.common.dialog.LoadingDialogFragment;
@@ -94,13 +95,14 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     public void showDefaultLoadingView() {
-
         if (loadingDialogFragment == null) {
             loadingDialogFragment = new LoadingDialogFragment();
         }
-        LogUtil.d("=======showDefaultLoadingView===========isVisible:" + loadingDialogFragment.isVisible());
-        if (!loadingDialogFragment.isVisible() && activity.isShowing) {
-            loadingDialogFragment.show(fm, loadingDialogFragment.getClass().getName());
+        String tag = loadingDialogFragment.hashCode() + "-" + loadingDialogFragment.getClass().getName();
+        Fragment fragment = fm.findFragmentByTag(tag);
+        LogUtil.d("===showDefaultLoadingView==isVisible:" + loadingDialogFragment.isVisible() + " fragmentByTag:" + fragment);
+        if (!loadingDialogFragment.isVisible() && fragment == null) {
+            loadingDialogFragment.show(fm, tag);
         }
 
     }
