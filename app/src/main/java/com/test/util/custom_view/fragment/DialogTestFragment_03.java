@@ -51,6 +51,7 @@ public class DialogTestFragment_03 extends BaseFragment {
                 activity.dismissDefaultLoadingView();
             } else {
                 activity.showDefaultLoadingView();
+                v.postDelayed(()->{ activity.showDefaultLoadingView();}, 2000);
             }
         });
 
