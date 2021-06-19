@@ -7,13 +7,13 @@ import android.view.KeyEvent;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aidl.AidlTestActivity;
 import com.common.base.BaseAppRVAdapter;
 import com.common.comm.timer.TimerTest;
 import com.common.helper.DataHelper;
 import com.common.helper.RVHelper;
 import com.common.utils.AssertsUtil;
 import com.common.utils.FastClickUtil;
-import com.common.utils.IPUtil;
 import com.common.utils.LogUtil;
 import com.common.utils.SystemRingUtil;
 import com.common.widget.HongBaoYuView;
@@ -47,12 +47,12 @@ import java.util.concurrent.Executors;
 @SuppressWarnings("unused")
 public class MainActivity extends MyBaseActivity {
 
-    private String[] names = {"源码验证", "View 相关", "View 相关2", "Xposed框架", "Bugly和各种异常捕获", "X5WebView", "Android Jetpack|通知监听",
-            "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码", "吸顶效果", "吸顶效果2"};
-    private Class<?>[] classArr = {OriCodeActivity.class, CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
+    private final String[] names = {"源码验证", "View 相关", "View 相关2", "Xposed框架", "Bugly和各种异常捕获", "X5WebView", "Android Jetpack|通知监听",
+            "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码", "吸顶效果", "吸顶效果2", "AIDL"};
+    private final Class<?>[] classArr = {OriCodeActivity.class, CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
             BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class,
             HttpTestActivity.class, AgentWebActivity.class, JRTTAndJNITestActivity.class, JGMainActivity.class,
-            QRCodeTestActivity.class, StickyTestActivity.class, StickyTestActivity2.class};
+            QRCodeTestActivity.class, StickyTestActivity.class, StickyTestActivity2.class, AidlTestActivity.class};
 
     @Override
     protected int getLayoutId() {
@@ -71,7 +71,7 @@ public class MainActivity extends MyBaseActivity {
                 if (FastClickUtil.isFastClick()) return;
                 Intent intent = new Intent(activity, classArr[position]);
                 intent.putExtra(Constant.KEY_HEADER_TITLE, names[position]);
-               // startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
+                // startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
                 startActivity(intent);
             });
 
@@ -86,15 +86,13 @@ public class MainActivity extends MyBaseActivity {
             findViewById(R.id.btn_next).setOnClickListener(v -> SystemRingUtil.getInstance().playNext(App.app));
             findViewById(R.id.btn_stop_play_ring).setOnClickListener(v -> {
                 // SystemRingUtil.getInstance().stopRecentRing();
-                Executors.newSingleThreadExecutor().execute(()-> compute());
+                Executors.newSingleThreadExecutor().execute(this::compute);
             });
             //floatButtonTest(contentView);
 
             // openNotificationListenSettings();
             String text = AssertsUtil.getText(this, "china_city.txt");
-            findViewById(R.id.btn_test).setOnClickListener(v -> {
-             LogUtil.d(text);
-            });
+            findViewById(R.id.btn_test).setOnClickListener(v -> LogUtil.d(text));
 
             startMonitor();
         } catch (Exception e) {
@@ -103,7 +101,7 @@ public class MainActivity extends MyBaseActivity {
     }
 
     private void compute() {
-        LogUtil.d(" 开始 cost time:" );
+        LogUtil.d(" 开始 cost time:");
         long start = System.currentTimeMillis();
         for (int i = 0; i < 10000000; i++) {
             /*for (int j = 0; j < 1000; j++) {
@@ -113,7 +111,7 @@ public class MainActivity extends MyBaseActivity {
         }
         long end = System.currentTimeMillis();
         long t = end - start;
-       // System.out.println("  cost time:" + t);
+        // System.out.println("  cost time:" + t);
         LogUtil.d("  cost time:" + t);
     }
 
