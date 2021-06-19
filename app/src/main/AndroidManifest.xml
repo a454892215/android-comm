@@ -102,6 +102,10 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+
+        <!--如果android:process的值以冒号开头的话，那么该进程就是私有进程，如：android:process=":aidl_service-->
+        <!-- 以小写字母开头(如com.secondProcess)，那么就是公有进程，android:process值一定要有个点号-->
+        <service android:name="com.aidl.AidlService" android:process=":aidl_service" />
     </application>
 
 </manifest>
