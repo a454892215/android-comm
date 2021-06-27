@@ -36,7 +36,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
 
     protected int x = 0;
     protected int y = 0;
-    private Window window;
+
     protected FragmentManager fm;
 
     @Override
@@ -81,16 +81,21 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (window != null) {
-            window.setWindowAnimations(R.style.dialog_anim_default); //禁止恢复屏幕时候动画
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            Window window = dialog.getWindow();
+            if (window != null) {
+                window.setWindowAnimations(R.style.dialog_anim_default); //禁止恢复屏幕时候动画
+            }
         }
+
 
     }
 
     private void setWindow() {
         Dialog dialog = getDialog();
         if (dialog != null) {
-            window = getDialog().getWindow();
+            Window window = getDialog().getWindow();
             //  getDialog().setOnKeyListener((dialog, keyCode, event) -> keyCode == KeyEvent.KEYCODE_BACK);
             if (window != null) {
                 window.setBackgroundDrawableResource(android.R.color.transparent);
