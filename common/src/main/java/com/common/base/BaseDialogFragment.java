@@ -125,14 +125,12 @@ public abstract class BaseDialogFragment extends DialogFragment {
     }
 
     @SuppressWarnings("unused")
-    protected BaseDialogFragment setHeight(int height) {
+    protected void setHeight(int height) {
         this.height = height;
-        return this;
     }
 
-    protected BaseDialogFragment setWidth(int width) {
+    protected void setWidth(int width) {
         this.width = width;
-        return this;
     }
 
     public BaseDialogFragment setGravity(int gravity) {
@@ -155,10 +153,6 @@ public abstract class BaseDialogFragment extends DialogFragment {
     protected BaseDialogFragment setAnimStyle(int animStyle) {
         this.animStyle = animStyle;
         return this;
-    }
-
-    public View getRootView() {
-        return rootView;
     }
 
 

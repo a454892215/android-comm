@@ -16,7 +16,6 @@ import com.common.listener.OnBackPressedListener;
 import com.common.listener.OnRequestPermissionFinish;
 import com.common.utils.DensityMatcherUtil;
 import com.common.utils.DensityUtils;
-import com.common.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
