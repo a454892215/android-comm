@@ -92,4 +92,5 @@ dependencies {
     // compile 'com.tencent.bugly:nativecrashreport:latest.release'
 
     api 'com.google.zxing:core:3.4.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }
