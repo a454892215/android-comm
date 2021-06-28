@@ -139,12 +139,10 @@ public class HScrollContentView extends View {
                 executeScrollXBy(-Math.round(dx));
                 break;
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
                 performClick();
-                if (Math.abs(dx) > min_scroll_unit / 2) {
+                if (Math.abs(xScrollSum) > min_scroll_unit / 2) {
                     velocityTracker.computeCurrentVelocity(2000, maxVelocity);
                     float xVelocity = velocityTracker.getXVelocity();
-                    LogUtil.d("  xVelocity:" + xVelocity + "  maxVelocity:" + maxVelocity);
                     mScroller.abortAnimation();
                     //  mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
                     if (flingAnim != null) flingAnim.cancel();
@@ -157,6 +155,8 @@ public class HScrollContentView extends View {
                     });
                     flingAnim.start();
                     invalidate();
+                } else {
+                    LogUtil.d("  xScrollSum:" + xScrollSum + "  min_scroll_unit:" + min_scroll_unit);
                 }
                 return false;
         }
