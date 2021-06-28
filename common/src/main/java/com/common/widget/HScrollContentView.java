@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.common.R;
 import com.common.comm.L;
+import com.common.utils.LogUtil;
 import com.common.widget.entity.ViewItem;
 
 import java.util.ArrayList;
@@ -32,10 +33,10 @@ public class HScrollContentView extends View {
 
     private VelocityTracker velocityTracker;
     private ValueAnimator anim;
-    private float min_scroll_unit;
+    private final float min_scroll_unit;
     protected Scroller mScroller;
-    private int maxVelocity;
-    private TextPaint paint;
+    private final int maxVelocity;
+    private final TextPaint paint;
     private ValueAnimator flingAnim;
 
     public HScrollContentView(Context context) {
@@ -69,7 +70,7 @@ public class HScrollContentView extends View {
         }*/
     }
 
-    private List<ViewItem> testTotalData = new ArrayList<>();
+    private final List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -142,6 +143,7 @@ public class HScrollContentView extends View {
                 if (Math.abs(dx) > min_scroll_unit / 2) {
                     velocityTracker.computeCurrentVelocity(2000, maxVelocity);
                     float xVelocity = velocityTracker.getXVelocity();
+                    LogUtil.d("  xVelocity:" + xVelocity + "  maxVelocity:" + maxVelocity);
                     mScroller.abortAnimation();
                     //  mScroller.fling(mScroller.getFinalX(), 0, -Math.round(xVelocity), 0, 0, (int) maxScrollWidth, 0, 0);
                     if (flingAnim != null) flingAnim.cancel();
@@ -176,7 +178,7 @@ public class HScrollContentView extends View {
         return xVelocity / 100 * L.dp_1;
     }
 
-    private List<ViewItem> drawList = new ArrayList<>();
+    private final List<ViewItem> drawList = new ArrayList<>();
 
     private void test(Canvas canvas) {
         computeDrawingList(ViewItem.itemWidth, testTotalData);
@@ -226,7 +228,7 @@ public class HScrollContentView extends View {
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
             //  scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
-            if(onScrollListener != null){
+            if (onScrollListener != null) {
                 onScrollListener.onScroll(mScroller.getFinalX());
             }
             invalidate();
@@ -294,7 +296,7 @@ public class HScrollContentView extends View {
 
     private OnScrollListener onScrollListener;
 
-    public interface OnScrollListener{
-       void onScroll(float currentX);
+    public interface OnScrollListener {
+        void onScroll(float currentX);
     }
 }
