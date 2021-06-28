@@ -139,6 +139,7 @@ public class HScrollContentView extends View {
                 executeScrollXBy(-Math.round(dx));
                 break;
             case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
                 performClick();
                 if (Math.abs(dx) > min_scroll_unit / 2) {
                     velocityTracker.computeCurrentVelocity(2000, maxVelocity);
