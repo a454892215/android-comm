@@ -70,10 +70,24 @@ public class FloatUtil {
     }
 
     /**
-     * 获取百分数
+     * 获取1位进度的数
+     */
+    public static float get1D(float value) {
+        return ((int) (value * 10)) / 10f;
+    }
+
+    /**
+     * 获取2位进度的数
      */
     public static float get2D(float value) {
         return ((int) (value * 100)) / 100f;
+    }
+
+    /**
+     * 获取3位进度的数
+     */
+    public static float get3D(float value) {
+        return ((int) (value * 1000)) / 1000f;
     }
 
     /**
