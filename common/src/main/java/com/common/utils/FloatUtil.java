@@ -75,7 +75,7 @@ public class FloatUtil {
      */
     public static float get1D(float value) {
         BigDecimal bd = new BigDecimal(value + "");
-        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        bd = bd.setScale(1, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
     }
 
