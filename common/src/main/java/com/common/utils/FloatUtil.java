@@ -2,6 +2,7 @@ package com.common.utils;
 
 import com.common.comm.L;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
@@ -73,7 +74,9 @@ public class FloatUtil {
      * 获取1位进度的数
      */
     public static float get1D(float value) {
-        return ((int) (value * 10)) / 10f;
+        BigDecimal bd = new BigDecimal(value + "");
+        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 
     /**
@@ -87,7 +90,9 @@ public class FloatUtil {
      * 获取3位进度的数
      */
     public static float get3D(float value) {
-        return ((int) (value * 1000)) / 1000f;
+        BigDecimal bd = new BigDecimal(value + "");
+        bd = bd.setScale(3, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
     }
 
     /**
