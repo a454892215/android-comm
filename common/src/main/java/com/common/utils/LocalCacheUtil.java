@@ -43,7 +43,7 @@ public class LocalCacheUtil {
                 String oriText = new String(data);
                 String unzipString = ZipUtil.unzipString(oriText);
                 String log = "  原size:" + CommFileUtil.getFormatSize(oriText.getBytes().length)
-                        + " 解压后size:" + CommFileUtil.getFormatSize(oriText.getBytes().length) ;
+                        + " 解压后size:" + CommFileUtil.getFormatSize(unzipString.getBytes().length) ;
                 LogUtil.d("读取文件成功===read:" + read + log);
                 return unzipString;
             } else {
