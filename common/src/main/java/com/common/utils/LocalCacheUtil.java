@@ -9,8 +9,8 @@ import java.io.FileOutputStream;
 
 public class LocalCacheUtil {
 
-    private Application app;
-    private String fileName;
+    private final Application app;
+    private final String fileName;
 
     public LocalCacheUtil(Application app, String fileName) {
         this.app = app;
@@ -19,10 +19,14 @@ public class LocalCacheUtil {
 
     public void save(String text) {
         try {
+            String log = " 压缩前大小：" + CommFileUtil.getFormatSize(text.getBytes().length);
+            text = ZipUtil.zipString(text);
+            byte[] bytes = text.getBytes();
+            log += " 压缩后大小：" + CommFileUtil.getFormatSize(bytes.length);
             FileOutputStream out = app.openFileOutput(fileName, Context.MODE_PRIVATE);
-            out.write(text.getBytes());
+            out.write(bytes);
             out.close();
-            LogUtil.d("=====保存文件成功========");
+            LogUtil.d("保存文件到本地成功: " + log + " fileName:" + fileName);
         } catch (Exception e) {
             LogUtil.e(e);
         }
@@ -36,8 +40,12 @@ public class LocalCacheUtil {
                 byte[] data = new byte[in.available()];
                 int read = in.read(data);
                 in.close();
-                LogUtil.d("========读取文件成功==============read:" + read);
-                return new String(data);
+                String oriText = new String(data);
+                String unzipString = ZipUtil.unzipString(oriText);
+                String log = "  原size:" + CommFileUtil.getFormatSize(oriText.getBytes().length)
+                        + " 解压后size:" + CommFileUtil.getFormatSize(oriText.getBytes().length) ;
+                LogUtil.d("读取文件成功===read:" + read + log);
+                return unzipString;
             } else {
                 LogUtil.d(file.getAbsolutePath() + " 文件不存在");
             }
