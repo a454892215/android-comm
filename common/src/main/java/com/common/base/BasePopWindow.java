@@ -19,8 +19,16 @@ import com.common.R;
  */
 public abstract class BasePopWindow extends PopupWindow {
     private final Activity activity;
+    private View contentView;
 
-    public abstract int getLayoutId();
+    protected abstract int getLayoutId();
+
+    protected abstract void initView();
+
+    public <T extends View> T findViewById(int id) {
+        return contentView.findViewById(id);
+    }
+
 
     public BasePopWindow(Context context, Activity activity, boolean outsideTouchable) {
         super(context);
@@ -30,8 +38,9 @@ public abstract class BasePopWindow extends PopupWindow {
 
     @SuppressLint("ClickableViewAccessibility")
     private void init(Activity activity, boolean outsideTouchable) {
-        View contentView = LayoutInflater.from(activity).inflate(getLayoutId(), null, false);
+        contentView = LayoutInflater.from(activity).inflate(getLayoutId(), null, false);
         setContentView(contentView);
+        contentView.post(this::initView);
         this.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#01ffffff")));
         this.setOutsideTouchable(outsideTouchable);
         this.setFocusable(outsideTouchable);
