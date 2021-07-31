@@ -9,6 +9,7 @@ import com.common.base.BaseFragment;
 import com.common.comm.timer.MyTimer;
 import com.common.dialog.BottomDialogFragment;
 import com.common.dialog.CenterDialogFragment;
+import com.common.dialog.LoadingPopWindow;
 import com.common.helper.FragmentHelper;
 import com.common.utils.CastUtil;
 import com.common.utils.FastClickUtil;
@@ -19,7 +20,7 @@ import com.common.base.BaseDropDialogFragment;
 
 public class DialogTestFragment_03 extends BaseFragment {
 
-    private final Class[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
+    private final Class<?>[] fragmentArr = {CenterDialogFragment.class, BottomDialogFragment.class};
     private MyTimer timer;
 
     @Override
@@ -51,8 +52,13 @@ public class DialogTestFragment_03 extends BaseFragment {
                 activity.dismissDefaultLoadingView();
             } else {
                 activity.showDefaultLoadingView();
-                v.postDelayed(()->{ activity.showDefaultLoadingView();}, 2000);
+                v.postDelayed(() -> activity.dismissDefaultLoadingView(), 2000);
             }
+        });
+        findViewById(R.id.loading_pop_window).setOnClickListener(v -> {
+            LoadingPopWindow loadingPopWindow = new LoadingPopWindow(activity);
+            loadingPopWindow.show();
+            v.postDelayed(loadingPopWindow::dismiss, 2000);
         });
 
         ProgressBar progress_bar = findViewById(R.id.progress_bar);

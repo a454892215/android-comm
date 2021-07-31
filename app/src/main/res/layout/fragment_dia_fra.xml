@@ -55,6 +55,17 @@
             android:text="Loading Fragment弹窗"
             tools:ignore="UnusedAttribute" />
 
+        <Button
+            android:id="@+id/loading_pop_window"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="#cccccc"
+            android:foreground="?selectableItemBackground"
+            android:text="Loading PopWindow弹窗"
+            tools:ignore="UnusedAttribute" />
+
+
     </LinearLayout>
 
     <ProgressBar

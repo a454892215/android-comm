@@ -30,8 +30,8 @@ public abstract class BasePopWindow extends PopupWindow {
     }
 
 
-    public BasePopWindow(Context context, Activity activity, boolean outsideTouchable) {
-        super(context);
+    public BasePopWindow(Activity activity, boolean outsideTouchable) {
+        super(activity);
         this.activity = activity;
         init(activity, outsideTouchable);
     }
@@ -39,6 +39,8 @@ public abstract class BasePopWindow extends PopupWindow {
     @SuppressLint("ClickableViewAccessibility")
     private void init(Activity activity, boolean outsideTouchable) {
         contentView = LayoutInflater.from(activity).inflate(getLayoutId(), null, false);
+        setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        setHeight(WindowManager.LayoutParams.MATCH_PARENT);
         setContentView(contentView);
         contentView.post(this::initView);
         this.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#01ffffff")));
