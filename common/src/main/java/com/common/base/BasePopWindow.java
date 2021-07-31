@@ -2,7 +2,6 @@ package com.common.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -63,6 +62,7 @@ public abstract class BasePopWindow extends PopupWindow {
 
 
     public void show() {
-        super.showAsDropDown(activity.getWindow().getDecorView());
+        View decorView = activity.getWindow().getDecorView();
+        decorView.post(() -> showAsDropDown(activity.getWindow().getDecorView()));
     }
 }
