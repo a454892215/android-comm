@@ -17,13 +17,10 @@ public class LitePalTest {
 
     public static void save() {
         LitePalTestEntity last = LitePal.findLast(LitePalTestEntity.class);
-        if (last != null) {
-            LitePalTestEntity entity = new LitePalTestEntity();
-            entity.setId(last.getId() + 1);
-            entity.setName("我的ID是：" + entity.getId());
-        } else {
-            LogUtil.i("last为null");
-        }
+        long id = last == null ? 0 : last.getId() + 1;
+        LitePalTestEntity entity = new LitePalTestEntity();
+        entity.setId(id);
+        entity.setName("我的ID是：" + entity.getId());
     }
 
     public static void deleteLast() {
@@ -32,7 +29,7 @@ public class LitePalTest {
             int rows = last.delete();
             LogUtil.d("删除的数据是：" + last.toString() + "  影响行数：" + rows);
         } else {
-            LogUtil.i("last为null");
+            LogUtil.i("无数据");
         }
     }
 
@@ -50,7 +47,7 @@ public class LitePalTest {
         if (last != null) {
             LogUtil.d(last.toString());
         } else {
-            LogUtil.i("last为null");
+            LogUtil.i("无数据");
         }
     }
 
