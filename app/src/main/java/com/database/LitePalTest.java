@@ -35,7 +35,7 @@ public class LitePalTest {
             long start = SystemClock.elapsedRealtime();
             List<LitePalTestEntity> list = new ArrayList<>();
             LitePalTestEntity last = LitePal.findLast(LitePalTestEntity.class);
-            for (int i = 0; i < 1000000; i++) {
+            for (int i = 0; i < 1000000; i++) { // 100万条数据 内存溢出  LitePal 太耗内存
                 long id = last == null ? 0 : last.getId() + 1;
                 LitePalTestEntity entity = new LitePalTestEntity();
                 entity.setId(id);
@@ -43,8 +43,9 @@ public class LitePalTest {
                 list.add(entity);
                 last = entity;
             }
-            LitePal.saveAll(list);
-            LogUtil.d("花费时间：" + (SystemClock.elapsedRealtime() - start));
+            LogUtil.d("开始保存数据");
+            boolean isOk = LitePal.saveAll(list);
+            LogUtil.d("花费时间：" + (SystemClock.elapsedRealtime() - start) + " 结果：" + isOk);
         });
     }
 
