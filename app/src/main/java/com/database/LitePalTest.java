@@ -7,6 +7,7 @@ import com.common.utils.LogUtil;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -32,18 +33,17 @@ public class LitePalTest {
     public static void save100w() {
         Executors.newSingleThreadExecutor().execute(() -> {
             long start = SystemClock.elapsedRealtime();
+            List<LitePalTestEntity> list = new ArrayList<>();
             LitePalTestEntity last = LitePal.findLast(LitePalTestEntity.class);
             for (int i = 0; i < 1000000; i++) {
-                if (i % 10000 == 0) {
-                    LogUtil.d(" 进度：" + (i / 10000));
-                }
                 long id = last == null ? 0 : last.getId() + 1;
                 LitePalTestEntity entity = new LitePalTestEntity();
                 entity.setId(id);
                 entity.setName("我的ID是：" + entity.getId());
-                entity.save();
+                list.add(entity);
                 last = entity;
             }
+            LitePal.saveAll(list);
             LogUtil.d("花费时间：" + (SystemClock.elapsedRealtime() - start));
         });
     }
