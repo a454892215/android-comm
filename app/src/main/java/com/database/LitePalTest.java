@@ -64,8 +64,7 @@ public class LitePalTest {
             List<LitePalTestEntity> list = LitePalUtil.findAll(LitePalTestEntity.class);
             int size = list.size();
             LogUtil.d("总数据size:" + size);
-            size = Math.min(size, 10);
-            for (int i = 0; i < size; i++) {
+            for (int i = size > 10 ? size - 10 : 0; i < size; i++) {
                 LitePalTestEntity entity = list.get(i);
                 LogUtil.d(entity.toString());
             }
