@@ -24,8 +24,16 @@ public class LitePalTest {
         } else {
             LogUtil.i("last为null");
         }
+    }
 
-
+    public static void deleteLast() {
+        LitePalTestEntity last = LitePalUtil.findLast(LitePalTestEntity.class);
+        if (last != null) {
+            int rows = last.delete();
+            LogUtil.d("删除的数据是：" + last.toString() + "  影响行数：" + rows);
+        } else {
+            LogUtil.i("last为null");
+        }
     }
 
     public static void findAll() {

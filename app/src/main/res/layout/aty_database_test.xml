@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,SpUsage">
+
+    <include layout="@layout/include_header" />
+
+
+    <Button
+        android:id="@+id/btn_add_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="添加一条记录" />
+
+    <Button
+        android:id="@+id/brn_delete_last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除最近一条记录" />
+
+    <Button
+        android:id="@+id/btn_find_last"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取最近一条记录" />
+
+    <Button
+        android:id="@+id/btn_find_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取所有记录" />
+
+
+</LinearLayout>

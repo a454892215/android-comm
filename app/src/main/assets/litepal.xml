@@ -32,9 +32,7 @@
     	</list>
     -->
     <list>
-        <mapping class="com.common.x5_web.entity.BookmarkEntity" />
-        <mapping class="com.common.x5_web.entity.HistoryRecordEntity" />
-        <mapping class="com.common.x5_web.entity.SearchRecordEntity" />
+        <mapping class="com.database.LitePalTestEntity" />
     </list>
 
     <!--

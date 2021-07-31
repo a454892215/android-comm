@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="horizontal"
-        tools:showIn="@layout/aty_sticky_test2">
+        tools:showIn="@layout/aty_database_test">
 
 
         <com.common.widget.CommonTextView
