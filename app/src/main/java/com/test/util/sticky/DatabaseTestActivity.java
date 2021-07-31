@@ -14,6 +14,9 @@ public class DatabaseTestActivity extends MyBaseActivity {
         findViewById(R.id.btn_add_record).setOnClickListener(v -> {
             LitePalTest.save();
         });
+        findViewById(R.id.btn_add_100w_record).setOnClickListener(v -> {
+            LitePalTest.save100w();
+        });
 
         findViewById(R.id.brn_delete_last).setOnClickListener(v -> {
             LitePalTest.deleteLast();
