@@ -21,6 +21,8 @@ public class LitePalTest {
         LitePalTestEntity entity = new LitePalTestEntity();
         entity.setId(id);
         entity.setName("我的ID是：" + entity.getId());
+        boolean save = entity.save();
+        LogUtil.d("save:" + save + " :" + entity);
     }
 
     public static void deleteLast() {
