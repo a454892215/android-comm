@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.common.dialog.LoadingDialogFragment;
+import com.common.dialog.LoadingPopWindow;
 import com.common.listener.OnBackPressedListener;
 import com.common.listener.OnRequestPermissionFinish;
 import com.common.utils.DensityMatcherUtil;
@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public static int contentViewHeight;
     public View contentView;
     protected boolean isSetLayoutId = true;
-    private LoadingDialogFragment loadingDialogFragment;
+    private BasePopWindow loadingWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,21 +88,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public boolean isShowLoadingDialogFragment() {
-        return loadingDialogFragment != null && loadingDialogFragment.isVisible();
+        return loadingWindow != null && loadingWindow.isShowing();
     }
 
 
     public void showDefaultLoadingView() {
-        if (loadingDialogFragment == null) {
-            loadingDialogFragment = new LoadingDialogFragment();
+        if (loadingWindow == null) {
+            loadingWindow = new LoadingPopWindow(this);
         }
-        fm.beginTransaction().remove(loadingDialogFragment).commit();
-        loadingDialogFragment.show(fm, "loadingDialogFragment");
+        loadingWindow.show();
     }
 
     public void dismissDefaultLoadingView() {
-        if (loadingDialogFragment != null && loadingDialogFragment.isVisible()) {
-            loadingDialogFragment.dismiss();
+        if (loadingWindow != null && loadingWindow.isShowing()) {
+            loadingWindow.dismiss();
         }
     }
 
