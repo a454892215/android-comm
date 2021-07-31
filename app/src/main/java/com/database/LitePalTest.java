@@ -32,20 +32,20 @@ public class LitePalTest {
     public static void save100w() {
         Executors.newSingleThreadExecutor().execute(() -> {
             long start = SystemClock.elapsedRealtime();
+            LitePalTestEntity last = LitePal.findLast(LitePalTestEntity.class);
             for (int i = 0; i < 1000000; i++) {
                 if (i % 10000 == 0) {
                     LogUtil.d(" 进度：" + (i / 10000));
                 }
-                LitePalTestEntity last = LitePal.findLast(LitePalTestEntity.class);
                 long id = last == null ? 0 : last.getId() + 1;
                 LitePalTestEntity entity = new LitePalTestEntity();
                 entity.setId(id);
                 entity.setName("我的ID是：" + entity.getId());
                 entity.save();
+                last = entity;
             }
             LogUtil.d("花费时间：" + (SystemClock.elapsedRealtime() - start));
         });
-
     }
 
     public static void deleteLast() {
