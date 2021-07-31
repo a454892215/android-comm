@@ -96,7 +96,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (loadingDialogFragment == null) {
             loadingDialogFragment = new LoadingDialogFragment();
         }
-        fm.beginTransaction().remove(loadingDialogFragment).commitAllowingStateLoss();
+        fm.beginTransaction().remove(loadingDialogFragment).commit();
         loadingDialogFragment.show(fm, "loadingDialogFragment");
     }
 
