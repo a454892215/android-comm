@@ -96,12 +96,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (loadingWindow == null) {
             loadingWindow = new LoadingPopWindow(this);
         }
-        loadingWindow.show();
+        runOnUiThread(()-> loadingWindow.show());
     }
 
     public void dismissDefaultLoadingView() {
         if (loadingWindow != null && loadingWindow.isShowing()) {
-            loadingWindow.dismiss();
+            runOnUiThread(()-> loadingWindow.dismiss());
+
         }
     }
 
