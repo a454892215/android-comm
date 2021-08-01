@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Transformation;
 import android.widget.Scroller;
 
 import androidx.annotation.Nullable;
@@ -38,6 +39,8 @@ public class HScrollContentView extends View {
     private final int maxVelocity;
     private final TextPaint paint;
     private ValueAnimator flingAnim;
+
+    protected boolean isTouching;
 
     public HScrollContentView(Context context) {
         this(context, null);
@@ -97,6 +100,7 @@ public class HScrollContentView extends View {
     private void onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                isTouching = true;
                 if (flingAnim != null) flingAnim.cancel();
                 startX = ev.getRawX();
                 startY = ev.getRawY();
@@ -125,6 +129,8 @@ public class HScrollContentView extends View {
                     }
                 }
                 break;
+            case MotionEvent.ACTION_UP:
+                isTouching = false;
         }
         if (orientation == orientation_horizontal) {
             onTouchEvent(ev);
