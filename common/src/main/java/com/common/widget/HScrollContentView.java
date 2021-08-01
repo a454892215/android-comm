@@ -136,7 +136,7 @@ public class HScrollContentView extends View {
         super.onTouchEvent(ev);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_MOVE:
-                executeScrollXBy(-Math.round(dx));
+                scrollXBy(-Math.round(dx));
                 break;
             case MotionEvent.ACTION_UP:
                 performClick();
@@ -151,7 +151,7 @@ public class HScrollContentView extends View {
                     flingAnim.setInterpolator(new DecelerateInterpolator());
                     flingAnim.addUpdateListener(animation -> {
                         float value = (float) animation.getAnimatedValue();
-                        executeScrollXBy(-value);
+                        scrollXBy(-value);
                     });
                     flingAnim.start();
                     invalidate();
@@ -248,7 +248,7 @@ public class HScrollContentView extends View {
     }
 
 
-    private void executeScrollXBy(float dx) {
+    public void scrollXBy(float dx) {
         if (!scrollEnable) return;
         if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
             dx = 0f - mScroller.getFinalX();
@@ -260,7 +260,7 @@ public class HScrollContentView extends View {
         invalidate();
     }
 
-    public void executeScrollToX(float x) {
+    public void scrollToX(float x) {
         if (!scrollEnable) return;
         if (x < 0) x = 0;
         if (x > maxScrollWidth) x = maxScrollWidth;
