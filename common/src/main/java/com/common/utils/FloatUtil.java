@@ -96,6 +96,15 @@ public class FloatUtil {
     }
 
     /**
+     * 获取4位进度的数
+     */
+    public static float get4D(float value) {
+        BigDecimal bd = new BigDecimal(value + "");
+        bd = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
+
+    /**
      * 获取保留2位小数的百分数
      */
     public static float get2DPercent(float startValue, float endValue) {
