@@ -631,6 +631,12 @@ public class RefreshLayout extends LinearLayout {
         this.onLoadMoreListener = onLoadMoreListener;
     }
 
+    public void setHeadTextColor(int color){
+        tv_header_state.setTextColor(color);
+        tv_header_date.setTextColor(color);
+        iv_header_right.setColorFilter(color);
+    }
+
     /**
      * 每次执行完毕后 监听对象会被移除
      */
