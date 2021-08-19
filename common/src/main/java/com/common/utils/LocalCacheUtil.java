@@ -20,7 +20,7 @@ public class LocalCacheUtil {
     public void save(String text) {
         try {
             String log = " 压缩前大小：" + CommFileUtil.getFormatSize(text.getBytes().length);
-           // text = ZipUtil.zipString(text);
+            text = ZipUtil.zipString(text);
             byte[] bytes = text.getBytes();
             log += " 压缩后大小：" + CommFileUtil.getFormatSize(bytes.length);
             FileOutputStream out = app.openFileOutput(fileName, Context.MODE_PRIVATE);
