@@ -94,5 +94,6 @@ dependencies {
     api 'com.google.zxing:core:3.4.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
-    implementation 'commons-codec:commons-codec:1.10'
+   // implementation 'commons-codec:commons-codec:1.10' Android 不能使用
+    implementation 'com.google.crypto.tink:tink-android:1.6.1'
 }

@@ -1,7 +1,7 @@
 package com.common.utils;
 
 
-import org.apache.commons.codec.binary.Base64;
+import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -53,7 +53,7 @@ public class ZipUtil {
         }
         //关闭压缩器并丢弃任何未处理的输入。
         deflater.end();
-        return Base64.encodeBase64String(outputStream.toByteArray());
+        return Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
         //处理回车符
 //        return zipString.replaceAll("[\r\n]", "");
     }
@@ -62,7 +62,7 @@ public class ZipUtil {
      * 解压缩
      */
     public static String unzipString(String zipString) {
-        byte[] decode = Base64.decodeBase64(zipString);
+        byte[] decode = Base64.decode(zipString, Base64.DEFAULT);
         Inflater inflater = new Inflater();
         //设置解压缩的输入数据。
         inflater.setInput(decode);
