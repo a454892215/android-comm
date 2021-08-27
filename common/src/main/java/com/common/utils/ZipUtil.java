@@ -37,7 +37,7 @@ public class ZipUtil {
          */
 
         //使用指定的压缩级别创建一个新的压缩器。
-        Deflater deflater = new Deflater(Deflater.BEST_COMPRESSION);
+        Deflater deflater = new Deflater(Deflater.BEST_SPEED);
         //设置压缩输入数据。
         deflater.setInput(unzipString.getBytes(StandardCharsets.UTF_8));
         //当被调用时，表示压缩应该以输入缓冲区的当前内容结束。
