@@ -42,9 +42,8 @@ public class ZipUtil {
         deflater.setInput(unzipString.getBytes(StandardCharsets.UTF_8));
         //当被调用时，表示压缩应该以输入缓冲区的当前内容结束。
         deflater.finish();
-
-        final byte[] bytes = new byte[1024];
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024);
+        final byte[] bytes = new byte[1024 * 1024];
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024 * 1024);
 
         while (!deflater.finished()) {
             //压缩输入数据并用压缩数据填充指定的缓冲区。
@@ -66,8 +65,8 @@ public class ZipUtil {
         Inflater inflater = new Inflater();
         //设置解压缩的输入数据。
         inflater.setInput(decode);
-        final byte[] bytes = new byte[1024];
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024);
+        final byte[] bytes = new byte[1024 * 1024];
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(1024 * 1024);
         try {
             while (!inflater.finished()) {
                 //将字节解压缩到指定的缓冲区中。
