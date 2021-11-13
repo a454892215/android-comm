@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  */
 @SuppressWarnings("unused")
 public class FloatUtil {
-    public static String getOneDecimalNum(float accuracyValue) {
+    public static String getOneDecimalNum(double accuracyValue) {
         DecimalFormat df = new DecimalFormat("0.0");
         df.setRoundingMode(RoundingMode.HALF_UP);
         return df.format(accuracyValue);
@@ -73,7 +73,7 @@ public class FloatUtil {
     /**
      * 获取1位进度的数
      */
-    public static float get1D(float value) {
+    public static float get1D(double value) {
         BigDecimal bd = new BigDecimal(value + "");
         bd = bd.setScale(1, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
@@ -82,14 +82,14 @@ public class FloatUtil {
     /**
      * 获取2位进度的数
      */
-    public static float get2D(float value) {
+    public static float get2D(double value) {
         return ((int) (value * 100)) / 100f;
     }
 
     /**
      * 获取3位进度的数
      */
-    public static float get3D(float value) {
+    public static float get3D(double value) {
         BigDecimal bd = new BigDecimal(value + "");
         bd = bd.setScale(3, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
@@ -98,7 +98,7 @@ public class FloatUtil {
     /**
      * 获取4位进度的数
      */
-    public static float get4D(float value) {
+    public static float get4D(double value) {
         BigDecimal bd = new BigDecimal(value + "");
         bd = bd.setScale(4, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();
