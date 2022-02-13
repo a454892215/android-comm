@@ -3,15 +3,11 @@ package com.common.widget;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Transformation;
 import android.widget.Scroller;
 
 import androidx.annotation.Nullable;
@@ -19,10 +15,6 @@ import androidx.annotation.Nullable;
 import com.common.R;
 import com.common.comm.L;
 import com.common.utils.LogUtil;
-import com.common.widget.entity.ViewItem;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: L
@@ -35,11 +27,9 @@ public class HScrollContentView extends View {
     private VelocityTracker velocityTracker;
     private ValueAnimator anim;
     private final float min_scroll_unit;
-    protected Scroller mScroller;
+    public Scroller mScroller;
     private final int maxVelocity;
-    private final TextPaint paint;
     private ValueAnimator flingAnim;
-
     protected boolean isTouching;
 
     public HScrollContentView(Context context) {
@@ -50,7 +40,6 @@ public class HScrollContentView extends View {
         this(context, attrs, -1);
     }
 
-
     public HScrollContentView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         min_scroll_unit = getResources().getDimension(R.dimen.dp_2);
@@ -60,20 +49,7 @@ public class HScrollContentView extends View {
         if (velocityTracker == null) {
             velocityTracker = VelocityTracker.obtain();
         }
-        paint = new TextPaint();
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(L.dp_1 * 8);
-
-
-       /* for (int i = 0; i < 2000; i++) {
-            ViewItem viewItem = new ViewItem();
-            viewItem.data = i + "";
-            viewItem.colorIndex = i;
-            testTotalData.add(viewItem);
-        }*/
     }
-
-    private final List<ViewItem> testTotalData = new ArrayList<>();
 
     float startX;
     float startY;
@@ -116,7 +92,6 @@ public class HScrollContentView extends View {
                 float dy = currentY - startY;
                 startX = currentX;
                 startY = currentY;
-
                 if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit) && Math.abs(xScrollSum) < min_scroll_unit) {
                     xScrollSum += dx;
                     yScrollSum += dy;
@@ -173,6 +148,10 @@ public class HScrollContentView extends View {
         return maxScrollWidth;
     }
 
+    public void setMaxScrollWidth(float width) {
+        this.maxScrollWidth = width;
+    }
+
     protected float maxScrollWidth;
 
     @Override
@@ -184,47 +163,6 @@ public class HScrollContentView extends View {
     protected float getFlingDistance(float xVelocity) {
         return xVelocity / 100 * L.dp_1;
     }
-
-    private final List<ViewItem> drawList = new ArrayList<>();
-
-    private void test(Canvas canvas) {
-        computeDrawingList(ViewItem.itemWidth, testTotalData);
-        int drawListSize = drawList.size();
-        for (int i = 0; i < drawListSize; i++) {
-            ViewItem viewItem = drawList.get(i);
-            paint.setColor(viewItem.colorIndex % 2 == 0 ? Color.RED : Color.GREEN);
-            canvas.drawRect(viewItem.start, viewItem.top, viewItem.end, viewItem.bottom, paint);
-            canvas.drawText(viewItem.data.toString(), viewItem.start + ViewItem.itemWidth / 2f, viewItem.top, paint);
-        }
-    }
-
-    private void computeDrawingList(float itemWidth, List<ViewItem> totalList) {
-        if (totalList == null || totalList.size() == 0) return;
-        int totalSize = totalList.size();
-        maxScrollWidth = itemWidth * totalSize - getMeasuredWidth();
-        float scrolledX = mScroller.getFinalX(); //已经滚过的距离
-        //每次最多只绘制N屏
-        int sizeOfOneDraw = (int) (getMeasuredWidth() * 5 / itemWidth + 1);
-        drawList.clear();
-        float scrolledItemSize = scrolledX / itemWidth; //已经滚过的Item数目
-        int start = (int) Math.floor(scrolledItemSize);
-        for (int i = start; i < start + sizeOfOneDraw; i++) {
-            if (i < totalSize) {
-                ViewItem viewItem = totalList.get(i);
-                viewItem.offset = -(scrolledItemSize - start) * itemWidth;
-                drawList.add(viewItem);
-            }
-        }
-        int size = drawList.size();
-        for (int i = 0; i < size; i++) {
-            ViewItem viewItem = drawList.get(i);
-            viewItem.start = viewItem.offset + i * itemWidth;
-            viewItem.end = viewItem.start + itemWidth;
-            viewItem.top = L.dp_1 * 20;
-            viewItem.bottom = viewItem.top + ViewItem.itemHeight;
-        }
-    }
-
 
     @Override
     public boolean performClick() {
@@ -253,7 +191,6 @@ public class HScrollContentView extends View {
         return scrollEnable;
     }
 
-
     public void scrollXBy(float dx) {
         if (!scrollEnable) return;
         if (mScroller.getFinalX() + dx < 0) {//getFinalX 避免延迟
@@ -274,7 +211,6 @@ public class HScrollContentView extends View {
         mScroller.startScroll(mScroller.getFinalX(), 0, (int) dx, 0, 180);
         invalidate();
     }
-
 
     @Override
     protected void onDetachedFromWindow() {
