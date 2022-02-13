@@ -1,2 +1,3 @@
+include ':java_comm'
 include ':plugin'
 include ':app', ':common', ':java_test', ':JPushExample'

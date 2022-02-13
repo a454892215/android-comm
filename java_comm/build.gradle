@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+apply plugin: 'maven'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: uri('../repository'))
+        pom.groupId = "com.java_comm"// 唯一标识（通常为模块包名）
+        pom.artifactId = "java_comm" // 项目名称
+        pom.version = "1.0.0"
+    }
+}
