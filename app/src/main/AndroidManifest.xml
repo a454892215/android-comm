@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/CommonAppTheme"
         android:usesCleartextTraffic="true"
+        android:largeHeap="true"
         tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
 
         <meta-data
