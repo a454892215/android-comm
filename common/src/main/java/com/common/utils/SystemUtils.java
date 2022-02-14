@@ -12,7 +12,9 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.common.base.BaseActivity;
 
 @SuppressWarnings("unused")
@@ -92,10 +94,10 @@ public class SystemUtils {
         return getPackageFirstInstallTime(context) == getPackageLastUpdateTime(context);
     }
 
-    public static boolean isMainProcess(Context context){
+    public static boolean isMainProcess(Context context) {
         int pid = android.os.Process.myPid();
-        ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-        if(activityManager != null){
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager != null) {
             for (ActivityManager.RunningAppProcessInfo appProcess : activityManager.getRunningAppProcesses()) {
                 if (appProcess.pid == pid) {
                     return context.getApplicationInfo().packageName.equals(appProcess.processName);
@@ -105,10 +107,10 @@ public class SystemUtils {
         return true;//默认是
     }
 
-    public static String getProcessName(){
+    public static String getProcessName() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            return Application.getProcessName();
+            return Application.getProcessName() + "-" + android.os.Process.myPid();
         }
-        return "?";
+        return "?" + "-" + android.os.Process.myPid();
     }
 }
