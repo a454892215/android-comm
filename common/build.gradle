@@ -94,7 +94,7 @@ dependencies {
     api 'com.google.zxing:core:3.4.0'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
-    // implementation 'com.java_comm:java_comm:1.0.0'
+    implementation 'com.java_comm:java_comm:1.0.0'
 
-    implementation project(':java_comm')
+    // api project(':java_comm')
 }

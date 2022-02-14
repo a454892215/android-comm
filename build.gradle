@@ -23,6 +23,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven{url 'D:\\work\\projects\\Common\\Common\\repository'}
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'https://jitpack.io' }
         google()
