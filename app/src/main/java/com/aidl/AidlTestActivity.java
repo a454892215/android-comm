@@ -30,8 +30,8 @@ public class AidlTestActivity extends MyBaseActivity {
                 try {
                     LogUtil.d("service 已连接：");
                     IMyAidlInterface iMyAidlInterface = IMyAidlInterface.Stub.asInterface(binder);
-                    LogUtil.d(iMyAidlInterface.getName("getName-"));
-                    iMyAidlInterface.test("gaga111");
+                    iMyAidlInterface.test(null);
+                    LogUtil.d("list大小：" + iMyAidlInterface.getValue(0));
                 } catch (Exception e) {
                     LogUtil.e(e);
                 }

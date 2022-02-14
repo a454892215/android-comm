@@ -27,28 +27,4 @@ public class AidlService3 extends Service {
     }
 
     private final IBinder binder = new MyBinder();
-
-    private static class MyBinder extends IMyAidlInterface.Stub {
-
-
-        @Override
-        public void basicTypes(int aInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) {
-
-        }
-
-        @Override
-        public int getValue(int value) {
-            return value + 1;
-        }
-
-        @Override
-        public String getName(String value) {
-            return value + "-22";
-        }
-
-        @Override
-        public void test(String value) {
-            LogUtil.d("========:" + value);
-        }
-    }
 }
