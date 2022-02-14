@@ -121,4 +121,12 @@ public class SystemUtils {
         String totalMemory = CommFileUtil.getFormatSize(rt.totalMemory());
         LogUtil.d(tag + " ==> 能分配最大内存是：" + maxMemory + " 空闲内存：" + freeMemory + " 当前占用总内存：" + totalMemory);
     }
+
+    public static String getMemoryInfo() {
+        Runtime rt = Runtime.getRuntime();
+        String maxMemory = CommFileUtil.getFormatSize(rt.maxMemory());
+        String freeMemory = CommFileUtil.getFormatSize(rt.freeMemory());
+        String totalMemory = CommFileUtil.getFormatSize(rt.totalMemory());
+        return " ==> 能分配最大内存是：" + maxMemory + " 空闲内存：" + freeMemory + " 当前占用总内存：" + totalMemory;
+    }
 }
