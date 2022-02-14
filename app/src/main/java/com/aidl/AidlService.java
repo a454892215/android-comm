@@ -13,7 +13,7 @@ import com.common.utils.SystemUtils;
  * 2021/6/19
  * Description:
  */
-class AidlService extends Service {
+public class AidlService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
