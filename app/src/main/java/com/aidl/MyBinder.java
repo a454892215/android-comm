@@ -38,15 +38,13 @@ public class MyBinder extends IMyAidlInterface.Stub {
     private final List<SizeEntity> list = new ArrayList<>();
 
     private void doTask() {
-        SystemUtils.logMemoryInfo("添加数据前");
         Thread thread = new Thread(() -> {
             for (int i = 0; i < 10; i++) {
                 SizeEntity sizeEntity = new SizeEntity();
                 sizeEntity.init();
                 list.add(sizeEntity);
             }
-            LogUtil.d("数据添加完毕 list：" + list.size());
-            SystemUtils.logMemoryInfo("添加数据后");
+            LogUtil.d("数据添加完毕 list：" + list.size() + " :" + SystemUtils.getMemoryInfo());
         });
         thread.start();
     }

@@ -22,13 +22,11 @@ public class AidlTestActivity extends MyBaseActivity {
     }
 
     private void toBindService(Class<? extends Service> service) {
-        LogUtil.d("准备绑定服务:" + service.getSimpleName());
         Intent intent = new Intent(this, service);
         bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder binder) {
                 try {
-                    LogUtil.d("service 已连接：");
                     IMyAidlInterface iMyAidlInterface = IMyAidlInterface.Stub.asInterface(binder);
                     iMyAidlInterface.test(null);
                   //  LogUtil.d("list大小：" + iMyAidlInterface.getValue(0));
