@@ -26,5 +26,17 @@ public class AidlService3 extends Service {
         return binder;
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        LogUtil.d("======onStartCommand=======");
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LogUtil.d("======onDestroy=======");
+    }
+
     private final IBinder binder = new MyBinder();
 }
