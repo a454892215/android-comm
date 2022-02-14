@@ -2,6 +2,7 @@ package com.aidl;
 
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
+import com.java_comm.entity.SizeEntity;
 
 import java.util.ArrayList;
 import java.util.List;

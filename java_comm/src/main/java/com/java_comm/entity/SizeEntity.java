@@ -1,6 +1,5 @@
-package com.aidl;
+package com.java_comm.entity;
 
-import com.common.utils.LogUtil;
 
 /**
  * Author: Pan
@@ -16,8 +15,4 @@ public class SizeEntity {
         size_1M[length - 1] = 2;
     }
 
-    public void log() {
-        int length = size_1M.length;
-        LogUtil.d(size_1M[0] + ":" + size_1M[length - 1]);
-    }
 }
