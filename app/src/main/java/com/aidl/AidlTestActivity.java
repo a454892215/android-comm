@@ -1,5 +1,6 @@
 package com.aidl;
 
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -15,19 +16,20 @@ public class AidlTestActivity extends MyBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        findViewById(R.id.btn_test).setOnClickListener(v -> toBindService());
+        findViewById(R.id.btn_test1).setOnClickListener(v -> toBindService(AidlService.class));
+        findViewById(R.id.btn_test2).setOnClickListener(v -> toBindService(AidlService2.class));
+        findViewById(R.id.btn_test3).setOnClickListener(v -> toBindService(AidlService3.class));
     }
 
-    private void toBindService() {
-        LogUtil.d("准备绑定服务...");
-        Intent intent = new Intent(this, AidlService.class);
+    private void toBindService(Class<? extends Service> service) {
+        LogUtil.d("准备绑定服务:" + service.getSimpleName());
+        Intent intent = new Intent(this, service);
         bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder binder) {
                 try {
-                    LogUtil.d("service 绑定成功：");
+                    LogUtil.d("service 已连接：");
                     IMyAidlInterface iMyAidlInterface = IMyAidlInterface.Stub.asInterface(binder);
-                    LogUtil.d(iMyAidlInterface.getValue(22) + "");
                     LogUtil.d(iMyAidlInterface.getName("getName-"));
                     iMyAidlInterface.test("gaga111");
                 } catch (Exception e) {
