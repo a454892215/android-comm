@@ -40,11 +40,11 @@ public class CommApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        app = this;
         try {
             LitePal.initialize(this);
             CrashHandler.init();
             if (SystemUtils.isMainProcess(this)) {
-                app = this;
                 CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
                 setWebViewPath(this);
                 //  if (isInitX5Web) initX5WebView();
