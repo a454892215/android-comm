@@ -42,21 +42,20 @@ public class CommApp extends Application {
         super.onCreate();
         try {
             LitePal.initialize(this);
-            LogUtil.d("=======Application===初始化=======ProcessName:" + getProcessName(this));
             CrashHandler.init();
             if (SystemUtils.isMainProcess(this)) {
                 app = this;
                 CrashReport.initCrashReport(getApplicationContext(), "89a3be5c8c", BuildConfig.DEBUG);
                 setWebViewPath(this);
-              //  if (isInitX5Web) initX5WebView();
+                //  if (isInitX5Web) initX5WebView();
                 LogUtil.d("==========是否初始化X5Web:" + isInitX5Web);
                 L.init(this);
         /*        hotFixCallback = new HotFixCallback();
                 hotFixCallback.init(this);
                 registerActivityLifecycleCallbacks(hotFixCallback);*/
-                LogUtil.d("=======主进程初始化完毕======");
+                LogUtil.d("=======主进程初始化完毕======pName:" + SystemUtils.getProcessName());
             } else {
-                LogUtil.d("=======其他进程初始化完毕======");
+                LogUtil.d("=======其他进程初始化完毕======pName:" + SystemUtils.getProcessName());
             }
         } catch (Exception e) {
             LogUtil.e(e);
@@ -106,7 +105,7 @@ public class CommApp extends Application {
             QbSdk.setTbsListener(new MyTbsListener());
             QbSdk.initX5Environment(getApplicationContext(), new MyPreInitCallback());
         } catch (Throwable e) {
-           LogUtil.e(e);
+            LogUtil.e(e);
         }
 
     }

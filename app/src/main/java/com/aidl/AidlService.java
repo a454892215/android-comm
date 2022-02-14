@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.common.utils.LogUtil;
+import com.common.utils.SystemUtils;
 
 
 /**
@@ -16,7 +17,7 @@ class AidlService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtil.d("======onCreate=========");
+        LogUtil.d("====AidlService==onCreate=========ProcessName:" + SystemUtils.getProcessName());
     }
 
     @Override
@@ -25,7 +26,7 @@ class AidlService extends Service {
         return binder;
     }
 
-    IBinder binder = new MyBinder();
+    private final IBinder binder = new MyBinder();
 
     private static class MyBinder extends IMyAidlInterface.Stub {
 
