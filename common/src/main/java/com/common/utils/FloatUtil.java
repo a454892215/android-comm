@@ -66,7 +66,7 @@ public class FloatUtil {
     /**
      * 获取百分数
      */
-    public static String getPercent(float startValue, float endValue) {
+    public static String getPercent(double startValue, double endValue) {
         return (((endValue - startValue) / startValue) * 100) + "%";
     }
 
@@ -107,15 +107,15 @@ public class FloatUtil {
     /**
      * 获取保留2位小数的百分数
      */
-    public static float get2DPercent(float startValue, float endValue) {
-        return ((int) ((((endValue - startValue) / startValue) * 100) * 100)) / 100f;
+    public static double get2DPercent(double startValue, double endValue) {
+        return ((int) ((((endValue - startValue) / startValue) * 100) * 100)) / 100d;
     }
 
     /**
      * 获取保留3位小数的百分数
      */
-    public static float get3DPercent(float startValue, float endValue) {
-        return ((int) ((((endValue - startValue) / startValue) * 100) * 1000)) / 1000f;
+    public static double get3DPercent(double startValue, double endValue) {
+        return ((int) ((((endValue - startValue) / startValue) * 100) * 1000)) / 1000d;
     }
 
     /**
