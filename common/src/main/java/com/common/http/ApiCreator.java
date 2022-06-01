@@ -3,6 +3,7 @@ package com.common.http;
 import com.common.http.inter.IApiCreator;
 import com.common.http.other.HttpSSLSetting;
 import com.common.http.other.LogInterceptor;
+import com.common.http.other.TrustAllCerts;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -68,8 +69,8 @@ public class ApiCreator implements IApiCreator {
         connectionPool = new ConnectionPool(32, 5, TimeUnit.MINUTES);
         builder.connectionPool(connectionPool);
         if(defaultHttpsEnable){
-            HttpSSLSetting.SSLParams sslParams1 = HttpSSLSetting.getSslSocketFactory();
-            builder.sslSocketFactory(sslParams1.sSLSocketFactory, sslParams1.trustManager);
+            builder.hostnameVerifier((hostname, session) -> true);
+            builder.sslSocketFactory(TrustAllCerts.createSSLSocketFactory());
         }
         return builder.build();
     }
