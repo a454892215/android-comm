@@ -70,7 +70,7 @@ public class ApiCreator implements IApiCreator {
         builder.connectionPool(connectionPool);
         if(defaultHttpsEnable){
             builder.hostnameVerifier((hostname, session) -> true);
-            builder.sslSocketFactory(TrustAllCerts.createSSLSocketFactory());
+            builder.sslSocketFactory(TrustAllCerts.createSSLSocketFactory(), new TrustAllCerts());
         }
         return builder.build();
     }
