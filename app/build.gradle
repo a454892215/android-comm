@@ -153,7 +153,6 @@ static String getGitInfo(p1) {
 
 dependencies {
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
-    implementation project(path: ':java_comm')
     compileOnly fileTree(include: ['*.jar'], dir: 'libs')
 
 
