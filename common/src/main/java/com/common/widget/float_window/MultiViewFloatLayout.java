@@ -49,7 +49,7 @@ public class MultiViewFloatLayout extends FrameLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        touchEventHelper.getTouchOrientation(event, ori -> orientation = ori);
+        touchEventHelper.onDispatchTouchEvent(event, ori -> orientation = ori);
         boolean isResume = true;
         if (!isWindowMode) {
             isResume = super.dispatchTouchEvent(event);
@@ -145,10 +145,10 @@ public class MultiViewFloatLayout extends FrameLayout {
             if (pointerCount > 1) {
                 return false;
             }
-            if (orientation == TouchEventHelper.orientation_horizontal && targetView != null) {
+            if (orientation == TouchEventHelper.ori_h && targetView != null) {
                 targetView.animate().setDuration(0).translationXBy(-distanceX).start();
             }
-            if (orientation == TouchEventHelper.orientation_vertical && targetView != null) {
+            if (orientation == TouchEventHelper.ori_v && targetView != null) {
                 OffsetHelper.scrollAllChildViewByLevel(distanceY, MultiViewFloatLayout.this);
             }
             return true;
@@ -160,7 +160,7 @@ public class MultiViewFloatLayout extends FrameLayout {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (orientation == TouchEventHelper.orientation_vertical) {
+            if (orientation == TouchEventHelper.ori_v) {
                 final int flingDuring = 200;
                 float dy = velocityY * (flingDuring / 2000f);
                 if (targetView != null) {
@@ -171,7 +171,7 @@ public class MultiViewFloatLayout extends FrameLayout {
         }
 
         private void onHorScrollEnd() {
-            if (orientation == TouchEventHelper.orientation_horizontal && targetView != null) {
+            if (orientation == TouchEventHelper.ori_h && targetView != null) {
                 float translationX = targetView.getTranslationX();
                 float left = 0;
                 if (translationX < -targetView.getWidth() / 2) {

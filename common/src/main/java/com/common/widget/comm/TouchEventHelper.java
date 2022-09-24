@@ -15,10 +15,10 @@ public class TouchEventHelper {
     private float yScrollSum;
     private int compute_times = 0;
 
-    public static final int orientation_vertical = 1;
-    public static final int orientation_horizontal = 2;
+    public static final int ori_v = 1; // 垂直方向
+    public static final int ori_h = 2; // 水平方向
     private static final int max_compute_times = 3;
-    private float min_scroll_unit;
+    private final float min_scroll_unit;
     private long down_time;
     private float down_x;
     private float down_y;
@@ -27,7 +27,7 @@ public class TouchEventHelper {
         min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
     }
 
-    public void getTouchOrientation(MotionEvent ev, OnOrientationChangedListener listener) {
+    public void onDispatchTouchEvent(MotionEvent ev, OnOrientationChangedListener listener) {
         float rawX = ev.getRawX();
         float rawY = ev.getRawY();
         switch (ev.getAction()) {
@@ -54,14 +54,14 @@ public class TouchEventHelper {
                 startX = rawX;
                 startY = rawY;
                 if (Math.abs(xScrollSum) > min_scroll_unit && Math.abs(xScrollSum) > Math.abs(yScrollSum)) {
-                    if (orientation == 0) orientation = orientation_horizontal;
-                    if (orientation == orientation_horizontal) {
-                        listener.onOrientationChanged(orientation_horizontal);
+                    if (orientation == 0) orientation = ori_h;
+                    if (orientation == ori_h) {
+                        listener.onOrientationChanged(ori_h);
                     }
                 } else if (Math.abs(yScrollSum) > min_scroll_unit && Math.abs(yScrollSum) > Math.abs(xScrollSum)) {
-                    if (orientation == 0) orientation = orientation_vertical;
-                    if (orientation == orientation_vertical) {
-                        listener.onOrientationChanged(orientation_vertical);
+                    if (orientation == 0) orientation = ori_v;
+                    if (orientation == ori_v) {
+                        listener.onOrientationChanged(ori_v);
                     }
                 }
                 break;
