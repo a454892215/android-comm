@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -100,7 +101,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         viewPager.setPageTransformer(reverseDrawingOrder, transformer);
     }
 
-    private List<Object> imageUrlList = new ArrayList<>();
+    private final List<Object> imageUrlList = new ArrayList<>();
 
     /**
      * 必須調用
@@ -112,6 +113,13 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
         bannerDefaultImage.setVisibility(imageUrlList.size() <= 0 ? VISIBLE : GONE);
         setIndicator();
         setViewPagerData();
+    }
+
+    /**
+     * 必須調用
+     */
+    public void notifyDataChange(Object[] arr) {
+        notifyDataChange(Arrays.asList(arr));
     }
 
     @SuppressLint("SetTextI18n")

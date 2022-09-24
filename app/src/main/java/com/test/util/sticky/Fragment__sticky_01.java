@@ -1,7 +1,8 @@
 package com.test.util.sticky;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,13 +16,9 @@ import com.bumptech.glide.request.target.Target;
 import com.common.base.BaseFragment;
 import com.common.utils.LogUtil;
 import com.common.widget.banner.Banner;
-import com.common.widget.banner.BannerLayout;
-import com.common.widget.banner.BannerUtil;
 import com.test.util.R;
 import com.test.util.comm.SimpleTextAdapter;
 import com.test.util.comm.TestDataHelper;
-
-import java.util.Arrays;
 
 public class Fragment__sticky_01 extends BaseFragment {
     @Override
@@ -29,11 +26,7 @@ public class Fragment__sticky_01 extends BaseFragment {
         return R.layout.frag_sticky_01;
     }
 
-    private static String[] imgUrl = {"http://img17.3lian.com/d/file/201702/21/8f8a5c670f68613382cb043d1ad2fe05.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/1fa7ef2fbf14cb7640ea50de1914cd05.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/44b2c79be750dcc69f919bc786cbd173.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/834c9af2d7b02b74a1d9d44b527c53ff.jpg"
-            , "http://img17.3lian.com/d/file/201702/21/8c49c4da75a889cc3c4ceb211a2adaa3.jpg"};
+    private static final Integer[] picIds = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
     @Override
     protected void initView() {
         RecyclerView rv = findViewById(R.id.rv);
@@ -42,20 +35,32 @@ public class Fragment__sticky_01 extends BaseFragment {
         rv.setAdapter(adapter);
 
         Banner banner = findViewById(R.id.banner);
-        banner.setImageLoader((Banner.ImageLoader) (context, path, imageView) ->
-                Glide.with(banner.getContext()).load(path).listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        LogUtil.e(e);
-                        return false;
-                    }
+        banner.setImageLoader(new MyImageLoader());
+        banner.notifyDataChange(picIds);
+    }
 
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        return false;
-                    }
-                }).into(imageView));
-        banner.notifyDataChange( Arrays.asList(imgUrl));
+
+    private class MyImageLoader implements Banner.ImageLoader {
+
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            Glide.with(Fragment__sticky_01.this).load(path).into(imageView);
+        }
+    }
+
+    private static class MyRequestListener implements RequestListener<Drawable> {
+
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            LogUtil.e("onLoadFailed");
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            LogUtil.d("onResourceReady");
+            return false;
+        }
     }
 
 }

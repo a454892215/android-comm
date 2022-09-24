@@ -21,14 +21,8 @@ public class StickyTestActivity extends MyBaseActivity {
         List<Fragment> list = new ArrayList<>();
         list.add(new Fragment__sticky_01());
         list.add(new Fragment__sticky_02());
-        list.add(new Fragment__sticky_01());
-        list.add(new Fragment__sticky_02());
-        list.add(new Fragment__sticky_01());
-        list.add(new Fragment__sticky_02());
-        list.add(new Fragment__sticky_01());
+        list.add(new Fragment__sticky_03());
         view_pager.setAdapter(new MyFragmentAdapter(fm, list));
-
-        CommonTabLayout tab_layout = findViewById(R.id.tab_layout);
 
 
     }

@@ -8,74 +8,41 @@
     android:orientation="vertical"
     tools:ignore="HardcodedText,SpUsage">
 
-    <include layout="@layout/include_header" />
-
-    <com.common.widget.StickyHeaderLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:src="@mipmap/banner"
-            android:scaleType="centerCrop"
-            android:background="#B54040" />
+            android:layout_height="wrap_content">
 
-        <com.common.widget.CommonTabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center">
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:title="Android高级"/>
 
-            <com.common.widget.CommonTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_bg_color"
-                android:gravity="center"
-                android:padding="@dimen/dp_3"
-                android:text="TAB-1"
-                android:textColor="@drawable/selector_text_color_1"
-                android:textSize="@dimen/sp_13"
-                app:clip_radius="@dimen/dp_4" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@mipmap/banner"
+                android:scaleType="centerCrop"
+                app:layout_scrollFlags="scroll|enterAlways" />
 
-            <com.common.widget.CommonTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_bg_color"
-                android:gravity="center"
-                android:padding="@dimen/dp_3"
-                android:text="TAB-2"
-                android:textColor="@drawable/selector_text_color_1"
-                android:textSize="@dimen/sp_13"
-                app:clip_radius="@dimen/dp_4" />
 
-            <com.common.widget.CommonTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/selector_bg_color"
-                android:gravity="center"
-                android:padding="@dimen/dp_3"
-                android:text="TAB-3"
-                android:textColor="@drawable/selector_text_color_1"
-                android:textSize="@dimen/sp_13"
-                app:clip_radius="@dimen/dp_4" />
-        </com.common.widget.CommonTabLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#cccccc"/>
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.common.widget.StickyHeaderLayout>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>
