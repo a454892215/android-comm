@@ -102,7 +102,7 @@ public class BannerLayout extends FrameLayout {
 
     private boolean isNeedDefIndicator = true;
 
-    public BannerLayout updateBanner(List<String> urlList) {
+    public BannerLayout updateBanner(List<Object> urlList) {
         if (rv == null) init();
         bannerCount = urlList.size();
         indicatorParentView.removeAllViews();

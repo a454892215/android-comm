@@ -13,7 +13,7 @@ import com.common.utils.ViewHolder;
 
 import java.util.List;
 
-public class BannerAdapter extends BaseRVAdapter<String> {
+public class BannerAdapter extends BaseRVAdapter<Object> {
 
     BannerAdapter(Context context) {
         super(context, R.layout.adapter_banner, null);
@@ -26,7 +26,7 @@ public class BannerAdapter extends BaseRVAdapter<String> {
         super.onBindViewHolder(holder, position);
         if (getItemViewType(position) == VIEW_TYPE_EMPTY) return;
         ImageView iv = ViewHolder.get(holder.itemView, R.id.iv);
-        String url = list.get(position % list.size());
+        Object url = list.get(position % list.size());
         GlideApp.with(context).load(url).into(iv);
     }
 }
