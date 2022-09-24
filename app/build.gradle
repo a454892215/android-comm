@@ -27,7 +27,8 @@ android {
                 cppFlags "-std=c++11 -D__CORRECT_ISO_CPP_WCHAR_H_PROTO"
             }
             ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a"
+                // 指定apk需要兼容的构架
+                abiFilters "armeabi-v7a"
             }
         }
     }
