@@ -20,7 +20,9 @@
   <com.common.widget.banner.Banner
       android:id="@+id/banner"
       android:layout_width="match_parent"
-      android:layout_height="@dimen/dp_160" />
+      android:layout_height="@dimen/dp_160"
+      android:nestedScrollingEnabled="true"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv"
