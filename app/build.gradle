@@ -180,24 +180,24 @@ dependencies {
 /*
 自定义gradle插件 方式1
 */
-apply plugin: testPluginLp
+//apply plugin: testPluginLp
 
 /*
 // 自定义gradle插件 方式2 buildSrc module
 插件名（‘test-plugin-lp’）即文件'test-plugin-lp.properties' 文件名
 */
-apply plugin: 'test-plugin-lp'
-
-class testPluginLp implements Plugin<Project>{
-
-    @Override
-    void apply(Project target) {
-        def tasks = target.getTasks()
-        for(def task: tasks){
-            println(" LLpp taskName:" + task.getName())
-        }
-        target.getParent()
-        println("自定义插件方式一：内置式self：" + target.getPath() + " parent:" + target.getParent().toString())
-    }
-}
+//apply plugin: 'test-plugin-lp'
+//
+//class testPluginLp implements Plugin<Project>{
+//
+//    @Override
+//    void apply(Project target) {
+//        def tasks = target.getTasks()
+//        for(def task: tasks){
+//            println(" LLpp taskName:" + task.getName())
+//        }
+//        target.getParent()
+//        println("自定义插件方式一：内置式self：" + target.getPath() + " parent:" + target.getParent().toString())
+//    }
+//}
 

@@ -1,0 +1,2 @@
+ 1. clear project 报： A problem occurred starting process 'command 'C:\Users\llpp33\AppData\Local\Android\Sdk\cmake\3.10.2.4988404\bin\ninja.exe''
+  删除编译生成文件:.xx build

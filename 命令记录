@@ -1,0 +1,7 @@
+gradlew -v  查看版本
+
+命令格式： gradlew :moduleName:taskName
+
+示例：
+gradlew :common:uploadArchives
+gradlew :hotfix_res_gen:uploadArchives
