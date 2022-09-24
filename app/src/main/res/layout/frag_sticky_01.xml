@@ -8,21 +8,40 @@
     tools:ignore="HardcodedText">
 
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="30dp"
-      android:gravity="center"
-      android:background="#58985A"
-      android:textColor="#ffffff"
-      android:textSize="12sp"
-      android:text="RecyclerView吸附效果1"/>
 
-  <com.common.widget.banner.Banner
-      android:id="@+id/banner"
+
+<!--  为了使Banner响应CoordinatorLayout的嵌套滚动 故而给外面套一层ScrollView-->
+  <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="@dimen/dp_160"
+      android:layout_height="wrap_content"
+      android:fillViewport="true"
       android:nestedScrollingEnabled="true"
-      app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+      app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
+
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="30dp"
+         android:gravity="center"
+         android:background="#58985A"
+         android:textColor="#ffffff"
+         android:textSize="12sp"
+         android:text="RecyclerView吸附效果1"/>
+
+     <com.common.widget.banner.Banner
+         android:id="@+id/banner"
+         android:layout_width="match_parent"
+         android:layout_height="@dimen/dp_160"
+         android:nestedScrollingEnabled="true"
+         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+   </LinearLayout>
+
+  </ScrollView>
+
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/rv"

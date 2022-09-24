@@ -26,15 +26,12 @@ public class VerticalNestedViewPager extends ViewPager {
     public VerticalNestedViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         touchEventHelper = new TouchEventHelper(context);
-       // setNestedScrollingEnabled(false);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         touchEventHelper.onDispatchTouchEvent(ev, orientation -> {
             if(orientation == TouchEventHelper.ori_v){
-                CoordinatorLayout parent = (CoordinatorLayout) VerticalNestedViewPager.this.getParent();
-                parent.dispatchNestedPreScroll(0, 3, new int[2], new int[2]);
             }
         });
         return  super.dispatchTouchEvent(ev);
