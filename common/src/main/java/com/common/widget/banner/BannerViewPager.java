@@ -16,7 +16,7 @@ public class BannerViewPager extends ViewPager {
     private boolean scrollable = true;
 
     public BannerViewPager(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public BannerViewPager(Context context, AttributeSet attrs) {
