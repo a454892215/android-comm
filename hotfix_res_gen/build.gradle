@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
+apply from: "publish.gradle"
 
 android {
     compileSdkVersion 32
@@ -22,7 +23,24 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    aaptOptions {
+        noCompress '...'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src/java' // 指定源码目录
+            }
+            resources {
+                srcDir 'src/resources' //资源目录
+            }
+        }
+    }
 }
+
+
+
 
 uploadArchives {
     repositories.mavenDeployer {
@@ -32,6 +50,8 @@ uploadArchives {
         pom.version = "1.0.6-beta1"
     }
 }
+
+
 
 
 dependencies {

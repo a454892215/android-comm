@@ -1,0 +1,69 @@
+apply plugin: 'maven-publish'
+
+// debug仓库
+def SNAPSHOT_REPOSITORY_URL = '$buildDir/repository/maven-snapshots/'
+// release仓库
+def RELEASE_REPOSITORY_URL = '$buildDir/repository/maven-releases/'
+// maven 账户
+def REPOSITORY_USER_NAME = 'username'
+def REPOSITORY_USER_PSW = 'password'
+def POM_GROUP_ID = 'com.hotfix'
+def POM_ARTIFACT_ID = 'com.hotfix.cc'
+def VERSION_NAME = 'v0.0.1'
+def POM_NAME = 'hotfix'
+def POM_DESCRIPTION = 'hotfix'
+def POM_SCM_URL = 'hotfix'
+def POM_DEVELOPER_NAME = 'unkown'
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+
+                groupId = POM_GROUP_ID
+                artifactId = POM_ARTIFACT_ID
+                version = VERSION_NAME
+
+                pom {
+                    name = POM_NAME
+                    description = POM_DESCRIPTION
+                    url = POM_SCM_URL
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = POM_DEVELOPER_NAME
+                            name = POM_DEVELOPER_NAME
+                        }
+                    }
+                    scm {
+                        url = POM_SCM_URL
+                        connection = ""
+                        developerConnection = ""
+                    }
+                }
+            }
+
+        }
+
+        repositories {
+            maven {
+                // url = VERSION_NAME.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+                url = '../repository'
+  /*              credentials {
+                    username = REPOSITORY_USER_NAME
+                    password = REPOSITORY_USER_PSW
+                }*/
+            }
+        }
+    }
+}
+
+
