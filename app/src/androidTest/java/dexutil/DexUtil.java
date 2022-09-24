@@ -1,6 +1,5 @@
 package dexutil;
 
-import com.common.hotfix.HotFixCallback;
 
 import java.io.File;
 

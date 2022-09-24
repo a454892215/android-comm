@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 
-class CmdUtil {
+public class CmdUtil {
 
     static void startCmd(String cmd, File dir) {
         StringBuilder sb = new StringBuilder();
@@ -18,7 +18,7 @@ class CmdUtil {
             bufferedReader.close();
             child.waitFor();
             LogUtil.d("cmd:" + cmd);
-            LogUtil.d("======:" + "out:" + sb.toString() + "cmd finished");
+            LogUtil.d("======:" + "out:" + sb + "cmd finished");
 
         } catch (Exception e) {
             LogUtil.e("======:" + e);
