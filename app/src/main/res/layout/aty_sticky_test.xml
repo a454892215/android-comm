@@ -37,7 +37,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager.widget.ViewPager
+        <com.common.widget.VerticalNestedViewPager
             android:id="@+id/view_pager"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

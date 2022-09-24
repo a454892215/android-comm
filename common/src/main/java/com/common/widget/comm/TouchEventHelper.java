@@ -22,6 +22,7 @@ public class TouchEventHelper {
     private long down_time;
     private float down_x;
     private float down_y;
+    public float dy;
 
     public TouchEventHelper(Context context) {
         min_scroll_unit = context.getResources().getDimension(R.dimen.dp_1);
@@ -44,7 +45,7 @@ public class TouchEventHelper {
                 break;
             case MotionEvent.ACTION_MOVE:
                 float dx = rawX - startX;
-                float dy = rawY - startY;
+                dy = rawY - startY;
                 if (compute_times < max_compute_times || (Math.abs(xScrollSum) < min_scroll_unit &&
                         Math.abs(yScrollSum) < min_scroll_unit)) {//第一个条件限制最大次数 ，避免首几次数据有误
                     xScrollSum += dx;
