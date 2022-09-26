@@ -22,13 +22,16 @@ public class F4_Banner extends BaseFragment {
     protected void initView() {
         Banner banner = findViewById(R.id.banner);
         banner.setImageLoader(new MyImageLoader());
-        banner.notifyDataChange(picIds);
+
 
         Banner2 banner2 = findViewById(R.id.banner2);
         banner2.setImageLoader((Banner2.ImageLoader) (context, path, imageView) -> {
             Glide.with(context).load(path).into(imageView);
         });
+        banner.notifyDataChange(picIds);
         banner2.notifyDataChange(picIds);
+
+
 
 
     }

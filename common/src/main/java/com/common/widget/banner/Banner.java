@@ -38,12 +38,12 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 public class Banner extends FrameLayout implements ViewPager.OnPageChangeListener {
-    private int delayTime = 2000;
-    private boolean isAutoPlay = true;
+    private final int delayTime = 2000;
+    private final boolean isAutoPlay = true;
     private static final int selectedIndicatorColor = Color.WHITE;
     private static final int unselectedIndicatorColor = Color.GRAY;
     private int count = 0;
-    private Context context;
+    private final Context context;
     private BannerViewPager viewPager;
     private LinearLayout lltIndicatorParent;
     private ImageView bannerDefaultImage;
@@ -51,7 +51,7 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     private BannerPagerAdapter adapter;
     private OnBannerClickListener listener;
 
-    private WeakHandler handler = new WeakHandler();
+    private final WeakHandler handler = new WeakHandler();
 
     public Banner(Context context) {
         this(context, null);
@@ -69,7 +69,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        delayTime = 2000;
         View view = LayoutInflater.from(context).inflate(R.layout.banner, this, true);
         bannerDefaultImage = view.findViewById(R.id.bannerDefaultImage);
         viewPager = view.findViewById(R.id.bannerViewPager);
@@ -82,8 +81,6 @@ public class Banner extends FrameLayout implements ViewPager.OnPageChangeListene
             Field mField = ViewPager.class.getDeclaredField("mScroller");
             mField.setAccessible(true);
             BannerScroller mScroller = new BannerScroller(viewPager.getContext());
-            int scrollTime = 1000;
-            mScroller.setScrollTime(scrollTime);
             mField.set(viewPager, mScroller);
         } catch (Exception e) {
             LogUtil.e(e.getMessage());

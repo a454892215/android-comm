@@ -4,13 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -22,7 +20,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.common.R;
 import com.common.comm.L;
-import com.common.utils.LogUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,8 +32,8 @@ import java.util.List;
  * Description: 基于ViewPager2
  */
 public class Banner2 extends FrameLayout {
-    private int delayTime = 2000;
-    private boolean isAutoPlay = true;
+    private final int delayTime = 2000;
+    private final boolean isAutoPlay = true;
     private static final int selectedIndicatorColor = Color.WHITE;
     private static final int unselectedIndicatorColor = Color.GRAY;
     private int count = 0;
@@ -65,7 +62,6 @@ public class Banner2 extends FrameLayout {
     }
 
     private void initView(Context context) {
-        delayTime = 2000;
         View view = LayoutInflater.from(context).inflate(R.layout.banner2, this, false);
         bannerDefaultImage = view.findViewById(R.id.bannerDefaultImage);
         viewPager = view.findViewById(R.id.bannerViewPager);
