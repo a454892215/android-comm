@@ -17,4 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_160"/>
 
+    <com.common.widget.banner.Banner2
+        android:id="@+id/banner2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_160"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

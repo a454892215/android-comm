@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -26,6 +25,7 @@ import java.util.List;
  * CreateDate: 2019/6/17 9:57
  * Description: 基于RecyclerView的 Banner
  */
+@Deprecated // 嵌套RV ViewPager使用会有问题
 @SuppressWarnings("unused")
 public class BannerLayout extends FrameLayout {
     private Context context;
@@ -86,7 +86,7 @@ public class BannerLayout extends FrameLayout {
         public void run() {
             View child = rv.getChildAt(0);
             if (child != null) {
-                rv.smoothScrollBy(child.getWidth(), 0, new DecelerateInterpolator(), 500);
+                rv.smoothScrollBy(child.getWidth(), 0, new  ViscousFluidInterpolator(), 500);
             }
             postDelayed(loopTask, 3000);
         }

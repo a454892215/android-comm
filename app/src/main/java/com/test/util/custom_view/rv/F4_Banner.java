@@ -6,11 +6,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.common.base.BaseFragment;
 import com.common.widget.banner.Banner;
-import com.common.widget.banner.BannerLayout;
+import com.common.widget.banner.Banner2;
 import com.test.util.R;
-import com.test.util.sticky.Fragment__sticky_01;
-
-import java.util.Arrays;
 
 public class F4_Banner extends BaseFragment {
 
@@ -26,6 +23,14 @@ public class F4_Banner extends BaseFragment {
         Banner banner = findViewById(R.id.banner);
         banner.setImageLoader(new MyImageLoader());
         banner.notifyDataChange(picIds);
+
+        Banner2 banner2 = findViewById(R.id.banner2);
+        banner2.setImageLoader((Banner2.ImageLoader) (context, path, imageView) -> {
+            Glide.with(context).load(path).into(imageView);
+        });
+        banner2.notifyDataChange(picIds);
+
+
     }
 
     private class MyImageLoader implements Banner.ImageLoader {
