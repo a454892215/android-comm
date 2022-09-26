@@ -6,11 +6,6 @@ apply from: "../tinker.gradle"
 //apply plugin: 'davis'
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
-println("app compileSdkVersion:" + "${app_info.compileSdkVersion}")
-println("app minSdkVersion:" + "${app_info.minSdkVersion}")
-println("app targetSdkVersion:" + "${app_info.targetSdkVersion}")
-println("app debug_minifyEnabled:" + "${app_info.debug_minifyEnabled}")
-println("app release_minifyEnabled:" + "${app_info.release_minifyEnabled}")
 
 
 android {
@@ -143,6 +138,7 @@ android {
 //                variant.packageApplication.outputDirectory = file
 //            }
             // def cur_time = new Date().format('yy年MM月dd日HH时mm分ss秒')
+            // 以打包方式生成的apk位于app/productFlavors/xx.apk
             outputFileName = "V" + variant.versionName + "-" + variant.name + ".apk"
         }
     }
