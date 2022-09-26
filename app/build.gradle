@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.tencent.tinker.patch'
+apply from: "../tinker.gradle"
 //apply plugin: 'davis'
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
@@ -31,6 +33,21 @@ android {
 //                abiFilters "armeabi-v7a", "arm64-v8a"
 //            }
         }
+        /*=========tinker start==========*/
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+            }
+        }
+        multiDexEnabled true
+        buildConfigField "String", "MESSAGE", "\"I am the base apk\""
+        buildConfigField "String", "TINKER_ID", "\"${TINKER_ID}\""
+        buildConfigField "String", "PLATFORM", "\"all\""
+
+        dexOptions {
+            jumboMode = true
+        }
+        /*=========tinker end==========*/
     }
 
     compileOptions {
@@ -175,6 +192,9 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //可选，用于生成application类
+    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
 }
 
 /*

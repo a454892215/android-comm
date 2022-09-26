@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
-apply from: "publish.gradle"
+// napply from: "publish.gradle"
 
 android {
     compileSdkVersion 32

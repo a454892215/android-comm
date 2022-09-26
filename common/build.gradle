@@ -1,8 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
-apply from: 'tinker.gradle'
-//apply tinker插件
-apply plugin: 'com.tencent.tinker.patch'
+
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
 println("common compileSdkVersion:" + "${app_info.compileSdkVersion}")
@@ -21,23 +19,6 @@ android {
            //  abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" //
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-
-
-        /*=========tinker start==========*/
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true
-            }
-        }
-        multiDexEnabled true
-        buildConfigField "String", "MESSAGE", "\"I am the base apk\""
-        buildConfigField "String", "TINKER_ID", "\"${TINKER_ID}\""
-        buildConfigField "String", "PLATFORM", "\"all\""
-
-        dexOptions {
-            jumboMode = true
-        }
-        /*=========tinker end==========*/
 
     }
 
@@ -117,8 +98,7 @@ dependencies {
     api 'com.java_comm:java_comm:1.0.0'
 
 
-    //可选，用于生成application类
-    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
+
     //tinker的核心库
     api('com.tencent.tinker:tinker-android-lib:1.9.1')
 }
