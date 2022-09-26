@@ -2,7 +2,6 @@ package com.test.util.sticky;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -17,12 +16,10 @@ import com.bumptech.glide.request.target.Target;
 import com.common.base.BaseFragment;
 import com.common.utils.LogUtil;
 import com.common.widget.banner.Banner;
-import com.common.widget.banner.BannerLayout;
 import com.test.util.R;
 import com.test.util.comm.SimpleTextAdapter;
 import com.test.util.comm.TestDataHelper;
 
-import java.util.Arrays;
 
 public class Fragment__sticky_01 extends BaseFragment {
     @Override
@@ -31,19 +28,17 @@ public class Fragment__sticky_01 extends BaseFragment {
     }
 
     private static final Integer[] picIds = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
+
     @Override
     protected void initView() {
         RecyclerView rv = findViewById(R.id.rv);
         rv.setLayoutManager(new LinearLayoutManager(activity));
         SimpleTextAdapter adapter = new SimpleTextAdapter(activity, TestDataHelper.getData(100));
         rv.setAdapter(adapter);
-//
-//        Banner banner = findViewById(R.id.banner);
-//        banner.setImageLoader(new MyImageLoader());
-//        banner.notifyDataChange(picIds);
 
-        BannerLayout bannerLayout = findViewById(R.id.banner);
-        bannerLayout.updateBanner(Arrays.asList(picIds));
+        Banner banner = findViewById(R.id.banner);
+        banner.setImageLoader(new MyImageLoader());
+        banner.notifyDataChange(picIds);
     }
 
 

@@ -32,19 +32,14 @@
          android:textSize="12sp"
          android:text="RecyclerView吸附效果1"/>
 
-<!--     <com.common.widget.banner.Banner
+     <com.common.widget.banner.Banner
          android:id="@+id/banner"
          android:layout_width="match_parent"
          android:layout_height="@dimen/dp_160"
          android:nestedScrollingEnabled="true"
-         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
+         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-       <com.common.widget.banner.BannerLayout
-           android:id="@+id/banner"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/dp_160"
-           android:nestedScrollingEnabled="true"
-           app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
    </LinearLayout>
 
 
