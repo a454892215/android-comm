@@ -100,5 +100,5 @@ dependencies {
 
 
     //tinker的核心库
-    api('com.tencent.tinker:tinker-android-lib:1.9.1')
+    implementation("com.tencent.tinker:tinker-android-anno-support:${TINKER_VERSION}") { changing = true }
 }
