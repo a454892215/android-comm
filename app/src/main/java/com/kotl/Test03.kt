@@ -62,6 +62,17 @@ fun main(args: Array<String>) {
     val setToList: List<String> = set1.toList()
     Log.d("05-4. Set集合转List示例 setToList:$setToList")
 
+    //06. 数组
+    val arr = intArrayOf(1, 2, 4)
+    Log.d("06-1. intArrayOf() 创建数组示例 :${arr.toList()}")
+
+    //07.Map : a.使用to添加键值对  b.使用Pair添加键值对
+    val map: MutableMap<String, Int> = mutableMapOf("a" to 2, "b" to 3, Pair("c", 4))
+    map["d"] = 5 // 添加元素
+    Log.d("07-1. mutableMapOf() 创建数map例 :${map.toList()}")
+    Log.d("07-2. map 读取元素 :${map["a"]}")
+    Log.d("07-3. map 读取元素 :${map["w"]}") // 键值不存在，则返回null
+
 }
 
 
