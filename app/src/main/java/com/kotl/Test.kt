@@ -83,7 +83,7 @@ fun main(args: Array<String>) {
     }
     Log.d("15.函数参申明和调用数示例2：" + test4(2, 9, ::test4_1))
 
-    //16. 函数返回类型定义: 复杂的一堆
+    //16. 函数返回类型定义:第一个->指向的类型是sum函数的返回类型，第二个->指向的Int表示返回函数类型
     fun test5(a: Int, b: Int, sum: (a: Int, b: Int) -> Int): (a: Int, b: Int) -> Int {
         fun a(c: Int, d: Int): Int {
             val s = sum(a, b)
