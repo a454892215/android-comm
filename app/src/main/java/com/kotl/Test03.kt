@@ -10,13 +10,15 @@ package com.kotl
 
 fun main(args: Array<String>) {
     // 01. 固定列表 List-示例: 不可增删
-    val ls: List<String> = listOf("a", "b", "c")
-    Log.d("01. 固定列表List-示例: " + ls[0]) //角标越界会抛异常
-    Log.d("01. 固定列表List-示例: " + ls.getOrNull(5)) // 不会角标异常，角标越界会返回null
-    Log.d("01. 固定列表List-示例: " + ls.getOrElse(5) { "unknown" }) // 不会角标异常，角标越界会返回表达式中返回的值
+    val ls: List<String> = listOf("a", "b", "c", "c")
+    Log.d("01-1. 固定列表List-取值示例: " + ls[0]) //角标越界会抛异常
+    Log.d("01-2. 固定列表List-取值示例: " + ls.getOrNull(5)) // 不会角标异常，角标越界会返回null
+    Log.d("01-3. 固定列表List-取值示例: " + ls.getOrElse(5) { "unknown" }) // 不会角标异常，角标越界会返回表达式中返回的值
+    Log.d("01-4. 固定列表List-取值示例: $ls") // 不会角标异常，角标越界会返回表达式中返回的值
+    Log.d("01-5. 固定列表List-去重示例: " + ls.distinct())
     // val toMutableList = ls.toMutableList() // 可以转化为可变列表MutableList
 
-    // 02. 可变列表 List-示例： 可以增删
+    // 02. 可变列表 MutableList-示例： 可以增删
     val ls2: MutableList<String> = mutableListOf("a", "b", "c")
     ls2.add("d")
     ls2.add("d")
@@ -49,6 +51,17 @@ fun main(args: Array<String>) {
     val ls4: List<String> = listOf("1", "2", "3", "4")
     val (a, _, c) = ls4 // 不需要左右元素个数相同， 从0开始依次匹配, 不需要的元素可以用_命名
     Log.d("04. 集合解构示例 a:$a    c:$c")
+
+
+    // 05. Set集合
+    val set1: Set<String> = setOf("1", "2", "3", "4")
+    val set2: MutableSet<String> = mutableSetOf("1", "2", "3", "4")
+    Log.d("05-1. 固定Set集合示例 set1:$set1")
+    Log.d("05-2. 可变Set集合示例 set2:$set2")
+    Log.d("05-3. 可变Set集合取值示例 el:${set2.elementAt(0)}")
+    val setToList: List<String> = set1.toList()
+    Log.d("05-4. Set集合转List示例 setToList:$setToList")
+
 }
 
 
