@@ -62,15 +62,35 @@ fun main(args: Array<String>) {
     val test: (Int) -> Int = { p ->
         p // 返回p
     }
-    Log.d("调用函数变量：" + test(9))
+    Log.d("12.调用函数变量：" + test(9))
     //13.匿名函数：匿名函数只有一个参数的时候可以使用关键字it代替, it的变量声明也可以省略：
     val test2: (Int) -> Int = {
         it // 返回it
     }
-    Log.d("匿名函数it关键字示例：" + test2(9))
+    Log.d("13.匿名函数it关键字示例：" + test2(9))
     //14. 匿名函数可以省略返回类型声明:
     val test3 = { a: Int, b: Int -> a + b }
-    Log.d("匿名函数省略函数返回声明示例：" + test3(2, 3))
+    Log.d("14.匿名函数省略函数返回声明示例：" + test3(2, 3))
+
+    //15. 函数参数
+    fun test4(a: Int, b: Int, sum: (a: Int, b: Int) -> Int): Int {
+        return sum(a, b)
+    }
+    // 如果最后一个参数是函数，则可以把函数单独提取出来
+    Log.d("15.函数参申明和调用数示例1：" + test4(2, 8) { a: Int, b: Int -> a + b })
+    fun test4_1(a: Int, b: Int): Int {
+        return a + b
+    }
+    Log.d("15.函数参申明和调用数示例2：" + test4(2, 9, ::test4_1))
+
+    //16. 函数返回类型定义: 复杂的一堆
+    fun test5(a: Int, b: Int, sum: (a: Int, b: Int) -> Int): (a: Int, b: Int) -> Int {
+        fun a(c: Int, d: Int): Int {
+            val s = sum(a, b)
+            return a + b + c + d + s
+        }
+        return ::a
+    }
 
 }
 
