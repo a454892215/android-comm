@@ -67,11 +67,19 @@ fun main(args: Array<String>) {
     Log.d("06-1. intArrayOf() 创建数组示例 :${arr.toList()}")
 
     //07.Map : a.使用to添加键值对  b.使用Pair添加键值对
-    val map: MutableMap<String, Int> = mutableMapOf("a" to 2, "b" to 3, Pair("c", 4))
+    val map: MutableMap<String, Int> = mutableMapOf("a" to 2, Pair("c", 4))
     map["d"] = 5 // 添加元素
     Log.d("07-1. mutableMapOf() 创建数map例 :${map.toList()}")
     Log.d("07-2. map 读取元素 :${map["a"]}")
     Log.d("07-3. map 读取元素 :${map["w"]}") // 键值不存在，则返回null
+
+    for (obj in map) {
+        Log.d("07-4. map for迭代 :${obj.key} : :${obj.value}")
+    }
+
+    map.forEach {
+        Log.d("07-5. map forEach迭代 :$it.key  ${it.value}")
+    }
 
 }
 
