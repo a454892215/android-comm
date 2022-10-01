@@ -28,6 +28,10 @@ open class Test71 {
     companion object {
         const val path: String = "/a/b"
 
+        init {
+            Log.d("========companion object===init===")
+        }
+
         fun getPath(): String {
             return path
         }
@@ -45,5 +49,6 @@ fun main() {
         }
     }
     // 3.调用伴生对象中的成员
+    Log.d("object修饰的类可以直接调用成员函数：" + Test71.getPath())
     Log.d("object修饰的类可以直接调用成员函数：" + Test71.getPath())
 }
