@@ -12,6 +12,7 @@ package com.kotl
  *    01.对象声明 : a.语法： object 自定义的对象名{}  b.说明：object修饰的变量名，就是单例对象
  *    02.对象表达式： a.语法： val a = object:要需要继承的类名(){}  b.说明：声明一个类使其继承某某类，并返回该类的对象
  *    03.伴生对象： a.语法： companion object{}   b.说明：类中声明的伴生对象属于类，而不属于对象，只会存在一个
+ *    04.密封类实例声明： a.语法：  object varName : 密封类()
  */
 // 1. 对象声明
 object Test7 {
