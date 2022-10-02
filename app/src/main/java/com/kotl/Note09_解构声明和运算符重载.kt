@@ -13,12 +13,18 @@ package com.kotl
  */
 
 private class A09(var x: Int, var y: Int) {
-    // 1-a. 解构声明的序号从1开始依次增加
+    var list = mutableListOf(1, 2, 3)
+    // 1-1. 解构声明的序号从1开始依次增加
     operator fun component1() = x
     operator fun component2() = y
 
-    // 2-a. 重载+号
+    // 2-1. 重载+号
     operator fun plus(other: A09) = A09(x + other.x, y + other.y)
+
+    // 2-1. 重载[]号
+    operator fun get(index: Int) = list[index]
+
+
 }
 
 fun main() {
@@ -29,4 +35,7 @@ fun main() {
     // 2.b 重写+号运算符验证
     val (x1, y1) = A09(3, 7) + A09(17, 3)
     Log.d("重写+号运算符验证:x1:$x1  y1:$y1")
+    val a = A09(17, 3)
+
+    Log.d("重写[]号运算符验证:x1:" + a[1])
 }
