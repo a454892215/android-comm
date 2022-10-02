@@ -11,10 +11,10 @@ package com.kotl
  *      01. 访问权限默认public 示例 fun getSize(age: Int = 10, sex: Int = 1): Int {return 10}
  *      02. 反括号调用函数，避免java函数名和kotlin关键字冲突，加上反括号， 例如： JTest.`is`()
  *  3.匿名函数
- *      01. 示例：  val varName: (Int) -> Int = { p -> p } 匿名函数： 匿名函数最后一行会自动返回 不需要return
+ *      01. 示例：  val varName: (Int) -> Int = { p -> p } 匿名函数最后一行会自动返回 不需要return
  *      02. 匿名函数可以省略返回类型声明: val test3 = { a: Int, b: Int -> a + b }
  *      03. 匿名函数只有一个参数的时可以使用it代替, it的变量声明可以省略： val test2: (Int) -> Int = {it}
- *      04: 函数参数示例： fun test4(a: Int, b: Int, sum: (a: Int, b: Int) -> Int): Int {return sum(a, b)}
+ *      04: 匿名函数,函数作参数示例： fun test4(a: Int, b: Int, sum: (a: Int, b: Int) -> Int): Int {return sum(a, b)}
  *      05：调用函数时最后一个参数是函数，可以把函数单独提取出来： test4(2, 8) { a: Int, b: Int -> a + b }
  *      06：函数作为变量传入使用前面要加上符号:: 示例： test4(2, 9, ::methodName)
  */
