@@ -4,7 +4,10 @@ package com.kotl
 /**
  * Author: L
  * 2022/10/1
- * Description: 数据类: class 前使用 data修饰
+ * Description:
+ * 1. 数据类: class 前使用 data修饰
+ *   01.数据量构造函数声明的成员变量会自动解构
+ *   02：数据类重新写了toString等函数
  */
 
 private data class A(var x: Int, var y: Int) {

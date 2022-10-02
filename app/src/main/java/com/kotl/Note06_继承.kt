@@ -8,11 +8,11 @@ package com.kotl
  */
 
 /**
- * 一 ：继承：
- *    a. kotlin类默认是封闭的，要使类可以被继承，需要使用open关键词修饰
- *    b. kotlin的成员函数模式也是封闭的不能被重新，需要使用open修饰才能被重写
- * 二 ：  关键词is 对象类型判断和 as 进行类型转换
- * 三 ： Any是所有类的父类
+ *  1.继承：
+ *    01. kotlin类默认是封闭的，要使类可以被继承，需要使用open关键词修饰
+ *    02. kotlin的成员函数模式也是封闭的不能被重新，需要使用open修饰才能被重写
+ *  2. 关键词is 对象类型判断和 as 进行类型转换
+ *  3.  Any是所有类的父类
  */
 open class Test6(private var name: String) {
 

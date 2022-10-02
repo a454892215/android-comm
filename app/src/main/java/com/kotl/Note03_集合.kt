@@ -4,7 +4,16 @@ package com.kotl
 /**
  * Author: Pan
  * 2020/10/17
- *  Description:
+ *  Description: 集合
+ *  1. List
+ *     01: 固定 List : listOf()
+ *     02: 可变 List : mutableListOf()
+ *  2. Set
+ *     01: 固定 Set  : setOf()
+ *     02: 可变 Set  : mutableSetOf()
+ *  3. Map
+ *     01: 固定 Set  : mapOf()
+ *     02: 可变 Set  : mutableMapOf()
  */
 
 
@@ -67,7 +76,9 @@ fun main(args: Array<String>) {
     Log.d("06-1. intArrayOf() 创建数组示例 :${arr.toList()}")
 
     //07.Map : a.使用to添加键值对  b.使用Pair添加键值对
+    // val map0: Map<String, Int> = mapOf("a" to 2, Pair("c", 4))
     val map: MutableMap<String, Int> = mutableMapOf("a" to 2, Pair("c", 4))
+
     map["d"] = 5 // 添加元素
     val ret = map.getOrPut("h") { 9 }; // 获取/添加元素, 如果不存在则添加，并返回添加的元素
     Log.d("07-1. mutableMapOf() 创建数map例 :${map.toList()} ret $ret")

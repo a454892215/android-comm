@@ -1,19 +1,18 @@
 package com.kotl
 
-
 /**
- * Author: Pan
- * 2020/10/17
- *  Description:
+ *   1. field属性：
+ *      a. field 对象的每个属性 都有一个对应的field, set, set。
+ *      b. field 不能直接定义,field只在set get作用域能引用
+ *   2. 主构造函数：
+ *         01: 紧跟类的()中定义，一般声明成员变量之用
+ *         02: 主构造函数可以使用var来申明成员变量，并且自动赋值
+ *   3. 次构造函数：
+ *       01: 使用 constructor 声明次构造函数
+ *       02: 次构造函数不允许使用var来申明成员变量
  */
-
-
 class Man {
-    /**
-    1. field字段：
-    a.field--- 对象的每个属性 都有一个对应的field, set, set。
-    b. field不能直接定义,field只在set get作用域能引用
-     */
+
     var name: String = "Tom"
         get() = field.trim()
         set(value) { // 初始化不会调用set

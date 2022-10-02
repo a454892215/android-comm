@@ -4,11 +4,18 @@ package com.kotl
 /**
  * Author: Pan
  * 2020/10/17
- *  Description:
+ *  Description: 延迟初始化 lateinit 和 懒加载 by lazy 的使用示例：
  */
 
 /**
- * 延迟初始化 lateinit 和 懒加载 by lazy 的使用示例：
+ * 1. 延迟初始化
+ *   01: 语法示例 ： private lateinit var favorite: String
+ *   02：延迟初始化变量类型不能是Int等基本类型
+ *   03：对于lateinit修饰的变量， 如果没有初始化：就使用会抛出：kotlin.UninitializedPropertyAccessException
+ * 2.懒加载 by lazy：
+ *   01： 语法示例： val config by lazy {1}
+ *   02： 变量声明只能使用val 不能使用var
+ *   03： 懒加载初始化代码块只会执行一次
  */
 class Test5 {
     // 01. 延迟初始化 lateinit ： 变量类型不能是Int等基本类型

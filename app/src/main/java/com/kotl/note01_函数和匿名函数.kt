@@ -5,6 +5,16 @@ package com.kotl
  * Author: Pan
  * 2020/10/17
  *  Description:
+ *  1.变量的声明
+ *      01. 语法： val name:String  变量类型可以省略，支持类型的自动推断
+ *  2.函数
+ *      01. 访问权限默认public 示例 fun getSize(age: Int = 10, sex: Int = 1): Int {return 10}
+ *      02. 反括号调用函数，避免java函数名和kotlin关键字冲突，加上反括号， 例如： JTest.`is`()
+ *      03. 匿名函数： 匿名函数最后一行会自动返回 不需要return
+ *      04. 示例： val varName: (Int) -> Int = { p -> p }
+ *      05. 匿名函数可以省略返回类型声明: val test3 = { a: Int, b: Int -> a + b }
+ *      06. 匿名函数只有一个参数的时可以使用it代替, it的变量声明可以省略： val test2: (Int) -> Int = {it}
+ *
  */
 
 const val size = 100 // 定义编译时候常量...
