@@ -56,15 +56,12 @@ class FastFoodStore : Production<FastFood> {
     }
 }
 
-open class Drink
-open class Water : Drink()
-
-class Boy : Consumer<Drink> {
-    override fun consume(item: Drink) {}
+class Boy : Consumer<Food> {
+    override fun consume(item: Food) {}
 }
 
-class Girl : Consumer<Water> {
-    override fun consume(item: Water) {}
+class Girl : Consumer<FastFood> {
+    override fun consume(item: FastFood) {}
 }
 
 
@@ -73,7 +70,6 @@ fun main() {
     var production2: Production<Food> = FastFoodStore()
 
     // 2. in 逆变示例: 使父类泛型对象可以赋值给子类泛型对象
-    var consumer1: Consumer<Water> = Boy()
-    var consumer2: Consumer<Water> = Girl()
+    var consumer1: Consumer<FastFood> = Boy()
 
 }
