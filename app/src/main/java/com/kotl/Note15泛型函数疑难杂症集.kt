@@ -4,10 +4,10 @@ package com.kotl
  * Author: L
  * 2022/10/1
  * Description:
- * 1. 泛型扩展函数函特征：
- *    01. 函数中不能return
- *    02. 函数中传入this,
- *    03. 函数中传入it
+ * 1. 泛型扩展数函特征定义：
+ *    01. 函数中不能return,   示例：block: () -> T
+ *    02. 函数中传入it,   示例： block: (T) -> T
+ *    03. 函数中传入this,     示例： block: T.() -> T
  *    04. kotlin的函数参数实际上是申明了一个函数，定义了该函数的参数，返回等语法特征
  */
 
