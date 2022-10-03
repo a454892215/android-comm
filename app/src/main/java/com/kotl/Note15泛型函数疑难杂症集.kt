@@ -44,19 +44,19 @@ fun <T> T.method3(block: T.() -> T): T {
 
 fun main() {
 
-    "====".method1 {
+    "==1==".method1 {
         Log.d("======2===this:")
         "";
         // 03. 不能带有return
     }
 
-    "====".method2 {
+    "==2==".method2 {
         Log.d("======2===this:$it")
         it
         // 03. 不能带有return
     }
 
-    "====".method3 {
+    "==3==".method3 {
         Log.d("======2===this:$this")
         this
         // 0.3 不能带有return
