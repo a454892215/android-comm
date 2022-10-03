@@ -50,10 +50,16 @@ fun testFilter() {
 
 /**
  * 一行代码求素数示例...
+ * 01. (2 until 9).map{it}   2到9的集合不包含9
+ * 02.  ls.none { it == 0 } 集合中没有符合匹配条件的元素，返回true，否则返回false
+ * 03.  ls.any { it == 0 }  集合中存有一个或多个元素符合条件时返回true
+ * 03.  ls.all { it == 0 }  当且仅当该集合中所有元素都满足条件时，返回true；否则都返回false
  */
 fun test1() {
     val numbers = listOf(2, 10, 12, 14, 15, 17, 19, 22, 23, 27, 28)
-    val ret = numbers.filter { number -> (2 until number).map { number % it }.none { it == 0 } }
+    val ret = numbers.filter { number ->
+        (2 until number).map { number % it }.none { it == 0 }
+    }
     Log.d("ret:$ret")
 
 }
@@ -63,6 +69,5 @@ fun main() {
     testMap()
     testFlatMap()
     testFilter()
-
-
+    test1()
 }
