@@ -38,7 +38,7 @@ fun testFlatMap() {
 }
 
 /**
- * 1-2. 过滤函数 filter: 返回新函数，原函数不变
+ * 2-1. 过滤函数 filter: 返回新函数，原函数不变
  *   01. filter返回true 表示该元素可以添加到集合 否则从集合移除...
  */
 fun testFilter() {
@@ -48,9 +48,21 @@ fun testFilter() {
     Log.d("===testFilter==ls2: $ls2")
 }
 
+/**
+ * 一行代码求素数示例...
+ */
+fun test1() {
+    val numbers = listOf(2, 10, 12, 14, 15, 17, 19, 22, 23, 27, 28)
+    val ret = numbers.filter { number -> (2 until number).map { number % it }.none { it == 0 } }
+    Log.d("ret:$ret")
+
+}
+
 
 fun main() {
     testMap()
     testFlatMap()
     testFilter()
+
+
 }
