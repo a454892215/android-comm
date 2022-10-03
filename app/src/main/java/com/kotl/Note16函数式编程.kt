@@ -21,7 +21,7 @@ package com.kotl
 fun testMap() {
     val ls1 = listOf(2, 4, 6, 8)
     val ls2 = ls1.map { item -> ((item + 1).toString() + "-abc") }
-    Log.d("===testMap==ls: $ls1")
+    Log.d("===testMap==ls1: $ls1")
     Log.d("===testMap==ls2: $ls2")
 }
 
@@ -33,7 +33,7 @@ fun testMap() {
 fun testFlatMap() {
     val ls1 = listOf(listOf(2, 4, 6, 8), listOf(2, 4, 6, 8))
     val ls2 = ls1.flatten() // flatMap call could be simplified to flatten()
-    Log.d("===testFlatMap==ls: $ls1")
+    Log.d("===testFlatMap==ls1: $ls1")
     Log.d("===testFlatMap==ls2: $ls2")
 }
 
@@ -43,8 +43,8 @@ fun testFlatMap() {
  */
 fun testFilter() {
     val ls1 = listOf(2, 4, 6, 8)
-    val ls2 = ls1.filter { item -> item != 2 } //
-    Log.d("===testFilter==lsls: $ls1")
+    val ls2 = ls1.filter { item -> item != 2 }
+    Log.d("===testFilter==ls1: $ls1")
     Log.d("===testFilter==ls2: $ls2")
 }
 
