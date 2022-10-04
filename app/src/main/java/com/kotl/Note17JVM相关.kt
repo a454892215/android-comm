@@ -19,7 +19,8 @@ package com.kotl
  *    02. 和注解@file:JvmName配合使用， 把本文件的函数声明等编译到指定类文件中
  * 6. @JvmSynthetic
  *    02. 有此注解的函数只能给kotlin调用而不能给Java调用
-
+ * 7. @Throws
+ *    01. Java语言通过throws关键字在方法上声明可能抛出的异常类型。为了兼容这种写法，Kotlin语言新增了此注解
  */
 
 /**
