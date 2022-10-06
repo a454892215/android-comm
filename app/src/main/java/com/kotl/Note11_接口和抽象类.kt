@@ -2,9 +2,6 @@ package com.kotl
 
 
 /**
- * Author: L
- * 2022/10/1
- * Description:
  *  1.接口
  *     01. 语法 interface 接口名{}
  *     02. 接口中的函数默认open, 不需要再加open

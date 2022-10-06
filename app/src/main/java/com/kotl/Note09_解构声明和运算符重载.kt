@@ -2,8 +2,6 @@ package com.kotl
 
 
 /**
- * Author: L
- * 2022/10/1
  * Description:解构声明 和运算符重载：
  *  1.解构声明
  *     01. 语法: operator fun component|Index|() = 属性名

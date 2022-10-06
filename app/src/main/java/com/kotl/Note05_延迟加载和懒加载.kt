@@ -1,11 +1,6 @@
 package com.kotl
 
 
-/**
- * Author: Pan
- * 2020/10/17
- *  Description: 延迟初始化 lateinit 和 懒加载 by lazy 的使用示例：
- */
 
 /**
  * 1. 延迟初始化

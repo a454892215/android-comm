@@ -3,7 +3,6 @@ package com.kotl
 
 /**
  * Author: Pan
- * 2020/10/17
  *  Description:
  *  1.变量的声明
  *      01. 语法： val name:String  变量类型可以省略，支持类型的自动推断

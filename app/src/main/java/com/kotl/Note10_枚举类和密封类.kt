@@ -2,8 +2,6 @@ package com.kotl
 
 
 /**
- * Author: L
- * 2022/10/1
  * Description:枚举类和 密封类
  *  1.枚举
  *     01. 语法: enum class 类名{}

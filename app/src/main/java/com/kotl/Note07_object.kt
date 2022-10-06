@@ -1,11 +1,6 @@
 package com.kotl
 
 
-/**
- * Author: L
- * 2022/10/1
- *  Description:
- */
 
 /**
  *  1. object 关键词： 定义只能产生一个实例的类. 声明匿名内部类实例

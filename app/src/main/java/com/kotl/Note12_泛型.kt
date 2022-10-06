@@ -2,8 +2,6 @@ package com.kotl
 
 
 /**
- * Author: L
- * 2022/10/1
  * Description:
  *  1.泛型
  *     01.泛型类. 语法： class  className<T>(var p: T){}

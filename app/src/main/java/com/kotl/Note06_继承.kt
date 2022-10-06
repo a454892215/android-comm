@@ -2,12 +2,6 @@ package com.kotl
 
 
 /**
- * Author: Pan
- * 2020/10/17
- *  Description:
- */
-
-/**
  *  1.继承：
  *    01. kotlin类默认是封闭的，要使类可以被继承，需要使用open关键词修饰
  *    02. kotlin的成员函数模式也是封闭的不能被重新，需要使用open修饰才能被重写

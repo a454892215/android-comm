@@ -2,8 +2,6 @@ package com.kotl
 
 
 /**
- * Author: L
- * 2022/10/1
  * Description:
  * 1. 数据类: class 前使用 data修饰
  *   01.数据量构造函数声明的成员变量会自动解构
