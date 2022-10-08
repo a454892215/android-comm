@@ -3,9 +3,6 @@ package com.kotl
 import com.kotl.ut.random as randomizer  // 使用as 别名
 
 /**
- * Author: L
- * 2022/10/1
- * Description:
  *  1.扩展函数
  *    01. 不修改原类的情况下，扩展类的功能
  *    02. 语法示例： fun Any.d(str: String){} 与普通函数定义的差别是：函数名前增加了: className.
