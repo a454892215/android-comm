@@ -1,5 +1,6 @@
 package com.test.util.sticky;
 
+import android.content.Intent;
 import android.widget.ListView;
 
 import com.common.base.BaseFragment;
@@ -20,4 +21,8 @@ public class Fragment__sticky_02 extends BaseFragment {
         list_view.setAdapter(new SimpleLvTextAdapter(TestDataHelper.getData(100)));
     }
 
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+    }
 }
