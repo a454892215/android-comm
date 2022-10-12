@@ -13,6 +13,7 @@ import com.common.http.other.HttpSSLSetting;
 
 import java.io.InputStream;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 @GlideModule
@@ -29,7 +30,7 @@ public class MyAppGlideModule extends AppGlideModule {
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
         OkHttpClient client = HttpSSLSetting.getOkHttpClient();
-        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(client));
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory((Call.Factory) client));
     }
 
 
