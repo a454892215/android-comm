@@ -12,6 +12,9 @@ package com.android_note;
       bug版本Fragment的mHidden属性，默认为false， 销毁前没有保存该状态，重启后都是显示的...使用replace不会造成重叠现象
    7. startActivityForResult接收返回问题在support 23.2.0以下的支持库中，对于在嵌套子Fragment的startActivityForResult ()，会发现无论如何都不能在onActivityResult()
       中接收到返回值，只有最顶层的父Fragment才能接收到，这是一个support v4库的一个BUG
+   8. 如果要让某一个Fragment出栈，使用remove()在加入回退栈时并不靠谱。 只有加入了回退栈，popBackStack()系列方法才能真正出栈
+   9. 使用25.4.0及以上版本，popBackStack系列4个重载方法不能使用， 出栈多个Fragment，尽量使用popBackStackImmediate(tag/id)
+   10. FragmentManager栈中管理fragment下标位置的数组ArrayList mAvailIndeices的BUG
  */
-public class Fragment相关 {
+public class note_02Fragment相关 {
 }

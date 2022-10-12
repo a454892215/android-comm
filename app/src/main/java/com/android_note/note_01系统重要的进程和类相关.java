@@ -40,6 +40,6 @@ package com.android_note;
  * 6. Application 对象先调用attach()，在调用onCreate()
  *
  */
-public class note_系统重要的进程和类相关 {
+public class note_01系统重要的进程和类相关 {
 
 }
