@@ -1,0 +1,70 @@
+1.glide的with(?)函数可以传参Context,Activity,Fragment把声明周期和闯入的Context,Fragment绑定一致，很大程度优化资源利用效率
+2.glide的load(？)函数可以传入http协议的字符串地址，asserts目录路径和图片资源ID，object, drawable,bitmap，GlideUrl等
+3.glide的into(？)函数可以传入View对象和Target对象
+  Target: SimpleTarget ViewTarget FutureTarget
+4. glide缓存
+     01. Glide.with(this).load(url).skipMemoryCache(true).into(imageView); // 跳过内存缓存
+     02. Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.NONE).into(imageView); // 不磁盘缓存
+     03. Glide缓存其他
+         DiskCacheStrategy.SOURCE 表示磁盘缓存原图
+         DiskCacheStrategy.NONE 表示不磁盘缓存
+         DiskCacheStrategy.RESULT 表示只缓存转换后的图，如果View宽高变换在会重新下载目标图片
+         DiskCacheStrategy.ALL 表示既缓存原始图片，也缓存转换过后的图片。
+         Glide默认并不 会将原始图片展示出来，而是会对图片进行压缩和转换
+         Glide默认情况下在硬盘缓存的就是转换过后的图  片，我们通过调用diskCacheStrategy()方法则可以改变这一默认行为。
+     04. 对应动态图片请求地址的glide本地缓存失效解决办法：
+         01. 自定义public class MyGlideUrl extends GlideUrl{} GlideUrl类重新其getCacheKey()
+         02. 使用自定义的GlideUrl：Glide.with(this).load(new MyGlideUrl(url)).into(imageView)
+     05.Lru算法缓存-》弱引用缓存-》磁盘缓存
+
+
+5.glide图片预加载：
+    01. 预加载：Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).preload();// 设置为缓存原图,否则可能重复下载
+    02. 使用预加载：Glide.with(this).load(url).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);// 设置为缓存原图,否则可能重复下载
+
+6.获取glide图片缓存路径：
+   01. FutureTarget<File> target =Glide.with(context).load(url).downloadOnly(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL)
+   02. final File imageFile = target.get();
+   或
+   01.实现Target类: DownloadImageTarget implements Target<File> 通过其onResourceReady获取缓存文件路径
+   02.Glide.with(this).load(url).downloadOnly(new DownloadImageTarget());
+
+7.图片显示变换：
+   01. Glide.with(this).load(url).transform(...).into(imageView);
+   02. Glide.with(this).load(url).centerCrop().into(imageView);
+   Glide.with(this).load(url).dontTransform().into(imageView); // 不变换
+   默认的Bitmap格式是RGB_565，如果图片质量要求较高，可以把图片的格式转换为ARGB8888：builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+
+8.自定义GlideModule：
+   01. class MyGlideModule implements GlideModule {}
+   02. manifest文件中application结点下添加<meta-data android:name="xx.MyGlideModule" android:value="GlideModule" />
+
+
+
+图片加载框架 Glide，Fresco
+   普通加载场景 Glide完全够用，如果加载大图，
+Fresco:
+   1.Fresco最大的优势在于5.0以下(最低2.3)的bitmap加载。Fresco将图片放到一个特别的内存区域
+   2.大大减少OOM（在更底层的Native层对OOM进行处理，图片将不再占用App的内存）
+   3.适用于需要高性能加载大量图片的场景
+Glide:
+   2.绑定了Activity和Fragment的声明周期，能更高效的利用资源，节省内存和CPU
+   3.灵活的缓存策略，磁盘缓存有四种基本策略
+声明周期绑定：
+添加无UI的Fragment，通过Fragment接收Activity传递的生命周期。Fragment和RequestManager基于LifeCycle接口建立联系，并传递生命周期事件，实现生命周期感知。
+内存缓存：正在使用的图片使用弱引用缓存？？？，使用后，添加到LruCache缓存
+
+当内存不足的时候，Activity、Fragment会调用onLowMemory方法，可以在这个方法里去清除缓存，Glide使用的就是这一种方式来防止OOM。
+
+//glide避免OOM策略
+1、引入largeHeap属性，让系统为App分配更多的独立内存。
+2、禁止Glide内存缓存。设置skipMemoryCache(true)。
+3、自定义GlideModule。设置MemoryCache和BitmapPool大小。
+4、升级到Glide4.0，使用asDrawable代替asBitmap，drawable更省内存。
+5、ImageView的scaleType为fitXY时，改为fitCenter/centerCrop/fitStart/fitEnd显示。
+6、不使用application作为context。当context为application时，会把imageView是生命周期延长到整个运行过程中，imageView不能被回收，从而造成OOM异常。
+7、使用application作为context。但是对ImageView使用弱引用或软引用，尽量使用SoftReference，当内存不足时，将及时回收无用的ImageView。
+8、当列表在滑动的时候，调用Glide的pauseRequests()取消请求，滑动停止时，调用resumeRequests()恢复请求。
+9、Try catch某些大内存分配的操作。考虑在catch里面尝试一次降级的内存分配操作。例如decode bitmap的时候，catch到OOM，可以尝试把采样比例再增加一倍之后，再次尝试decode。
+10、BitmapFactory.Options和BitmapFactory.decodeStream获取原始图片的宽、高，绕过Java层加载Bitmap，再调用Glide的override(width,height)控制显示。
+11、图片局部加载。参考：SubsamplingScaleImageView，先将图片下载到本地，然后去加载，只加载当前可视区域，在手指拖动的时候再去加载另外的区域。
