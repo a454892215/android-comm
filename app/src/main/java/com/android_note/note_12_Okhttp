@@ -1,9 +1,24 @@
-8.2 Okhttp面试简答
+Okhttp:基本使用流程：
+    1.new OkHttpClient.Builder()对象，通过该Builder对象构建出OkHttpClient对象
+        OkHttpClient.Builder()对象的作用
+            1.设置拦截器
+            2.Cookie策略，
+            3.设置请求超时
+            4.自定义连接池等
+
+
+    2.通过new Request.Builder()对象构建出Request对象
+        Request.Builder()对象的作用：
+        1.设置请求路径
+        2.设置请求方式：get或者Post
+        3.设置请求投
+        4.设置请求参数
+    3.通过OkHttpClient对象的execute或者enqueue函数执行同步或者异步请求
 
 1.1、简单说一下okhttp。
     1、支持SPDY、HTTP2.0
     2、无缝支持GZIP来减少数据流量
-    3、支持同步、异步（异步使用较多）
+    3、支持同步（call.execute()）、异步（异步使用较多，call.enqueue()）
     4、缓存响应数据来减少重复的网络请求
     5、可以从很多常用的连接问题中自动恢复
 
