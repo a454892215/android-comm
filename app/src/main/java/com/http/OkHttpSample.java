@@ -2,13 +2,19 @@ package com.http;
 
 import androidx.annotation.NonNull;
 
+import com.common.http.other.LogInterceptor;
 import com.common.utils.LogUtil;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.Dns;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -19,8 +25,10 @@ public class OkHttpSample {
     /**
      * 同步请求示例
      */
-    private void syncRequest() {
-        OkHttpClient client = new OkHttpClient.Builder().readTimeout(5, TimeUnit.SECONDS).build();
+    private static void syncRequest() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new LogInterceptor())
+                .readTimeout(5, TimeUnit.SECONDS).build();
         Request request = new Request.Builder()
                 .url("http://www.baidu.com")
                 .get()
@@ -40,7 +48,7 @@ public class OkHttpSample {
     /**
      * 异步请求示例
      */
-    private void asyncRequest() {
+    private static void asyncRequest() {
         OkHttpClient client = new OkHttpClient.Builder().readTimeout(5, TimeUnit.SECONDS).build();
         Request request = new Request.Builder()
                 .url("http://www.baidu.com")
@@ -65,5 +73,12 @@ public class OkHttpSample {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+
+    public static void main(String[] args) {
+        syncRequest();
+        asyncRequest();
     }
 }
