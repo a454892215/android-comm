@@ -2,7 +2,7 @@ package com.aidl;
 
 import com.common.utils.LogUtil;
 import com.common.utils.SystemUtils;
-import com.java_comm.entity.SizeEntity;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +35,10 @@ public class MyBinder extends IMyAidlInterface.Stub {
         doTask();
     }
 
-    private final List<SizeEntity> list = new ArrayList<>();
+    private final List<Object> list = new ArrayList<>();
 
     private void doTask() {
         Thread thread = new Thread(() -> {
-            for (int i = 0; i < 10; i++) {
-                SizeEntity sizeEntity = new SizeEntity();
-                sizeEntity.init();
-                list.add(sizeEntity);
-            }
             LogUtil.d("数据添加完毕 list：" + list.size() + " :" + SystemUtils.getMemoryInfo());
         });
         thread.start();
