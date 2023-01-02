@@ -3,7 +3,7 @@ apply plugin: 'maven'
 // napply from: "publish.gradle"
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 21

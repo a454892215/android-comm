@@ -26,4 +26,5 @@ android {
       //  implementation project(path: ':common')
         implementation 'androidx.core:core:1.1.0'
     }
+    ndkVersion '21.4.7075529'
 }
