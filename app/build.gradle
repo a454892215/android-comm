@@ -1,9 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.tencent.tinker.patch'
-//apply from: "../tinker.gradle"
+def isNeedTinker = false
+if (isNeedTinker) {
+    apply plugin: 'com.tencent.tinker.patch'
+    apply from: "../tinker.gradle"
 //apply plugin: 'davis'
+}
+
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
 
@@ -63,6 +67,11 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            java {
+                if(!isNeedTinker){
+                    exclude 'com/test/util/tinker/'
+                }
+            }
         }
     }
 
@@ -190,9 +199,12 @@ dependencies {
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     /*  tinker start  */
-//    compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
-//    provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
-//    provided("com.tencent.tinker:tinker-android-anno-support:${TINKER_VERSION}") { changing = true }
+    if (isNeedTinker) {
+        compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
+        provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
+        provided("com.tencent.tinker:tinker-android-anno-support:${TINKER_VERSION}") { changing = true }
+    }
+
     compile "androidx.multidex:multidex:2.0.1"
     /*  tinker end  */
 }
