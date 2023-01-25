@@ -20,6 +20,11 @@
         android:layout_height="wrap_content"
         android:text="启动指定app" />
 
+    <Button
+        android:id="@+id/btn_open_float_win"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打开悬浮窗口" />
     <TextView
         android:id="@+id/tv_server_state"
         android:layout_width="match_parent"
