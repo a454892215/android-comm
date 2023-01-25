@@ -2,14 +2,11 @@ package com.test.util.accessibility
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Bundle
-import android.os.IBinder
 import android.provider.Settings
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -56,15 +53,15 @@ class AccessibilityActivity : MyBaseActivity() {
         btn_start_app.setOnClickListener {
             lunchApp(aty = activity, packageName = "com.auto.bank.app1.go")
         }
-        this.bindService(Intent(this@AccessibilityActivity, MyAccessibilityService::class.java), object : ServiceConnection {
-            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                AppLog.d("====onServiceConnected=====")
-            }
-
-            override fun onServiceDisconnected(name: ComponentName?) {
-                AppLog.d("====onServiceDisconnected=====")
-            }
-        }, BIND_AUTO_CREATE)
+//        this.bindService(Intent(this@AccessibilityActivity, MyAccessibilityService::class.java), object : ServiceConnection {
+//            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+//                AppLog.d("====onServiceConnected=====")
+//            }
+//
+//            override fun onServiceDisconnected(name: ComponentName?) {
+//                AppLog.d("====onServiceDisconnected=====")
+//            }
+//        }, BIND_AUTO_CREATE)
         btn_open_float_win.setOnClickListener {
             openFloatWin(activity)
         }
@@ -138,6 +135,8 @@ class AccessibilityActivity : MyBaseActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
+    @SuppressWarnings("unused")
     private fun showFlowWinByOri(aty: Activity) {
         val layoutParams = WindowManager.LayoutParams()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

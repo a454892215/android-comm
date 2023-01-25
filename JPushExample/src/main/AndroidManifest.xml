@@ -85,7 +85,7 @@
         </service>
         <!-- since 3.0.9 Required SDK 核心功能-->
         <provider
-            android:authorities="com.test.product_1.DataProvider"
+            android:authorities="${applicationId}.DataProvider"
             android:name="cn.jpush.android.service.DataProvider"
             android:process=":pushcore"
             android:exported="false"
@@ -105,7 +105,7 @@
         </service>
         <!-- since 3.1.0 Required SDK 核心功能-->
         <provider
-            android:authorities="com.test.product_1.DownloadProvider"
+            android:authorities="${applicationId}.DownloadProvider"
             android:name="cn.jpush.android.service.DownloadProvider"
             android:exported="true"
         />
