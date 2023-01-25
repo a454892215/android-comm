@@ -6,6 +6,8 @@ import com.test.util.utils.AppLog
 
 class MyAccessibilityService : AccessibilityService() {
 
+
+    // activity start或者bind方式触发，或者设置页面启动辅助服务触发
     override fun onServiceConnected() {
         super.onServiceConnected()
         AppLog.d("======onServiceConnected=========")
