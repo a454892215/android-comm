@@ -15,10 +15,10 @@
         android:layout_height="wrap_content"
         android:text="启动辅助服务" />
     <Button
-        android:id="@+id/btn_stop"
+        android:id="@+id/btn_start_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="stop" />
+        android:text="启动指定app" />
 
     <TextView
         android:id="@+id/tv_server_state"

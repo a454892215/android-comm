@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
 import android.view.accessibility.AccessibilityManager
+import com.common.utils.ToastUtil
 import com.kotl.Log
 import com.test.util.R
 import com.test.util.base.MyBaseActivity
@@ -39,6 +40,9 @@ class AccessibilityActivity : MyBaseActivity() {
             startActivity(intent)
         }
         tv_server_state.text = ""
+        btn_start_app.setOnClickListener {
+            lunchApp(aty = activity, packageName = "com.auto.bank.app1.go")
+        }
         this.bindService(Intent(this@AccessibilityActivity, MyAccessibilityService::class.java), object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 AppLog.d("====onServiceConnected=====")
@@ -79,9 +83,9 @@ class AccessibilityActivity : MyBaseActivity() {
             intent.action = Intent.ACTION_MAIN
             aty.startActivity(intent)
         } catch (ex: Exception) {
+            ToastUtil.showLong("启动apk发生异常... ")
             AppLog.e(ex)
         }
-
     }
 
     private fun isAccessibilityEnabled(context: Context): Boolean {
