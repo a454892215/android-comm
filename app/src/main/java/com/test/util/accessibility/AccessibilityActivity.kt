@@ -1,6 +1,7 @@
 package com.test.util.accessibility
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -65,6 +66,22 @@ class AccessibilityActivity : MyBaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         isLoop = false
+    }
+
+
+    /**
+     * 打开银行app
+     */
+    private fun lunchApp(aty: Activity, packageName: String) {
+        try {
+            val intent = aty.packageManager.getLaunchIntentForPackage(packageName)
+            intent!!.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.action = Intent.ACTION_MAIN
+            aty.startActivity(intent)
+        } catch (ex: Exception) {
+            AppLog.e(ex)
+        }
+
     }
 
     private fun isAccessibilityEnabled(context: Context): Boolean {
