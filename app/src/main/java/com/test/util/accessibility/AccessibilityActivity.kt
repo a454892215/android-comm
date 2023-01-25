@@ -115,6 +115,7 @@ class AccessibilityActivity : MyBaseActivity() {
                     .show()
                 tv_start.setOnClickListener {
                     ToastUtil.showLong("tv_start")
+
                 }
                 tv_stop.setOnClickListener {
                     ToastUtil.showLong("tv_stop")

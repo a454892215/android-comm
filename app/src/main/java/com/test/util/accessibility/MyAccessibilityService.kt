@@ -16,6 +16,10 @@ class MyAccessibilityService : AccessibilityService() {
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         AppLog.d("======onAccessibilityEvent======${event.toString()}===")
+        val source = event?.source
+//        PerformAbility.findSoleId(ServiceConfig.service?.rootInActiveWindow,
+//            "vn.com.techcombank.bb.app:id/baseSearchInput"
+//        )
     }
 
     override fun onInterrupt() {
