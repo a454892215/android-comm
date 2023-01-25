@@ -101,6 +101,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".accessibility.AccessibilityActivity" />
+        <activity android:name=".accessibility.AccessibilityVerifyActivity" />
 
         <service android:name=".sys_notice.NotificationMonitor"
             android:label="@string/app_name"
