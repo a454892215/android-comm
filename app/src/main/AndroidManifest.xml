@@ -99,6 +99,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.AccessibilityActivity" />
 
         <service android:name=".sys_notice.NotificationMonitor"
             android:label="@string/app_name"
