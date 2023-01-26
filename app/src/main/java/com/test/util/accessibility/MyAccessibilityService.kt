@@ -35,15 +35,18 @@ class MyAccessibilityService : AccessibilityService() {
             }
             return list
         }
+
         fun performSetTextToInputByHintText(hintText: String, text: String) {
             val root: AccessibilityNodeInfo? = service?.rootInActiveWindow
-            val list: List<AccessibilityNodeInfo>  = getAllNodeFromRoot(root)
-            AppLog.d("performSetTextToInputByHintText size: ${list.size}")
-            for(node in list){
+            val list: List<AccessibilityNodeInfo> = getAllNodeFromRoot(root)
+            //  AppLog.d("performSetTextToInputByHintText size: ${list.size}")
+            for (node in list) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (node.hintText != null && node.hintText.toString() == hintText) {
                         performSetTextToInput(listOf(node), text)
                     }
+                } else {
+                    AppLog.e("需要版本号大于等于26.")
                 }
             }
         }
