@@ -14,6 +14,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityManager
 import android.widget.TextView
+import com.common.comm.L
 import com.common.utils.ToastUtil
 import com.kotl.Log
 import com.lzf.easyfloat.EasyFloat
@@ -131,8 +132,14 @@ class AccessibilityActivity : MyBaseActivity() {
                                 view?.findViewById<View>(R.id.tv_from_root)?.setOnClickListener {
                                     MyAccessibilityService.performSetTextToInputByHintText("请输入账号", "666888")
                                 }
+
+                                 view?.findViewById<View>(R.id.tv_set_text_for_focused_node)?.setOnClickListener {
+                                    MyAccessibilityService.performSetTextToInputForFocusedNode("88886666")
+                                }
+
+
                                  view?.findViewById<View>(R.id.tv_test_gesture)?.setOnClickListener {
-                                    MyAccessibilityService.exeGesture()
+                                    MyAccessibilityService.exeGesture(y = L.dp_1 * 440)
                                 }
                             }
                         }

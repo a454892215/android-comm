@@ -45,10 +45,23 @@ class MyAccessibilityService : AccessibilityService() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (node.hintText != null && node.hintText.toString() == hintText) {
                         performSetTextToInput(listOf(node), text)
-                       // AppLog.d(" text: ${node.text}   hintText: ${node.hintText}")
+                        // AppLog.d(" text: ${node.text}   hintText: ${node.hintText}")
+                        break
+
                     }
                 } else {
                     AppLog.e("需要版本号大于等于26.")
+                }
+            }
+        }
+
+        fun performSetTextToInputForFocusedNode(text: String) {
+            val root: AccessibilityNodeInfo? = service?.rootInActiveWindow
+            val list: List<AccessibilityNodeInfo> = getAllNodeFromRoot(root)
+            for (node in list) {
+                if (node.isFocused) {
+                    performSetTextToInput(listOf(node), text)
+                    break
                 }
             }
         }

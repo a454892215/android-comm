@@ -33,7 +33,13 @@
         android:id="@+id/tv_from_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="从根结点迭代获取指定节点" />
+        android:text="通过hintText迭代根结点获取指定节点赋值" />
+
+    <Button
+        android:id="@+id/tv_set_text_for_focused_node"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="给获取焦点的节点赋值" />
 
     <Button
         android:id="@+id/tv_test_gesture"
