@@ -13,21 +13,23 @@
         android:id="@+id/btn_start"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="启动辅助服务" />
-    <Button
-        android:id="@+id/btn_start_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="启动指定app" />
+        android:text="去打开辅助服务" />
 
     <Button
         android:id="@+id/btn_open_float_win"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="打开悬浮窗口" />
+
+    <Button
+        android:id="@+id/btn_start_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动指定app" />
+
     <TextView
         android:id="@+id/tv_server_state"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

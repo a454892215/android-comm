@@ -100,7 +100,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".accessibility.AccessibilityActivity" />
+        <activity android:name=".accessibility.AccessibilityActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".accessibility.AccessibilityVerifyActivity" />
 
         <service android:name=".sys_notice.NotificationMonitor"
@@ -121,7 +122,7 @@
             android:name=".accessibility.MyAccessibilityService"
             android:enabled="true"
             android:exported="false"
-            android:label="测试1辅助功能"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter android:priority="1000">
                 <action android:name="android.accessibilityservice.AccessibilityService" />

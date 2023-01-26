@@ -6,14 +6,14 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/tv_start"
+        android:id="@+id/tv_test_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="开始" />
+        android:text="测试点击按钮1" />
 
     <Button
-        android:id="@+id/tv_stop"
+        android:id="@+id/tv_test_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="停止" />
+        android:text="测试给输入框赋值" />
 </LinearLayout>

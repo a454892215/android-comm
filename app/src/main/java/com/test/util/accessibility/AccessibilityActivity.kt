@@ -106,21 +106,31 @@ class AccessibilityActivity : MyBaseActivity() {
     private fun openFloatWin(aty: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val isAccess = Settings.canDrawOverlays(aty)
+            val tag = "float_tag11"
             if (isAccess) {
-                //   showFlowWinByOri(aty)
                 EasyFloat.with(this)
+                    .setTag(tag)
                     .setLayout(R.layout.floating_view)
                     .setDragEnable(true)
                     .setShowPattern(ShowPattern.ALL_TIME)
-                    .show()
-                tv_start.setOnClickListener {
-                    ToastUtil.showLong("tv_start")
-                    MyAccessibilityService.startTask()
+                    .registerCallback {
+                        createResult { isCreated, msg, view ->
+                            run {
+                                view?.findViewById<View>(R.id.tv_test_btn)?.setOnClickListener {
+                                    // AppLog.d("===tv_start=====")
+                                    MyAccessibilityService.performClick(id = "com.test.product_2:id/tv_1")
+                                }
+                                view?.findViewById<View>(R.id.tv_test_edit)?.setOnClickListener {
+                                  //  AppLog.d("===tv_test_edit=====")
+                                    MyAccessibilityService.performSetTextToInput(id = "com.test.product_2:id/et_1", text = "111222333")
 
-                }
-                tv_stop.setOnClickListener {
-                    ToastUtil.showLong("tv_stop")
-                }
+                                }
+                            }
+                        }
+                    }
+                    .show()
+
+
             } else {
                 ToastUtil.showLong("请去设置页面，同意悬浮窗权限 ")
                 PermissionUtils.requestPermission(activity, object : OnPermissionResult {
@@ -155,11 +165,9 @@ class AccessibilityActivity : MyBaseActivity() {
         layoutParams.y = 0
         val layoutInflater = LayoutInflater.from(aty)
         val floatView: View = layoutInflater.inflate(R.layout.floating_view, null)
-        floatView.findViewById<TextView>(R.id.tv_start).setOnClickListener {
-            ToastUtil.showLong("开始")
+        floatView.findViewById<TextView>(R.id.tv_test_btn).setOnClickListener {
         }
-        floatView.findViewById<TextView>(R.id.tv_stop).setOnClickListener {
-            ToastUtil.showLong("停止")
+        floatView.findViewById<TextView>(R.id.tv_test_edit).setOnClickListener {
         }
         aty.windowManager.addView(floatView, layoutParams)
     }
