@@ -19,18 +19,19 @@ class AccessibilityVerifyActivity : MyBaseActivity() {
         super.onCreate(savedInstanceState)
         AppLog.d("====onCreate=====")
         tv_app_info.text = BuildConfig.APPLICATION_ID
-        tv_1.setOnClickListener{
+        tv_1.setOnClickListener {
             ToastUtil.showLong("tv_1")
         }
 
-        tv_2.setOnClickListener{
+        tv_2.setOnClickListener {
             ToastUtil.showLong("tv_2")
         }
 
+        tv_3.setOnClickListener {
+            ToastUtil.showLong("tv_3")
+        }
+        tv_4.setOnClickListener {
+            ToastUtil.showLong("tv_4")
+        }
     }
-
-
-
-
-
 }
