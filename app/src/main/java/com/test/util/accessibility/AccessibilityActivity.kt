@@ -118,11 +118,11 @@ class AccessibilityActivity : MyBaseActivity() {
                             run {
                                 view?.findViewById<View>(R.id.tv_test_btn)?.setOnClickListener {
                                     // AppLog.d("===tv_start=====")
-                                    MyAccessibilityService.performClick(id = "com.test.product_2:id/tv_1")
+                                    MyAccessibilityService.performClickById(id = "com.test.product_2:id/tv_1")
                                 }
                                 view?.findViewById<View>(R.id.tv_test_edit)?.setOnClickListener {
                                   //  AppLog.d("===tv_test_edit=====")
-                                    MyAccessibilityService.performSetTextToInput(id = "com.test.product_2:id/et_1", text = "111222333")
+                                    MyAccessibilityService.performSetTextToInputById(id = "com.test.product_2:id/et_1", text = "111222333")
 
                                 }
                             }

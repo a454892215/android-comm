@@ -17,36 +17,51 @@ class MyAccessibilityService : AccessibilityService() {
         /**
          * @id 格式如： "com.test.product_2:id/tv_1"
          */
-        fun performClick(id: String) {
+        fun performClickById(id: String) {
             service?.apply {
-                val mNodeInfo = this.rootInActiveWindow
-                val list: List<AccessibilityNodeInfo> = mNodeInfo.findAccessibilityNodeInfosByViewId(id)
-                if (list.isEmpty() || list.size > 1) {
-                    AppLog.e("===== size ${list.size}")
-                }
-                for (i in list.indices) {
-                    val node: AccessibilityNodeInfo = list[i]
-                    AppLog.d("index: $i className: ${node.className}   text:${node.text}  ")
-                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                }
+                val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByViewId(id)
+                performClick(list)
             }
         }
 
-        fun performSetTextToInput(id: String, text: String) {
+        fun performClickByTag(tag: String) {
             service?.apply {
-                val mNodeInfo = this.rootInActiveWindow
-                val list: List<AccessibilityNodeInfo> = mNodeInfo.findAccessibilityNodeInfosByViewId(id)
-                if (list.isEmpty() || list.size > 1) {
-                    AppLog.e("===== size ${list.size}")
-                }
-                for (i in list.indices) {
-                    val node: AccessibilityNodeInfo = list[i]
-                    //var hintText = getHintText(node)
-                    // AppLog.d("index: $i className: ${node.className}   text:${node.text}  hintText:${hintText}")
-                    val arguments = Bundle()
-                    arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text)
-                    node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
-                }
+                val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByText(tag)
+                performClick(list)
+            }
+        }
+
+        private fun performClick(list: List<AccessibilityNodeInfo>) {
+            if (list.isEmpty() || list.size > 1) AppLog.e("===== size ${list.size}")
+            for (i in list.indices) {
+                val node: AccessibilityNodeInfo = list[i]
+                AppLog.d("index: $i className: ${node.className}   text:${node.text}  ")
+                node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            }
+        }
+
+
+        fun performSetTextToInputById(id: String, text: String) {
+            service?.apply {
+                val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByViewId(id)
+                performSetTextToInput(list, text)
+            }
+        }
+
+        fun performSetTextToInputByTag(tag: String, text: String) {
+            service?.apply {
+                val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByText(tag)
+                performSetTextToInput(list, text)
+            }
+        }
+
+        private fun performSetTextToInput(list: List<AccessibilityNodeInfo>, text: String) {
+            if (list.isEmpty() || list.size > 1) AppLog.e("===== size ${list.size}")
+            for (i in list.indices) {
+                val node: AccessibilityNodeInfo = list[i]
+                val arguments = Bundle()
+                arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text)
+                node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
             }
         }
 
