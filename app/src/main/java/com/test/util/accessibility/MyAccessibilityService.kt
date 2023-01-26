@@ -18,10 +18,33 @@ class MyAccessibilityService : AccessibilityService() {
     companion object {
         var service: MyAccessibilityService? = null
 
-        fun getNodeFromRoot(hintText: String) {
+        /**
+         * 递归获取所有子View 包含ViewGroup,
+         */
+        @SuppressWarnings("unused")
+        fun getAllNodeFromRoot(node: AccessibilityNodeInfo?): List<AccessibilityNodeInfo> {
+            val list: MutableList<AccessibilityNodeInfo> = ArrayList()
+            node?.apply {
+                if (node.childCount > 0) {
+                    for (i in 0 until node.childCount) {
+                        val v = node.getChild(i)
+                        list.add(v)
+                        list.addAll(getAllNodeFromRoot(v))
+                    }
+                }
+            }
+            return list
+        }
+        fun performSetTextToInputByHintText(hintText: String, text: String) {
             val root: AccessibilityNodeInfo? = service?.rootInActiveWindow
-            root?.apply {
-               AppLog.d("className:$className")
+            val list: List<AccessibilityNodeInfo>  = getAllNodeFromRoot(root)
+            AppLog.d("performSetTextToInputByHintText size: ${list.size}")
+            for(node in list){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (node.hintText != null && node.hintText.toString() == hintText) {
+                        performSetTextToInput(listOf(node), text)
+                    }
+                }
             }
         }
 

@@ -129,7 +129,7 @@ class AccessibilityActivity : MyBaseActivity() {
                                     MyAccessibilityService.performSetTextToInputByTag(tag = "请输入账号", text = "111222333")
                                 }
                                 view?.findViewById<View>(R.id.tv_from_root)?.setOnClickListener {
-                                    MyAccessibilityService.getNodeFromRoot("请输入账号")
+                                    MyAccessibilityService.performSetTextToInputByHintText("请输入账号", "666888")
                                 }
                                  view?.findViewById<View>(R.id.tv_test_gesture)?.setOnClickListener {
                                     MyAccessibilityService.exeGesture()
