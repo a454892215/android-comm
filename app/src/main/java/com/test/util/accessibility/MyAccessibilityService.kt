@@ -18,6 +18,13 @@ class MyAccessibilityService : AccessibilityService() {
     companion object {
         var service: MyAccessibilityService? = null
 
+        fun getNodeFromRoot(hintText: String) {
+            val root: AccessibilityNodeInfo? = service?.rootInActiveWindow
+            root?.apply {
+               AppLog.d("className:$className")
+            }
+        }
+
         /**
          * @id 格式如： "com.test.product_2:id/tv_1"
          */
@@ -57,6 +64,7 @@ class MyAccessibilityService : AccessibilityService() {
                 val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByText(tag)
                 performSetTextToInput(list, text)
             }
+
         }
 
         private fun performSetTextToInput(list: List<AccessibilityNodeInfo>, text: String) {

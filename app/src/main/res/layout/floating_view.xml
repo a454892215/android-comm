@@ -30,6 +30,12 @@
         android:text="通过Tag测试给输入框赋值" />
 
     <Button
+        android:id="@+id/tv_from_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="从根结点迭代获取指定节点" />
+
+    <Button
         android:id="@+id/tv_test_gesture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
