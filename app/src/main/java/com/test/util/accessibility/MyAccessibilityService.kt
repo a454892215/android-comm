@@ -44,6 +44,7 @@ class MyAccessibilityService : AccessibilityService() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (node.hintText != null && node.hintText.toString() == hintText) {
                         performSetTextToInput(listOf(node), text)
+                       // AppLog.d(" text: ${node.text}   hintText: ${node.hintText}")
                     }
                 } else {
                     AppLog.e("需要版本号大于等于26.")
