@@ -1,11 +1,15 @@
 package com.test.util.accessibility
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.GestureDescription
 import android.content.Intent
+import android.graphics.Path
 import android.os.Build
 import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import com.common.comm.L
+import com.common.utils.ToastUtil
 import com.kotl.Log
 import com.test.util.utils.AppLog
 
@@ -60,6 +64,8 @@ class MyAccessibilityService : AccessibilityService() {
             for (i in list.indices) {
                 val node: AccessibilityNodeInfo = list[i]
                 val arguments = Bundle()
+                val hintText = getHintText(node)
+                AppLog.d("text: ${node.text} hintText:$hintText")
                 arguments.putCharSequence(AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, text)
                 node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments)
             }
@@ -73,6 +79,33 @@ class MyAccessibilityService : AccessibilityService() {
                 }
             }
             return hintText
+        }
+
+
+        fun exeGesture(x: Float = L.dp_1 * 180, y: Float = L.dp_1 * 360) {
+            service?.apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    val builder = GestureDescription.Builder()
+                    val path = Path()
+                    path.moveTo(x, y)
+                    builder.addStroke(GestureDescription.StrokeDescription(path, (400L..600L).random(), (400L..600L).random()))
+                    val gestureDescription: GestureDescription = builder.build()
+                    this.dispatchGesture(gestureDescription, object : GestureResultCallback() {
+                        override fun onCompleted(gestureDescription: GestureDescription?) {
+                            AppLog.d(" exeGesture ===== onCompleted ===== ")
+                        }
+
+                        override fun onCancelled(gestureDescription: GestureDescription?) {
+                            AppLog.d(" exeGesture ==== onCancelled ===== ")
+                        }
+                    }, null)
+                } else {
+                    ToastUtil.showLong("手机最低版本号必须大于24")
+                    AppLog.e(" ==== 手机最低版本号必须大于24 ===== ")
+                }
+
+
+            }
         }
     }
 
