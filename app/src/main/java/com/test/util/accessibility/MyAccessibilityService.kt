@@ -41,6 +41,7 @@ class MyAccessibilityService : AccessibilityService() {
             val list: List<AccessibilityNodeInfo> = getAllNodeFromRoot(root)
             //  AppLog.d("performSetTextToInputByHintText size: ${list.size}")
             for (node in list) {
+                //有一种办法可以避开Android 8.0版本的限制，即先以坐标方式定位到EditText,点击获取焦点，再根据焦点获取该node
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (node.hintText != null && node.hintText.toString() == hintText) {
                         performSetTextToInput(listOf(node), text)
