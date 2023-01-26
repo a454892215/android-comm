@@ -26,10 +26,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/tv_3"
+        android:text="按钮3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/tv_4"
+        android:text="按钮3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <EditText
         android:id="@+id/et_1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_60"
         android:hint="请输入..."/>
+
+    <EditText
+        android:id="@+id/et_2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:hint="请输入账号"/>
 
 </LinearLayout>

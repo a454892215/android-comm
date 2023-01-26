@@ -117,13 +117,16 @@ class AccessibilityActivity : MyBaseActivity() {
                         createResult { isCreated, msg, view ->
                             run {
                                 view?.findViewById<View>(R.id.tv_test_btn)?.setOnClickListener {
-                                    // AppLog.d("===tv_start=====")
                                     MyAccessibilityService.performClickById(id = "com.test.product_2:id/tv_1")
                                 }
                                 view?.findViewById<View>(R.id.tv_test_edit)?.setOnClickListener {
-                                  //  AppLog.d("===tv_test_edit=====")
                                     MyAccessibilityService.performSetTextToInputById(id = "com.test.product_2:id/et_1", text = "111222333")
-
+                                }
+                                view?.findViewById<View>(R.id.tv_test_btn_tag)?.setOnClickListener {
+                                    MyAccessibilityService.performClickByTag(tag = "按钮3")
+                                }
+                                view?.findViewById<View>(R.id.tv_test_edit_tag)?.setOnClickListener {
+                                    MyAccessibilityService.performSetTextToInputByTag(tag = "请输入账号", text = "111222333")
                                 }
                             }
                         }
