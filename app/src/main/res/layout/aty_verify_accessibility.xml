@@ -29,7 +29,7 @@
     <EditText
         android:id="@+id/et_1"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
+        android:layout_height="@dimen/dp_60"
         android:hint="请输入..."/>
 
 </LinearLayout>

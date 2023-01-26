@@ -51,7 +51,7 @@ class AccessibilityActivity : MyBaseActivity() {
         }
         tv_server_state.text = ""
         btn_start_app.setOnClickListener {
-            lunchApp(aty = activity, packageName = "com.auto.bank.app1.go")
+            lunchApp(aty = activity, packageName = "com.test.product_2")
         }
 //        this.bindService(Intent(this@AccessibilityActivity, MyAccessibilityService::class.java), object : ServiceConnection {
 //            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -115,6 +115,7 @@ class AccessibilityActivity : MyBaseActivity() {
                     .show()
                 tv_start.setOnClickListener {
                     ToastUtil.showLong("tv_start")
+                    MyAccessibilityService.startTask()
 
                 }
                 tv_stop.setOnClickListener {
