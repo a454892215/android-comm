@@ -115,7 +115,7 @@ class AccessibilityActivity : MyBaseActivity() {
                     .setDragEnable(true)
                     .setShowPattern(ShowPattern.ALL_TIME)
                     .registerCallback {
-                        createResult { isCreated, msg, view ->
+                        createResult { _, _, view ->
                             run {
                                 view?.findViewById<View>(R.id.tv_test_btn)?.setOnClickListener {
                                     AccessibilityUtil.performClickById(id = "com.test.product_2:id/tv_1")

@@ -27,7 +27,7 @@ class AccessibilityUtil {
         }
 
         /**
-         * 递归获取所有子View 包含ViewGroup,
+         * 递归获取所有子Node 包含NodeParent,
          */
         @SuppressWarnings("unused")
         fun getAllNodeFromRoot(node: AccessibilityNodeInfo?): List<AccessibilityNodeInfo> {
@@ -44,6 +44,9 @@ class AccessibilityUtil {
             return list
         }
 
+        /**
+         * 通过hintText查找节点设置文本，要求Android 8.0版本以上
+         */
         fun performSetTextToInputByHintText(hintText: String, text: String) {
             val root: AccessibilityNodeInfo? = service?.rootInActiveWindow
             val list: List<AccessibilityNodeInfo> = getAllNodeFromRoot(root)
@@ -52,7 +55,7 @@ class AccessibilityUtil {
                 //有一种办法可以避开Android 8.0版本的限制，即先以坐标方式定位到EditText,点击获取焦点，再根据焦点获取该node
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (node.hintText != null && node.hintText.toString() == hintText) {
-                        performSetTextToInput(listOf(node), text)
+                        performSetTextToNodes(listOf(node), text)
                         // AppLog.d(" text: ${node.text}   hintText: ${node.hintText}")
                         break
 
@@ -63,12 +66,15 @@ class AccessibilityUtil {
             }
         }
 
+        /**
+         * 给获取焦点的Input设置文本
+         */
         fun performSetTextToInputForFocusedNode(text: String) {
             val root: AccessibilityNodeInfo? = service?.rootInActiveWindow
             val list: List<AccessibilityNodeInfo> = getAllNodeFromRoot(root)
             for (node in list) {
                 if (node.isFocused) {
-                    performSetTextToInput(listOf(node), text)
+                    performSetTextToNodes(listOf(node), text)
                     break
                 }
             }
@@ -76,6 +82,7 @@ class AccessibilityUtil {
 
         /**
          * @id 格式如： "com.test.product_2:id/tv_1"
+         * 通过ID查找节点，点击该节点
          */
         fun performClickById(id: String) {
             service?.apply {
@@ -84,6 +91,9 @@ class AccessibilityUtil {
             }
         }
 
+        /**
+         *   * 通过Text查找节点，点击该节点
+         */
         fun performClickByTag(tag: String) {
             service?.apply {
                 val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByText(tag)
@@ -91,6 +101,9 @@ class AccessibilityUtil {
             }
         }
 
+        /**
+         * 执行点击
+         */
         private fun performClick(list: List<AccessibilityNodeInfo>) {
             if (list.isEmpty() || list.size > 1) AppLog.e("===== size ${list.size}")
             for (i in list.indices) {
@@ -100,23 +113,31 @@ class AccessibilityUtil {
             }
         }
 
-
+        /**
+         * 设置文本 通过ID
+         */
         fun performSetTextToInputById(id: String, text: String) {
             service?.apply {
                 val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByViewId(id)
-                performSetTextToInput(list, text)
+                performSetTextToNodes(list, text)
             }
         }
 
+        /**
+         * 设置文本 通过Text
+         */
         fun performSetTextToInputByTag(tag: String, text: String) {
             service?.apply {
                 val list: List<AccessibilityNodeInfo> = this.rootInActiveWindow.findAccessibilityNodeInfosByText(tag)
-                performSetTextToInput(list, text)
+                performSetTextToNodes(list, text)
             }
 
         }
 
-        private fun performSetTextToInput(list: List<AccessibilityNodeInfo>, text: String) {
+        /**
+         * 设置文本
+         */
+        private fun performSetTextToNodes(list: List<AccessibilityNodeInfo>, text: String) {
             if (list.isEmpty() || list.size > 1) AppLog.e("===== size ${list.size}")
             for (i in list.indices) {
                 val node: AccessibilityNodeInfo = list[i]
@@ -160,8 +181,6 @@ class AccessibilityUtil {
                     ToastUtil.showLong("手机最低版本号必须大于24")
                     AppLog.e(" ==== 手机最低版本号必须大于24 ===== ")
                 }
-
-
             }
         }
     }
