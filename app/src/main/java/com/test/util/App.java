@@ -5,6 +5,7 @@ import com.common.utils.LogUtil;
 import com.common.helper.SoundPoolHelper;
 import com.common.utils.SystemUtils;
 import com.example.jpushdemo.JGInit;
+import com.test.util.box_obj.ObjectBox;
 
 /**
  * Author:  L
@@ -23,6 +24,7 @@ public class App extends CommApp {
             isInitX5Web = true;
             app = this;
             super.onCreate();
+            ObjectBox.INSTANCE.init(this);
             LogUtil.logEnable(BuildConfig.DEBUG);
             soundPoolUtil = new SoundPoolHelper(this, R.raw.button_tap);
             JGInit.init(this);
