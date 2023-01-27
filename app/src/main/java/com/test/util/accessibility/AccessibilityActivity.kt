@@ -22,6 +22,7 @@ import com.lzf.easyfloat.enums.ShowPattern
 import com.lzf.easyfloat.interfaces.OnPermissionResult
 import com.lzf.easyfloat.permission.PermissionUtils
 import com.test.util.R
+import com.test.util.accessibility.AccessibilityUtil.Companion.isAccessibilityEnabled
 import com.test.util.accessibility.AccessibilityUtil.Companion.lunchApp
 import com.test.util.base.MyBaseActivity
 import com.test.util.utils.AppLog
@@ -41,7 +42,6 @@ class AccessibilityActivity : MyBaseActivity() {
     下面代码可以打开系统的无障碍功能列表
     Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
     startActivity(intent);
-
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,15 +55,6 @@ class AccessibilityActivity : MyBaseActivity() {
         btn_start_app.setOnClickListener {
             lunchApp(aty = activity, packageName = "com.test.product_2")
         }
-//        this.bindService(Intent(this@AccessibilityActivity, MyAccessibilityService::class.java), object : ServiceConnection {
-//            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-//                AppLog.d("====onServiceConnected=====")
-//            }
-//
-//            override fun onServiceDisconnected(name: ComponentName?) {
-//                AppLog.d("====onServiceDisconnected=====")
-//            }
-//        }, BIND_AUTO_CREATE)
         btn_open_float_win.setOnClickListener {
             openFloatWin(activity)
         }
@@ -89,10 +80,7 @@ class AccessibilityActivity : MyBaseActivity() {
 
 
 
-    private fun isAccessibilityEnabled(context: Context): Boolean {
-        val am = context.getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
-        return am.isEnabled
-    }
+
 
     @SuppressLint("InflateParams")
     private fun openFloatWin(aty: Activity) {

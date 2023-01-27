@@ -4,13 +4,16 @@ import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Path
 import android.os.Build
 import android.os.Bundle
+import android.view.accessibility.AccessibilityManager
 import android.view.accessibility.AccessibilityNodeInfo
 import com.common.comm.L
 import com.common.utils.ToastUtil
+import com.test.util.base.MyBaseActivity
 import com.test.util.utils.AppLog
 
 @SuppressWarnings("unused")
@@ -184,6 +187,14 @@ class AccessibilityUtil {
                     AppLog.e(" ==== 手机最低版本号必须大于24 ===== ")
                 }
             }
+        }
+
+        /**
+         * 判断辅助服务是否开启
+         */
+         fun isAccessibilityEnabled(context: Context): Boolean {
+            val am = context.getSystemService(MyBaseActivity.ACCESSIBILITY_SERVICE) as AccessibilityManager
+            return am.isEnabled
         }
 
          fun lunchApp(aty: Activity, packageName: String) {
