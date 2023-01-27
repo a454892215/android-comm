@@ -22,6 +22,7 @@ import com.lzf.easyfloat.enums.ShowPattern
 import com.lzf.easyfloat.interfaces.OnPermissionResult
 import com.lzf.easyfloat.permission.PermissionUtils
 import com.test.util.R
+import com.test.util.accessibility.AccessibilityUtil.Companion.lunchApp
 import com.test.util.base.MyBaseActivity
 import com.test.util.utils.AppLog
 import kotlinx.android.synthetic.main.aty_accessibility.*
@@ -86,17 +87,7 @@ class AccessibilityActivity : MyBaseActivity() {
         isLoop = false
     }
 
-    private fun lunchApp(aty: Activity, packageName: String) {
-        try {
-            val intent = aty.packageManager.getLaunchIntentForPackage(packageName)
-            intent!!.addCategory(Intent.CATEGORY_LAUNCHER)
-            intent.action = Intent.ACTION_MAIN
-            aty.startActivity(intent)
-        } catch (ex: Exception) {
-            ToastUtil.showLong("启动apk发生异常... ")
-            AppLog.e(ex)
-        }
-    }
+
 
     private fun isAccessibilityEnabled(context: Context): Boolean {
         val am = context.getSystemService(ACCESSIBILITY_SERVICE) as AccessibilityManager
@@ -132,15 +123,16 @@ class AccessibilityActivity : MyBaseActivity() {
                                 view?.findViewById<View>(R.id.tv_from_root)?.setOnClickListener {
                                     AccessibilityUtil.performSetTextToInputByHintText("请输入账号", "666888")
                                 }
-
                                  view?.findViewById<View>(R.id.tv_set_text_for_focused_node)?.setOnClickListener {
                                      AccessibilityUtil.performSetTextToInputForFocusedNode("88886666")
                                 }
-
-
                                  view?.findViewById<View>(R.id.tv_test_gesture)?.setOnClickListener {
                                      AccessibilityUtil.exeGesture(y = L.dp_1 * 440)
                                 }
+                                view?.findViewById<View>(R.id.tv_test_lunch_app)?.setOnClickListener {
+                                    lunchApp(aty = activity, packageName = "com.test.product_2")
+                                }
+
                             }
                         }
                     }

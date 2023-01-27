@@ -3,6 +3,8 @@ package com.test.util.accessibility
 import android.accessibilityservice.AccessibilityService
 import android.accessibilityservice.GestureDescription
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Path
 import android.os.Build
 import android.os.Bundle
@@ -181,6 +183,18 @@ class AccessibilityUtil {
                     ToastUtil.showLong("手机最低版本号必须大于24")
                     AppLog.e(" ==== 手机最低版本号必须大于24 ===== ")
                 }
+            }
+        }
+
+         fun lunchApp(aty: Activity, packageName: String) {
+            try {
+                val intent = aty.packageManager.getLaunchIntentForPackage(packageName)
+                intent!!.addCategory(Intent.CATEGORY_LAUNCHER)
+                intent.action = Intent.ACTION_MAIN
+                aty.startActivity(intent)
+            } catch (ex: Exception) {
+                ToastUtil.showLong("启动apk发生异常... ")
+                AppLog.e(ex)
             }
         }
     }

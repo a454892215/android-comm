@@ -9,29 +9,34 @@
         android:id="@+id/tv_test_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8dp"
         android:text="通过ID测试点击按钮1" />
 
     <Button
         android:id="@+id/tv_test_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8dp"
         android:text="通过ID测试给输入框赋值" />
 
     <Button
         android:id="@+id/tv_test_btn_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8dp"
         android:text="通过Tag测试点击按钮1" />
 
     <Button
         android:id="@+id/tv_test_edit_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8dp"
         android:text="通过Tag测试给输入框赋值" />
 
     <Button
         android:id="@+id/tv_from_root"
         android:layout_width="wrap_content"
+        android:textSize="8dp"
         android:layout_height="wrap_content"
         android:text="通过hintText迭代根结点获取指定节点赋值" />
 
@@ -39,11 +44,20 @@
         android:id="@+id/tv_set_text_for_focused_node"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8dp"
         android:text="给获取焦点的节点赋值" />
 
     <Button
         android:id="@+id/tv_test_gesture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="8dp"
         android:text="测试手势" />
+
+    <Button
+        android:id="@+id/tv_test_lunch_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="8dp"
+        android:text="启动app" />
 </LinearLayout>
