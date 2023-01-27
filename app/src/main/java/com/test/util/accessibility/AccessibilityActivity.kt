@@ -118,28 +118,28 @@ class AccessibilityActivity : MyBaseActivity() {
                         createResult { isCreated, msg, view ->
                             run {
                                 view?.findViewById<View>(R.id.tv_test_btn)?.setOnClickListener {
-                                    MyAccessibilityService.performClickById(id = "com.test.product_2:id/tv_1")
+                                    AccessibilityUtil.performClickById(id = "com.test.product_2:id/tv_1")
                                 }
                                 view?.findViewById<View>(R.id.tv_test_edit)?.setOnClickListener {
-                                    MyAccessibilityService.performSetTextToInputById(id = "com.test.product_2:id/et_1", text = "111222333")
+                                    AccessibilityUtil.performSetTextToInputById(id = "com.test.product_2:id/et_1", text = "111222333")
                                 }
                                 view?.findViewById<View>(R.id.tv_test_btn_tag)?.setOnClickListener {
-                                    MyAccessibilityService.performClickByTag(tag = "按钮3")
+                                    AccessibilityUtil.performClickByTag(tag = "按钮3")
                                 }
                                 view?.findViewById<View>(R.id.tv_test_edit_tag)?.setOnClickListener {
-                                    MyAccessibilityService.performSetTextToInputByTag(tag = "请输入账号", text = "111222333")
+                                    AccessibilityUtil.performSetTextToInputByTag(tag = "请输入账号", text = "111222333")
                                 }
                                 view?.findViewById<View>(R.id.tv_from_root)?.setOnClickListener {
-                                    MyAccessibilityService.performSetTextToInputByHintText("请输入账号", "666888")
+                                    AccessibilityUtil.performSetTextToInputByHintText("请输入账号", "666888")
                                 }
 
                                  view?.findViewById<View>(R.id.tv_set_text_for_focused_node)?.setOnClickListener {
-                                    MyAccessibilityService.performSetTextToInputForFocusedNode("88886666")
+                                     AccessibilityUtil.performSetTextToInputForFocusedNode("88886666")
                                 }
 
 
                                  view?.findViewById<View>(R.id.tv_test_gesture)?.setOnClickListener {
-                                    MyAccessibilityService.exeGesture(y = L.dp_1 * 440)
+                                     AccessibilityUtil.exeGesture(y = L.dp_1 * 440)
                                 }
                             }
                         }
