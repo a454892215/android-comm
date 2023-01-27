@@ -23,6 +23,7 @@ import com.test.util.Constant;
 import com.test.util.JRTTAndJNITestActivity;
 import com.test.util.accessibility.AccessibilityActivity;
 import com.test.util.accessibility.AccessibilityVerifyActivity;
+import com.test.util.box_obj.BoxObjectTestActivity;
 import com.test.util.custom_view2.CustomViewTestActivity2;
 import com.test.util.ori_code.OriCodeActivity;
 import com.test.util.sticky.StickyTestActivity;
@@ -50,12 +51,13 @@ import java.util.concurrent.Executors;
 public class MainActivity extends MyBaseActivity {
 
     private final String[] names = {"源码验证", "View 相关", "View 相关2", "Xposed框架", "Bugly和各种异常捕获", "X5WebView", "Android Jetpack|通知监听",
-            "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码", "吸顶效果", "数据库测试", "AIDL", "辅助功能", "辅助功能测试页"};
+            "http测试", "AgentWeb", "今日头条适配测试和JNI", "极光推送", "二维码保存和自定义模板代码",
+            "吸顶效果", "数据库测试", "AIDL", "辅助功能", "辅助功能测试页", "ObjectBox"};
     private final Class<?>[] classArr = {OriCodeActivity.class, CustomViewTestActivity.class, CustomViewTestActivity2.class, XposedTestActivity.class,
             BuglyTestActivity.class, X5WebTestActivity.class, JetpackTestActivity.class,
             HttpTestActivity.class, AgentWebActivity.class, JRTTAndJNITestActivity.class, JGMainActivity.class,
             QRCodeTestActivity.class, StickyTestActivity.class, DatabaseTestActivity.class, AidlTestActivity.class,
-            AccessibilityActivity.class, AccessibilityVerifyActivity.class};
+            AccessibilityActivity.class, AccessibilityVerifyActivity.class, BoxObjectTestActivity.class};
 
     @Override
     protected int getLayoutId() {
