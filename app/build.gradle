@@ -7,7 +7,7 @@ if (isNeedTinker) {
     apply from: "../tinker.gradle"
 //apply plugin: 'davis'
 }
-
+apply plugin: "io.objectbox"
 // 引用自定义在外包的变量
 def app_info = rootProject.ext.app_info
 
@@ -67,6 +67,13 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            java {
+                if(!isNeedTinker){
+                    exclude 'com/test/util/tinker/'
+                }
+            }
+        }
+        androidTest {
             java {
                 if(!isNeedTinker){
                     exclude 'com/test/util/tinker/'
