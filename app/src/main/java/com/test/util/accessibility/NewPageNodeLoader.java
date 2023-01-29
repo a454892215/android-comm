@@ -12,21 +12,29 @@ import com.test.util.utils.AppLog;
 public class NewPageNodeLoader {
 
     public static final int perSleepTime = 400;
-    public static final int maxLoadTimes = 15;
+    public static final int maxLoadTimes = (int) (6000d / perSleepTime);
     private AccessibilityNodeInfo firstNode;
     private AccessibilityNodeInfo tarNode;
     private String id;
     private String text;
 
-
     public AccessibilityNodeInfo loadById(String id) {
+        reset();
         this.id = id;
         return load();
     }
 
     public AccessibilityNodeInfo loadByText(String text) {
+        reset();
         this.text = text;
         return load();
+    }
+
+    public void reset() {
+        id = null;
+        text = null;
+        firstNode = null;
+        tarNode = null;
     }
 
     private AccessibilityNodeInfo load() {
