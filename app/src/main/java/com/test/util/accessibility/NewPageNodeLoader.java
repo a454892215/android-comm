@@ -7,6 +7,7 @@ import com.test.util.utils.AppLog;
 
 /**
  * 新页面节点加载器...
+ * 在即将进入新页面之前调用
  */
 public class NewPageNodeLoader {
 
@@ -38,9 +39,10 @@ public class NewPageNodeLoader {
             AppLog.INSTANCE.d(getLoadedNodeInfo() + " costTime:" + (i * perSleepTime));
             if (tarNode != null) {
                 if (tarNode != firstNode) {
+                    AppLog.INSTANCE.d("找到目标节点成功：id:" + id + " text:" + text + " costTime:" + (i * perSleepTime));
                     return tarNode;
                 } else {
-                    AppLog.INSTANCE.e("异常firstNode和tarNode是同一个对象");
+                    AppLog.INSTANCE.e("异常firstNode和tarNode是同一个对象：");
                 }
             }
             SystemClock.sleep(perSleepTime);
