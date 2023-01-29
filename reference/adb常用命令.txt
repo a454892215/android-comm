@@ -7,6 +7,8 @@ adb shell dumpsys activity activities | grep mResumedActivity
 adb shell dumpsys package com.auto.bank.app1.go 获取某app版本号
 63 9560 4180 51
 
+\Sdk\tools\bin  uiautomatorviewer.bat 可以查看第三方app的UI布局
+
 获取手机第三方所有应用的包名，输入命令：adb shell pm list package -3
 
 gradlew compileDebug --stacktrace
