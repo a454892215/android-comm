@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 
+import com.common.CommApp;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -95,10 +97,10 @@ public class AssertsUtil {
         return bitmap;
     }
 
-    public static String getText(Context context, String fileName) {
+    public static String getText(String fileName) {
         String text = "";
         try {
-            InputStream in = context.getAssets().open(fileName);
+            InputStream in = CommApp.app.getAssets().open(fileName);
             int available = in.available();
             byte[] buff = new byte[available];
             int read = in.read(buff);

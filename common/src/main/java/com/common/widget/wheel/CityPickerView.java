@@ -40,7 +40,7 @@ public class CityPickerView extends FrameLayout {
     }
 
     private void init() {
-        String text = AssertsUtil.getText(context, "china_city.txt");
+        String text = AssertsUtil.getText("china_city.txt");
         ProvinceEntity[] provinceArr = GsonHelper.getEntity(text, ProvinceEntity[].class);
         currentProvinceList = Arrays.asList(provinceArr);
         currentCityList = currentProvinceList.get(0).getCityList();

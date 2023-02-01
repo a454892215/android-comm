@@ -3,25 +3,21 @@ package com.test.util.accessibility.lib
 import android.app.Activity
 import android.os.SystemClock
 import android.view.accessibility.AccessibilityNodeInfo
-import com.auto.pay.task2.KeyValueEntity
-import com.common.CommApp
+import com.auto.pay.task2.*
 import com.common.utils.AssertsUtil
 import com.google.gson.Gson
-import com.test.util.accessibility.lib.*
-
 import com.test.util.utils.AppLog
 
 class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
-    var verifyResult: VerifyResult = VerifyResult.Except
+    private var verifyResult: VerifyResult = VerifyResult.Except
 
     companion object {
-        private const val appId: String = "com.vnpay.EximBankOmni"
-        private const val password: String = "Asdf1234@"
+        private const val appId: String = "com.appid"
+        private const val password: String = "..."
         var isInToAccountPage: Boolean = false
         var hasExecuteTaskSize: Int = 0
         var failTaskSize: Int = 0
         var exceptionTaskSize: Int = 0
-
         val mapData: MutableMap<String, String> = mutableMapOf()
         var listData: List<KeyValueEntity> = mutableListOf()
 
@@ -30,10 +26,11 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
         }
     }
 
-    var netWork: Network? = null
+    private var netWork: Network? = null
 
-    fun start(aty: Activity, taskEntity: TaskEntity, netWork: Network) {
+    override fun start(aty: Activity, taskEntity: TaskEntity, netWork: Network) {
         this.netWork = netWork
+        verifyResult = VerifyResult.Except // 默认异常
         AppLog.d("任务启动：任务线程：threadName" + Thread.currentThread().name)
         initData()
         val start = System.currentTimeMillis()
@@ -55,10 +52,8 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
         } catch (e: Exception) {
             AppLog.e(e)
             isInToAccountPage = false
-            if (e is StopException) run {
-                AppLog.d("程序正常结束...")
-            }
             // ServiceUtil.killByAppId(appId)
+            uploadExceptionResult(taskEntity, "代码执行异常")
         }
     }
 
@@ -72,7 +67,7 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
         val loginNode = nodeFinder.getNodeByTag("Login")
         ServiceUtil.performClick(loginNode!!, false)
 
-        val passwordNode = nodeFinder.getNodeById(getFullId("tvPassword"))
+        val passwordNode = getPasswordNode(nodeFinder)
         ServiceUtil.setText(passwordNode!!, password)
 
         val btnLogin = nodeFinder.getNodeById(getFullId("btnLogin"))
@@ -118,16 +113,15 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
             node!!.performAction(AccessibilityNodeInfo.ACTION_CLICK)
             SystemClock.sleep(300)
             failTaskSize++
-            upload(taskEntity, "invalid")
+            upload(taskEntity, "InvalidCardName")
             return
         }
         SystemClock.sleep(200)
         val validNode = ServiceUtil.getNodeById(getFullId("tvName"))
         if (validNode != null) {
-            verifyResult = VerifyResult.OK
             val text: String = validNode.text.toString()
-            val realName = StrUtil.removeAccent(text.trim()).replace("\\s+".toRegex(), "").lowercase()
-            val checkName = StrUtil.removeAccent(taskEntity.name.trim()).replace("\\s+".toRegex(), "").lowercase()
+            val realName = StringUtils.removeAccent(text.trim()).replace("\\s+".toRegex(), "").lowercase()
+            val checkName = StringUtils.removeAccent(taskEntity.name.trim()).replace("\\s+".toRegex(), "").lowercase()
             verifyResult = if (checkName.equals(realName, true)) {
                 AppLog.i("有效卡号：text: ${validNode.text} ")
                 VerifyResult.OK
@@ -139,18 +133,31 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
             return
         }
         // 有效无效都没有进入，
+        uploadExceptionResult(taskEntity, "非有效非无效异常")
+    }
+
+    private fun uploadExceptionResult(taskEntity: TaskEntity, realName: String) {
         if (verifyResult == VerifyResult.Except) {
-            verifyResult = VerifyResult.Except
             exceptionTaskSize++
-            upload(taskEntity, "异常")
+            upload(taskEntity, realName)
             AppLog.e("处理完毕，流程异常...")
         }
     }
 
     private fun upload(taskEntity: TaskEntity, realName: String) {
-        netWork!!.uploadTask(taskEntity, verifyResult, "exim", verifyResult.name, realName)
+        val curTaskName = TasKManager.getCurTaskName()!!
+        val uploadEntity =
+            UploadEntity(
+                entity = taskEntity,
+                res = verifyResult,
+                taskType = curTaskName,
+                summary = verifyResult.name,
+                realName = realName
+            )
+        netWork!!.uploadTask(uploadEntity)
     }
 
+    @SuppressWarnings("unused")
     private fun verifyLocalBankData(searchNode: AccessibilityNodeInfo) {
         val list: List<KeyValueEntity> = getJsonList()
         for (index in (35 until list.size)) {
@@ -177,9 +184,13 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
         return null
     }
 
+    override fun getPasswordNode(nodeFinder: NodeFinder): AccessibilityNodeInfo? {
+        return nodeFinder.getNodeById(getFullId("tvPassword"))
+    }
+
     override fun getLocalJsonData(): List<KeyValueEntity> {
-        val json = AssertsUtil.getText(CommApp.app, "exim.json")
-        return Gson().fromJson(json, Array<KeyValueEntity>::class.java).toList()
+        val json = AssertsUtil.getText("exim.json")
+        return  Gson().fromJson(json, Array<KeyValueEntity>::class.java).toList()
     }
 
     override fun initData() {
@@ -198,6 +209,14 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
             initData()
         }
         return listData
+    }
+
+    override fun getAppId(): String {
+        return appId
+    }
+
+    override fun getPassword(): String {
+        return password
     }
 
 }
