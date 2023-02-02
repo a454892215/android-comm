@@ -140,7 +140,7 @@ class EXIMCheckTask(override var curJsonItemIndex: Int = -1) : BaseTask {
         if (verifyResult == VerifyResult.Except) {
             exceptionTaskSize++
             upload(taskEntity, realName)
-            AppLog.e("处理完毕，流程异常...")
+            AppLog.e(realName)
         }
     }
 
