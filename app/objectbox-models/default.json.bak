@@ -31,58 +31,9 @@
         }
       ],
       "relations": []
-    },
-    {
-      "id": "2:4160047636571540055",
-      "lastPropertyId": "8:1368049474056170804",
-      "name": "NewTaskRecorder",
-      "properties": [
-        {
-          "id": "1:7625146905069936479",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:2257713541275194602",
-          "name": "taskId",
-          "type": 9
-        },
-        {
-          "id": "3:7713357595911285642",
-          "name": "bankCode",
-          "type": 9
-        },
-        {
-          "id": "4:9040621303378715856",
-          "name": "bankCard",
-          "type": 9
-        },
-        {
-          "id": "5:1532100439124371453",
-          "name": "name",
-          "type": 9
-        },
-        {
-          "id": "6:6145657868432504371",
-          "name": "time",
-          "type": 9
-        },
-        {
-          "id": "7:4910572008263307673",
-          "name": "result",
-          "type": 9
-        },
-        {
-          "id": "8:1368049474056170804",
-          "name": "msg",
-          "type": 9
-        }
-      ],
-      "relations": []
     }
   ],
-  "lastEntityId": "2:4160047636571540055",
+  "lastEntityId": "1:8700258337297825726",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

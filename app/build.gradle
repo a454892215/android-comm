@@ -138,6 +138,11 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all {
             def appInfo = "V" + variant.versionName + getAppInfo() + variant.name

@@ -15,19 +15,23 @@ git remote show origin 查看指定远程url详情
 
 git branch --set-upstream-to origin/caipiaov1.1 给当前本地分支指定服务器跟踪分支
 git branch -vv 查看本地分支跟踪信息
+Git checkout 分支名 切换到指定分支
 git checkout -b 本地分支名x origin/远程分支名x  
 git branch -d <branch_name> 删除非当前分支
 git branch -m oldBranchName newBranchName  分支重命名
+Git branch 查看分支
+
 
 git rm --cached readme1.txt 取消已经跟踪的文件
 
-git add filename
-git add .
-git status
-git fetch
-git pull
-git push
-gitk
+git add filename 添加z指定文件到git
+git add .  添加到git 管理/标记为待提交
+git commit -m "提交信息"
+git status 查看git 状态
+git fetch 
+git pull 更新代码
+git push 上传代码
+gitk 使用gitk界面查看git信息
 
 查看是否生成密匙 和查看密匙路径：
 cd ~/.ssh

@@ -1,6 +1,7 @@
 package com.test.util.accessibility.lib
 
 import android.os.SystemClock
+import com.test.util.box_obj.ObjectBox
 import com.test.util.utils.AppLog
 import io.objectbox.Box
 import org.redisson.Redisson

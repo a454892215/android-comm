@@ -1,6 +1,7 @@
 package com.test.util.box_obj
 
 import android.content.Context
+import com.test.util.MyObjectBox
 import io.objectbox.BoxStore
 // 单例
 object ObjectBox {
