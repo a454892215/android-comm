@@ -14,7 +14,7 @@
 /*
  * 根据java 的native类生成其 jni头文件的命令：因为.h头文件是根据.class类生成  所以命令中要指定 -classpath
  * javah -d E:\works\projects\PrivateProject\app\src\main\jni -classpath E:\works\projects\PrivateProject\app\build\intermediates\classes\debug com.lpan.mine.jnitest.HelloJni
-
+   点击AS工具栏的Build->Make Project,编译工程后： 可以在build->intermediates->cmake->debug->obj->下可以找到不同架构下的.so文件
  *c本地函数命名规则  Java_包名_类名_本地方法名
  *JNIEnv* env 是结构体JNINativeInterface 的二级指针
  *JNIEnv 是结构体JNINativeInterface 的一级指针
