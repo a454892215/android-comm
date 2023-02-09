@@ -15,6 +15,7 @@ import brut.androlib.ApkDecoder;
 
 /**
  * apk 反编译工具 看 skylot/jadx
+ * mac 命令行安装后 使用 jadx-gui 打开
  * https://github.com/skylot/jadx?spm=a2c6h.12873639.article-detail.6.16bd168cyIGCj9
  */
 @SuppressWarnings("unused")
