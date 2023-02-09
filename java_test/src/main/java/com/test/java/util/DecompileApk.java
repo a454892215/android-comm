@@ -13,6 +13,10 @@ import java.util.zip.ZipFile;
 
 import brut.androlib.ApkDecoder;
 
+/**
+ * apk 反编译工具 看 skylot/jadx
+ * https://github.com/skylot/jadx?spm=a2c6h.12873639.article-detail.6.16bd168cyIGCj9
+ */
 @SuppressWarnings("unused")
 public class DecompileApk {
 
