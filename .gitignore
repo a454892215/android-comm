@@ -23,3 +23,4 @@
 /app/hot_fix/classes
 /reference/keystore.jks
 /reference/keyStoreDir/
+/reference/keystore.jks.cache/
