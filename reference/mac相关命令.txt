@@ -1,0 +1,1 @@
+打开 finder command+shift+G  弹出窗口， 输入路径即可打开指定路径文件夹

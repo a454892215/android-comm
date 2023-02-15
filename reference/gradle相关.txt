@@ -1,0 +1,1 @@
+1. mac gradle默认目录： /Users/cg/.gradle/ （shift + command + . 显示隐藏目录）
