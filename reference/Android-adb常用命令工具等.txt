@@ -21,3 +21,5 @@ win: dl   269663
 当uiautomatorviewer Mac不能正常打开报异常，执行如下命令：
 adb shell am force-stop com.android.ddmlib
 scrcpy
+mac 打开monitor异常 执行：
+sudo ln -s /Library/Java/JavaVirtualMachines/jdk1.8.0_361.jdk/Contents/Home/jre/lib/server/libjvm.dylib /Library/Java/JavaVirtualMachines/jdk1.8.0_361.jdk/Contents/Home/lib/libserver.dylib
