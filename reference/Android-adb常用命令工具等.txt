@@ -20,3 +20,4 @@ win: dl   269663
 
 当uiautomatorviewer Mac不能正常打开报异常，执行如下命令：
 adb shell am force-stop com.android.ddmlib
+scrcpy
