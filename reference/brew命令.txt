@@ -1,0 +1,2 @@
+brew list 查看已经安装的软件
+brew list 软件名

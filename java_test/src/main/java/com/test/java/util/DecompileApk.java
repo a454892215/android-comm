@@ -13,6 +13,11 @@ import java.util.zip.ZipFile;
 
 import brut.androlib.ApkDecoder;
 
+/**
+ * apk 反编译工具 看 skylot/jadx
+ * mac 命令行安装后 使用 jadx-gui 打开
+ * https://github.com/skylot/jadx?spm=a2c6h.12873639.article-detail.6.16bd168cyIGCj9
+ */
 @SuppressWarnings("unused")
 public class DecompileApk {
 
@@ -20,21 +25,32 @@ public class DecompileApk {
     private static final String APK_PATH = "java_test/build/app.apk";
     //jd-gui.exe 路径
     private static final String JD_GUI_PATH = "reference/DecompileApk/2019_12_18/jd-gui.exe";
-
-    //反编译后的apk输出目录
-    private static final String APK_FILES_OUT_DIR_PATH = "java_test/build/apk";
-
+    //反编译后的apk输出路径
+    private static final String APK_FILES_OUT_DIR = "java_test/build/apkDir";
     //dex文件输出目录
     private static final String DEX_OUT_DIR_PATH = "java_test/build";
-
     //d2j-dex2jar.bat 文件路径
-    private static final String DEX2JAR_BAT_PATH = "reference\\DecompileApk\\2019_12_18\\dex-tools-2.1-20190905-lanchon\\d2j-dex2jar.bat";
-
+    private static final String DEX2JAR_BAT_PATH = "reference/DecompileApk/2019_12_18/dex-tools-2.1-20190905-lanchon/d2j-dex2jar.bat";
     //dex反编译成jar文件输出目录
     private static final String JAR_OUT_DIR_PATH = "java_test/build/jarOut";
 
-    public static void main(String[] args) {
+    static void checkFileExists(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            LogUtil.e("文件不存在：" + filePath);
+        }
+    }
 
+    static {
+        checkFileExists(APK_PATH);
+        checkFileExists(JD_GUI_PATH);
+        checkFileExists(APK_FILES_OUT_DIR);
+        checkFileExists(DEX_OUT_DIR_PATH);
+        checkFileExists(DEX2JAR_BAT_PATH);
+        checkFileExists(JAR_OUT_DIR_PATH);
+    }
+
+    public static void main(String[] args) {
         while (true) {
             LogUtil.d("请输入序号：1.反编译apk获取资源文件，2.反编译apk获取源码, 9.退出");
             Scanner scanner = new Scanner(System.in);
@@ -106,10 +122,10 @@ public class DecompileApk {
             File apkFile = new File(APK_PATH);
             ApkDecoder decoder = new ApkDecoder();
             decoder.setForceDelete(true);
-            decoder.setOutDir(new File(APK_FILES_OUT_DIR_PATH));
+            decoder.setOutDir(new File(APK_FILES_OUT_DIR));
             decoder.setApkFile(apkFile);
             decoder.decode();
-            CmdUtil.startCmd("explorer " + new File(APK_FILES_OUT_DIR_PATH).getAbsolutePath(), null);
+            CmdUtil.startCmd("explorer " + new File(APK_FILES_OUT_DIR).getAbsolutePath(), null);
         } catch (Exception e) {
             e.printStackTrace();
         }

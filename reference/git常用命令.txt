@@ -1,62 +1,71 @@
 git config --list 
 git log -10 --oneline
-git cherry-pick commitId °ÑÖ¸¶¨Ìá½» ºÏ²¢µ½µ±Ç°·ÖÖ§
+git cherry-pick commitId æŠŠæŒ‡å®šæäº¤ åˆå¹¶åˆ°å½“å‰åˆ†æ”¯
 
-git config  --global user.name ÄãµÄÄ¿±êÓÃ»§Ãû£»
-git config  --global user.email ÄãµÄÄ¿±êÓÊÏäÃû;
+git config  --global user.name ä½ çš„ç›®æ ‡ç”¨æˆ·åï¼›
+git config  --global user.email ä½ çš„ç›®æ ‡é‚®ç®±å;
 
-git remote set-url origin http://...git ÖØĞÂÉèÖÃÃûÎªorigin¶ÔÓ¦µÄÔ¶³Ì²Ö¿âurl
-git remote add Ôö¼ÓÔ¶³Ì²Ö¿âURL
-git remote -v ²é¿´Ô¶³ÌÅäÖÃ
-git remote rm paul ÒÆ³ıÔ¶³ÌµØÖ·
-git remote rename old_name new_name ÖØÃüÃûÔ¶³Ìurl
-git remote show origin ²é¿´Ö¸¶¨Ô¶³ÌurlÏêÇé
+git remote set-url origin http://...git é‡æ–°è®¾ç½®åä¸ºoriginå¯¹åº”çš„è¿œç¨‹ä»“åº“url
+git remote add å¢åŠ è¿œç¨‹ä»“åº“URL
+git remote -v æŸ¥çœ‹è¿œç¨‹é…ç½®
+git remote rm paul ç§»é™¤è¿œç¨‹åœ°å€
+git remote rename old_name new_name é‡å‘½åè¿œç¨‹url
+git remote show origin æŸ¥çœ‹æŒ‡å®šè¿œç¨‹urlè¯¦æƒ…
 
 
-git branch --set-upstream-to origin/caipiaov1.1 ¸øµ±Ç°±¾µØ·ÖÖ§Ö¸¶¨·şÎñÆ÷¸ú×Ù·ÖÖ§
-git branch -vv ²é¿´±¾µØ·ÖÖ§¸ú×ÙĞÅÏ¢
-git checkout -b ±¾µØ·ÖÖ§Ãûx origin/Ô¶³Ì·ÖÖ§Ãûx  
-git branch -d <branch_name> É¾³ı·Çµ±Ç°·ÖÖ§
-git branch -m oldBranchName newBranchName  ·ÖÖ§ÖØÃüÃû
+git branch --set-upstream-to origin/dev ç»™å½“å‰æœ¬åœ°åˆ†æ”¯æŒ‡å®šæœåŠ¡å™¨è·Ÿè¸ªåˆ†æ”¯
+git branch -vv æŸ¥çœ‹æœ¬åœ°åˆ†æ”¯è·Ÿè¸ªä¿¡æ¯
+Git checkout åˆ†æ”¯å åˆ‡æ¢åˆ°æŒ‡å®šåˆ†æ”¯
+git checkout -b æœ¬åœ°åˆ†æ”¯åx origin/è¿œç¨‹åˆ†æ”¯åx  
+git branch -d <branch_name> åˆ é™¤éå½“å‰åˆ†æ”¯
+git branch -m oldBranchName newBranchName  åˆ†æ”¯é‡å‘½å
+Git branch æŸ¥çœ‹åˆ†æ”¯
 
-git rm --cached readme1.txt È¡ÏûÒÑ¾­¸ú×ÙµÄÎÄ¼ş
 
-git add filename
-git add .
-git status
-git fetch
-git pull
-git push
-gitk
+git rm --cached readme1.txt å–æ¶ˆå·²ç»è·Ÿè¸ªçš„æ–‡ä»¶
 
-²é¿´ÊÇ·ñÉú³ÉÃÜ³× ºÍ²é¿´ÃÜ³×Â·¾¶£º
+git add filename æ·»åŠ zæŒ‡å®šæ–‡ä»¶åˆ°git
+git add .  æ·»åŠ åˆ°git ç®¡ç†/æ ‡è®°ä¸ºå¾…æäº¤
+git commit -m "æäº¤ä¿¡æ¯"
+git status æŸ¥çœ‹git çŠ¶æ€
+git fetch 
+git pull æ›´æ–°ä»£ç 
+git push ä¸Šä¼ ä»£ç 
+gitk ä½¿ç”¨gitkç•Œé¢æŸ¥çœ‹gitä¿¡æ¯
+
+æŸ¥çœ‹æ˜¯å¦ç”Ÿæˆå¯†åŒ™ å’ŒæŸ¥çœ‹å¯†åŒ™è·¯å¾„ï¼š
 cd ~/.ssh
 pwd
 
-win10 É¾³ıgitÕËºÅ£º½øÈë¿ØÖÆÃæ°å =>ÓÃ»§ÕË»§=>¹ÜÀíWindowsÆ¾¾İ
+win10 åˆ é™¤gitè´¦å·ï¼šè¿›å…¥æ§åˆ¶é¢æ¿ =>ç”¨æˆ·è´¦æˆ·=>ç®¡ç†Windowså‡­æ®
 
-//git log¸ñÊ½»¯ÅäÖÃ
+//git logæ ¼å¼åŒ–é…ç½®
 git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit  
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  
-git config --global gui.encoding utf-8  gitk ÂÒÂë½â¾ö
+git config --global gui.encoding utf-8  gitk ä¹±ç è§£å†³
 
-git log -1 --pretty=format:"%h-%ci-%s" //Ö¸¶¨log¸ñÊ½
+git log -1 --pretty=format:"%h-%ci-%s" //æŒ‡å®šlogæ ¼å¼
 
-git checkout branch1 -- filename °ÑÖ¸¶¨·ÖÖ§µÄÎÄ¼ş¿½±´µ½µ±Ç°·ÖÖ§
-git commit --amend  commit messageĞŞ¸Ä
+git checkout branch1 -- filename æŠŠæŒ‡å®šåˆ†æ”¯çš„æ–‡ä»¶æ‹·è´åˆ°å½“å‰åˆ†æ”¯
+git commit --amend  commit messageä¿®æ”¹
 
-git tag ²é¿´±¾µØ·ÖÖ§±êÇ©
-git ls-remote --tags ²é¿´Ô¶³ÌËùÓĞ±êÇ©
-git tag -a <°æ±¾ºÅ> -m "<±¸×¢ĞÅÏ¢>" ¸øµ±Ç°·ÖÖ§´ò±êÇ©
-git tag -d v1.0.0 É¾³ıÖ¸¶¨tag
-git push -d origin v1.0.0 É¾³ıÔ¶³ÌµÄÄ³¸ö±êÇ©
-git push origin --tags ½«±¾µØ±êÇ©Ò»´ÎĞÔÍÆËÍµ½Ô¶³Ì
-git push origin v1.0.0 ½«±¾µØÄ³¸öÌØ¶¨±êÇ©ÍÆËÍµ½Ô¶³Ì
-git show v1.0.0 ²é¿´Ä³Ò»¸ö±êÇ©µÄÌá½»ĞÅÏ¢
-git checkout -b branch_name tag_name Îªtag°æ±¾´úÂë´´½¨Ö¸¶¨·ÖÖ§
+git tag æŸ¥çœ‹æœ¬åœ°åˆ†æ”¯æ ‡ç­¾
+git ls-remote --tags æŸ¥çœ‹è¿œç¨‹æ‰€æœ‰æ ‡ç­¾
+git tag -a <ç‰ˆæœ¬å·> -m "<å¤‡æ³¨ä¿¡æ¯>" ç»™å½“å‰åˆ†æ”¯æ‰“æ ‡ç­¾
+git tag -d v1.0.0 åˆ é™¤æŒ‡å®štag
+git push -d origin v1.0.0 åˆ é™¤è¿œç¨‹çš„æŸä¸ªæ ‡ç­¾
+git push origin --tags å°†æœ¬åœ°æ ‡ç­¾ä¸€æ¬¡æ€§æ¨é€åˆ°è¿œç¨‹
+git push origin v1.0.0 å°†æœ¬åœ°æŸä¸ªç‰¹å®šæ ‡ç­¾æ¨é€åˆ°è¿œç¨‹
+git show v1.0.0 æŸ¥çœ‹æŸä¸€ä¸ªæ ‡ç­¾çš„æäº¤ä¿¡æ¯
+git checkout -b branch_name tag_name ä¸ºtagç‰ˆæœ¬ä»£ç åˆ›å»ºæŒ‡å®šåˆ†æ”¯
 
-git reset HEAD Èç¹ûºóÃæÊ²Ã´¶¼²»¸úµÄ»° ¾ÍÊÇÉÏÒ»´Îadd ÀïÃæµÄÈ«²¿³·ÏúÁË 
-git reset HEAD XXX/XXX/XXX.java ¾ÍÊÇ¶ÔÄ³¸öÎÄ¼ş½øĞĞ³·ÏúÁË
-git reset --hard commit_id     ÍËµ½/½øµ½ Ö¸¶¨commitµÄshaÂë
+git reset HEAD å¦‚æœåé¢ä»€ä¹ˆéƒ½ä¸è·Ÿçš„è¯ å°±æ˜¯ä¸Šä¸€æ¬¡add é‡Œé¢çš„å…¨éƒ¨æ’¤é”€äº† 
+git reset HEAD XXX/XXX/XXX.java å°±æ˜¯å¯¹æŸä¸ªæ–‡ä»¶è¿›è¡Œæ’¤é”€äº†
+git reset --hard commit_id     é€€åˆ°/è¿›åˆ° æŒ‡å®šcommitçš„shaç 
 
-git clean -fd É¾³ıÃ»ÓĞ¸ú×ÙµÄÎÄ¼şºÍÄ¿Â¼
+git clean -fd åˆ é™¤æ²¡æœ‰è·Ÿè¸ªçš„æ–‡ä»¶å’Œç›®å½•
+
+gitåˆ†æ”¯å¤ªå¤šäº†ï¼Œæ¸…ç†æ­¥éª¤ï¼š
+git remote update    åŒæ­¥è¿œç¨‹åˆ†æ”¯
+git remote prune origin --dry-run  æŸ¥çœ‹serverä¸Šå·²åˆ é™¤,æœ¬åœ°æ®‹ç•™çš„è¿œç«¯åˆ†æ”¯
+git remote prune origin    åˆ é™¤è¿œç¨‹å·²åˆ åˆ†æ”¯

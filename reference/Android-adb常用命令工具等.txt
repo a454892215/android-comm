@@ -16,3 +16,13 @@ gradlew compileDebug --stacktrace -debug
 gradlew compileDebug --stacktrace -info
 win: dl   269663
 
+adb shell uiautomator dump /sdcard/ui.xml
+adb -s 192.168.52.225:37255 shell uiautomator dump /sdcard/ui.xml 指定设备
+
+
+当uiautomatorviewer Mac不能正常打开报异常，执行如下命令：
+adb shell am force-stop com.android.ddmlib
+scrcpy
+mac 打开monitor异常 执行：
+sudo ln -s /Library/Java/JavaVirtualMachines/jdk1.8.0_361.jdk/Contents/Home/jre/lib/server/libjvm.dylib /Library/Java/JavaVirtualMachines/jdk1.8.0_361.jdk/Contents/Home/lib/libserver.dylib
+https://github.com/skylot/jadx  jadx-gui apk反编译神器

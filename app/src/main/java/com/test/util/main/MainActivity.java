@@ -95,7 +95,7 @@ public class MainActivity extends MyBaseActivity {
             //floatButtonTest(contentView);
 
             // openNotificationListenSettings();
-            String text = AssertsUtil.getText(this, "china_city.txt");
+            String text = AssertsUtil.getText( "china_city.txt");
             findViewById(R.id.btn_test).setOnClickListener(v -> LogUtil.d(text));
 
             startMonitor();

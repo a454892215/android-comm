@@ -138,6 +138,11 @@ android {
         }
     }
 
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/io.netty.versions.properties'
+    }
+
     applicationVariants.all { variant ->
         variant.outputs.all {
             def appInfo = "V" + variant.versionName + getAppInfo() + variant.name
@@ -203,7 +208,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
     //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-
+    implementation 'org.redisson:redisson:3.19.1'
     /*  tinker start  */
     if (isNeedTinker) {
         compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
@@ -213,6 +218,7 @@ dependencies {
 
     compile "androidx.multidex:multidex:2.0.1"
     implementation 'com.github.princekin-f:EasyFloat:1.3.4'
+    implementation "com.wireguard.android:tunnel:1.0.20211029"
     /*  tinker end  */
 }
 
