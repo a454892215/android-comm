@@ -17,6 +17,8 @@ gradlew compileDebug --stacktrace -info
 win: dl   269663
 
 adb shell uiautomator dump /sdcard/ui.xml
+adb -s 192.168.52.225:37255 shell uiautomator dump /sdcard/ui.xml 指定设备
+
 
 当uiautomatorviewer Mac不能正常打开报异常，执行如下命令：
 adb shell am force-stop com.android.ddmlib
