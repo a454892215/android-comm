@@ -7,7 +7,7 @@ println("common compileSdkVersion:" + "${app_info.compileSdkVersion}")
 println("common minSdkVersion:" + "${app_info.minSdkVersion}")
 println("common targetSdkVersion:" + "${app_info.targetSdkVersion}")
 android {
-    ndkVersion '21.0.6113669'
+  //  ndkVersion '21.0.6113669'
     compileSdkVersion app_info.compileSdkVersion
     defaultConfig {
         minSdkVersion app_info.minSdkVersion
@@ -16,10 +16,10 @@ android {
         versionName "1.0.0"
         flavorDimensions "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        ndk {
-           //  abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" //
-            abiFilters "armeabi-v7a", "arm64-v8a"
-        }
+//        ndk {
+//           //  abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" //
+//            abiFilters "armeabi-v7a", "arm64-v8a"
+//        }
 
     }
 
