@@ -50,7 +50,7 @@ uploadArchives {
         repository(url: uri('../repository'))
         pom.groupId = "com.common"// 唯一标识（通常为模块包名）
         pom.artifactId = "Common" // 项目名称
-        pom.version = "1.0.6-beta1"
+        pom.version = "1.0.6-beta3"
     }
 }
 
@@ -94,7 +94,7 @@ dependencies {
     // compile 'com.tencent.bugly:nativecrashreport:latest.release'
 
     api 'com.google.zxing:core:3.4.0'
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
+ //   debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
   //  api 'com.java_comm:java_comm:1.0.0'
 
