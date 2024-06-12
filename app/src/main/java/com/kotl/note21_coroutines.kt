@@ -243,6 +243,11 @@ private fun sample8() {
 
 }
 
+/**
+ * 不建议直接使用 GlobalScope，GlobalScope是一个单例，其生命周期与Android应用生命周期相同，
+ * 而且并未与Android生命周期组件(Activity、Service等进行关联)，其声明周期需要研发人员自己管理。
+  这里是协程一般使用方式:
+ */
 class DD {
     lateinit var scope: CoroutineScope
     fun init() {
