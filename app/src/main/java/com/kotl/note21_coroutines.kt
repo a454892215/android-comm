@@ -1,13 +1,16 @@
 package com.kotl
 
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-
 class note21 {
 
 }
@@ -18,7 +21,7 @@ class note21 {
 
 
 fun main() {
-    sample6()
+    sample8()
 }
 
 private fun sample0() {
@@ -119,7 +122,7 @@ private fun sample2() {
 
 }
 
-private fun sample3(){
+private fun sample3() {
     var num = 0;
     runBlocking {
         /**
@@ -140,7 +143,7 @@ private fun sample3(){
  * 随着业务的发展，launch 函数中的代码越来越复杂，需要将部分代码封装到一个函数中，但是这个函数是没有 launch 协程作用域的，怎么使用像 delay() 这样的挂起函数呢？
  *
  * 标记：suspend 只是一个标记，本身并不实现挂起功能，只是用来提醒开发者.  真正实现挂起的是 suspend 修饰的函数中的 delay 函数.
-   使用范围：suspend 只能再协程体或者其他挂起函数中调用.
+使用范围：suspend 只能再协程体或者其他挂起函数中调用.
  */
 suspend fun sample4() {
     println("suspend A 开始处理")
@@ -152,8 +155,8 @@ suspend fun sample4() {
 
 /**
  * coroutineScope 函数也是一个挂起函数，因此可以在其他挂起函数中调用.
-  他的主要特点是会继承外部协程的作用域并创建一个子协程，因此就可以给挂起函数提供协程作用域了，如下
-  另外 coroutineScope 函数可以保证其作用域内的所有代码和子协程在全部执行完之前，一直挂起外部协程
+他的主要特点是会继承外部协程的作用域并创建一个子协程，因此就可以给挂起函数提供协程作用域了，如下
+另外 coroutineScope 函数可以保证其作用域内的所有代码和子协程在全部执行完之前，一直挂起外部协程
  */
 suspend fun sample5() = coroutineScope {
     launch {
@@ -167,7 +170,7 @@ suspend fun sample5() = coroutineScope {
  * 看上去 coroutineScope 和 runBlocking 函数作用类似，但是 coroutineScope 函数只会阻塞当前协程，不影响其他协程，
  * 也不影响任何线程，因此不会造成性能上损失.  而 runBlocking 会挂起外部线程
  */
-fun sample6(){
+fun sample6() {
     runBlocking {
         //   coroutineScope 函数可以保证其作用域内的所有代码和子协程在全部执行完之前，一直挂起外部协程
         //  先执行完成coroutineScope代码 再执行下面协程
@@ -200,3 +203,83 @@ private suspend fun sample7() {
         println("Coroutine t name 2 ${Thread.currentThread().name}")
     }
 }
+
+/**
+ * GlobalScope.async 执行异步网络任务，返回结果更新UI界面。以下举例中，涉及到以下关键词和方法：
+
+async  会启动一个新的协程
+await 关键词：，可以使用一个名为 await 的关键词，等待耗时方法返回执行结果。
+
+ */
+private fun sample8() {
+    // GlobalScope.async 使用
+    GlobalScope.launch(Dispatchers.Default) {
+        // TODO 执行主线程任务
+        println("start 1 : ${Thread.currentThread().name}")
+        // 第一个异步网络请求
+        async{ // IO thread
+            // TODO IO线程 网络请求
+            // 返回值为String的Http同步网络请求
+            println("async Coroutine 1 t name a ${Thread.currentThread().name}")
+
+        }
+        // 第二个异步网络请求
+        async(Dispatchers.IO) { // IO thread
+            // TODO IO线程 网络请求
+            // 返回值为String的Http同步网络请求
+            println("async Coroutine 2 t name b ${Thread.currentThread().name}")
+
+        }.await()
+
+        // 待两个结果都返回后
+        // val resultData: String = ("${taobaoData.await()}" + baiduData.await())
+        // println("resultData:$resultData")
+        // 展示UI
+        //  textView?.text = resultData           // main thread
+    }
+    println("aaaa : ${Thread.currentThread().name}")
+    // 如果是 android 主线程会一直执行 所以不需要有下面的睡眠
+    Thread.sleep(1000L * 5) // 阻塞延迟1秒
+
+}
+
+class DD {
+    lateinit var scope: CoroutineScope
+    fun init() {
+        // 创建 CoroutineScope （用于管理CoroutineScope中的所有携程）
+        scope = CoroutineScope(Job() + Dispatchers.Main)
+    }
+
+    fun onDestroy() {
+        // 取消该 Scope 管理的所有协程。
+        scope.cancel()
+
+    }
+
+    private fun asyncCoroutine() {
+        // CoroutineScope 的 launch 方法
+        scope.launch(Dispatchers.Main) {
+            // TODO 执行主线程任务                 // main thread
+            // 第一个异步网络请求
+            val taobaoData = async(Dispatchers.IO) { // IO thread
+                // TODO IO线程 网络请求
+                // 返回值为String的Http同步网络请求
+                println("async a Coroutine t name a ${Thread.currentThread().name}")
+            }
+            // 第二个异步网络请求
+            val baiduData = async(Dispatchers.IO) { // IO thread
+                // TODO IO线程 网络请求
+                // 返回值为String的Http同步网络请求
+                println("async b Coroutine t name a ${Thread.currentThread().name}")
+            }
+          //  taobaoData.await()
+            // 待两个结果都返回后
+         //   val resultData: String = (taobaoData.await() + baiduData.await())
+
+            // 展示UI
+       //     textView?.text = resultData           // main thread
+        }
+    }
+
+}
+
