@@ -7,7 +7,7 @@ println("common compileSdkVersion:" + "${app_info.compileSdkVersion}")
 println("common minSdkVersion:" + "${app_info.minSdkVersion}")
 println("common targetSdkVersion:" + "${app_info.targetSdkVersion}")
 android {
-  //  ndkVersion '21.0.6113669'
+    ndkVersion '21.4.7075529'
     compileSdkVersion app_info.compileSdkVersion
     defaultConfig {
         minSdkVersion app_info.minSdkVersion
