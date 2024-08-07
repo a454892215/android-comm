@@ -212,9 +212,28 @@ public class ZJC {
             "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"};
 
     public static void main(String[] args) {
-        for (int i = 0; i < words.length; i++) {
-            String word = words[i];
-            LogUtil.d(i + "  => " + word);
+        for (int i = 0; i < words.length; i += 8) {
+            try {
+                String word = words[i];
+                String word1 = words[i + 1];
+                String word2 = words[i + 2];
+                String word3 = words[i + 3];
+                String word4 = words[i + 4];
+                String word5 = words[i + 5];
+                String word6 = words[i + 6];
+                String word7 = words[i + 7];
+                System.out.println(i + ":" + word
+                        + "  " + (i + 1) + ":" + word1
+                        + "  " + (i + 2) + ":" + word2
+                        + "  " + (i + 3) + ":" + word3
+                        + "  " + (i + 4) + ":" + word4
+                        + "  " + (i + 5) + ":" + word5
+                        + "  " + (i + 6) + ":" + word6
+                        + "  " + (i + 7) + ":" + word7
+                );
+            } catch (Exception e) {
+                LogUtil.e(e.toString());
+            }
         }
     }
 
