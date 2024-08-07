@@ -2,3 +2,6 @@ Ctrl+Alt+左键  代码跳到上次浏览的位置
 Ctrl+E 最近浏览的文件
 Ctrl+N 类搜索
 Ctrl+ Shift+F 全局搜索
+
+Mac Android studio Android Studio Flamingo | 2022.2.1 Patch 1 也变成了新版样式解决：
+点击file， 移除缓存和设置，重启后，会重新下载Android studio所需包，和进入偏好设置-OK

@@ -14,6 +14,7 @@ def app_info = rootProject.ext.app_info
 
 android {
     compileSdkVersion app_info.compileSdkVersion
+    ndkVersion '21.4.7075529'
     defaultConfig {
         applicationId "com.test.util2"
         minSdkVersion app_info.minSdkVersion
