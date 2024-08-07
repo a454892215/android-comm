@@ -9,7 +9,7 @@ public class ZJC {
     public static void main(String[] args) {
         System.out.println("单词数组是否不重复：" + areAllWordsUnique(words) + " size:" + words.length);
         System.out.println("汉字大全是否不重复：" + areAllCharactersUnique(TEXT) + " size:" + TEXT.length());
-        /// 建议输入10 - 258（作为初次乱序加密处理）。
+        /// 建议输入3 - 666（作为初次乱序加密处理）。
         /// 最终生成的汉字，再使用个人记在心里的数字序列，做最终乱序加密处理。
         words = reverseGroups(words, 257);
         for (int i = 0; i < words.length; i += 8) {
