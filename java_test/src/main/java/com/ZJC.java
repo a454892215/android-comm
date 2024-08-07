@@ -4,7 +4,7 @@ import com.test.java.util.LogUtil;
 
 public class ZJC {
 
-    private static final String[] words = {
+    private static String[] words = {
             "abandon", "ability", "able", "about", "above", "absent", "absorb", "abstract", "absurd", "abuse",
             "access", "accident", "account", "accuse", "achieve", "acid", "acoustic", "acquire", "across", "act",
             "action", "actor", "actress", "actual", "adapt", "add", "addict", "address", "adjust", "admit",
@@ -212,6 +212,7 @@ public class ZJC {
             "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"};
 
     public static void main(String[] args) {
+        words = reverseGroups(words, 256);
         for (int i = 0; i < words.length; i += 8) {
             try {
                 String word = words[i];
@@ -234,6 +235,37 @@ public class ZJC {
             } catch (Exception e) {
                 LogUtil.e(e.toString());
             }
+        }
+    }
+
+    public static String[] reverseGroups(String[] array, int numberOfGroups) {
+        int length = array.length;
+        int groupSize = (int) Math.ceil((double) length / numberOfGroups);
+
+        String[] result = new String[length];
+        int index = 0;
+
+        for (int i = 0; i < numberOfGroups; i++) {
+            int start = i * groupSize;
+            int end = Math.min(start + groupSize, length);
+
+            reverseSubarray(array, start, end - 1);
+
+            for (int j = start; j < end; j++) {
+                result[index++] = array[j];
+            }
+        }
+
+        return result;
+    }
+
+    private static void reverseSubarray(String[] array, int start, int end) {
+        while (start < end) {
+            String temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
         }
     }
 
