@@ -212,7 +212,7 @@ public class ZJC {
             "yellow", "you", "young", "youth", "zebra", "zero", "zone", "zoo"};
 
     public static void main(String[] args) {
-        words = reverseGroups(words, 256);
+        words = reverseGroups(words, 257);
         for (int i = 0; i < words.length; i += 8) {
             try {
                 String word = words[i];
@@ -234,10 +234,12 @@ public class ZJC {
                 );
             } catch (Exception e) {
                 LogUtil.e(e.toString());
+                break;
             }
         }
     }
 
+    // 把一个String数组内的所有元素，划分为N个组， 每组元素都逆序重排
     public static String[] reverseGroups(String[] array, int numberOfGroups) {
         int length = array.length;
         int groupSize = (int) Math.ceil((double) length / numberOfGroups);
