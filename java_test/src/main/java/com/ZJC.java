@@ -223,20 +223,32 @@ public class ZJC {
                 String word5 = words[i + 5];
                 String word6 = words[i + 6];
                 String word7 = words[i + 7];
-                System.out.println(i + ":" + word
-                        + "  " + (i + 1) + ":" + word1
-                        + "  " + (i + 2) + ":" + word2
-                        + "  " + (i + 3) + ":" + word3
-                        + "  " + (i + 4) + ":" + word4
-                        + "  " + (i + 5) + ":" + word5
-                        + "  " + (i + 6) + ":" + word6
-                        + "  " + (i + 7) + ":" + word7
+                System.out.println(format(i + ":" + word)
+                        + format("  " + (i + 1) + ":" + word1)
+                        + format("  " + (i + 2) + ":" + word2)
+                        + format("  " + (i + 3) + ":" + word3)
+                        + format("  " + (i + 4) + ":" + word4)
+                        + format("  " + (i + 5) + ":" + word5)
+                        + format("  " + (i + 6) + ":" + word6)
+                        + format("  " + (i + 7) + ":" + word7)
                 );
             } catch (Exception e) {
                 LogUtil.e(e.toString());
                 break;
             }
         }
+    }
+
+    /**
+     * 将输入字符串格式化为宽度为20的字符串，不足部分用空格填充
+     *
+     * @param text 要格式化的字符串
+     * @return 格式化后的字符串
+     */
+    public static String format(String text) {
+        int width = 16;
+        // 使用 String.format 方法进行格式化
+        return String.format("%-" + width + "s", text);
     }
 
     // 把一个String数组内的所有元素，划分为N个组， 每组元素都逆序重排
