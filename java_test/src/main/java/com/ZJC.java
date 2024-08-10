@@ -2,16 +2,20 @@ package com;
 
 import com.test.java.util.LogUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public class ZJC {
 
     public static void main(String[] args) {
+        TEXT = groupAndReverse(TEXT, 20);
         System.out.println("单词数组是否不重复：" + areAllWordsUnique(words) + " size:" + words.length);
         System.out.println("汉字大全是否不重复：" + areAllCharactersUnique(TEXT) + " size:" + TEXT.length());
         /// 建议输入3 - 666（作为初次乱序加密处理）。
         /// 最终生成的汉字，再使用个人记在心里的数字序列，做最终乱序加密处理。
-        words = reverseGroups(words, 257);
+        Arrays.sort(words);
         for (int i = 0; i < words.length; i += 8) {
             try {
                 String word = words[i];
@@ -77,39 +81,22 @@ public class ZJC {
         return String.format("%-" + width + "s", text);
     }
 
-    // 把一个String数组内的所有元素，划分为N个组， 每组元素都逆序重排
-    public static String[] reverseGroups(String[] array, int numberOfGroups) {
-        int length = array.length;
-        int groupSize = (int) Math.ceil((double) length / numberOfGroups);
+    public static String groupAndReverse(String str, int groupSize) {
+        StringBuilder result = new StringBuilder();
+        int len = str.length();
 
-        String[] result = new String[length];
-        int index = 0;
-
-        for (int i = 0; i < numberOfGroups; i++) {
-            int start = i * groupSize;
-            int end = Math.min(start + groupSize, length);
-
-            reverseSubarray(array, start, end - 1);
-
-            for (int j = start; j < end; j++) {
-                result[index++] = array[j];
-            }
+        for (int i = 0; i < len; i += groupSize) {
+            int end = Math.min(i + groupSize, len);
+            StringBuilder group = new StringBuilder(str.substring(i, end));
+            group.reverse();
+            result.append(group);
         }
 
-        return result;
+        return result.toString();
     }
 
-    private static void reverseSubarray(String[] array, int start, int end) {
-        while (start < end) {
-            String temp = array[start];
-            array[start] = array[end];
-            array[end] = temp;
-            start++;
-            end--;
-        }
-    }
 
-    private static final String TEXT = "阿啊哀唉挨矮爱碍安岸按案暗昂袄傲奥八巴扒吧疤拔把坝爸罢霸白百柏摆" +
+    private static String TEXT = "阿啊哀唉挨矮爱碍安岸按案暗昂袄傲奥八巴扒吧疤拔把坝爸罢霸白百柏摆" +
             "胀障招找召兆赵照罩遮占战站张章涨掌丈仗帐诊枕阵振镇震争征挣睁折哲者这浙贞针侦珍真汁芝枝知织肢脂蜘执侄筝蒸整正证郑政症之支指至志制帜治质秩致智直值职植殖止只旨址纸舟周洲粥" +
             "昌长肠尝偿常厂场敞畅倡唱抄钞超朝潮吵炒车扯彻撤尘臣沉辰陈晨闯衬称趁撑成呈承池匙尺齿耻斥赤翅充冲诚城乘惩程秤吃驰迟持臭出初除厨锄础储楚处虫崇抽仇绸愁稠筹酬丑" +
             "触畜川穿传船喘串疮窗床创吹炊垂锤春纯唇蠢聪丛凑粗促醋窜催摧脆词慈辞磁此次刺从匆葱大呆代带待怠贷袋逮戴翠村存寸错曾搭达答打蛋当挡党荡档刀叨导岛丹单担耽胆旦但诞弹淡" +
