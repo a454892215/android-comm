@@ -45,6 +45,7 @@ android {
     }
 }
 
+// ./gradlew common:uploadArchives
 uploadArchives {
     repositories.mavenDeployer {
         repository(url: uri('../repository'))
