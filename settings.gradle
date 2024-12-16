@@ -1,3 +1,4 @@
 include ':app'
 include  ':common', ':java_test', ':JPushExample'
 include ':hotfix_res_gen'
+include ':data_server'
