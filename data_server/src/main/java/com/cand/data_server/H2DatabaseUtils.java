@@ -2,28 +2,25 @@ package com.cand.data_server;
 import java.sql.*;
 import java.util.List;
 
+/**
+ 以下代码使用chatgpt生成：
+ 写一个 H2 Database 工具类， 具有的功能函数有
+ *    0. 连接到数据库
+ *    1. 判断指定名字的table是否存在
+ *    2. 创建指定名字的table
+ *    3. 向指定table插入一条数据或者多条数据
+ *    4. 从指定table，指定位置开始获取一条或者多条数据
+ *    5. 从指定table指定位置删除一条或者多条数据
+ */
 public class H2DatabaseUtils {
     private static final String JDBC_URL = "jdbc:h2:./local_data/candle01"; // 修改为你的数据库路径
     private static final String USERNAME = "sa";
     private static final String PASSWORD = "";
 
-    /**
-     * 连接到数据库
-     *
-     * @return Connection 数据库连接对象
-     * @throws SQLException SQL 异常
-     */
     public static Connection connect() throws SQLException {
         return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
     }
 
-    /**
-     * 判断指定名字的 table 是否存在
-     *
-     * @param tableName 表名
-     * @return 是否存在
-     * @throws SQLException SQL 异常
-     */
     public static boolean tableExists(String tableName) throws SQLException {
         String query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?";
         try (Connection connection = connect();
@@ -131,8 +128,7 @@ public class H2DatabaseUtils {
             // 4. 删除数据
             deleteData(tableName, "id = 1");
             System.out.println("Data deleted.");
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
