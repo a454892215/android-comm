@@ -1,4 +1,7 @@
 package com.cand.data_server;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.*;
 import java.util.List;
 
@@ -14,11 +17,22 @@ import java.util.List;
  */
 public class H2DatabaseUtils {
     private static final String JDBC_URL = "jdbc:h2:./local_data/candle01"; // 修改为你的数据库路径
-    private static final String USERNAME = "sa";
-    private static final String PASSWORD = "";
+
+
+    private static final HikariDataSource dataSource;
+
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(JDBC_URL); // 修改为你的数据库路径
+        config.setUsername("sa");
+        config.setPassword("");
+        config.setConnectionTimeout(3 * 1000); // 3秒
+        config.setMaximumPoolSize(10); // 最大连接数
+        dataSource = new HikariDataSource(config);
+    }
 
     public static Connection connect() throws SQLException {
-        return DriverManager.getConnection(JDBC_URL, USERNAME, PASSWORD);
+        return dataSource.getConnection();
     }
 
     public static boolean tableExists(String tableName) throws SQLException {
@@ -116,7 +130,7 @@ public class H2DatabaseUtils {
             }
 
             // 2. 插入数据
-            insertData(tableName, "id, name", List.of("(1, 'Alice')", "(2, 'Bob')"));
+            insertData(tableName, "id, name", List.of("(3, 'Alice')", "(4, 'Bob')"));
             System.out.println("Data inserted.");
 
             // 3. 获取数据

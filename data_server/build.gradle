@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.zaxxer:HikariCP:5.0.1'
 }
 
 tasks.withType(JavaCompile) {
