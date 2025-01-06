@@ -3,6 +3,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,16 +52,47 @@ public class H2DatabaseUtils {
 
     /**
      * 创建指定名字的 table
-     *
      * @param tableName 表名
      * @param schema    表结构 (如 "id INT PRIMARY KEY, name VARCHAR(255)")
      * @throws SQLException SQL 异常
+    CREATE TABLE tableName (
+    open_price DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
+    close_price DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
+    high_price DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
+    low_price DECIMAL(30, 20),    -- 最低价格，30位总精度，20位小数
+    volume DECIMAL(30, 10),       -- 成交量，30位总精度，10位小数（根据实际需求调整）
+    timestamp TIMESTAMP           -- 时间戳
+    );
+
      */
     public static void createTable(String tableName, String schema) throws SQLException {
         String createSQL = "CREATE TABLE IF NOT EXISTS " + tableName + " (" + schema + ")";
         try (Connection connection = connect();
              Statement statement = connection.createStatement()) {
             statement.execute(createSQL);
+        }
+    }
+
+    /**
+     open DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
+     close DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
+     high DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
+     low DECIMAL(30, 20),    -- 最低价格，30位总精度，20位小数
+     volume DECIMAL(30, 10),       -- 成交量，30位总精度，10位小数（根据实际需求调整）
+     timestamp TIMESTAMP           -- 时间戳
+     */
+    public static void createCandleTableByName(String tableName){
+        try {
+            String schema = "open DECIMAL(30, 20), " +
+                    "close DECIMAL(30, 20), " +
+                    "high DECIMAL(30, 20), " +
+                    "low DECIMAL(30, 20), " +
+                    "volume DECIMAL(30, 10), " +
+                    "timestamp TIMESTAMP";
+            createTable(tableName, schema);
+            System.out.println("创建表：" + tableName + "成功");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -122,26 +154,40 @@ public class H2DatabaseUtils {
         try {
             // 测试表名
             String tableName = "test_users";
-
             // 1. 创建表
             if (!tableExists(tableName)) {
-                createTable(tableName, "id INT PRIMARY KEY, name VARCHAR(255)");
-                System.out.println("Table created.");
+                createCandleTableByName(tableName);
             }
 
+            /*
+             open DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
+             close DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
+             high DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
+             low DECIMAL(30, 20),    -- 最低价格，30位总精度，20位小数
+             volume DECIMAL(30, 10),       -- 成交量，30位总精度，10位小数（根据实际需求调整）
+             timestamp TIMESTAMP           -- 时间戳
+             */
+
             // 2. 插入数据
-            insertData(tableName, "id, name", List.of("(3, 'Alice')", "(4, 'Bob')"));
-            System.out.println("Data inserted.");
+            String columns = "open, close, high, low, volume, timestamp";
+
+            // 构造符合 SQL 插入语法的值
+            String timestamp = "'2024-12-16 12:00:00'"; // 格式化的时间戳，需加单引号
+            String value = String.format("(1.22, 1.33, 1.88, 1.66, 888, %s)", timestamp);
+
+            // 调用插入函数
+            insertData(tableName, columns, Collections.singletonList(value));
+            System.out.println("插入数据结束");
 
             // 3. 获取数据
-            ResultSet resultSet = fetchData(tableName, "id, name", 0, 10);
+            ResultSet resultSet = fetchData(tableName, "open, close, high, low, volume, timestamp", 0, 10);
             while (resultSet.next()) {
-                System.out.println("ID: " + resultSet.getInt("id") + ", Name: " + resultSet.getString("name"));
+                System.out.println("获取数据； open: " + resultSet.getBigDecimal("open") + ", timestamp: " + resultSet.getTimestamp("timestamp"));
             }
 
             // 4. 删除数据
-            deleteData(tableName, "id = 1");
-            System.out.println("Data deleted.");
+           // deleteData(tableName, "id = 1");
+           // System.out.println("Data deleted.");
         } catch (Exception e) {
             e.printStackTrace();
         }
