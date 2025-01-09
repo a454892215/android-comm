@@ -3,7 +3,6 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -48,17 +47,13 @@ public class H2DatabaseUtils {
     }
 
     /**
-     open DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
-     close DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
-     high DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
-     low DECIMAL(30, 20),    -- 最低价格，30位总精度，20位小数
-     volume DECIMAL(30, 10),       -- 成交量，30位总精度，10位小数（根据实际需求调整）
-     timestamp TIMESTAMP           -- 时间戳
      */
-    public static void createCandleTableByName(String tableName){
+    public static void createCandleTableByClass(Class<?> tableClazz, String tableName){
         try {
-
-            System.out.println("创建表：" + tableName + "成功");
+            // 示例：生成表
+            H2TableGenerator.generateTable(CV.JDBC_URL, tableClazz, tableName);
+            // 示例：打印表结构
+            H2TableGenerator.printTableStructure(CV.JDBC_URL, tableName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,45 +114,5 @@ public class H2DatabaseUtils {
      * 测试工具类功能
      */
     public static void main(String[] args) {
-        try {
-            // 测试表名
-            String tableName = "test_users";
-            // 1. 创建表
-            if (!tableExists(tableName)) {
-                createCandleTableByName(tableName);
-            }
-
-            /*
-             open DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
-             close DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
-             high DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
-             low DECIMAL(30, 20),    -- 最低价格，30位总精度，20位小数
-             volume DECIMAL(30, 10),       -- 成交量，30位总精度，10位小数（根据实际需求调整）
-             timestamp TIMESTAMP           -- 时间戳
-             */
-
-            // 2. 插入数据
-            String columns = "open, close, high, low, volume, timestamp";
-
-            // 构造符合 SQL 插入语法的值
-            String timestamp = "'2024-12-16 12:00:00'"; // 格式化的时间戳，需加单引号
-            String value = String.format("(1.22, 1.33, 1.88, 1.66, 888, %s)", timestamp);
-
-            // 调用插入函数
-            insertData(tableName, columns, Collections.singletonList(value));
-            System.out.println("插入数据结束");
-
-            // 3. 获取数据
-            ResultSet resultSet = fetchData(tableName, "open, close, high, low, volume, timestamp", 0, 10);
-            while (resultSet.next()) {
-                System.out.println("获取数据； open: " + resultSet.getBigDecimal("open") + ", timestamp: " + resultSet.getTimestamp("timestamp"));
-            }
-
-            // 4. 删除数据
-           // deleteData(tableName, "id = 1");
-           // System.out.println("Data deleted.");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

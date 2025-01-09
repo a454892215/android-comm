@@ -1,16 +1,18 @@
 package com.cand.data_server;
 
+import org.h2.util.StringUtils;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class H2TableGenerator {
-
-
 
 
     /**
@@ -19,15 +21,14 @@ public class H2TableGenerator {
      * @param entityClass 实体类的Class对象
      * @throws Exception 如果出现反射或SQL异常
      */
-    public static void generateTable(String JDBC_URL, Class<?> entityClass) throws Exception {
+    public static void generateTable(String JDBC_URL, Class<?> entityClass, String tableName) throws Exception {
         // 检查是否有@Entity注解
         if (!entityClass.isAnnotationPresent(Entity.class)) {
             throw new IllegalArgumentException("Class " + entityClass.getName() + " is not an Entity.");
         }
 
-        // 获取表名
-        String tableName = entityClass.getSimpleName();
-        if (entityClass.isAnnotationPresent(Table.class)) {
+        // 重新获取表名
+        if (StringUtils.isNullOrEmpty(tableName) && entityClass.isAnnotationPresent(Table.class)) {
             Table tableAnnotation = entityClass.getAnnotation(Table.class);
             tableName = tableAnnotation.name();
         }
@@ -88,22 +89,31 @@ public class H2TableGenerator {
         }
     }
 
+    public static void printTableStructure(String JDBC_URL, String tableName) throws Exception {
+        String query = "SHOW COLUMNS FROM " + tableName; // H2 数据库使用这个语法
+        try (Connection connection = DriverManager.getConnection(JDBC_URL, CV.USER, CV.PASSWORD);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+
+            System.out.println("Structure of table: " + tableName);
+            System.out.println("-----------------------------------");
+            while (resultSet.next()) {
+                String columnName = resultSet.getString("FIELD");  // 列名
+                String columnType = resultSet.getString("TYPE");   // 列类型
+                String isNullable = resultSet.getString("NULL");  // 是否允许 NULL
+                String key = resultSet.getString("KEY");          // 主键或索引信息
+                System.out.printf("Column: %-15s Type: %-15s Nullable: %-10s Key: %-10s\n",
+                        columnName, columnType, isNullable, key);
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
+        String tableName = "example_table";
         // 示例：生成表
-        generateTable(CV.JDBC_URL, ExampleEntity.class);
+        generateTable(CV.JDBC_URL, ExampleEntity.class, tableName);
+        // 示例：打印表结构
+        printTableStructure(CV.JDBC_URL, tableName);
     }
 }
 
-// 示例实体类
-@Entity
-@Table(name = "example_table")
-class ExampleEntity {
-    @Column(name = "id", nullable = false)
-    private int id;
-
-    @Column(name = "name", nullable = false)
-    private String name;
-
-    @Column(name = "age")
-    private int age;
-}
