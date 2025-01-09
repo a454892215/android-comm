@@ -12,6 +12,9 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.test.util.R;
 
 import java.util.ArrayList;
@@ -49,11 +52,30 @@ public class CoinFragment01 extends BaseFragment {
         CandleData data = new CandleData(dataSet);
         chart.setData(data);
 
+
+        // 添加点击事件监听
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+            @Override
+            public void onValueSelected(Entry e, Highlight h) {
+                if (e.getData() != null) {
+                    // 获取附加数据中的日期信息
+                    String date = (String) e.getData();
+                    ToastUtil.showShort("日期: " + date); // 显示日期
+                }
+            }
+
+            @Override
+            public void onNothingSelected() {
+                // 未选中任何值时触发
+            }
+        });
+
         // 配置图表
         configureChart(chart);
 
         // 刷新图表
         chart.invalidate();
+        chart.moveViewToX(entries.size() - 1); // 移动到最后一个数据点
     }
 
     private void configureChart(CandleStickChart chart) {
@@ -88,7 +110,9 @@ public class CoinFragment01 extends BaseFragment {
             float low = (float) (Math.random() * 100 + 100);  // 低点
             float open = (float) (Math.random() * (high - low) + low); // 开盘价
             float close = (float) (Math.random() * (high - low) + low); // 收盘价
-            entries.add(new CandleEntry(i, high, low, open, close));
+
+            String date = "2023-01-" + (i + 1); // 模拟日期
+            entries.add(new CandleEntry(i, high, low, open, close, date));
         }
         return entries;
     }
