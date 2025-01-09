@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation 'javax.persistence:javax.persistence-api:2.2' // 旧版本的 JPA 规范
 }
 
 tasks.withType(JavaCompile) {

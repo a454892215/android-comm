@@ -17,14 +17,11 @@ import java.util.List;
  *    5. 从指定table指定位置删除一条或者多条数据
  */
 public class H2DatabaseUtils {
-    private static final String JDBC_URL = "jdbc:h2:./local_data/candle01"; // 修改为你的数据库路径
-
-
     private static final HikariDataSource dataSource;
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(JDBC_URL); // 修改为你的数据库路径
+        config.setJdbcUrl(CV.JDBC_URL); // 修改为你的数据库路径
         config.setUsername("sa");
         config.setPassword("");
         config.setConnectionTimeout(3 * 1000); // 3秒
@@ -51,29 +48,6 @@ public class H2DatabaseUtils {
     }
 
     /**
-     * 创建指定名字的 table
-     * @param tableName 表名
-     * @param schema    表结构 (如 "id INT PRIMARY KEY, name VARCHAR(255)")
-     * @throws SQLException SQL 异常
-    CREATE TABLE tableName (
-    open_price DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
-    close_price DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
-    high_price DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
-    low_price DECIMAL(30, 20),    -- 最低价格，30位总精度，20位小数
-    volume DECIMAL(30, 10),       -- 成交量，30位总精度，10位小数（根据实际需求调整）
-    timestamp TIMESTAMP           -- 时间戳
-    );
-
-     */
-    public static void createTable(String tableName, String schema) throws SQLException {
-        String createSQL = "CREATE TABLE IF NOT EXISTS " + tableName + " (" + schema + ")";
-        try (Connection connection = connect();
-             Statement statement = connection.createStatement()) {
-            statement.execute(createSQL);
-        }
-    }
-
-    /**
      open DECIMAL(30, 20),   -- 开盘价格，30位总精度，20位小数
      close DECIMAL(30, 20),  -- 关盘价格，30位总精度，20位小数
      high DECIMAL(30, 20),   -- 最高价格，30位总精度，20位小数
@@ -83,15 +57,9 @@ public class H2DatabaseUtils {
      */
     public static void createCandleTableByName(String tableName){
         try {
-            String schema = "open DECIMAL(30, 20), " +
-                    "close DECIMAL(30, 20), " +
-                    "high DECIMAL(30, 20), " +
-                    "low DECIMAL(30, 20), " +
-                    "volume DECIMAL(30, 10), " +
-                    "timestamp TIMESTAMP";
-            createTable(tableName, schema);
+
             System.out.println("创建表：" + tableName + "成功");
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
