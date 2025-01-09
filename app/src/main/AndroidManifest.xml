@@ -39,7 +39,7 @@
         </activity>
 
         <activity
-            android:name=".custom_view.CustomViewTestActivity"
+            android:name=".candle.CandleActivity"
             android:configChanges="screenSize|keyboardHidden|orientation" />
 
         <activity
