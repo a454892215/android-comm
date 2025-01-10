@@ -1,4 +1,4 @@
-package com.cand.data_server;
+package com.cand.data_base;
 
 public class CV {
     public static final String USER = "sa";                // 用户名

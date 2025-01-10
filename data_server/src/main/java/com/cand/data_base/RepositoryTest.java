@@ -1,7 +1,7 @@
-package com.cand.data_server;
+package com.cand.data_base;
 
-import static com.cand.data_server.H2TableGenerator.generateTable;
-import static com.cand.data_server.H2TableGenerator.printTableStructure;
+import static com.cand.data_base.H2TableGenerator.generateTable;
+import static com.cand.data_base.H2TableGenerator.printTableStructure;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package com.cand.data_server;
+package com.cand.data_base;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
