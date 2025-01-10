@@ -1,5 +1,6 @@
 package com.cand.data_base;
 
+import com.util.LogUtil;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 

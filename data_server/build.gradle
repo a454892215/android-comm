@@ -7,6 +7,10 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:5.0.1'
     implementation 'javax.persistence:javax.persistence-api:2.2' // 旧版本的 JPA 规范
     implementation 'ch.qos.logback:logback-classic:1.2.6'  // 根据需要选择版本
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.4.1'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.4.1'
 }
 
 tasks.withType(JavaCompile) {
