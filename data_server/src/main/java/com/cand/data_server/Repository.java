@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @SuppressWarnings("unused")
-public class GenericRepository {
+public class Repository {
     private final Connection connection;
 
-    public GenericRepository(Connection connection) {
+    public Repository(Connection connection) {
         this.connection = connection;
     }
 

@@ -5,76 +5,33 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+/**
+ * 因为这是很多币的通用表， 不同的币表名不一样，所以表名不能使用@Table注解写死，需要自行定义
+ */
 @Entity
-@Table(name = "candle")
+@Table(name = "test")
 public class CandleEntity {
+    public CandleEntity() {
+        // 无参构造函数，JPA要求
+    }
 
     @Id
     @Column(name = "date", nullable = false, updatable = false)
-    private LocalDateTime date; // 使用日期作为主键
+    public LocalDateTime timestamp; // 使用日期作为主键
 
     @Column(name = "close", nullable = false, precision = 36, scale = 16)
-    private BigDecimal close;
+    public BigDecimal close;
 
     @Column(name = "open", nullable = false, precision = 36, scale = 16)
-    private BigDecimal open;
+    public BigDecimal open;
 
-    @Column(name = "max", nullable = false, precision = 36, scale = 16)
-    private BigDecimal max;
+    @Column(name = "high", nullable = false, precision = 36, scale = 16)
+    public BigDecimal high;
 
-    @Column(name = "min", nullable = false, precision = 36, scale = 16)
-    private BigDecimal min;
+    @Column(name = "low", nullable = false, precision = 36, scale = 16)
+    public BigDecimal low;
+
     @Column(name = "volume", nullable = false, precision = 22, scale = 2)
-    private BigDecimal volume;
-
-    // Getters and Setters
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public BigDecimal getClose() {
-        return close;
-    }
-
-    public void setClose(BigDecimal close) {
-        this.close = close;
-    }
-
-    public BigDecimal getOpen() {
-        return open;
-    }
-
-    public void setOpen(BigDecimal open) {
-        this.open = open;
-    }
-
-    public BigDecimal getMax() {
-        return max;
-    }
-
-    public void setMax(BigDecimal max) {
-        this.max = max;
-    }
-
-    public BigDecimal getMin() {
-        return min;
-    }
-
-    public void setMin(BigDecimal min) {
-        this.min = min;
-    }
-
-
-    public BigDecimal getVolume() {
-        return volume;
-    }
-
-    public void setVolume(BigDecimal volume) {
-        this.volume = volume;
-    }
+    public BigDecimal volume;
 
 }
