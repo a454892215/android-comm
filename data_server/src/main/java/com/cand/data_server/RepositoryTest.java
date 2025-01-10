@@ -40,6 +40,11 @@ public class RepositoryTest {
         for (int i = 0; i < list.size(); i++) {
             System.out.println(i + "   " + list.get(i));
         }
+        System.out.println("开始范围获取数据库数据...");
+        List<CandleEntity> list2 = repository.findDataInRange(CandleEntity.class, tableName, 2, 4);
+        for (int i = 0; i < list2.size(); i++) {
+            System.out.println(i + "   " + list2.get(i));
+        }
 
         System.out.println("获取数据库数据完毕...");
     }

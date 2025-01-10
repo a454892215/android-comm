@@ -75,10 +75,8 @@ public class Repository {
         return -1;
     }
 
-
-
     // 查询所有实体
-// 查询所有实体，支持返回最近的 size 条数据
+    // 查询所有实体，支持返回最近的 size 条数据
     public <T> List<T> findAllEntities(Class<T> clazz, String tableName, int size) throws SQLException {
         // 添加 LIMIT 子句来限制返回的记录数
         String sql = "SELECT * FROM " + tableName + " ORDER BY timestamp DESC LIMIT ?";
@@ -95,6 +93,33 @@ public class Repository {
             throw new SQLException("Error executing query: " + sql, e);
         }
     }
+
+    public <T> List<T> findDataInRange(Class<T> clazz, String tableName, int start, int end) throws SQLException {
+        // 检查 start 和 end 是否合理
+        if (start < 0 || end <= start) {
+            throw new IllegalArgumentException("Invalid range: start must be >= 0 and end must be greater than start.");
+        }
+
+        // 计算 LIMIT 和 OFFSET 的值
+        int size = end - start;  // 数据范围的大小，包含 start 但不包含 end
+        String sql = "SELECT * FROM " + tableName + " LIMIT ? OFFSET ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, size);   // 设置 LIMIT 参数
+            ps.setInt(2, start);  // 设置 OFFSET 参数
+
+            try (ResultSet rs = ps.executeQuery()) {
+                List<T> entities = new ArrayList<>();
+                while (rs.next()) {
+                    entities.add(mapResultSetToEntity(rs, clazz));
+                }
+                return entities;
+            }
+        } catch (SQLException e) {
+            throw new SQLException("Error executing query: " + sql, e);
+        }
+    }
+
 
 
     private <T> T mapResultSetToEntity(ResultSet rs, Class<T> clazz) throws SQLException {
