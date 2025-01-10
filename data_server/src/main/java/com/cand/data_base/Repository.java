@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -74,6 +75,72 @@ public class Repository {
         }
         return -1;
     }
+
+    public <T> int batchInsertEntities(List<T> entities, String tableName) throws Exception {
+        if (entities == null || entities.isEmpty()) {
+            return 0; // 如果实体列表为空，直接返回
+        }
+
+        Class<?> clazz = entities.get(0).getClass();
+        StringBuilder columns = new StringBuilder();
+        StringBuilder placeholders = new StringBuilder();
+        boolean isFirstField = true;
+
+        // 获取字段映射
+        Field[] fields = clazz.getDeclaredFields();
+        List<Field> entityFields = new ArrayList<>();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            Column column = field.getAnnotation(Column.class);
+            if (column != null && field.getAnnotation(Id.class) == null) {
+                if (!isFirstField) {
+                    columns.append(", ");
+                    placeholders.append(", ");
+                }
+                columns.append(column.name());
+                placeholders.append("?");
+                entityFields.add(field);
+                isFirstField = false;
+            }
+        }
+
+        // 构建SQL模板
+        String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
+        System.out.println("执行的SQL模板: " + sql);
+
+        // 执行批量插入
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            int batchSize = 5000; // 批次大小，适当调整以平衡性能与内存消耗
+            int totalInserted = 0;
+            int batchCount = 0;
+
+            for (T entity : entities) {
+                // 设置参数
+                int paramIndex = 1;
+                for (Field field : entityFields) {
+                    Object fieldValue = field.get(entity);
+                    if (fieldValue instanceof LocalDateTime) {
+                        fieldValue = Timestamp.valueOf((LocalDateTime) fieldValue);
+                    }
+                    ps.setObject(paramIndex++, fieldValue);
+                }
+                ps.addBatch();
+                batchCount++;
+
+                // 达到批次大小或是最后一批时，执行批量插入
+                if (batchCount % batchSize == 0 || batchCount == entities.size()) {
+                    int[] batchResult = ps.executeBatch();
+                    totalInserted += Arrays.stream(batchResult).sum(); // 累加插入结果
+                    ps.clearBatch(); // 清空批处理队列
+                }
+            }
+
+            return totalInserted; // 返回总插入记录数
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 
     // 查询所有实体
     // 查询所有实体，支持返回最近的 size 条数据
