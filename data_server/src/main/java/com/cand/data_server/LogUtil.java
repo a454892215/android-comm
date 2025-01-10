@@ -1,6 +1,4 @@
-package com.test.java.util;
-
-import java.util.List;
+package com.cand.data_server;
 
 /**
  * Author: Pan
@@ -10,7 +8,7 @@ import java.util.List;
 public class LogUtil {
 
     public static void d(String text) {
-        System.out.println(getLineNum() + text);
+        System.out.println(text + getLineNum());
     }
 
     public static void e(String text) {
@@ -19,6 +17,7 @@ public class LogUtil {
 
     private static String getLineNum() {
         StackTraceElement ste = new Throwable().getStackTrace()[2];
-        return "(" + ste.getFileName() + ":" + ste.getLineNumber() + ") ";
+
+        return ste.getClassName() + "(" + ste.getFileName() + ":" + ste.getLineNumber() + ") ";
     }
 }

@@ -1,19 +1,14 @@
 package com.cand.data_server;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.*;
-import java.util.List;
 
 /**
- 以下代码使用chatgpt生成：
- 写一个 H2 Database 工具类， 具有的功能函数有
- *    0. 连接到数据库
- *    1. 判断指定名字的table是否存在
- *    2. 创建指定名字的table
- *    3. 向指定table插入一条数据或者多条数据
- *    4. 从指定table，指定位置开始获取一条或者多条数据
- *    5. 从指定table指定位置删除一条或者多条数据
+ * 写一个 H2 Database 工具类， 具有的功能函数有
+ * 0. 连接到数据库
+ * 1. 判断指定名字的table是否存在
  */
 public class H2DatabaseUtils {
     private static final HikariDataSource dataSource;
@@ -32,7 +27,7 @@ public class H2DatabaseUtils {
         return dataSource.getConnection();
     }
 
-    public static boolean tableExists(String tableName) throws SQLException {
+    public static boolean exists(String tableName) throws SQLException {
         String query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?";
         try (Connection connection = connect();
              PreparedStatement statement = connection.prepareStatement(query)) {
@@ -46,73 +41,18 @@ public class H2DatabaseUtils {
         return false;
     }
 
-    /**
-     */
-    public static void createCandleTableByClass(Class<?> tableClazz, String tableName){
-        try {
-            // 示例：生成表
-            H2TableGenerator.generateTable(CV.JDBC_URL, tableClazz, tableName);
-            // 示例：打印表结构
-            H2TableGenerator.printTableStructure(CV.JDBC_URL, tableName);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+    public static void generateTable(String JDBC_URL, Class<?> entityClass, String tableName) throws Exception {
+        if(exists(tableName)){
+         LogUtil.d(tableName + "表，在数据库已经存在");
+        }else{
+            H2TableGenerator.generateTable(JDBC_URL, entityClass, tableName);
+            H2TableGenerator.printTableStructure(JDBC_URL, tableName);
         }
+
     }
 
-    /**
-     * 向指定 table 插入一条或多条数据
-     *
-     * @param tableName 表名
-     * @param columns   列名 (如 "id, name")
-     * @param values    值的集合 (如 "(1, 'Alice')", "(2, 'Bob')")
-     * @throws SQLException SQL 异常
-     */
-    public static void insertData(String tableName, String columns, List<String> values) throws SQLException {
-        String insertSQL = "INSERT INTO " + tableName + " (" + columns + ") VALUES ";
-        insertSQL += String.join(", ", values);
-        try (Connection connection = connect();
-             Statement statement = connection.createStatement()) {
-            statement.execute(insertSQL);
-        }
-    }
-
-    /**
-     * 从指定 table 获取一条或多条数据
-     *
-     * @param tableName 表名
-     * @param columns   要获取的列 (如 "id, name")
-     * @param offset    起始位置
-     * @param limit     获取的数量
-     * @return 结果集
-     * @throws SQLException SQL 异常
-     */
-    public static ResultSet fetchData(String tableName, String columns, int offset, int limit) throws SQLException {
-        String query = "SELECT " + columns + " FROM " + tableName + " LIMIT ? OFFSET ?";
-        Connection connection = connect();
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setInt(1, limit);
-        statement.setInt(2, offset);
-        return statement.executeQuery();
-    }
-
-    /**
-     * 从指定 table 删除一条或多条数据
-     *
-     * @param tableName 表名
-     * @param condition 删除条件 (如 "id = 1")
-     * @throws SQLException SQL 异常
-     */
-    public static void deleteData(String tableName, String condition) throws SQLException {
-        String deleteSQL = "DELETE FROM " + tableName + " WHERE " + condition;
-        try (Connection connection = connect();
-             Statement statement = connection.createStatement()) {
-            statement.execute(deleteSQL);
-        }
-    }
-
-    /**
-     * 测试工具类功能
-     */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Throwable {
+        generateTable(CV.JDBC_URL, CandleEntity.class, "test_table");
     }
 }
