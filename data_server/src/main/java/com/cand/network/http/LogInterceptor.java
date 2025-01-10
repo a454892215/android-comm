@@ -1,4 +1,4 @@
-package com.network.http;
+package com.cand.network.http;
 
 import org.jetbrains.annotations.NotNull;
 

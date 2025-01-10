@@ -1,4 +1,4 @@
-package com.data_center;
+package com.cand.data_center;
 
 import com.cand.data_base.CandleEntity;
 

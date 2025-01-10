@@ -1,6 +1,6 @@
-package com.network.http;
+package com.cand.network.http;
 
-import com.util.LogUtil;
+import com.cand.util.LogUtil;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
