@@ -30,7 +30,6 @@ public class Repository {
         for (Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             Column column = field.getAnnotation(Column.class);
-
             if (column != null) {
                 try {
                     // 忽略主键字段 (如CandleEntity的timestamp)
@@ -69,28 +68,34 @@ public class Repository {
                 ps.setObject(i + 1, values.get(i));
             }
             return ps.executeUpdate();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             // 捕获SQL异常，抛出给调用者
-            throw new SQLException("Error executing insert query: " + sql, e);
+            e.printStackTrace();
         }
+        return -1;
     }
 
 
 
     // 查询所有实体
-    public <T> List<T> findAllEntities(Class<T> clazz, String tableName) throws SQLException {
-        String sql = "SELECT * FROM " + tableName;
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            List<T> entities = new ArrayList<>();
-            while (rs.next()) {
-                entities.add(mapResultSetToEntity(rs, clazz));
+// 查询所有实体，支持返回最近的 size 条数据
+    public <T> List<T> findAllEntities(Class<T> clazz, String tableName, int size) throws SQLException {
+        // 添加 LIMIT 子句来限制返回的记录数
+        String sql = "SELECT * FROM " + tableName + " ORDER BY timestamp DESC LIMIT ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, size); // 设置 LIMIT 参数
+            try (ResultSet rs = ps.executeQuery()) {
+                List<T> entities = new ArrayList<>();
+                while (rs.next()) {
+                    entities.add(mapResultSetToEntity(rs, clazz));
+                }
+                return entities;
             }
-            return entities;
         } catch (SQLException e) {
             throw new SQLException("Error executing query: " + sql, e);
         }
     }
+
 
     private <T> T mapResultSetToEntity(ResultSet rs, Class<T> clazz) throws SQLException {
         try {

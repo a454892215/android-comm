@@ -64,7 +64,7 @@ public class CandleEntity {
     }
 
     public void setClose(BigDecimal close) {
-        this.close = close.stripTrailingZeros();
+        this.close = close;
     }
 
     public BigDecimal getOpen() {
@@ -72,7 +72,7 @@ public class CandleEntity {
     }
 
     public void setOpen(BigDecimal open) {
-        this.open = open.stripTrailingZeros();
+        this.open = open;
     }
 
     public BigDecimal getHigh() {
@@ -80,7 +80,7 @@ public class CandleEntity {
     }
 
     public void setHigh(BigDecimal high) {
-        this.high = high.stripTrailingZeros();
+        this.high = high;
     }
 
     public BigDecimal getLow() {
@@ -88,7 +88,7 @@ public class CandleEntity {
     }
 
     public void setLow(BigDecimal low) {
-        this.low = low.stripTrailingZeros();
+        this.low = low;
     }
 
     public BigDecimal getVolume() {
@@ -96,7 +96,7 @@ public class CandleEntity {
     }
 
     public void setVolume(BigDecimal volume) {
-        this.volume = volume.stripTrailingZeros();
+        this.volume = volume;
     }
 
     @Override

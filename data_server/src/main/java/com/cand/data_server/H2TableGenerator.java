@@ -48,6 +48,11 @@ public class H2TableGenerator {
 
                 if (field.isAnnotationPresent(Id.class)) {
                     primaryKey = columnName; // 记录主键字段名
+                    // 如果主键的生成策略是 IDENTITY，添加自增关键字
+                    GeneratedValue generatedValue = field.getAnnotation(GeneratedValue.class);
+                    if (generatedValue != null && generatedValue.strategy() == GenerationType.IDENTITY) {
+                        createTableSQL.append(" AUTO_INCREMENT");
+                    }
                 }
 
                 createTableSQL.append(", ");
