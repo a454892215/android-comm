@@ -4,10 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("unused")
 public class Repository {
@@ -23,115 +24,61 @@ public class Repository {
         List<Object> values = new ArrayList<>();
         StringBuilder columns = new StringBuilder();
         StringBuilder placeholders = new StringBuilder();
+        boolean isFirstField = true;
 
+        // 遍历所有字段
         for (Field field : clazz.getDeclaredFields()) {
+            field.setAccessible(true);
             Column column = field.getAnnotation(Column.class);
+
             if (column != null) {
-                field.setAccessible(true);
                 try {
-                    columns.append(column.name()).append(", ");
-                    placeholders.append("?, ");
-                    values.add(field.get(entity));
+                    // 忽略主键字段 (如CandleEntity的timestamp)
+                    if (field.getAnnotation(Id.class) == null) {
+                        if (!isFirstField) {
+                            columns.append(", ");
+                            placeholders.append(", ");
+                        }
+                        columns.append(column.name());
+                        placeholders.append("?");
+
+                        // 获取字段值并处理 LocalDateTime
+                        Object fieldValue = field.get(entity);
+
+                        // 特殊处理 LocalDateTime 类型字段
+                        if (fieldValue instanceof LocalDateTime) {
+                            fieldValue = Timestamp.valueOf((LocalDateTime) fieldValue);
+                        }
+
+                        values.add(fieldValue);
+                        isFirstField = false;
+                    }
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    // 更好的错误处理
+                    throw new SQLException("Error accessing field: " + field.getName(), e);
                 }
             }
         }
 
-        // 去掉最后的 ", "
-        columns.setLength(columns.length() - 2);
-        placeholders.setLength(placeholders.length() - 2);
-
+        // 构建SQL语句
         String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
-
+        System.out.println("执行的sql:" + sql);
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            // 设置参数
             for (int i = 0; i < values.size(); i++) {
                 ps.setObject(i + 1, values.get(i));
             }
             return ps.executeUpdate();
+        } catch (SQLException e) {
+            // 捕获SQL异常，抛出给调用者
+            throw new SQLException("Error executing insert query: " + sql, e);
         }
     }
 
-    // 插入多个实体
-    public <T> int[] insertEntities(List<T> entities) throws SQLException {
-        if (entities.isEmpty()) return new int[0];
 
-        T firstEntity = entities.get(0);
-        Class<?> clazz = firstEntity.getClass();
-        String tableName = clazz.getSimpleName().toLowerCase(); // 使用类名作为表名
-        List<Object[]> batchArgs = new ArrayList<>();
-        List<String> columns = new ArrayList<>();
-        StringBuilder placeholders = new StringBuilder();
-
-        // 获取字段名
-        for (Field field : clazz.getDeclaredFields()) {
-            Column column = field.getAnnotation(Column.class);
-            if (column != null) {
-                columns.add(column.name());
-                placeholders.append("?, ");
-            }
-        }
-
-        // 去掉最后的 ", "
-        placeholders.setLength(placeholders.length() - 2);
-
-        String sql = "INSERT INTO " + tableName + " (" + String.join(", ", columns) + ") VALUES (" + placeholders + ")";
-
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            for (T entity : entities) {
-                List<Object> values = new ArrayList<>();
-                for (Field field : clazz.getDeclaredFields()) {
-                    Column column = field.getAnnotation(Column.class);
-                    if (column != null) {
-                        field.setAccessible(true);
-                        try {
-                            values.add(field.get(entity));
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                for (int i = 0; i < values.size(); i++) {
-                    ps.setObject(i + 1, values.get(i));
-                }
-                ps.addBatch();
-            }
-            return ps.executeBatch();
-        }
-    }
-
-    // 根据ID查询实体
-    public <T> Optional<T> findEntityById(Class<T> clazz, Object id) throws SQLException {
-        String tableName = clazz.getSimpleName().toLowerCase();
-        String idColumn = null;
-
-        for (Field field : clazz.getDeclaredFields()) {
-            if (field.isAnnotationPresent(Id.class)) {
-                idColumn = field.getAnnotation(Column.class).name();
-                break;
-            }
-        }
-
-        if (idColumn == null) {
-            throw new IllegalArgumentException("Entity does not have an @Id annotated field.");
-        }
-
-        String sql = "SELECT * FROM " + tableName + " WHERE " + idColumn + " = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setObject(1, id);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return Optional.of(mapResultSetToEntity(rs, clazz));
-                } else {
-                    return Optional.empty();
-                }
-            }
-        }
-    }
 
     // 查询所有实体
-    public <T> List<T> findAllEntities(Class<T> clazz) throws SQLException {
-        String tableName = clazz.getSimpleName().toLowerCase();
+    public <T> List<T> findAllEntities(Class<T> clazz, String tableName) throws SQLException {
         String sql = "SELECT * FROM " + tableName;
         try (PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -140,8 +87,41 @@ public class Repository {
                 entities.add(mapResultSetToEntity(rs, clazz));
             }
             return entities;
+        } catch (SQLException e) {
+            throw new SQLException("Error executing query: " + sql, e);
         }
     }
+
+    private <T> T mapResultSetToEntity(ResultSet rs, Class<T> clazz) throws SQLException {
+        try {
+            T entity = clazz.getDeclaredConstructor().newInstance(); // 实例化实体类
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                Column column = field.getAnnotation(Column.class);
+                if (column != null) {
+                    String columnName = column.name(); // 数据库列名
+                    Object columnValue = rs.getObject(columnName); // 从结果集中获取值
+
+                    // 特殊处理 LocalDateTime 类型
+                    if (field.getType().equals(LocalDateTime.class) && columnValue instanceof Timestamp) {
+                        field.set(entity, ((Timestamp) columnValue).toLocalDateTime());
+                    }
+                    // 特殊处理 BigDecimal 类型
+                    else if (field.getType().equals(BigDecimal.class) && columnValue instanceof BigDecimal) {
+                        field.set(entity, ((BigDecimal) columnValue).stripTrailingZeros());
+                    }
+
+                    else if (columnValue != null) {
+                        field.set(entity, columnValue); // 普通字段赋值
+                    }
+                }
+            }
+            return entity;
+        } catch (Exception e) {
+            throw new SQLException("Error mapping result set to entity: " + clazz.getName(), e);
+        }
+    }
+
 
     // 更新实体
     public <T> int updateEntity(T entity) throws SQLException {
@@ -214,20 +194,5 @@ public class Repository {
         }
     }
 
-    // 将 ResultSet 映射为实体对象
-    private <T> T mapResultSetToEntity(ResultSet rs, Class<T> clazz) throws SQLException {
-        try {
-            T entity = clazz.getDeclaredConstructor().newInstance();
-            for (Field field : clazz.getDeclaredFields()) {
-                Column column = field.getAnnotation(Column.class);
-                if (column != null) {
-                    field.setAccessible(true);
-                    field.set(entity, rs.getObject(column.name()));
-                }
-            }
-            return entity;
-        } catch (Exception e) {
-            throw new SQLException("Error mapping ResultSet to entity", e);
-        }
-    }
+
 }

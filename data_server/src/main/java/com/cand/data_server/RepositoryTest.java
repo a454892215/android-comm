@@ -5,6 +5,7 @@ import static com.cand.data_server.H2TableGenerator.printTableStructure;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class RepositoryTest {
     public static String tableName = "candle_test";
@@ -12,6 +13,7 @@ public class RepositoryTest {
     public static void main(String[] args) throws Exception {
         testCreateTable();
         testInsert();
+        testFind();
     }
 
     public static void testCreateTable() throws Exception {
@@ -27,11 +29,19 @@ public class RepositoryTest {
         Repository repository = new Repository(connect);
         CandleEntity candleEntity = CandleEntity.createSimpleObj();
         repository.insertEntity(candleEntity, tableName);
-        System.out.println("插入数据成功..." + candleEntity.timestamp);
+        System.out.println("插入数据成功..." + candleEntity.getTimestamp());
     }
 
-    public static void testFind(){
+    public static void testFind() throws SQLException {
+        System.out.println("开始获取数据库数据...");
+        Connection connect = H2DatabaseUtils.connect();
+        Repository repository = new Repository(connect);
+        List<CandleEntity> list = repository.findAllEntities(CandleEntity.class, tableName);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(i + "   " + list.get(i));
+        }
 
+        System.out.println("获取数据库数据成功...");
     }
 
     public static void testDelete(){

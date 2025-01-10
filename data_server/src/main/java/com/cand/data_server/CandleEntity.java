@@ -26,30 +26,89 @@ public class CandleEntity {
 
     public static CandleEntity createSimpleObj() {
         CandleEntity candleEntity = new CandleEntity();
-        candleEntity.close = BigDecimal.valueOf(20);
-        candleEntity.open = BigDecimal.valueOf(30);
-        candleEntity.high = BigDecimal.valueOf(59);
-        candleEntity.low = BigDecimal.valueOf(10);
-        candleEntity.volume = BigDecimal.valueOf(30000);
+        candleEntity.timestamp = LocalDateTime.now();
+        candleEntity.setClose(BigDecimal.valueOf(20));
+        candleEntity.setOpen(BigDecimal.valueOf(30));
+        candleEntity.setHigh(BigDecimal.valueOf(59));
+        candleEntity.setLow(BigDecimal.valueOf(10));
+        candleEntity.setVolume(BigDecimal.valueOf(30000));
         return candleEntity;
     }
 
-    @Id
-    @Column(name = "date", nullable = false, updatable = false)
-    public LocalDateTime timestamp; // 使用日期作为主键
+    @Column(name = "timestamp", nullable = false, updatable = false)
+    private LocalDateTime timestamp; // 使用日期作为主键
     @Column(name = "close", nullable = false, precision = 36, scale = 16)
-    public BigDecimal close;
-
+    private BigDecimal close;
     @Column(name = "open", nullable = false, precision = 36, scale = 16)
-    public BigDecimal open;
+    private BigDecimal open;
 
     @Column(name = "high", nullable = false, precision = 36, scale = 16)
-    public BigDecimal high;
+    private BigDecimal high;
 
     @Column(name = "low", nullable = false, precision = 36, scale = 16)
-    public BigDecimal low;
+    private BigDecimal low;
 
     @Column(name = "volume", nullable = false, precision = 22, scale = 2)
-    public BigDecimal volume;
+    private BigDecimal volume;
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public BigDecimal getClose() {
+        return close;
+    }
+
+    public void setClose(BigDecimal close) {
+        this.close = close.stripTrailingZeros();
+    }
+
+    public BigDecimal getOpen() {
+        return open;
+    }
+
+    public void setOpen(BigDecimal open) {
+        this.open = open.stripTrailingZeros();
+    }
+
+    public BigDecimal getHigh() {
+        return high;
+    }
+
+    public void setHigh(BigDecimal high) {
+        this.high = high.stripTrailingZeros();
+    }
+
+    public BigDecimal getLow() {
+        return low;
+    }
+
+    public void setLow(BigDecimal low) {
+        this.low = low.stripTrailingZeros();
+    }
+
+    public BigDecimal getVolume() {
+        return volume;
+    }
+
+    public void setVolume(BigDecimal volume) {
+        this.volume = volume.stripTrailingZeros();
+    }
+
+    @Override
+    public String toString() {
+        return "CandleEntity{" +
+                "timestamp=" + timestamp +
+                ", close=" + close.toPlainString() +
+                ", open=" + open.toPlainString() +
+                ", high=" + high.toPlainString() +
+                ", low=" + low.toPlainString() +
+                ", volume=" + volume.toPlainString() +
+                '}';
+    }
 
 }
