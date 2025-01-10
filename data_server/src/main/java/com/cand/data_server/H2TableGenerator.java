@@ -2,48 +2,43 @@ package com.cand.data_server;
 
 import org.h2.util.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 
 public class H2TableGenerator {
 
-
-    /**
-     * 根据实体类生成数据库表
-     *
-     * @param entityClass 实体类的Class对象
-     * @throws Exception 如果出现反射或SQL异常
-     */
     public static void generateTable(String JDBC_URL, Class<?> entityClass, String tableName) throws Exception {
-        // 检查是否有@Entity注解
+        // 检查是否有 @Entity 注解
         if (!entityClass.isAnnotationPresent(Entity.class)) {
             throw new IllegalArgumentException("Class " + entityClass.getName() + " is not an Entity.");
         }
 
-        // 重新获取表名
+        // 获取表名
         if (StringUtils.isNullOrEmpty(tableName) && entityClass.isAnnotationPresent(Table.class)) {
             Table tableAnnotation = entityClass.getAnnotation(Table.class);
             tableName = tableAnnotation.name();
         }
 
-        // 构建SQL创建表的语句
+        // 构建 CREATE TABLE 语句
         StringBuilder createTableSQL = new StringBuilder("CREATE TABLE IF NOT EXISTS " + tableName + " (");
 
-        // 遍历所有字段
+        // 标记主键字段
+        String primaryKey = null;
+
+        // 遍历字段
         Field[] fields = entityClass.getDeclaredFields();
         for (Field field : fields) {
-            // 检查是否有@Column注解
             if (field.isAnnotationPresent(Column.class)) {
                 Column columnAnnotation = field.getAnnotation(Column.class);
                 String columnName = columnAnnotation.name().isEmpty() ? field.getName() : columnAnnotation.name();
-                String columnType = getSQLType(field.getType());
+                String columnType = getSQLType(field.getType(), columnAnnotation);
 
                 createTableSQL.append(columnName).append(" ").append(columnType);
 
@@ -51,29 +46,34 @@ public class H2TableGenerator {
                     createTableSQL.append(" NOT NULL");
                 }
 
+                if (field.isAnnotationPresent(Id.class)) {
+                    primaryKey = columnName; // 记录主键字段名
+                }
+
                 createTableSQL.append(", ");
             }
         }
 
-        // 移除最后一个逗号并添加括号
+        // 移除最后一个逗号
         createTableSQL.setLength(createTableSQL.length() - 2);
+
+        // 添加主键约束
+        if (primaryKey != null) {
+            createTableSQL.append(", PRIMARY KEY (").append(primaryKey).append(")");
+        }
+
         createTableSQL.append(");");
 
-        // 执行SQL
+        // 执行 SQL
         try (Connection connection = DriverManager.getConnection(JDBC_URL, CV.USER, CV.PASSWORD);
              Statement statement = connection.createStatement()) {
+            System.out.println("执行的SQL语句是：" + createTableSQL);
             statement.execute(createTableSQL.toString());
             System.out.println("Table " + tableName + " created successfully.");
         }
     }
 
-    /**
-     * 根据Java类型返回SQL类型
-     *
-     * @param type Java字段类型
-     * @return 对应的SQL类型
-     */
-    private static String getSQLType(Class<?> type) {
+    private static String getSQLType(Class<?> type, Column columnAnnotation) {
         if (type == String.class) {
             return "VARCHAR(255)";
         } else if (type == int.class || type == Integer.class) {
@@ -84,6 +84,18 @@ public class H2TableGenerator {
             return "DOUBLE";
         } else if (type == boolean.class || type == Boolean.class) {
             return "BOOLEAN";
+        } else if (type == BigDecimal.class) {
+            // 对 BigDecimal 类型处理 precision 和 scale
+            int precision = columnAnnotation.precision();
+            int scale = columnAnnotation.scale();
+            if (precision > 0 && scale >= 0) {
+                return String.format("DECIMAL(%d, %d)", precision, scale);
+            } else {
+                return "DECIMAL(38, 18)"; // 默认值 38代表总位数， 18代表小数位
+            }
+        } else if (type == LocalDateTime.class) {
+            // 对 LocalDateTime 类型映射为 TIMESTAMP
+            return "TIMESTAMP";
         } else {
             throw new IllegalArgumentException("Unsupported field type: " + type.getName());
         }
@@ -109,11 +121,10 @@ public class H2TableGenerator {
     }
 
     public static void main(String[] args) throws Exception {
-        String tableName = "example_table";
+        String tableName = "candle_test";
         // 示例：生成表
-        generateTable(CV.JDBC_URL, ExampleEntity.class, tableName);
+        generateTable(CV.JDBC_URL, CandleEntity.class, tableName);
         // 示例：打印表结构
         printTableStructure(CV.JDBC_URL, tableName);
     }
 }
-
