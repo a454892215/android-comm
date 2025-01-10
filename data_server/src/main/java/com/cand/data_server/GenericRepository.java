@@ -18,9 +18,8 @@ public class GenericRepository {
     }
 
     // 插入单个实体
-    public <T> int insertEntity(T entity) throws SQLException {
+    public <T> int insertEntity(T entity, String tableName) throws SQLException {
         Class<?> clazz = entity.getClass();
-        String tableName = clazz.getSimpleName().toLowerCase(); // 使用类名作为表名
         List<Object> values = new ArrayList<>();
         StringBuilder columns = new StringBuilder();
         StringBuilder placeholders = new StringBuilder();

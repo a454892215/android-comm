@@ -24,6 +24,8 @@ public class CandleEntity {
 
     @Column(name = "min", nullable = false, precision = 36, scale = 16)
     private BigDecimal min;
+    @Column(name = "volume", nullable = false, precision = 22, scale = 2)
+    private BigDecimal volume;
 
     // Getters and Setters
     public LocalDateTime getDate() {
@@ -65,4 +67,14 @@ public class CandleEntity {
     public void setMin(BigDecimal min) {
         this.min = min;
     }
+
+
+    public BigDecimal getVolume() {
+        return volume;
+    }
+
+    public void setVolume(BigDecimal volume) {
+        this.volume = volume;
+    }
+
 }
