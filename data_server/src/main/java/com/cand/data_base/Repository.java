@@ -62,7 +62,7 @@ public class Repository {
 
         // 构建SQL语句
         String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
-        System.out.println("执行的sql:" + sql);
+        // System.out.println("执行的sql:" + sql);
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             // 设置参数
             for (int i = 0; i < values.size(); i++) {
@@ -157,6 +157,22 @@ public class Repository {
                 return entities;
             }
         } catch (SQLException e) {
+            throw new SQLException("Error executing query: " + sql, e);
+        }
+    }
+
+    public int getTableRowCount(String tableName) throws SQLException {
+        // 使用 COUNT(*) 获取表的总行数
+        String sql = "SELECT COUNT(*) FROM " + tableName;
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1); // 获取 COUNT(*) 的结果
+                } else {
+                    throw new SQLException("Failed to retrieve row count from table: " + tableName);
+                }
+            }
+        } catch (Exception e) {
             throw new SQLException("Error executing query: " + sql, e);
         }
     }
