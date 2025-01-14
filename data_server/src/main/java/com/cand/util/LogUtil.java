@@ -8,7 +8,7 @@ package com.cand.util;
 public class LogUtil {
 
     public static void d(String text) {
-        System.out.println(text + getLineNum());
+        System.out.println(text + " " + getLineNum());
     }
 
     public static void e(String text) {

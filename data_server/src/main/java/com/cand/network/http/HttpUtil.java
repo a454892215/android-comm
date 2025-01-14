@@ -20,27 +20,11 @@ import okhttp3.ResponseBody;
  */
 public class HttpUtil {
 
-    private String BASE_URL;
-    private final static String BASE_URL_1 = "https://8.210.49.248:";
-
     private OkHttpClient client = new OkHttpClient();
     private int getRequestLxFailCount;
 
     public HttpUtil() {
-        BASE_URL = BASE_URL_1 + 80;
         init();
-    }
-
-    public void setPort(int port) {
-        BASE_URL = BASE_URL_1 + port;
-    }
-
-    public void setPosInfoPort(){
-        setPort(8008);
-    }
-
-    public void setLocalBaseUrl() {
-        BASE_URL = "https://127.0.0.1:80";
     }
 
     private void init() {
@@ -48,18 +32,16 @@ public class HttpUtil {
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         // builder.cookieJar(new JavaNetCookieJar(cookieManager));
-        builder.connectTimeout(13, TimeUnit.SECONDS);
-        builder.writeTimeout(13, TimeUnit.SECONDS);
-        builder.readTimeout(13, TimeUnit.SECONDS);
-     //   ConnectionPool poll = new ConnectionPool(1, 5L, TimeUnit.MINUTES);
-       // builder.connectionPool(poll);
+        builder.connectTimeout(10, TimeUnit.SECONDS);
+        builder.writeTimeout(10, TimeUnit.SECONDS);
+        builder.readTimeout(10, TimeUnit.SECONDS);
+        //   ConnectionPool poll = new ConnectionPool(1, 5L, TimeUnit.MINUTES);
+        // builder.connectionPool(poll);
         builder.hostnameVerifier((hostname, session) -> true);
         builder.sslSocketFactory(TrustAllCerts.createSSLSocketFactory(), new TrustAllCerts());
         builder.addInterceptor(new LogInterceptor());
         client = builder.build();
     }
-
-
 
 
     public String get(String url) {
@@ -68,7 +50,7 @@ public class HttpUtil {
             //  LogUtil.d("get url:" + url);
             Request.Builder builder = new Request.Builder().get();
             Request request = builder.url(url)
-                    .addHeader("Connection", "close") // keep-alive 或 close
+                 //   .addHeader("Connection", "close") // keep-alive 或 close
                     .build();
             Response response = client.newCall(request).execute();
             ResponseBody body = response.body();
@@ -111,7 +93,6 @@ public class HttpUtil {
         }
         return string;
     }
-
 
 
     @SuppressWarnings("unused")
