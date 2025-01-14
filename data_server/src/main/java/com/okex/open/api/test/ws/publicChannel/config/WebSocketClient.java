@@ -169,8 +169,7 @@ public class WebSocketClient {
                     LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
 
                 } else if(bytes.contains("pong")){
-                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
-
+                    // LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
                 }else {
                     //不是深度 k线接口
                     JSONObject rst = JSONObject.fromObject(bytes);
@@ -324,8 +323,10 @@ public class WebSocketClient {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if(!"ping".equals(str)){
+                LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+" 发送给服务端的信息是:" + str);
+            }
 
-            LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+" 发送给服务端的信息是:" + str);
             webSocket.send(str);
         } else {
             LogUtil.d("Please establish the connection before you operate it！");
