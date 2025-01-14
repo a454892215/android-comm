@@ -65,7 +65,7 @@ public class PublicChannelTest {
     }
 
     /**
-     * 交易频道: /ws/v5/public
+     * 交易频道: /ws/v5/public：<a href="https://www.okx.com/docs-v5/zh/#order-book-trading-market-data-ws-trades-channel"/>
      * 获取最近的成交数据，有成交数据就推送，每次推送可能聚合多条成交数据。
      * 根据每个taker订单的不同成交价格推送消息，并使用count字段表示聚合的订单匹配数量。
      */
