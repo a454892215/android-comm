@@ -11,6 +11,10 @@ public class LogUtil {
         System.out.println(text + " " + getLineNum());
     }
 
+    public static void d2(String text) {
+        System.out.println(text);
+    }
+
     public static void e(String text) {
         System.err.println(text + " " + getLineNum());
     }
