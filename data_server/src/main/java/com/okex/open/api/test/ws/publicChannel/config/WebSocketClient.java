@@ -64,10 +64,8 @@ public class WebSocketClient {
             public void onOpen(@NotNull final WebSocket webSocket, @NotNull final Response response) {
                 //连接成功后，设置定时器，每隔25s，自动向服务器发送心跳，保持与服务器连接
                 isConnect = true;
-                LogUtil.d(Instant.now().toString() + " Connected to the server success!");
-                Runnable runnable = () -> {
-                    sendMessage("ping");
-                };
+                LogUtil.d(Instant.now().toString() + " 连接到websocket成功!， 开始启动心跳服务");
+                Runnable runnable = () -> sendMessage("ping");
                 service = Executors.newSingleThreadScheduledExecutor();
                 // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
                 service.scheduleAtFixedRate(runnable, 25, 25, TimeUnit.SECONDS);
@@ -75,22 +73,19 @@ public class WebSocketClient {
 
             @Override
             public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-                LogUtil.d("Connection is about to disconnect！");
-                webSocket.close(1000, "Long time no message was sent or received！");
-                webSocket = null;
+                LogUtil.e("准备关闭连接！...");
+                webSocket.close(1000, "连接关闭...");
             }
 
             @Override
             public void onClosed(@NotNull final WebSocket webSocket, final int code, @NotNull final String reason) {
-                LogUtil.d("Connection dropped！");
+                LogUtil.d("websocket 连接已经关闭！");
             }
 
             @Override
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
-                LogUtil.d("Connection failed,Please reconnect!");
-                LogUtil.d("reason: "+t.getCause());
+                LogUtil.d("websocket连接失败...:" + t.getCause());
                 if (Objects.nonNull(service)) {
-
                     service.shutdown();
                 }
             }
@@ -330,7 +325,7 @@ public class WebSocketClient {
                 e.printStackTrace();
             }
 
-            LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+"Send a message to the server:" + str);
+            LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+" 发送给服务端的信息是:" + str);
             webSocket.send(str);
         } else {
             LogUtil.d("Please establish the connection before you operate it！");

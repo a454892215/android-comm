@@ -12,7 +12,7 @@ public class LogUtil {
     }
 
     public static void e(String text) {
-        System.err.println(text);
+        System.err.println(text + " " + getLineNum());
     }
 
     private static String getLineNum() {
