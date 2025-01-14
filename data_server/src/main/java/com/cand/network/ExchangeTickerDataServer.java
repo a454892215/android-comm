@@ -23,9 +23,12 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
+
 @SuppressWarnings("unused")
-public class ExchangeTickerDataProcessor {
+public class ExchangeTickerDataServer {
     private static WebSocket webSocket = null;
+
+    private OnOpeOkListener onOpeOkListener;
     private final OkHttpClient client = new OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
             .build();
@@ -39,20 +42,21 @@ public class ExchangeTickerDataProcessor {
 
             @Override
             public void onOpen(@NotNull final WebSocket webSocket, @NotNull final Response response) {
-                LogUtil.d(Instant.now().toString() + " 连接到 websocket 成功!");
+                LogUtil.d(Instant.now().toString() + " 连接到 websocket 成功:" + url);
                 isReconnecting = false; // 重置重连状态
                 Runnable heartbeatTask = () -> sendMessage("ping");
                 heartbeatService = Executors.newSingleThreadScheduledExecutor();
                 heartbeatService.scheduleAtFixedRate(heartbeatTask, 25, 25, TimeUnit.SECONDS);
+                if (onOpeOkListener != null) {
+                    onOpeOkListener.onOk();
+                }
             }
 
             @Override
             public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
                 LogUtil.e("准备关闭连接！...");
                 webSocket.close(1000, "连接关闭...");
-                if (heartbeatService != null) {
-                    heartbeatService.shutdown();
-                }
+                shutdownHeartbeat();
             }
 
             @Override
@@ -63,10 +67,14 @@ public class ExchangeTickerDataProcessor {
             @Override
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
                 LogUtil.d("websocket 连接失败...:" + t.getMessage());
-                if (heartbeatService != null) {
+                shutdownHeartbeat();
+                retryConnection(url); // 触发重连逻辑
+            }
+
+            private void shutdownHeartbeat() {
+                if (heartbeatService != null && !heartbeatService.isShutdown()) {
                     heartbeatService.shutdown();
                 }
-                retryConnection(url); // 触发重连逻辑
             }
 
             @Override
@@ -89,7 +97,8 @@ public class ExchangeTickerDataProcessor {
             return; // 防止多次触发重连逻辑
         }
         isReconnecting = true;
-        retryService.schedule(() -> {LogUtil.d("正在尝试重新连接...");
+        retryService.schedule(() -> {
+            LogUtil.d("正在尝试重新连接...");
             connection(url); // 尝试重新建立连接
         }, 30, TimeUnit.SECONDS);
     }
@@ -105,19 +114,27 @@ public class ExchangeTickerDataProcessor {
         }
     }
 
-    private String listToJsonStr(List<Map<String, Object>> list) {
+    public void setOnOpeOkListener(OnOpeOkListener onOpeOkListener) {
+        this.onOpeOkListener = onOpeOkListener;
+    }
+
+    private String listToJsonStr(List<Map<String, String>> list) {
         JSONArray jsonArray = new JSONArray();
-        for (Map<String, Object> map : list) {
+        for (Map<String, String> map : list) {
             jsonArray.add(JSONObject.fromObject(map));
         }
         return jsonArray.toJSONString();
     }
 
-    public void subscribe(List<Map<String, Object>> list) {
+    public void subscribe(List<Map<String, String>> list) {
         String s = listToJsonStr(list);
         String str = "{\"op\": \"subscribe\", \"args\":" + s + "}";
-        if (webSocket != null)
+        if (webSocket != null){
             sendMessage(str);
+        }
+
     }
+
+
 }
 

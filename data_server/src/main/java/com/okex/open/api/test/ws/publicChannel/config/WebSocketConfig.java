@@ -33,7 +33,7 @@ public class WebSocketConfig {
     //ws 模拟盘 the demo trading URL
   //  private static final String SERVICE_URL = "wss://wspap.okx.com:8443";
     //ws 实盘 the live trading URL
-    private static final String SERVICE_URL = "wss://ws.okx.com:8443";
+    public static final String SERVICE_URL = "wss://ws.okx.com:8443";
     //部分订阅频道已迁移
    // private static final String SERVICE_URL = "wss://ws.okx.com:8443";
     // api key
