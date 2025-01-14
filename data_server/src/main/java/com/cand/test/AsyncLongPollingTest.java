@@ -4,6 +4,8 @@ import com.cand.util.LogUtil;
 
 import java.util.concurrent.*;
 
+import jdk.internal.org.jline.utils.Log;
+
 /**
  * Java不通线程挂起和通知用例
  */
@@ -86,14 +88,15 @@ public class AsyncLongPollingTest {
         server.doGet("client1");
 
         // 模拟异步更新数据
-        Executors.newSingleThreadScheduledExecutor().schedule(() -> {
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutorService.schedule(() -> {
             server.updateData("client1", "Hello, Client 1!");
         }, 9, TimeUnit.SECONDS);
-
         // 等待一会儿以查看结果
         Thread.sleep(1000 * 15);
-
         // 关闭服务
-        server.shutdown();
+        scheduledExecutorService.shutdown(); //避免挂起进程
+        server.shutdown();//避免挂起进程
+        LogUtil.d("=======主线程执行完毕==========");
     }
 }
