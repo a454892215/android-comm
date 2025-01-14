@@ -1,5 +1,5 @@
 package com.okex.open.api.test.ws.publicChannel.config;
-
+@SuppressWarnings({"unused"})
 public class WebSocketConfig {
 
 

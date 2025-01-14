@@ -2,6 +2,7 @@ package com.okex.open.api.test.ws.publicChannel.config;
 
 
 import com.alibaba.fastjson.JSONArray;
+import com.cand.util.LogUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.google.common.hash.HashFunction;
@@ -47,7 +48,7 @@ public class WebSocketClient {
 
 
     //与服务器建立连接，参数为服务器的URL
-    public static WebSocket connection(final String url) {
+    public static void connection(final String url) {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .readTimeout(5, TimeUnit.SECONDS)
@@ -63,12 +64,9 @@ public class WebSocketClient {
             public void onOpen(@NotNull final WebSocket webSocket, @NotNull final Response response) {
                 //连接成功后，设置定时器，每隔25s，自动向服务器发送心跳，保持与服务器连接
                 isConnect = true;
-                System.out.println(Instant.now().toString() + " Connected to the server success!");
-                Runnable runnable = new Runnable() {
-                    public void run() {
-                        // task to run goes here
-                        sendMessage("ping");
-                    }
+                LogUtil.d(Instant.now().toString() + " Connected to the server success!");
+                Runnable runnable = () -> {
+                    sendMessage("ping");
                 };
                 service = Executors.newSingleThreadScheduledExecutor();
                 // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
@@ -77,20 +75,20 @@ public class WebSocketClient {
 
             @Override
             public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-                System.out.println("Connection is about to disconnect！");
+                LogUtil.d("Connection is about to disconnect！");
                 webSocket.close(1000, "Long time no message was sent or received！");
                 webSocket = null;
             }
 
             @Override
             public void onClosed(@NotNull final WebSocket webSocket, final int code, @NotNull final String reason) {
-                System.out.println("Connection dropped！");
+                LogUtil.d("Connection dropped！");
             }
 
             @Override
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
-                System.out.println("Connection failed,Please reconnect!");
-                System.out.println("reason: "+t.getCause());
+                LogUtil.d("Connection failed,Please reconnect!");
+                LogUtil.d("reason: "+t.getCause());
                 if (Objects.nonNull(service)) {
 
                     service.shutdown();
@@ -101,7 +99,7 @@ public class WebSocketClient {
             public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String bytes) {
                 //不进行解压
                 //                if(s.contains("event")){
-//                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
+//                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
 //                }else{
                 //判断是否是深度接口
                 if (bytes.contains("\"channel\":\"books\",")|| bytes.contains("\"channel\":\"books-l2-tbt\",")|| bytes.contains("\"channel\":\"books50-l2-tbt\",")) {
@@ -119,11 +117,11 @@ public class WebSocketClient {
 //
                         String dataStr = data.toString();
 
-                        System.out.println("dataStr:"+dataStr);
+                        LogUtil.d("dataStr:"+dataStr);
                         Optional<SpotOrderBook> oldBook = parse(dataStr);
-                        System.out.println("oldBook:"+oldBook);
+                        LogUtil.d("oldBook:"+oldBook);
                         String instrumentId = arg.get("instId").toString();
-                        System.out.println("instrumentId:"+instrumentId);
+                        LogUtil.d("instrumentId:"+instrumentId);
                         bookMap.put(instrumentId,oldBook);
                     } else if (bytes.contains("\"action\":\"update\",")) {//是后续的增量，则需要进行深度合并
 
@@ -146,37 +144,37 @@ public class WebSocketClient {
 
                         SpotOrderBookDiff bookdiff = oldBook.get().diff(newBook.get());
 
-                        System.out.println("名称："+instrumentId+",深度合并成功！checknum值为：" + bookdiff.getChecksum() + ",合并后的数据为：" + bookdiff);
+                        LogUtil.d("名称："+instrumentId+",深度合并成功！checknum值为：" + bookdiff.getChecksum() + ",合并后的数据为：" + bookdiff);
 
                         String str = getStr(bookdiff.getAsks(), bookdiff.getBids());
-                        System.out.println("名称："+instrumentId+",拆分要校验的字符串：" + str);
+                        LogUtil.d("名称："+instrumentId+",拆分要校验的字符串：" + str);
                         //计算checksum值
                         int checksum = checksum(bookdiff.getAsks(), bookdiff.getBids());
-                        System.out.println("名称："+instrumentId+",校验的checksum:" + checksum);
+                        LogUtil.d("名称："+instrumentId+",校验的checksum:" + checksum);
                         boolean flag = checksum == bookdiff.getChecksum();
                         if(flag){
-                            System.out.println("名称："+instrumentId+",深度校验结果为："+flag);
+                            LogUtil.d("名称："+instrumentId+",深度校验结果为："+flag);
                             oldBook = parse(bookdiff.toString());
                             bookMap.put(instrumentId,oldBook);
                         }else{
-                            System.out.println("名称："+instrumentId+",深度校验结果为："+flag+"数据有误！请重连！");
+                            LogUtil.d("名称："+instrumentId+",深度校验结果为："+flag+"数据有误！请重连！");
                             //获取订阅的频道和币对
                             String channel = rst.get("table").toString();
                             String unSubStr = "{\"op\": \"unsubscribe\", \"args\":[\"" + channel+":"+instrumentId + "\"]}";
-                            System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Send: " + unSubStr);
+                            LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Send: " + unSubStr);
                             webSocket.send(unSubStr);
                             String subStr = "{\"op\": \"subscribe\", \"args\":[\"" + channel+":"+instrumentId + "\"]}";
-                            System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Send: " + subStr);
+                            LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Send: " + subStr);
                             webSocket.send(subStr);
-                            System.out.println("名称："+instrumentId+",正在重新订阅！");
+                            LogUtil.d("名称："+instrumentId+",正在重新订阅！");
                         }
                     }
                 } else if(bytes.contains("candle")) {
                     //k线频道
-                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
+                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
 
                 } else if(bytes.contains("pong")){
-                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
+                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
 
                 }else {
                     //不是深度 k线接口
@@ -184,9 +182,9 @@ public class WebSocketClient {
                     net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                     JSONObject data = JSONObject.fromObject(dataArr.get(0));
 
-                    Long pushTimestamp=null;
-                    Long localTimestamp = System.currentTimeMillis();
-                    Long timing = null;
+                    long pushTimestamp;
+                    long localTimestamp = System.currentTimeMillis();
+                    long timing;
 
 
                     if(dataArr.toString().contains("\"ts\"")){
@@ -194,12 +192,12 @@ public class WebSocketClient {
 
                         timing =localTimestamp-pushTimestamp;
 
-                        System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) +"("+timing+"ms)" + " Receive: " + bytes);
+                        LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) +"("+timing+"ms)" + " Receive: " + bytes);
 
 
                     }else {
 
-                        System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
+                        LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
                     }
 
 
@@ -212,7 +210,6 @@ public class WebSocketClient {
                 }
             }
         });
-        return webSocket;
     }
 
 
@@ -250,7 +247,7 @@ public class WebSocketClient {
     }
 
     public static <T extends OrderBookItem<?>> int checksum(List<T> asks, List<T> bids) {
-        System.out.println("深度");
+        LogUtil.d("深度");
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < 25; i++) {
             if (i < bids.size()) {
@@ -286,7 +283,7 @@ public class WebSocketClient {
             byte[] bytes = sha256_HMAC.doFinal(message.getBytes(CharsetEnum.UTF_8.charset()));
             hash = Base64.getEncoder().encodeToString(bytes);
         } catch (Exception e) {
-            System.out.println("Error HmacSHA256 ===========" + e.getMessage());
+            LogUtil.d("Error HmacSHA256 ===========" + e.getMessage());
         }
         return hash;
     }
@@ -333,10 +330,10 @@ public class WebSocketClient {
                 e.printStackTrace();
             }
 
-            System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+"Send a message to the server:" + str);
+            LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+"Send a message to the server:" + str);
             webSocket.send(str);
         } else {
-            System.out.println("Please establish the connection before you operate it！");
+            LogUtil.d("Please establish the connection before you operate it！");
         }
     }
 
@@ -345,7 +342,7 @@ public class WebSocketClient {
         if (null != webSocket) {
             webSocket.close(1000, "User actively closes the connection");
         } else {
-            System.out.println("Please establish the connection before you operate it！");
+            LogUtil.d("Please establish the connection before you operate it！");
         }
     }
 
@@ -376,7 +373,7 @@ public class WebSocketClient {
                             .collect(Collectors.toList());
             return Optional.of(new SpotOrderBook(asks, bids, data.getTs(),data.getChecksum(), data.getPrevSeqId(), data.getSeqId()));
         } catch (Exception e) {
-            System.out.println("e"+e);
+            LogUtil.d("e"+e);
             return Optional.empty();
         }
     }

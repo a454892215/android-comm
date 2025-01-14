@@ -601,7 +601,7 @@ public class PublicChannelTest {
         WebSocketClient.subscribe(channelList);
         //为保证测试方法不停，需要让线程延迟
         try {
-            Thread.sleep(10000000);
+            Thread.sleep(1000 * 60 * 60 * 24 * 36500L);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -610,7 +610,6 @@ public class PublicChannelTest {
     /**
      * 价差撮合深度频道
      * sprd-bbo-tbt: 首次推1档快照数据，以后定量推送，每10毫秒当1档快照数据有变化推送一次1档数据
-     *
      * sprd-books5: 首次推5档快照数据，以后定量推送，每100毫秒当5档快照数据有变化推送一次5档数据
      */
     @Test
