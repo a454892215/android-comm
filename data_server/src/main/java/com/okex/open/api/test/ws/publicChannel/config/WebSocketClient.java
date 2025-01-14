@@ -32,7 +32,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-
+@SuppressWarnings({"rawtypes", "unused"})
 public class WebSocketClient {
     private static WebSocket webSocket = null;
     private static Boolean flag = false;
@@ -60,7 +60,7 @@ public class WebSocketClient {
             ScheduledExecutorService service;
 
             @Override
-            public void onOpen(final WebSocket webSocket, final Response response) {
+            public void onOpen(@NotNull final WebSocket webSocket, @NotNull final Response response) {
                 //连接成功后，设置定时器，每隔25s，自动向服务器发送心跳，保持与服务器连接
                 isConnect = true;
                 System.out.println(Instant.now().toString() + " Connected to the server success!");
@@ -83,12 +83,12 @@ public class WebSocketClient {
             }
 
             @Override
-            public void onClosed(final WebSocket webSocket, final int code, final String reason) {
+            public void onClosed(@NotNull final WebSocket webSocket, final int code, @NotNull final String reason) {
                 System.out.println("Connection dropped！");
             }
 
             @Override
-            public void onFailure(final WebSocket webSocket, final Throwable t, final Response response) {
+            public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
                 System.out.println("Connection failed,Please reconnect!");
                 System.out.println("reason: "+t.getCause());
                 if (Objects.nonNull(service)) {
@@ -98,24 +98,18 @@ public class WebSocketClient {
             }
 
             @Override
-            public void onMessage(final WebSocket webSocket, final String bytes) {
-                //测试服务器返回的字节
-                final String byteString=bytes.toString();
-
-
+            public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String bytes) {
                 //不进行解压
-                final String s = byteString;
-//                if(s.contains("event")){
+                //                if(s.contains("event")){
 //                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
 //                }else{
-
                 //判断是否是深度接口
-                if (s.contains("\"channel\":\"books\",")||s.contains("\"channel\":\"books-l2-tbt\",")||s.contains("\"channel\":\"books50-l2-tbt\",")) {
+                if (bytes.contains("\"channel\":\"books\",")|| bytes.contains("\"channel\":\"books-l2-tbt\",")|| bytes.contains("\"channel\":\"books50-l2-tbt\",")) {
                     //是深度接口
 
-                    if (s.contains("snapshot")) {//记录下第一次的全量数据
+                    if (bytes.contains("snapshot")) {//记录下第一次的全量数据
 
-                        JSONObject rst = JSONObject.fromObject(s);
+                        JSONObject rst = JSONObject.fromObject(bytes);
 
 
                         JSONObject arg = JSONObject.fromObject(rst.get("arg"));
@@ -131,10 +125,10 @@ public class WebSocketClient {
                         String instrumentId = arg.get("instId").toString();
                         System.out.println("instrumentId:"+instrumentId);
                         bookMap.put(instrumentId,oldBook);
-                    } else if (s.contains("\"action\":\"update\",")) {//是后续的增量，则需要进行深度合并
+                    } else if (bytes.contains("\"action\":\"update\",")) {//是后续的增量，则需要进行深度合并
 
 
-                        JSONObject rst = JSONObject.fromObject(s);
+                        JSONObject rst = JSONObject.fromObject(bytes);
                         JSONObject arg =JSONObject.fromObject(rst.get("arg"));
                         net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                         JSONObject data = JSONObject.fromObject(dataArr.get(0));
@@ -146,15 +140,13 @@ public class WebSocketClient {
                         Optional<SpotOrderBook> newBook = parse(dataStr);
 
                         //获取增量的ask
-                        List<SpotOrderBookItem> askList = newBook.get().getAsks();
+                      //  List<SpotOrderBookItem> askList = newBook.get().getAsks();
                         //获取增量的bid
-                        List<SpotOrderBookItem> bidList = newBook.get().getBids();
+                      //  List<SpotOrderBookItem> bidList = newBook.get().getBids();
 
                         SpotOrderBookDiff bookdiff = oldBook.get().diff(newBook.get());
 
-
-
-                        System.out.println("名称："+instrumentId+",深度合并成功！checknum值为：" + bookdiff.getChecksum() + ",合并后的数据为：" + bookdiff.toString());
+                        System.out.println("名称："+instrumentId+",深度合并成功！checknum值为：" + bookdiff.getChecksum() + ",合并后的数据为：" + bookdiff);
 
                         String str = getStr(bookdiff.getAsks(), bookdiff.getBids());
                         System.out.println("名称："+instrumentId+",拆分要校验的字符串：" + str);
@@ -179,16 +171,16 @@ public class WebSocketClient {
                             System.out.println("名称："+instrumentId+",正在重新订阅！");
                         }
                     }
-                } else if(s.contains("candle")) {
+                } else if(bytes.contains("candle")) {
                     //k线频道
-                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
+                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
 
-                } else if(s.contains("pong")){
-                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
+                } else if(bytes.contains("pong")){
+                    System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
 
                 }else {
                     //不是深度 k线接口
-                    JSONObject rst = JSONObject.fromObject(s);
+                    JSONObject rst = JSONObject.fromObject(bytes);
                     net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                     JSONObject data = JSONObject.fromObject(dataArr.get(0));
 
@@ -202,19 +194,19 @@ public class WebSocketClient {
 
                         timing =localTimestamp-pushTimestamp;
 
-                        System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) +"("+timing+"ms)" + " Receive: " + s);
+                        System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) +"("+timing+"ms)" + " Receive: " + bytes);
 
 
                     }else {
 
-                        System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + s);
+                        System.out.println(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
                     }
 
 
                 }
 //                }
-                if (null != s && s.contains("login")) {
-                    if (s.endsWith("true}")) {
+                if (bytes.contains("login")) {
+                    if (bytes.endsWith("true}")) {
                         flag = true;
                     }
                 }
@@ -232,7 +224,7 @@ public class WebSocketClient {
         }
     }
 
-    private static <T extends OrderBookItem> String getStr(List<T> asks, List<T> bids) {
+    private static <T extends OrderBookItem<?>> String getStr(List<T> asks, List<T> bids) {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < 25; i++) {
             if (i < bids.size()) {
@@ -257,18 +249,18 @@ public class WebSocketClient {
         return str;
     }
 
-    public static <T extends OrderBookItem> int checksum(List<T> asks, List<T> bids) {
+    public static <T extends OrderBookItem<?>> int checksum(List<T> asks, List<T> bids) {
         System.out.println("深度");
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < 25; i++) {
             if (i < bids.size()) {
-                s.append(bids.get(i).getPrice().toString());
+                s.append(bids.get(i).getPrice());
                 s.append(":");
                 s.append(bids.get(i).getSize());
                 s.append(":");
             }
             if (i < asks.size()) {
-                s.append(asks.get(i).getPrice().toString());
+                s.append(asks.get(i).getPrice());
                 s.append(":");
                 s.append(asks.get(i).getSize());
                 s.append(":");

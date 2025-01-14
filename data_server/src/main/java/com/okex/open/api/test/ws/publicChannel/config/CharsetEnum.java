@@ -6,7 +6,7 @@ public enum CharsetEnum {
     ISO_8859_1("ISO-8859-1"),;
 
 
-    private String charset;
+    private final String charset;
 
     CharsetEnum(String charset) {
         this.charset = charset;
