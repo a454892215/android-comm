@@ -4,14 +4,10 @@ import com.cand.util.LogUtil;
 
 import java.util.concurrent.*;
 
-import jdk.internal.org.jline.utils.Log;
-
 /**
- * Java不通线程挂起和通知用例
+ * Java不同线程挂起和通知用例
  */
 public class AsyncLongPollingTest {
-
-    // 客户端的任务映射
     private final ConcurrentHashMap<String, CompletableFuture<String>> clientMap = new ConcurrentHashMap<>();
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1); // 定时器线程池
 
@@ -45,9 +41,6 @@ public class AsyncLongPollingTest {
 
     /**
      * 更新数据并唤醒等待的客户端
-     *
-     * @param clientId 客户端 ID
-     * @param data     返回的数据
      */
     public void updateData(String clientId, String data) {
         CompletableFuture<String> future = clientMap.remove(clientId);
