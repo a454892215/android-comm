@@ -99,8 +99,8 @@ public class WebSocketClient {
                 } else if(bytes.contains("candle")) {
                     //k线频道
                     LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
-                } else if(bytes.contains("pong")){
-                    // LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
+                } else if(bytes.equals("pong")){
+                     LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " =====> Receive: " + bytes);
                 }else {
                     //不是深度 k线接口
                     JSONObject rst = JSONObject.fromObject(bytes);

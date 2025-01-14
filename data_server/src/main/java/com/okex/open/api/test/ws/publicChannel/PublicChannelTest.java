@@ -74,7 +74,7 @@ public class PublicChannelTest {
         ArrayList<Map> channelList = new ArrayList<>();
         Map map = new HashMap();
         map.put("channel", "trades");
-        map.put("instId", "BTC-USDT-SWAP");
+        map.put("instId", "EOS-USDT-SWAP");
         Map map1 = new HashMap();
         map1.put("channel", "trades");
         map1.put("instId", "SOL-USD-SWAP");
