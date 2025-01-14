@@ -13,6 +13,24 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-urlconnection:4.4.1'
 
     implementation 'io.undertow:undertow-core:2.3.0.Final'
+
+    // Fastjson
+    implementation 'com.alibaba:fastjson:1.2.62'
+
+    // Jackson
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
+
+    // Guava
+    implementation 'com.google.guava:guava:27.1-jre'
+    implementation 'com.alibaba:fastjson:1.2.83'
+    implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+    // Log4j
+    implementation 'log4j:log4j:1.2.17'
+
+    // JUnit
+    implementation 'junit:junit:4.12'
 }
 
 tasks.withType(JavaCompile) {
