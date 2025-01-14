@@ -1,4 +1,9 @@
 package com.okex.open.api.test.ws.publicChannel.config;
+
+import com.cand.util.LogUtil;
+
+import jdk.internal.org.jline.utils.Log;
+
 @SuppressWarnings({"unused"})
 public class WebSocketConfig {
     /**
@@ -26,24 +31,24 @@ public class WebSocketConfig {
      WebSocket业务频道：wss://wspap.okx.com:8443/ws/v5/business
      */
     //ws 模拟盘 the demo trading URL
-  //  private static final String SERVICE_URL = "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999";
+  //  private static final String SERVICE_URL = "wss://wspap.okx.com:8443";
     //ws 实盘 the live trading URL
-    private static final String SERVICE_URL = "wss://ws.okx.com:8443/ws/v5/public";
+    private static final String SERVICE_URL = "wss://ws.okx.com:8443";
     //部分订阅频道已迁移
-   // private static final String SERVICE_URL = "wss://ws.okx.com:8443/ws/v5/business";
+   // private static final String SERVICE_URL = "wss://ws.okx.com:8443";
     // api key
     private static final String API_KEY = "";
     private static final String SECRET_KEY = "";
     private static final String PASSPHRASE = "";
 
-    public static void publicConnect(WebSocketClient webSocketClient) {
-        System.out.println(SERVICE_URL);
-        WebSocketClient.connection(SERVICE_URL);
-    }
+//    public static void publicConnect(WebSocketClient webSocketClient) {
+//        System.out.println(SERVICE_URL);
+//        WebSocketClient.connection(SERVICE_URL);
+//    }
 
-    public static void loginConnect(WebSocketClient webSocketClient) {
-        System.out.println(SERVICE_URL);
-        //与服务器建立连接
-        WebSocketClient.connection(SERVICE_URL);
+    public static void loginConnect(WebSocketClient webSocketClient, String path) {
+        String url = SERVICE_URL + path;
+        LogUtil.d("url:" + url);
+        WebSocketClient.connection(url);
     }
 }

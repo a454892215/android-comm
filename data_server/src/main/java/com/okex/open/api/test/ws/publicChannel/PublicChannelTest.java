@@ -21,7 +21,8 @@ public class PublicChannelTest {
     @Before
     public void connect() {
         //与服务器建立连接
-        WebSocketConfig.loginConnect(webSocketClient);
+        String apiPath = "/ws/v5/public";
+        WebSocketConfig.loginConnect(webSocketClient, apiPath);
     }
 
     @After
@@ -31,7 +32,8 @@ public class PublicChannelTest {
     }
 
     /**
-     * 行情频道
+     * 行情频道:获取产品的最新成交价、买一价、卖一价和24小时交易量等信息。最快100ms推送一次，没有触发事件时不推送，触发推送的事件有：成交、买一卖一发生变动。
+       /ws/v5/public  {"op": "subscribe","args": [{"channel": "tickers","instId": "BTC-USDT"}]}
      */
     @Test
     public void tickersChannel() {
@@ -48,7 +50,8 @@ public class PublicChannelTest {
     }
 
     /**
-     * K线频道
+     * WS/K线频道: 获取K线数据，推送频率最快是间隔1秒推送一次数据。
+     /ws/v5/business {"op": "subscribe","args": [{"channel": "candle1D","instId": "BTC-USDT"}]}
      */
     @Test
     public void candleChannel() {
@@ -57,6 +60,26 @@ public class PublicChannelTest {
         map.put("channel", "candle5m");
         map.put("instId", "BTC-USDT-210924");
         channelList.add(map);
+        WebSocketClient.subscribe(channelList);
+        sleepThread(10000000);
+    }
+
+    /**
+     * 交易频道: /ws/v5/public
+     * 获取最近的成交数据，有成交数据就推送，每次推送可能聚合多条成交数据。
+     * 根据每个taker订单的不同成交价格推送消息，并使用count字段表示聚合的订单匹配数量。
+     */
+    @Test
+    public void tradesChannel() {
+        ArrayList<Map> channelList = new ArrayList<>();
+        Map map = new HashMap();
+        map.put("channel", "trades");
+        map.put("instId", "BTC-USDT-SWAP");
+        Map map1 = new HashMap();
+        map1.put("channel", "trades");
+        map1.put("instId", "SOL-USD-SWAP");
+        channelList.add(map);
+        channelList.add(map1);
         WebSocketClient.subscribe(channelList);
         sleepThread(10000000);
     }
@@ -127,24 +150,6 @@ public class PublicChannelTest {
         //调用订阅方法
         WebSocketClient.subscribe(channelList);
         //为保证测试方法不停，需要让线程延迟
-        sleepThread(10000000);
-    }
-
-    /**
-     * 交易频道
-     */
-    @Test
-    public void tradesChannel() {
-        ArrayList<Map> channelList = new ArrayList<>();
-        Map map = new HashMap();
-        map.put("channel", "trades");
-        map.put("instId", "BTC-USDT-210625");
-        Map map1 = new HashMap();
-        map1.put("channel", "trades");
-        map1.put("instId", "BTC-USD-210625");
-        channelList.add(map);
-        channelList.add(map1);
-        WebSocketClient.subscribe(channelList);
         sleepThread(10000000);
     }
 
