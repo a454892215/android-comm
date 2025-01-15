@@ -11,7 +11,6 @@ import com.okex.open.api.utils.DateUtils;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
-
 import java.time.Instant;
 import java.util.Date;
 import java.util.concurrent.Executors;
@@ -36,7 +35,7 @@ public class ExchangeTickerDataServer {
     private final ScheduledExecutorService retryService = Executors.newSingleThreadScheduledExecutor();
     private boolean isReconnecting = false;
 
-    private TradeDataProcessor processor = new TradeDataProcessor();
+    private final TradeDataProcessor processor = new TradeDataProcessor();
 
     public void connection(final String url) {
         Request request = new Request.Builder().url(url).build();
@@ -100,13 +99,12 @@ public class ExchangeTickerDataServer {
                                 int size = dataArr.size();
                                 for (int i = 0; i < size; i++) {
                                     JSONObject item = dataArr.getJSONObject(i);
-                                    TradeEntity entity = new TradeEntity();
-                                    entity.coinId = item.getString("instId");
-                                    entity.ts = item.getLong("ts"); //时间戳
-                                    entity.price = item.getString("px"); //成交价格
-                                    entity.size = item.getString("sz"); // 成交数量
-                                    processor.handleTradeEntity(entity);
-                                    LogUtil.d("======> 解析后的数据entity: " + entity.toString());
+                                    TradeEntity last = new TradeEntity();
+                                    last.coinId = item.getString("instId");
+                                    last.ts = item.getLong("ts"); //时间戳
+                                    last.price = item.getString("px"); //成交价格
+                                    last.size = item.getString("sz"); // 成交数量
+                                    processor.handleTradeEntity(last);
 
                                 }
                             }

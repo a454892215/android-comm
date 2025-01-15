@@ -6,10 +6,6 @@ import com.cand.data_base.Repository;
 import com.cand.entity.TradeEntity;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,20 +23,15 @@ public class TradeDataProcessor {
                 if (!Repository.exists(tableName)) {
                     H2TableGenerator.generateTable(CandleEntity.class, tableName);
                 }
-                CandleEntity newestEntity = repository.getNewestInsertEntity(CandleEntity.class, tableName);
-                if (newestEntity == null) {
+                CandleEntity newestCandle= repository.getNewestInsertEntity(CandleEntity.class, tableName);
+                TradeEntity newest = parse(newestCandle, entity.coinId);
+                if (newest == null) {
                     last = entity;
                     lastSavedDataMap.put(entity.coinId, last);
-                    CandleEntity newEntity = new CandleEntity();
-                    newEntity.setLongTimestamp(last.ts);
-                    newEntity.setOpen(new BigDecimal(last.price));
-                    newEntity.setHigh(new BigDecimal(last.price));
-                    newEntity.setLow(new BigDecimal(last.price));
-                    newEntity.setVolume(new BigDecimal(last.size));
                    // repository.insertEntity(newEntity, tableName);
                 } else {
-                    long timestamp = newestEntity.getTimestamp().toEpochSecond(ZoneOffset.UTC);
-                    last = new TradeEntity(entity.coinId, newestEntity.getOpen() + "", timestamp, newestEntity.getVolume() + "");
+                   // long timestamp = newestEntity.getTimestamp().toEpochSecond(ZoneOffset.UTC);
+                   // last = new TradeEntity(entity.coinId, newestEntity.getOpen() + "", timestamp, newestEntity.getVolume() + "");
                 }
                 lastSavedDataMap.put(entity.coinId, entity);
 
@@ -48,5 +39,31 @@ public class TradeDataProcessor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public TradeEntity parse(CandleEntity newestEntity, String coinId){
+        if(newestEntity != null){
+            TradeEntity last = new TradeEntity();
+            last.coinId = coinId;
+            last.ts = newestEntity.getLongTimestamp(); //时间戳
+            last.price = newestEntity.getOpen().toPlainString(); //成交价格
+            last.size = newestEntity.getVolume().toPlainString(); // 成交数量
+            return last;
+        }
+        return null;
+    }
+
+    public CandleEntity parse(TradeEntity entity){
+        if(entity != null){
+            CandleEntity newEntity = new CandleEntity();
+            newEntity.setLongTimestamp(entity.ts);
+            newEntity.setOpen(new BigDecimal(entity.price));
+            newEntity.setClose(new BigDecimal(entity.price));
+            newEntity.setHigh(new BigDecimal(entity.price));
+            newEntity.setLow(new BigDecimal(entity.price));
+            newEntity.setVolume(new BigDecimal(entity.size));
+            return newEntity;
+        }
+        return null;
     }
 }

@@ -3,7 +3,6 @@ package com.cand.data_base;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZoneOffset;
 
 import javax.persistence.*;
@@ -11,6 +10,7 @@ import javax.persistence.*;
 /**
  * 因为这是很多币的通用表， 不同的币表名不一样，所以表名不能使用@Table注解写死，需要自行定义
  */
+@SuppressWarnings("unused")
 @Entity
 @Table(name = "test")
 public class CandleEntity {
@@ -28,7 +28,7 @@ public class CandleEntity {
     }
 
     /**
-     {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
+     * {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
      */
     public static CandleEntity createSimpleObj() {
 
@@ -62,16 +62,16 @@ public class CandleEntity {
         return timestamp;
     }
 
-    public long getLongTimestamp() {
-        return timestamp.toEpochSecond(ZoneOffset.UTC);
-    }
-
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
+    public long getLongTimestamp() {
+        return timestamp.atZone(ZoneOffset.UTC).toInstant().toEpochMilli(); // 毫秒级时间戳
+    }
+
     public void setLongTimestamp(long timestamp) {
-        this.timestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.ofHours(8));;
+        this.timestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.UTC);
     }
 
     public BigDecimal getClose() {
