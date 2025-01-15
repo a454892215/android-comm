@@ -38,14 +38,14 @@ public class RepositoryTest {
     @Test
     public void testInsertALotOfData() throws SQLException {
         long start = System.currentTimeMillis();
-        System.out.println("开始插入500万条数据...");
+        System.out.println("开始插入100万条数据...");
         Repository repository = new Repository();
         for (int i = 0; i < 5000 * 1000; i++) {
             CandleEntity candleEntity = CandleEntity.createSimpleObj();
             repository.insertEntity(candleEntity, tableName);
         }
         long cost = (System.currentTimeMillis() - start) / 1000;
-        System.out.println("插入500万数据完毕...cost:" + cost + "秒" + " 当前表的数据量是：" + repository.getTableRowCount(tableName));
+        System.out.println("插入100万数据完毕...cost:" + cost + "秒" + " 当前表的数据量是：" + repository.getTableRowCount(tableName));
 
     }
 
@@ -61,7 +61,7 @@ public class RepositoryTest {
         }
         int ret = repository.batchInsertEntities(list, tableName);
         long cost = (System.currentTimeMillis() - start) / 1000;
-        System.out.println("批量插入500万数据完毕...cost:" + cost + "秒" + " 当前表的数据量是：" + repository.getTableRowCount(tableName) + " ret:" + ret);
+        System.out.println("批量插入100万数据完毕...cost:" + cost + "秒" + " 当前表的数据量是：" + repository.getTableRowCount(tableName) + " ret:" + ret);
 
     }
 
