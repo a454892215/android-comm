@@ -2,6 +2,7 @@ package com.cand.network;
 
 import com.alibaba.fastjson.JSONArray;
 import com.cand.util.LogUtil;
+import com.google.gson.Gson;
 import com.okex.open.api.utils.DateUtils;
 
 import net.sf.json.JSONObject;
@@ -79,7 +80,9 @@ public class ExchangeTickerDataServer {
 
             @Override
             public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String content) {
-                if (!content.equals("pong")) {
+                if (content.equals("pong")) {
+                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
+                }else{
                     JSONObject rst = JSONObject.fromObject(content);
                     net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
                     JSONObject data = JSONObject.fromObject(dataArr.get(0));
@@ -126,11 +129,9 @@ public class ExchangeTickerDataServer {
         return jsonArray.toJSONString();
     }
 
-    public void subscribe(List<Map<String, String>> list) {
-        String s = listToJsonStr(list);
-        String str = "{\"op\": \"subscribe\", \"args\":" + s + "}";
+    public void subscribe(String json) {
         if (webSocket != null){
-            sendMessage(str);
+            sendMessage(json);
         }
 
     }

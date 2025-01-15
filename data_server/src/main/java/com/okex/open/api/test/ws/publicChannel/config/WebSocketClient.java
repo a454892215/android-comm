@@ -64,7 +64,7 @@ public class WebSocketClient {
             public void onOpen(@NotNull final WebSocket webSocket, @NotNull final Response response) {
                 //连接成功后，设置定时器，每隔25s，自动向服务器发送心跳，保持与服务器连接
                 isConnect = true;
-                LogUtil.d(Instant.now().toString() + " 连接到websocket成功!， 开始启动心跳服务");
+                LogUtil.d(Instant.now().toString() + " 连接到websocket成功：" + url);
                 Runnable runnable = () -> sendMessage("ping");
                 service = Executors.newSingleThreadScheduledExecutor();
                 // 第二个参数为首次执行的延时时间，第三个参数为定时执行的间隔时间
@@ -294,6 +294,11 @@ public class WebSocketClient {
         String str = "{\"op\": \"subscribe\", \"args\":" + s + "}";
         if (null != webSocket)
             sendMessage(str);
+    }
+
+    public static void subscribe2(String json) {
+        if (null != webSocket)
+            sendMessage(json);
     }
 
     //取消订阅，参数为频道组成的集合

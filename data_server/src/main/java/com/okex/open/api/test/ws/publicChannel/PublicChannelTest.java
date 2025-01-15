@@ -1,5 +1,6 @@
 package com.okex.open.api.test.ws.publicChannel;
 
+import com.google.gson.Gson;
 import com.okex.open.api.test.ws.publicChannel.config.WebSocketClient;
 import com.okex.open.api.test.ws.publicChannel.config.WebSocketConfig;
 
@@ -71,16 +72,10 @@ public class PublicChannelTest {
      */
     @Test
     public void tradesChannel() {
-        ArrayList<Map> channelList = new ArrayList<>();
-        Map map = new HashMap();
-        map.put("channel", "trades");
-        map.put("instId", "EOS-USDT-SWAP");
-        Map map1 = new HashMap();
-        map1.put("channel", "trades");
-        map1.put("instId", "SOL-USD-SWAP");
-        channelList.add(map);
-        channelList.add(map1);
-        WebSocketClient.subscribe(channelList);
+        TradeChannelSubscribeEntity entity = new TradeChannelSubscribeEntity();
+        entity.args.add(new TradeChannelSubscribeEntity.Item("EOS-USDT-SWAP"));
+        String json = new Gson().toJson(entity);
+        WebSocketClient.subscribe2(json);
         sleepThread(10000000);
     }
 
