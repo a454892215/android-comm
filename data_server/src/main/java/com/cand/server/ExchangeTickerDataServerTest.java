@@ -1,6 +1,5 @@
 package com.cand.server;
 
-import com.cand.util.LogUtil;
 import com.cand.util.ThreadU;
 import com.google.gson.Gson;
 import com.okex.open.api.test.ws.publicChannel.OkxModel;
@@ -45,5 +44,10 @@ public class ExchangeTickerDataServerTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testDynamicAddSubscribe(){
+
     }
 }
