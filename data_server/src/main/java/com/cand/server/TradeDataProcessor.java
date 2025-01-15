@@ -4,57 +4,64 @@ import com.cand.data_base.CandleEntity;
 import com.cand.data_base.H2TableGenerator;
 import com.cand.data_base.Repository;
 import com.cand.entity.TradeEntity;
+import com.cand.util.BigDecimalU;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class TradeDataProcessor {
+    private final ConcurrentHashMap<String, ReentrantLock> lockMap = new ConcurrentHashMap<>(); // 用来存储每个 coinId 的锁
+    private final ConcurrentHashMap<String, TradeEntity> lastSavedDataMap = new ConcurrentHashMap<>();
+    private final Repository repository = new Repository();
 
-    private final Map<String, TradeEntity> lastSavedDataMap = new HashMap<>();
-
-    public void handleTradeEntity(TradeEntity entity) {
+    public void handleTradeEntity(TradeEntity newest) {
+        // 获取或创建一个 ReentrantLock，确保每个 coinId 有一个独立的锁
+        ReentrantLock lock = lockMap.computeIfAbsent(newest.coinId, k -> new ReentrantLock());
+        // 使用该锁对象同步方法，确保同一个 coinId 只能顺序执行
+        lock.lock();
         try {
-            TradeEntity last = lastSavedDataMap.getOrDefault(entity.coinId, null);
+            TradeEntity last = lastSavedDataMap.getOrDefault(newest.coinId, null);
             if (last == null) {
-                // 先从数据库获取最近一条数据
-                Repository repository = new Repository();
-                String tableName = entity.getTableName();
+                String tableName = newest.getTableName();
                 if (!Repository.exists(tableName)) {
                     H2TableGenerator.generateTable(CandleEntity.class, tableName);
                 }
-                CandleEntity newestCandle= repository.getNewestInsertEntity(CandleEntity.class, tableName);
-                TradeEntity newest = parse(newestCandle, entity.coinId);
-                if (newest == null) {
-                    last = entity;
-                    lastSavedDataMap.put(entity.coinId, last);
-                   // repository.insertEntity(newEntity, tableName);
+                CandleEntity lastSavedCandle = repository.getNewestInsertEntity(CandleEntity.class, tableName);
+                TradeEntity lastSavedTradeEntity = parse(lastSavedCandle, newest.coinId);
+                last = lastSavedTradeEntity == null ? newest : lastSavedTradeEntity;
+                if (lastSavedCandle == null) {
+                    repository.insertEntity(getCandleEntityByTradeEntity(last), tableName);
+                    lastSavedDataMap.put(newest.coinId, last);
                 } else {
-                   // long timestamp = newestEntity.getTimestamp().toEpochSecond(ZoneOffset.UTC);
-                   // last = new TradeEntity(entity.coinId, newestEntity.getOpen() + "", timestamp, newestEntity.getVolume() + "");
+                    double fd = BigDecimalU.getFd(lastSavedCandle.getOpen(), last.getPrice());
+                    if (Math.abs(fd) >= 0.2) {
+                        repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
+                        lastSavedDataMap.put(newest.coinId, last);
+                    }
                 }
-                lastSavedDataMap.put(entity.coinId, entity);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
     }
 
-    public TradeEntity parse(CandleEntity newestEntity, String coinId){
-        if(newestEntity != null){
+    public TradeEntity parse(CandleEntity newestEntity, String coinId) {
+        if (newestEntity != null) {
             TradeEntity last = new TradeEntity();
             last.coinId = coinId;
-            last.ts = newestEntity.getLongTimestamp(); //时间戳
-            last.price = newestEntity.getOpen().toPlainString(); //成交价格
+            last.ts = newestEntity.getLongTimestamp(); // 时间戳
+            last.price = newestEntity.getOpen().toPlainString(); // 成交价格
             last.size = newestEntity.getVolume().toPlainString(); // 成交数量
             return last;
         }
         return null;
     }
 
-    public CandleEntity parse(TradeEntity entity){
-        if(entity != null){
+    public CandleEntity getCandleEntityByTradeEntity(TradeEntity entity) {
+        if (entity != null) {
             CandleEntity newEntity = new CandleEntity();
             newEntity.setLongTimestamp(entity.ts);
             newEntity.setOpen(new BigDecimal(entity.price));

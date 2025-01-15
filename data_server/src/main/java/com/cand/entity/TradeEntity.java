@@ -1,5 +1,7 @@
 package com.cand.entity;
 
+import java.math.BigDecimal;
+
 public class TradeEntity {
     public String coinId;
     public String price; // 成交价格
@@ -16,6 +18,10 @@ public class TradeEntity {
         this.size = size;
     }
 
+    public BigDecimal getPrice() {
+        return new BigDecimal(price);
+    }
+
     @Override
     public String toString() {
         return "TradeEntity{" +
@@ -26,9 +32,7 @@ public class TradeEntity {
                 '}';
     }
 
-    public String getTableName(){
+    public String getTableName() {
         return coinId.toLowerCase().replace("-", "_");
     }
-
-
 }
