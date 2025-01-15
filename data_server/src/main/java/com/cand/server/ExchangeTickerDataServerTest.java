@@ -1,14 +1,27 @@
 package com.cand.server;
 
+import com.cand.util.LogUtil;
 import com.cand.util.ThreadU;
 import com.google.gson.Gson;
+import com.okex.open.api.test.ws.publicChannel.OkxModel;
+import com.okex.open.api.test.ws.publicChannel.TickersEntity;
 import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
 import com.okex.open.api.test.ws.publicChannel.config.WebSocketConfig;
 
+import org.junit.Before;
 import org.junit.Test;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExchangeTickerDataServerTest {
 
+
+    @Before
+    public void setLogLevel(){
+        Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        rootLogger.setLevel(Level.INFO);
+    }
     @Test
     public void test() {
         try {
@@ -19,11 +32,12 @@ public class ExchangeTickerDataServerTest {
             server.setOnOpeOkListener(() -> {
                 ThreadU.sleep(1000);
                 TradeChannelSubscribeEntity entity = new TradeChannelSubscribeEntity();
-                entity.args.add(new TradeChannelSubscribeEntity.Item("EOS-USDT-SWAP"));
-                entity.args.add(new TradeChannelSubscribeEntity.Item("SOL-USDT-SWAP"));
-                entity.args.add(new TradeChannelSubscribeEntity.Item("BTC-USDT-SWAP"));
-                entity.args.add(new TradeChannelSubscribeEntity.Item("OL-USDT-SWAP"));
-                entity.args.add(new TradeChannelSubscribeEntity.Item("XRP-USDT-SWAP"));
+                OkxModel okxModel = new OkxModel();
+                TickersEntity tickers = okxModel.getTickers();
+                for (int i = 0; i < tickers.data.size(); i++) {
+                    TickersEntity.Item datum = tickers.data.get(i);
+                    entity.args.add(new TradeChannelSubscribeEntity.Item(datum.instId));
+                }
                 String json = new Gson().toJson(entity);
                 server.subscribe(json);
             });

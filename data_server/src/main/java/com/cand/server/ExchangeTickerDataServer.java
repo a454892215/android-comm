@@ -11,6 +11,7 @@ import com.okex.open.api.utils.DateUtils;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
+
 import java.time.Instant;
 import java.util.Date;
 import java.util.concurrent.Executors;
@@ -105,12 +106,16 @@ public class ExchangeTickerDataServer {
                                     last.price = item.getString("px"); //成交价格
                                     last.size = item.getString("sz"); // 成交数量
                                     processor.handleTradeEntity(last);
+                                    long delay = System.currentTimeMillis() - last.ts;
+                                    if (Math.abs(delay) > 400) {
+                                        LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  " + DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4));
+                                    }
 
                                 }
                             }
                         }
                     }
-                  //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
+                    //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
                 } catch (Exception e) {
                     e.printStackTrace();
                     LogUtil.e("处理数据发送异常：" + e);
