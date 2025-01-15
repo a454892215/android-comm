@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class Repository {
@@ -72,17 +74,16 @@ public class Repository {
         return exists;
     }
 
-    private static final Map<Class<?>, List<Field>> fieldCache = new HashMap<>();
+    // 使用线程安全的 ConcurrentHashMap
+    private static final Map<Class<?>, List<Field>> fieldCache = new ConcurrentHashMap<>();
 
     private static List<Field> getCachedFields(Class<?> clazz) {
-        return fieldCache.computeIfAbsent(clazz, cls -> {
-            List<Field> fields = new ArrayList<>();
-            for (Field field : cls.getDeclaredFields()) {
-                field.setAccessible(true);
-                fields.add(field);
-            }
-            return fields;
-        });
+        // 使用 computeIfAbsent 缓存字段列表
+        return fieldCache.computeIfAbsent(clazz, cls ->
+                Arrays.stream(cls.getDeclaredFields())
+                        .peek(field -> field.setAccessible(true)) // 设置字段可访问
+                        .collect(Collectors.toList()) // Java 8 收集为 List
+        );
     }
 
 
@@ -391,6 +392,4 @@ public class Repository {
             return ps.executeUpdate();
         }
     }
-
-
 }
