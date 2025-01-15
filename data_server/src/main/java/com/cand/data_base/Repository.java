@@ -1,5 +1,8 @@
 package com.cand.data_base;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 
@@ -9,14 +12,51 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unused")
 public class Repository {
-    private final Connection connection;
+    private static final HikariDataSource dataSource;
 
-    public Repository(Connection connection) {
-        this.connection = connection;
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(CV.JDBC_URL); // 数据库的URL
+        config.setUsername(CV.USER);
+        config.setPassword(CV.PASSWORD);
+
+        config.setConnectionTimeout(5 * 1000); // 等待连接超时时间设为 5 秒
+        config.setMaximumPoolSize(50); // 最大连接池大小，建议从 50 开始，根据负载调整
+        config.setMinimumIdle(10); // 最小空闲连接数，确保低负载时也有可用连接
+        config.setIdleTimeout(10 * 1000); // 空闲连接超时时间，避免无用连接占用资源
+        config.setMaxLifetime(30 * 60 * 1000); // 连接最大存活时间，避免长期连接导致问题
+        dataSource = new HikariDataSource(config);
+    }
+
+    public static Connection connect() throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    private static final Map<String, Boolean> tableExistsMap = new HashMap<>();
+
+    public static boolean exists(String tableName) throws SQLException {
+        boolean exists = tableExistsMap.getOrDefault(tableName, false);
+        if (exists) {
+            return true;
+        }
+        String query = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?";
+        try (Connection connection = connect();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, tableName.toUpperCase());
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    exists = resultSet.getInt(1) > 0;
+                }
+            }
+        }
+        tableExistsMap.put(tableName, exists);
+        return exists;
     }
 
     // 插入单个实体
@@ -63,7 +103,8 @@ public class Repository {
         // 构建SQL语句
         String sql = "INSERT INTO " + tableName + " (" + columns + ") VALUES (" + placeholders + ")";
         // System.out.println("执行的sql:" + sql);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             // 设置参数
             for (int i = 0; i < values.size(); i++) {
                 ps.setObject(i + 1, values.get(i));
@@ -109,7 +150,8 @@ public class Repository {
         System.out.println("执行的SQL模板: " + sql);
 
         // 执行批量插入
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             int batchSize = 5000; // 批次大小，适当调整以平衡性能与内存消耗
             int totalInserted = 0;
             int batchCount = 0;
@@ -137,8 +179,9 @@ public class Repository {
 
             return totalInserted; // 返回总插入记录数
         } catch (Exception e) {
-            throw e;
+           e.printStackTrace();
         }
+        return 0;
     }
 
 
@@ -147,7 +190,8 @@ public class Repository {
     public <T> List<T> findAllEntities(Class<T> clazz, String tableName, int size) throws SQLException {
         // 添加 LIMIT 子句来限制返回的记录数
         String sql = "SELECT * FROM " + tableName + " ORDER BY timestamp DESC LIMIT ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, size); // 设置 LIMIT 参数
             try (ResultSet rs = ps.executeQuery()) {
                 List<T> entities = new ArrayList<>();
@@ -164,16 +208,17 @@ public class Repository {
     public int getTableRowCount(String tableName) {
         // 使用 COUNT(*) 获取表的总行数
         String sql = "SELECT COUNT(*) FROM " + tableName;
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return rs.getInt(1); // 获取 COUNT(*) 的结果
                 } else {
-                    return  0;
+                    return 0;
                 }
             }
         } catch (Exception e) {
-          return 0;
+            return 0;
         }
     }
 
@@ -187,7 +232,8 @@ public class Repository {
         int size = end - start;  // 数据范围的大小，包含 start 但不包含 end
         String sql = "SELECT * FROM " + tableName + " LIMIT ? OFFSET ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, size);   // 设置 LIMIT 参数
             ps.setInt(2, start);  // 设置 OFFSET 参数
 
@@ -203,9 +249,10 @@ public class Repository {
         }
     }
 
-    public <T> T getLastEntity(Class<T> clazz, String tableName) throws SQLException {
+    public <T> T getNewestInsertEntity(Class<T> clazz, String tableName) throws SQLException {
         String sql = "SELECT * FROM " + tableName + " ORDER BY timestamp DESC LIMIT 1";
-        try (PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 return mapResultSetToEntity(rs, clazz);
@@ -234,9 +281,7 @@ public class Repository {
                     // 特殊处理 BigDecimal 类型
                     else if (field.getType().equals(BigDecimal.class) && columnValue instanceof BigDecimal) {
                         field.set(entity, ((BigDecimal) columnValue).stripTrailingZeros());
-                    }
-
-                    else if (columnValue != null) {
+                    } else if (columnValue != null) {
                         field.set(entity, columnValue); // 普通字段赋值
                     }
                 }
@@ -280,7 +325,8 @@ public class Repository {
 
         String sql = "UPDATE " + tableName + " SET " + setClause + " WHERE " + idColumn + " = ?";
         values.add(idValue);
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             for (int i = 0; i < values.size(); i++) {
                 ps.setObject(i + 1, values.get(i));
             }
@@ -313,7 +359,8 @@ public class Repository {
         }
 
         String sql = "DELETE FROM " + tableName + " WHERE " + idColumn + " = ?";
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (Connection connection = connect();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setObject(1, idValue);
             return ps.executeUpdate();
         }

@@ -71,7 +71,7 @@ public class H2TableGenerator {
         createTableSQL.append(");");
 
         // 执行 SQL
-        try (Connection connection = H2DatabaseUtils.connect();
+        try (Connection connection = Repository.connect();
              Statement statement = connection.createStatement()) {
             LogUtil.d("执行的SQL语句是：" + createTableSQL);
             statement.execute(createTableSQL.toString());
@@ -109,7 +109,7 @@ public class H2TableGenerator {
 
     public static void printTableStructure(String tableName) throws Exception {
         String query = "SHOW COLUMNS FROM " + tableName; // H2 数据库使用这个语法
-        try (Connection connection = H2DatabaseUtils.connect();
+        try (Connection connection = Repository.connect();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
