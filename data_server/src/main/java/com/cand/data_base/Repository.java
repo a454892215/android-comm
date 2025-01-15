@@ -29,8 +29,8 @@ public class Repository {
         config.setConnectionTimeout(5 * 1000); // 等待连接超时时间设为 5 秒
         config.setMaximumPoolSize(50); // 最大连接池大小，建议从 50 开始，根据负载调整
         config.setMinimumIdle(10); // 最小空闲连接数，确保低负载时也有可用连接
-        config.setIdleTimeout(10 * 1000); // 空闲连接超时时间，避免无用连接占用资源
-        config.setMaxLifetime(30 * 60 * 1000); // 连接最大存活时间，避免长期连接导致问题
+        config.setIdleTimeout(5 * 60 * 1000); // 空闲连接超时时间，避免无用连接占用资源
+        config.setMaxLifetime(60 * 60 * 1000); // 连接最大存活时间，避免长期连接导致问题
         dataSource = new HikariDataSource(config);
     }
 
@@ -38,9 +38,22 @@ public class Repository {
         return dataSource.getConnection();
     }
 
+    public static void closeDataSource() {
+        if (dataSource != null && !dataSource.isClosed()) {
+            dataSource.close();
+        }
+    }
+
     private static final Map<String, Boolean> tableExistsMap = new HashMap<>();
 
+    private static void validateTableName(String tableName) {
+        if (!tableName.matches("[a-zA-Z0-9_]+")) {
+            throw new IllegalArgumentException("Invalid table name: " + tableName);
+        }
+    }
+
     public static boolean exists(String tableName) throws SQLException {
+        validateTableName(tableName);
         boolean exists = tableExistsMap.getOrDefault(tableName, false);
         if (exists) {
             return true;
@@ -59,6 +72,20 @@ public class Repository {
         return exists;
     }
 
+    private static final Map<Class<?>, List<Field>> fieldCache = new HashMap<>();
+
+    private static List<Field> getCachedFields(Class<?> clazz) {
+        return fieldCache.computeIfAbsent(clazz, cls -> {
+            List<Field> fields = new ArrayList<>();
+            for (Field field : cls.getDeclaredFields()) {
+                field.setAccessible(true);
+                fields.add(field);
+            }
+            return fields;
+        });
+    }
+
+
     // 插入单个实体
     public <T> int insertEntity(T entity, String tableName) throws SQLException {
         Class<?> clazz = entity.getClass();
@@ -68,7 +95,7 @@ public class Repository {
         boolean isFirstField = true;
 
         // 遍历所有字段
-        for (Field field : clazz.getDeclaredFields()) {
+        for (Field field : getCachedFields(clazz)) {
             field.setAccessible(true);
             Column column = field.getAnnotation(Column.class);
             if (column != null) {
@@ -128,7 +155,7 @@ public class Repository {
         boolean isFirstField = true;
 
         // 获取字段映射
-        Field[] fields = clazz.getDeclaredFields();
+        List<Field> fields = getCachedFields(clazz);
         List<Field> entityFields = new ArrayList<>();
         for (Field field : fields) {
             field.setAccessible(true);
@@ -179,9 +206,8 @@ public class Repository {
 
             return totalInserted; // 返回总插入记录数
         } catch (Exception e) {
-           e.printStackTrace();
+            throw new SQLException("发生了异常: " + tableName, e);
         }
-        return 0;
     }
 
 
@@ -267,7 +293,7 @@ public class Repository {
     private <T> T mapResultSetToEntity(ResultSet rs, Class<T> clazz) throws SQLException {
         try {
             T entity = clazz.getDeclaredConstructor().newInstance(); // 实例化实体类
-            for (Field field : clazz.getDeclaredFields()) {
+            for (Field field : getCachedFields(clazz)) {
                 field.setAccessible(true);
                 Column column = field.getAnnotation(Column.class);
                 if (column != null) {
@@ -302,7 +328,7 @@ public class Repository {
         String idColumn = null;
         Object idValue = null;
 
-        for (Field field : clazz.getDeclaredFields()) {
+        for (Field field : getCachedFields(clazz)) {
             field.setAccessible(true);
             try {
                 Column column = field.getAnnotation(Column.class);
@@ -341,7 +367,7 @@ public class Repository {
         String idColumn = null;
         Object idValue = null;
 
-        for (Field field : clazz.getDeclaredFields()) {
+        for (Field field : getCachedFields(clazz)) {
             if (field.isAnnotationPresent(Id.class)) {
                 idColumn = field.getAnnotation(Column.class).name();
                 field.setAccessible(true);
