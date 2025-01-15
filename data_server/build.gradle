@@ -22,7 +22,7 @@ dependencies {
 
     // Guava
     implementation 'com.google.guava:guava:27.1-jre'
-    implementation 'com.alibaba:fastjson:1.2.83'
+    implementation 'com.alibaba:fastjson:2.0.28'
     implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 

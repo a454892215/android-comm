@@ -1,19 +1,17 @@
 package com.cand.network;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.cand.util.LogUtil;
-import com.google.gson.Gson;
 import com.okex.open.api.utils.DateUtils;
 
-import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -67,6 +65,7 @@ public class ExchangeTickerDataServer {
 
             @Override
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
+                t.printStackTrace();
                 LogUtil.d("websocket 连接失败...:" + t.getMessage());
                 shutdownHeartbeat();
                 retryConnection(url); // 触发重连逻辑
@@ -80,16 +79,32 @@ public class ExchangeTickerDataServer {
 
             @Override
             public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String content) {
-                if (content.equals("pong")) {
-                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
-                }else{
-                    JSONObject rst = JSONObject.fromObject(content);
-                    net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
-                    JSONObject data = JSONObject.fromObject(dataArr.get(0));
-                    long localTimestamp = System.currentTimeMillis();
-                    long ts = Long.parseLong(data.get("ts").toString());
-                    long timing = localTimestamp - ts;
-                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "(" + timing + "ms)" + " Receive: " + content);
+                try {
+                    if (content.equals("pong")) {
+                        LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
+                    }else{
+                        JSONObject jsonObject = JSON.parseObject(content);
+                        JSONObject arg = jsonObject.getJSONObject("arg");
+                        String channel = arg.getString("channel");
+                        if("trades".equals(channel)){
+                            // https://www.okx.com/docs-v5/zh/#order-book-trading-market-data-ws-trades-channel
+                            // {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
+                            JSONArray dataArr = jsonObject.getJSONArray("data");
+                            int size = dataArr.size();
+                            for (int i = 0; i < size; i++) {
+                                JSONObject item = dataArr.getJSONObject(i);
+                                String instId = item.getString("instId");
+                                String ts = item.getString("ts"); //时间戳
+                                String px = item.getString("px"); //成交价格
+                                String sz = item.getString("sz"); // 成交数量
+                            }
+
+                            LogUtil.d2(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "接收到交易频道数据: " + content);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                   LogUtil.e("处理数据发送异常：" + e);
                 }
             }
         });
@@ -108,6 +123,11 @@ public class ExchangeTickerDataServer {
 
     private void sendMessage(String str) {
         if (webSocket != null) {
+            try {
+                Thread.sleep(1300);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (!"ping".equals(str)) {
                 LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " 发送给服务端的信息是:" + str);
             }
@@ -121,13 +141,6 @@ public class ExchangeTickerDataServer {
         this.onOpeOkListener = onOpeOkListener;
     }
 
-    private String listToJsonStr(List<Map<String, String>> list) {
-        JSONArray jsonArray = new JSONArray();
-        for (Map<String, String> map : list) {
-            jsonArray.add(JSONObject.fromObject(map));
-        }
-        return jsonArray.toJSONString();
-    }
 
     public void subscribe(String json) {
         if (webSocket != null){
