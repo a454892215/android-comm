@@ -8,6 +8,7 @@ import com.cand.util.BigDecimalU;
 import com.cand.util.LogUtil;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -23,26 +24,21 @@ public class TradeDataProcessor {
         lock.lock();
         try {
             TradeEntity last = lastSavedDataMap.getOrDefault(newest.coinId, null);
+            String tableName = newest.getTableName();
             if (last == null) {
-                String tableName = newest.getTableName();
                 if (!Repository.exists(tableName)) {
                     H2TableGenerator.generateTable(CandleEntity.class, tableName);
                 }
                 CandleEntity lastSavedCandle = repository.getNewestInsertEntity(CandleEntity.class, tableName);
-                TradeEntity lastSavedTradeEntity = parse(lastSavedCandle, newest.coinId);
-                last = lastSavedTradeEntity == null ? newest : lastSavedTradeEntity;
                 if (lastSavedCandle == null) {
-                    repository.insertEntity(getCandleEntityByTradeEntity(last), tableName);
-                    lastSavedDataMap.put(newest.coinId, last);
-                    LogUtil.d(newest.coinId + "第一次插入到数据库表：" + tableName + " last:" + last.price);
+                    repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
+                    lastSavedDataMap.put(newest.coinId, newest);
+                    LogUtil.d(newest.coinId + "表没有数据，第一次插入到数据库表：" + tableName + " price:" + newest.price);
                 } else {
-                    double fd = BigDecimalU.getFd(lastSavedCandle.getOpen(), last.getPrice());
-                    if (Math.abs(fd) >= 0.2) {
-                        repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
-                        lastSavedDataMap.put(newest.coinId, last);
-                        LogUtil.d(newest.coinId + "插入到数据库表：" + tableName + " last:" + last.price);
-                    }
+                    checkAndSaveNewestDataToLocal(newest, tableName, getTradeEntity(lastSavedCandle, newest.coinId));
                 }
+            } else {
+                checkAndSaveNewestDataToLocal(newest, tableName, last);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,7 +47,20 @@ public class TradeDataProcessor {
         }
     }
 
-    public TradeEntity parse(CandleEntity newestEntity, String coinId) {
+    private void checkAndSaveNewestDataToLocal(TradeEntity newest, String tableName, TradeEntity lastSavedTradeP) {
+        try {
+            double fd = BigDecimalU.getFd(lastSavedTradeP.getPrice(), newest.getPrice());
+            if (Math.abs(fd) >= 0.2) {
+                repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
+                lastSavedDataMap.put(newest.coinId, newest);
+                LogUtil.d(newest.coinId + " 插入到数据库表：" + tableName + " price:" + newest.price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public TradeEntity getTradeEntity(CandleEntity newestEntity, String coinId) {
         if (newestEntity != null) {
             TradeEntity last = new TradeEntity();
             last.coinId = coinId;
