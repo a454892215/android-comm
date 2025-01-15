@@ -33,7 +33,8 @@ public class CandleEntity {
     public static CandleEntity createSimpleObj() {
 
         CandleEntity candleEntity = new CandleEntity();
-        candleEntity.setLongTimestamp(1736909125942L);
+        // candleEntity.setLongTimestamp(1736909125942L);
+        candleEntity.setLongTimestamp(System.currentTimeMillis());
         candleEntity.setClose(BigDecimal.valueOf(187.08));
         candleEntity.setOpen(BigDecimal.valueOf(187.08));
         candleEntity.setHigh(BigDecimal.valueOf(187.08));

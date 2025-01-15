@@ -4,6 +4,7 @@ import static com.cand.data_base.H2TableGenerator.generateTable;
 import static com.cand.data_base.H2TableGenerator.printTableStructure;
 
 import com.cand.util.LogUtil;
+import com.cand.util.ThreadU;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,11 +29,13 @@ public class RepositoryTest {
 
     @Test
     public void testInsert() throws Exception {
-        System.out.println("开始插入数据...");
         Repository repository = new Repository();
-        repository.insertEntity(CandleEntity.createSimpleObj(), tableName);
+        System.out.println("开始插入数据...");
+        for (int i = 0; i < 7; i++) {
+            repository.insertEntity(CandleEntity.createSimpleObj(), tableName);
+            ThreadU.sleep(300);
+        }
         LogUtil.d("插入数据完毕  当前表的数据量是：" + repository.getTableRowCount(tableName));
-
     }
 
     @Test
