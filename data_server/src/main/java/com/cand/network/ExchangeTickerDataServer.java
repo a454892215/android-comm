@@ -80,31 +80,31 @@ public class ExchangeTickerDataServer {
             @Override
             public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String content) {
                 try {
-                    if (content.equals("pong")) {
-                        LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
-                    }else{
+                    if ("pong".equals(content)) {
+                    } else {
                         JSONObject jsonObject = JSON.parseObject(content);
                         JSONObject arg = jsonObject.getJSONObject("arg");
                         String channel = arg.getString("channel");
-                        if("trades".equals(channel)){
+                        if ("trades".equals(channel)) {
                             // https://www.okx.com/docs-v5/zh/#order-book-trading-market-data-ws-trades-channel
                             // {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
                             JSONArray dataArr = jsonObject.getJSONArray("data");
-                            int size = dataArr.size();
-                            for (int i = 0; i < size; i++) {
-                                JSONObject item = dataArr.getJSONObject(i);
-                                String instId = item.getString("instId");
-                                String ts = item.getString("ts"); //时间戳
-                                String px = item.getString("px"); //成交价格
-                                String sz = item.getString("sz"); // 成交数量
+                            if (dataArr != null) {
+                                int size = dataArr.size();
+                                for (int i = 0; i < size; i++) {
+                                    JSONObject item = dataArr.getJSONObject(i);
+                                    String instId = item.getString("instId");
+                                    String ts = item.getString("ts"); //时间戳
+                                    String px = item.getString("px"); //成交价格
+                                    String sz = item.getString("sz"); // 成交数量
+                                }
                             }
-
-                            LogUtil.d2(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "接收到交易频道数据: " + content);
                         }
                     }
+                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
                 } catch (Exception e) {
                     e.printStackTrace();
-                   LogUtil.e("处理数据发送异常：" + e);
+                    LogUtil.e("处理数据发送异常：" + e);
                 }
             }
         });
@@ -143,7 +143,7 @@ public class ExchangeTickerDataServer {
 
 
     public void subscribe(String json) {
-        if (webSocket != null){
+        if (webSocket != null) {
             sendMessage(json);
         }
 
