@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cand.entity.TradeEntity;
-import com.cand.network.OnOpeOkListener;
 import com.cand.util.LogUtil;
+import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
 import com.okex.open.api.utils.DateUtils;
 
 
@@ -29,7 +29,7 @@ import okhttp3.WebSocketListener;
 public class ExchangeTickerDataServer {
     private static WebSocket webSocket = null;
 
-    private OnOpeOkListener onOpeOkListener;
+
     private final OkHttpClient client = new OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
             .build();
@@ -37,6 +37,7 @@ public class ExchangeTickerDataServer {
     private boolean isReconnecting = false;
 
     private final TradeDataProcessor processor = new TradeDataProcessor();
+    private TradeChannelSubscribeEntity tradeChannelSubscribeTask;
 
     public void connection(final String url) {
         Request request = new Request.Builder().url(url).build();
@@ -50,8 +51,8 @@ public class ExchangeTickerDataServer {
                 Runnable heartbeatTask = () -> sendMessage("ping");
                 heartbeatService = Executors.newSingleThreadScheduledExecutor();
                 heartbeatService.scheduleAtFixedRate(heartbeatTask, 25, 25, TimeUnit.SECONDS);
-                if (onOpeOkListener != null) {
-                    onOpeOkListener.onOk();
+                if(tradeChannelSubscribeTask != null){
+                    // TODO
                 }
             }
 
@@ -112,6 +113,8 @@ public class ExchangeTickerDataServer {
                                     }
 
                                 }
+                            }else{
+                                // TODO 记录已经订阅过的币种
                             }
                         }
                     }
@@ -152,9 +155,11 @@ public class ExchangeTickerDataServer {
         }
     }
 
-    public void setOnOpeOkListener(OnOpeOkListener onOpeOkListener) {
-        this.onOpeOkListener = onOpeOkListener;
+
+    public void setTradeChannelSubscribeTask(TradeChannelSubscribeEntity tradeChannelSubscribeTask) {
+        this.tradeChannelSubscribeTask = tradeChannelSubscribeTask;
     }
+
 
 
     public void subscribe(String json) {
