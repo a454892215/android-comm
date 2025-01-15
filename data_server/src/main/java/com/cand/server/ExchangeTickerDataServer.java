@@ -110,7 +110,7 @@ public class ExchangeTickerDataServer {
                             }
                         }
                     }
-                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
+                  //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
                 } catch (Exception e) {
                     e.printStackTrace();
                     LogUtil.e("处理数据发送异常：" + e);

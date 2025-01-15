@@ -21,6 +21,9 @@ public class ExchangeTickerDataServerTest {
                 TradeChannelSubscribeEntity entity = new TradeChannelSubscribeEntity();
                 entity.args.add(new TradeChannelSubscribeEntity.Item("EOS-USDT-SWAP"));
                 entity.args.add(new TradeChannelSubscribeEntity.Item("SOL-USDT-SWAP"));
+                entity.args.add(new TradeChannelSubscribeEntity.Item("BTC-USDT-SWAP"));
+                entity.args.add(new TradeChannelSubscribeEntity.Item("OL-USDT-SWAP"));
+                entity.args.add(new TradeChannelSubscribeEntity.Item("XRP-USDT-SWAP"));
                 String json = new Gson().toJson(entity);
                 server.subscribe(json);
             });

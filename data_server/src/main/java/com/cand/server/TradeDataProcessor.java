@@ -5,6 +5,7 @@ import com.cand.data_base.H2TableGenerator;
 import com.cand.data_base.Repository;
 import com.cand.entity.TradeEntity;
 import com.cand.util.BigDecimalU;
+import com.cand.util.LogUtil;
 
 import java.math.BigDecimal;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,11 +34,13 @@ public class TradeDataProcessor {
                 if (lastSavedCandle == null) {
                     repository.insertEntity(getCandleEntityByTradeEntity(last), tableName);
                     lastSavedDataMap.put(newest.coinId, last);
+                    LogUtil.d(newest.coinId + "第一次插入到数据库表：" + tableName + " last:" + last.price);
                 } else {
                     double fd = BigDecimalU.getFd(lastSavedCandle.getOpen(), last.getPrice());
                     if (Math.abs(fd) >= 0.2) {
                         repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
                         lastSavedDataMap.put(newest.coinId, last);
+                        LogUtil.d(newest.coinId + "插入到数据库表：" + tableName + " last:" + last.price);
                     }
                 }
             }
