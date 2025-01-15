@@ -1,7 +1,10 @@
 package com.cand.data_base;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 import javax.persistence.*;
 
@@ -24,14 +27,18 @@ public class CandleEntity {
         this.volume = volume;
     }
 
+    /**
+     {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
+     */
     public static CandleEntity createSimpleObj() {
+
         CandleEntity candleEntity = new CandleEntity();
-        candleEntity.timestamp = LocalDateTime.now();
-        candleEntity.setClose(BigDecimal.valueOf(20));
-        candleEntity.setOpen(BigDecimal.valueOf(30));
-        candleEntity.setHigh(BigDecimal.valueOf(59));
-        candleEntity.setLow(BigDecimal.valueOf(10));
-        candleEntity.setVolume(BigDecimal.valueOf(30000));
+        candleEntity.setLongTimestamp(1736909125942L);
+        candleEntity.setClose(BigDecimal.valueOf(187.08));
+        candleEntity.setOpen(BigDecimal.valueOf(187.08));
+        candleEntity.setHigh(BigDecimal.valueOf(187.08));
+        candleEntity.setLow(BigDecimal.valueOf(187.08));
+        candleEntity.setVolume(BigDecimal.valueOf(30000.23));
         return candleEntity;
     }
 
@@ -48,15 +55,23 @@ public class CandleEntity {
     @Column(name = "low", nullable = false, precision = 36, scale = 16)
     private BigDecimal low;
 
-    @Column(name = "volume", nullable = false, precision = 22, scale = 2)
+    @Column(name = "volume", nullable = false, precision = 36, scale = 16)
     private BigDecimal volume;
 
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
+    public long getLongTimestamp() {
+        return timestamp.toEpochSecond(ZoneOffset.UTC);
+    }
+
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public void setLongTimestamp(long timestamp) {
+        this.timestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(timestamp), ZoneOffset.ofHours(8));;
     }
 
     public BigDecimal getClose() {

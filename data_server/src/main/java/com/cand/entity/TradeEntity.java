@@ -6,6 +6,16 @@ public class TradeEntity {
     public long ts; // Unix时间戳的毫秒数格式
     public String size; // 成交数量
 
+    public TradeEntity() {
+    }
+
+    public TradeEntity(String coinId, String price, long ts, String size) {
+        this.coinId = coinId;
+        this.price = price;
+        this.ts = ts;
+        this.size = size;
+    }
+
     @Override
     public String toString() {
         return "TradeEntity{" +
@@ -14,6 +24,10 @@ public class TradeEntity {
                 ", ts=" + ts +
                 ", size='" + size + '\'' +
                 '}';
+    }
+
+    public String getTableName(){
+        return coinId.toLowerCase().replace("-", "_");
     }
 
 
