@@ -161,7 +161,7 @@ public class Repository {
         }
     }
 
-    public int getTableRowCount(String tableName) throws SQLException {
+    public int getTableRowCount(String tableName) {
         // 使用 COUNT(*) 获取表的总行数
         String sql = "SELECT COUNT(*) FROM " + tableName;
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -169,11 +169,11 @@ public class Repository {
                 if (rs.next()) {
                     return rs.getInt(1); // 获取 COUNT(*) 的结果
                 } else {
-                    throw new SQLException("Failed to retrieve row count from table: " + tableName);
+                    return  0;
                 }
             }
         } catch (Exception e) {
-            throw new SQLException("Error executing query: " + sql, e);
+          return 0;
         }
     }
 
@@ -203,6 +203,18 @@ public class Repository {
         }
     }
 
+    public <T> T getLastEntity(Class<T> clazz, String tableName) throws SQLException {
+        String sql = "SELECT * FROM " + tableName + " ORDER BY timestamp DESC LIMIT 1";
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return mapResultSetToEntity(rs, clazz);
+            }
+            return null; // 表为空时
+        } catch (SQLException e) {
+            throw new SQLException("Error fetching last entity: " + sql, e);
+        }
+    }
 
 
     private <T> T mapResultSetToEntity(ResultSet rs, Class<T> clazz) throws SQLException {

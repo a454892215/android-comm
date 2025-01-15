@@ -1,5 +1,7 @@
 package com.cand.data_base;
 
+import com.cand.util.LogUtil;
+
 import org.h2.util.StringUtils;
 
 import javax.persistence.*;
@@ -7,14 +9,13 @@ import javax.persistence.*;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 
 public class H2TableGenerator {
 
-    public static void generateTable(String JDBC_URL, Class<?> entityClass, String tableName) throws Exception {
+    public static void generateTable(Class<?> entityClass, String tableName) throws Exception {
         // 检查是否有 @Entity 注解
         if (!entityClass.isAnnotationPresent(Entity.class)) {
             throw new IllegalArgumentException("Class " + entityClass.getName() + " is not an Entity.");
@@ -70,11 +71,11 @@ public class H2TableGenerator {
         createTableSQL.append(");");
 
         // 执行 SQL
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, CV.USER, CV.PASSWORD);
+        try (Connection connection = H2DatabaseUtils.connect();
              Statement statement = connection.createStatement()) {
-            System.out.println("执行的SQL语句是：" + createTableSQL);
+            LogUtil.d("执行的SQL语句是：" + createTableSQL);
             statement.execute(createTableSQL.toString());
-            System.out.println("Table " + tableName + " created successfully.");
+            LogUtil.d("Table " + tableName + " created successfully.");
         }
     }
 
@@ -106,9 +107,9 @@ public class H2TableGenerator {
         }
     }
 
-    public static void printTableStructure(String JDBC_URL, String tableName) throws Exception {
+    public static void printTableStructure(String tableName) throws Exception {
         String query = "SHOW COLUMNS FROM " + tableName; // H2 数据库使用这个语法
-        try (Connection connection = DriverManager.getConnection(JDBC_URL, CV.USER, CV.PASSWORD);
+        try (Connection connection = H2DatabaseUtils.connect();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
 
@@ -128,8 +129,8 @@ public class H2TableGenerator {
     public static void main(String[] args) throws Exception {
         String tableName = "candle_test";
         // 示例：生成表
-        generateTable(CV.JDBC_URL, CandleEntity.class, tableName);
+        generateTable(CandleEntity.class, tableName);
         // 示例：打印表结构
-        printTableStructure(CV.JDBC_URL, tableName);
+        printTableStructure(tableName);
     }
 }

@@ -1,8 +1,10 @@
-package com.cand.network;
+package com.cand.server;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.cand.entity.TradeEntity;
+import com.cand.network.OnOpeOkListener;
 import com.cand.util.LogUtil;
 import com.okex.open.api.utils.DateUtils;
 
@@ -33,6 +35,8 @@ public class ExchangeTickerDataServer {
             .build();
     private final ScheduledExecutorService retryService = Executors.newSingleThreadScheduledExecutor();
     private boolean isReconnecting = false;
+
+    private TradeDataProcessor processor = new TradeDataProcessor();
 
     public void connection(final String url) {
         Request request = new Request.Builder().url(url).build();
@@ -77,6 +81,9 @@ public class ExchangeTickerDataServer {
                 }
             }
 
+            /**
+             * 可能在不同的线程返回 需要注意线程安全问题
+             */
             @Override
             public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String content) {
                 try {
@@ -93,10 +100,14 @@ public class ExchangeTickerDataServer {
                                 int size = dataArr.size();
                                 for (int i = 0; i < size; i++) {
                                     JSONObject item = dataArr.getJSONObject(i);
-                                    String instId = item.getString("instId");
-                                    String ts = item.getString("ts"); //时间戳
-                                    String px = item.getString("px"); //成交价格
-                                    String sz = item.getString("sz"); // 成交数量
+                                    TradeEntity entity = new TradeEntity();
+                                    entity.coinId = item.getString("instId");
+                                    entity.ts = item.getLong("ts"); //时间戳
+                                    entity.price = item.getString("px"); //成交价格
+                                    entity.size = item.getString("sz"); // 成交数量
+                                    processor.handleTradeEntity(entity);
+                                    LogUtil.d("======> 解析后的数据entity: " + entity.toString());
+
                                 }
                             }
                         }
@@ -109,6 +120,7 @@ public class ExchangeTickerDataServer {
             }
         });
     }
+
 
     private void retryConnection(final String url) {
         if (isReconnecting) {

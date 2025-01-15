@@ -1,4 +1,4 @@
-package com.cand.network;
+package com.cand.server;
 
 import com.cand.util.ThreadU;
 import com.google.gson.Gson;
@@ -6,10 +6,6 @@ import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
 import com.okex.open.api.test.ws.publicChannel.config.WebSocketConfig;
 
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ExchangeTickerDataServerTest {
 
