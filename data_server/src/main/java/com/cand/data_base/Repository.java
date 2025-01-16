@@ -319,6 +319,36 @@ public class Repository {
         }
     }
 
+    /**
+     * 获取数据库中所有表名
+     */
+    public List<String> getAllTableNames(String tableNamePrefix) throws SQLException {
+        // 用于存储表名的列表
+        List<String> tableNames = new ArrayList<>();
+        String catalog = null; // 当前数据库目录（可以为 null）
+        String schemaPattern = null; // 当前数据库模式（可以为 null 或者具体模式名称）
+        String tableNamePattern = null; // 表名模式（可以为 null 或者具体表名模式）
+        String[] types = {"TABLE"}; // 只获取表类型的对象
+
+        try (Connection connection = connect()) {
+            DatabaseMetaData metaData = connection.getMetaData();
+
+            try (ResultSet rs = metaData.getTables(catalog, schemaPattern, tableNamePattern, types)) {
+                while (rs.next()) {
+                    String tableName = rs.getString("TABLE_NAME");
+                    if(tableNamePrefix != null && tableName.startsWith(tableNamePrefix)){
+                        tableNames.add(tableName);
+                    }else if(tableNamePrefix == null){
+                        tableNames.add(tableName);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new SQLException("Error retrieving table names.", e);
+        }
+        return tableNames;
+    }
+
 
     // 更新实体
     public <T> int updateEntity(T entity) throws SQLException {

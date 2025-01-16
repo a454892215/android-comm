@@ -8,16 +8,22 @@ import com.cand.util.ThreadU;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 public class RepositoryTest {
     public static String tableName = "candle_test";
 
     @Before
     public void testTableExistsAndCreate() throws Exception {
+        Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        rootLogger.setLevel(Level.INFO);
         boolean exists = Repository.exists(tableName);
         if (!exists) {
             // 示例：生成表
@@ -88,8 +94,15 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testDelete() {
-
+    public void testGetAllTableNames() throws SQLException {
+        Repository repository = new Repository();
+        List<String> allTableNames = repository.getAllTableNames("CANDLE01_");
+        int size = allTableNames.size();
+        LogUtil.d2("数据库符合条件的表的数目是：" + allTableNames.size());
+        for (int i = 0; i < size; i++) {
+            String tableName = allTableNames.get(i);
+            LogUtil.d2(i + "  " + tableName + " 数据量：" + repository.getTableRowCount(tableName) + "  newest:" + repository.getNewestInsertEntity(CandleEntity.class, tableName));
+        }
     }
 
     @Test
