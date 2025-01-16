@@ -56,7 +56,7 @@ public class ExchangeTickerDataServer {
 
             @Override
             public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-                LogUtil.e("准备关闭连接！...");
+                LogUtil.d2("准备关闭连接！...");
                 webSocket.close(1000, "连接关闭...");
                 shutdownHeartbeat();
             }
@@ -116,11 +116,9 @@ public class ExchangeTickerDataServer {
                                         LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  " + DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4));
                                     }
                                 }
-                            }else{
-                                LogUtil.d("dataArr == null:" + content);
                             }
                         }else{
-                            LogUtil.d("收到的信息是:" + content);
+                            LogUtil.d("收到的未处理信息是:" + content);
                         }
                     }
                     //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
