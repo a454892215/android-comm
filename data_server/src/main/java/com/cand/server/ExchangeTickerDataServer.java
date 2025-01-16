@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
 import com.okex.open.api.utils.DateUtils;
 
-
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,14 +27,11 @@ import okhttp3.WebSocketListener;
 @SuppressWarnings("unused")
 public class ExchangeTickerDataServer {
     private static WebSocket webSocket = null;
-
-
     private final OkHttpClient client = new OkHttpClient.Builder()
             .readTimeout(10, TimeUnit.SECONDS)
             .build();
     private final ScheduledExecutorService retryService = Executors.newSingleThreadScheduledExecutor();
     private boolean isReconnecting = false;
-
     private final TradeDataProcessor processor = new TradeDataProcessor();
     private TradeChannelSubscribeEntity tradeChannelSubscribeTask;
 
@@ -52,6 +48,7 @@ public class ExchangeTickerDataServer {
                 heartbeatService = Executors.newSingleThreadScheduledExecutor();
                 heartbeatService.scheduleAtFixedRate(heartbeatTask, 25, 25, TimeUnit.SECONDS);
                 if (tradeChannelSubscribeTask != null) {
+                    LogUtil.d2("开始订阅ticker数据，订阅的币种数目是：" + tradeChannelSubscribeTask.args.size());
                     String json = new Gson().toJson(tradeChannelSubscribeTask);
                     sendMessage(json);
                 }
@@ -125,7 +122,6 @@ public class ExchangeTickerDataServer {
         });
     }
 
-
     private void retryConnection(final String url) {
         if (isReconnecting) {
             return; // 防止多次触发重连逻辑
@@ -136,6 +132,31 @@ public class ExchangeTickerDataServer {
             connection(url); // 尝试重新建立连接
         }, 30, TimeUnit.SECONDS);
     }
+
+    public void restartWebSocket(final String url) {
+        // 关闭当前的 WebSocket 连接
+        closeWebSocket();
+        retryService.schedule(() -> {
+            LogUtil.d("开始重新启动 WebSocket 连接...");
+            connection(url);
+        }, 20, TimeUnit.SECONDS); // 延时 20 秒后重新连接
+    }
+
+    private void closeWebSocket() {
+        if (webSocket != null) {
+            try {
+                LogUtil.d("正在关闭当前 WebSocket 连接...");
+                webSocket.close(1000, "手动关闭连接");
+            } catch (Exception e) {
+                LogUtil.e("关闭 WebSocket 时出现异常：" + e.getMessage());
+            } finally {
+                webSocket = null;
+            }
+        } else {
+            LogUtil.d("当前没有活动的 WebSocket 连接。");
+        }
+    }
+
 
     private void sendMessage(String str) {
         if (webSocket != null) {
@@ -153,11 +174,13 @@ public class ExchangeTickerDataServer {
         }
     }
 
-
     public void setTradeChannelSubscribeTask(TradeChannelSubscribeEntity tradeChannelSubscribeTask) {
         this.tradeChannelSubscribeTask = tradeChannelSubscribeTask;
     }
 
+    public TradeChannelSubscribeEntity getTradeChannelSubscribeTask() {
+        return tradeChannelSubscribeTask;
+    }
 
 }
 
