@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cand.entity.TradeEntity;
 import com.cand.util.LogUtil;
+import com.google.gson.Gson;
 import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
 import com.okex.open.api.utils.DateUtils;
 
@@ -23,7 +24,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
-
 
 @SuppressWarnings("unused")
 public class ExchangeTickerDataServer {
@@ -51,8 +51,9 @@ public class ExchangeTickerDataServer {
                 Runnable heartbeatTask = () -> sendMessage("ping");
                 heartbeatService = Executors.newSingleThreadScheduledExecutor();
                 heartbeatService.scheduleAtFixedRate(heartbeatTask, 25, 25, TimeUnit.SECONDS);
-                if(tradeChannelSubscribeTask != null){
-                    // TODO
+                if (tradeChannelSubscribeTask != null) {
+                    String json = new Gson().toJson(tradeChannelSubscribeTask);
+                    sendMessage(json);
                 }
             }
 
@@ -111,10 +112,7 @@ public class ExchangeTickerDataServer {
                                     if (Math.abs(delay) > 400) {
                                         LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  " + DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4));
                                     }
-
                                 }
-                            }else{
-                                // TODO 记录已经订阅过的币种
                             }
                         }
                     }
@@ -158,15 +156,6 @@ public class ExchangeTickerDataServer {
 
     public void setTradeChannelSubscribeTask(TradeChannelSubscribeEntity tradeChannelSubscribeTask) {
         this.tradeChannelSubscribeTask = tradeChannelSubscribeTask;
-    }
-
-
-
-    public void subscribe(String json) {
-        if (webSocket != null) {
-            sendMessage(json);
-        }
-
     }
 
 
