@@ -1,5 +1,7 @@
 package com.cand.data_base;
 
+import com.cand.util.DateU;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -118,7 +120,7 @@ public class CandleEntity {
     @Override
     public String toString() {
         return "CandleEntity{" +
-                "timestamp=" + timestamp +
+                "timestamp=" + DateU.getBeiJingTime(timestamp) +
                 ", close=" + close.toPlainString() +
                 ", open=" + open.toPlainString() +
                 ", high=" + high.toPlainString() +

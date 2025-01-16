@@ -50,7 +50,7 @@ public class TradeDataProcessor {
     private void checkAndSaveNewestDataToLocal(TradeEntity newest, String tableName, TradeEntity lastSavedTradeP, boolean accumulateVolume) {
         try {
             double fd = BigDecimalU.getFd(lastSavedTradeP.getPrice(), newest.getPrice());
-            if (Math.abs(fd) >= 0.2) {
+            if (Math.abs(fd) >= 0.2 || newest.getDTimeToTar(lastSavedTradeP) >= 1000 * 60 * 15) {
                 newest.size = lastSavedTradeP.getSize().add(newest.getSize()).toPlainString();
                 repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
                 lastSavedDataMap.put(newest.coinId, newest);

@@ -26,6 +26,10 @@ public class TradeEntity {
         return new BigDecimal(size);
     }
 
+    public long getDTimeToTar(TradeEntity other){
+        return this.ts - other.ts;
+    }
+
     @Override
     public String toString() {
         return "TradeEntity{" +
