@@ -33,6 +33,6 @@ public class TradeEntity {
     }
 
     public String getTableName() {
-        return coinId.toLowerCase().replace("-", "_")+"_fd";
+        return "candle01_" + coinId.toLowerCase().replace("-", "_")+"_fd";
     }
 }

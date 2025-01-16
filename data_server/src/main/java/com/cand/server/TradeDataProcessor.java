@@ -33,7 +33,7 @@ public class TradeDataProcessor {
                 if (lastSavedCandle == null) {
                     repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
                     lastSavedDataMap.put(newest.coinId, newest);
-                    LogUtil.d(newest.coinId + "表没有数据，第一次插入到数据库表：" + tableName + " price:" + newest.price);
+                    LogUtil.d2(newest.coinId + "表没有数据，第一次插入到数据库表：" + tableName + " price:" + newest.price);
                 } else {
                     checkAndSaveNewestDataToLocal(newest, tableName, getTradeEntity(lastSavedCandle, newest.coinId));
                 }
@@ -53,9 +53,9 @@ public class TradeDataProcessor {
             if (Math.abs(fd) >= 0.2) {
                 repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
                 lastSavedDataMap.put(newest.coinId, newest);
-                LogUtil.d(newest.coinId + " 插入到数据库表：" + tableName + " price:" + newest.price);
+                // LogUtil.d(newest.coinId + " 插入到数据库表：" + tableName + " price:" + newest.price);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -16,7 +16,6 @@ public class OkxApiModel {
             tickersEntity = null;
             HttpUtil httpUtil = new HttpUtil();
             result = httpUtil.get(OkxApi.baseUrl + OkxApi.tickers + "?instType=SWAP");
-            LogUtil.d(result);
             Gson gson = new Gson();
             tickersEntity = gson.fromJson(result, TickersEntity.class);
         } catch (Exception e) {

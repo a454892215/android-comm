@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class ExchangeTickerDataServerTest {
+public class StartTest {
     @Before
     public void setBefore() {
     }

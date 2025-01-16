@@ -106,7 +106,7 @@ public class ExchangeTickerDataServer {
                                     last.size = item.getString("sz"); // 成交数量
                                     processor.handleTradeEntity(last);
                                     long delay = System.currentTimeMillis() - last.ts;
-                                    if (Math.abs(delay) > 400) {
+                                    if (Math.abs(delay) > 700) {
                                         LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  " + DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4));
                                     }
                                 }
@@ -166,7 +166,13 @@ public class ExchangeTickerDataServer {
                 e.printStackTrace();
             }
             if (!"ping".equals(str)) {
-                LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " 发送给服务端的信息是:" + str);
+                String message = DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " 发送给服务端的信息是:";
+                if (str.length() > 40) {
+                    message += str.substring(0, 40) + "..."; // 只截取前40个字符，并加上省略号
+                } else {
+                    message += str; // 如果长度小于等于40，则直接打印
+                }
+                LogUtil.d(message);
             }
             webSocket.send(str);
         } else {

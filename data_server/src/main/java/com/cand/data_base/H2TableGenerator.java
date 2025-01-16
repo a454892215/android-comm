@@ -73,9 +73,9 @@ public class H2TableGenerator {
         // 执行 SQL
         try (Connection connection = Repository.connect();
              Statement statement = connection.createStatement()) {
-            LogUtil.d("执行的SQL语句是：" + createTableSQL);
+            // LogUtil.d("执行的SQL语句是：" + createTableSQL);
             statement.execute(createTableSQL.toString());
-            LogUtil.d("Table " + tableName + " created successfully.");
+            // LogUtil.d("Table " + tableName + " created successfully.");
         }
     }
 
