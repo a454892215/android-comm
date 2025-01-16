@@ -4,11 +4,11 @@ import com.cand.util.LogUtil;
 
 import org.junit.Test;
 
-public class OkxModelTest {
+public class OkxApiModelTest {
 
     @Test
     public void testGetTickers(){
-        OkxModel okxModel = new OkxModel();
+        OkxApiModel okxModel = new OkxApiModel();
         TickersEntity tickers = okxModel.getTickers();
         for (int i = 0; i < tickers.data.size(); i++) {
             TickersEntity.Item datum = tickers.data.get(i);
