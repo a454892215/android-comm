@@ -167,12 +167,12 @@ public class ExchangeTickerDataServer {
             }
             if (!"ping".equals(str)) {
                 String message = DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " 发送给服务端的信息是:";
-                if (str.length() > 40) {
-                    message += str.substring(0, 40) + "..."; // 只截取前40个字符，并加上省略号
+                if (str.length() > 80) {
+                    message += str.substring(0, 80) + "..."; // 只截取前40个字符，并加上省略号
                 } else {
                     message += str; // 如果长度小于等于40，则直接打印
                 }
-                LogUtil.d(message);
+                LogUtil.d2(message);
             }
             webSocket.send(str);
         } else {

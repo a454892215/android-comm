@@ -35,10 +35,10 @@ public class TradeDataProcessor {
                     lastSavedDataMap.put(newest.coinId, newest);
                     LogUtil.d2(newest.coinId + "表没有数据，第一次插入到数据库表：" + tableName + " price:" + newest.price);
                 } else {
-                    checkAndSaveNewestDataToLocal(newest, tableName, getTradeEntity(lastSavedCandle, newest.coinId));
+                    checkAndSaveNewestDataToLocal(newest, tableName, getTradeEntity(lastSavedCandle, newest.coinId), false);
                 }
             } else {
-                checkAndSaveNewestDataToLocal(newest, tableName, last);
+                checkAndSaveNewestDataToLocal(newest, tableName, last, true);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,13 +47,19 @@ public class TradeDataProcessor {
         }
     }
 
-    private void checkAndSaveNewestDataToLocal(TradeEntity newest, String tableName, TradeEntity lastSavedTradeP) {
+    private void checkAndSaveNewestDataToLocal(TradeEntity newest, String tableName, TradeEntity lastSavedTradeP, boolean accumulateVolume) {
         try {
             double fd = BigDecimalU.getFd(lastSavedTradeP.getPrice(), newest.getPrice());
             if (Math.abs(fd) >= 0.2) {
+                newest.size = lastSavedTradeP.getSize().add(newest.getSize()).toPlainString();
                 repository.insertEntity(getCandleEntityByTradeEntity(newest), tableName);
                 lastSavedDataMap.put(newest.coinId, newest);
+                newest.size = "0"; //重置成交量
                 // LogUtil.d(newest.coinId + " 插入到数据库表：" + tableName + " price:" + newest.price);
+            } else {
+                if (accumulateVolume) { // 累加成交量
+                    lastSavedTradeP.price = lastSavedTradeP.getSize().add(newest.getSize()).toPlainString();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

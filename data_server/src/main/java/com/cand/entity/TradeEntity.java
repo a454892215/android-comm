@@ -22,6 +22,10 @@ public class TradeEntity {
         return new BigDecimal(price);
     }
 
+    public BigDecimal getSize() {
+        return new BigDecimal(size);
+    }
+
     @Override
     public String toString() {
         return "TradeEntity{" +

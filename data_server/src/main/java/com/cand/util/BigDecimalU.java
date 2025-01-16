@@ -20,5 +20,16 @@ public class BigDecimalU {
         return percentage.doubleValue();  // 返回百分比
     }
 
+    public static BigDecimal add(BigDecimal num1, BigDecimal num2) {
+        if (num1 == null) {
+            num1 = BigDecimal.ZERO;
+        }
+        if (num2 == null) {
+            num2 = BigDecimal.ZERO;
+        }
+        return num1.add(num2);
+    }
+
+
 
 }

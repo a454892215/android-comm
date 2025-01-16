@@ -19,7 +19,7 @@ public class OkxApiModel {
             Gson gson = new Gson();
             tickersEntity = gson.fromJson(result, TickersEntity.class);
         } catch (Exception e) {
-            LogUtil.d("发生异常 result："+  result +  " E:" + e);
+            LogUtil.d("获取http 币种列表数据 发生异常 result："+  result +  " E:" + e);
         }
         return tickersEntity;
     }
