@@ -70,10 +70,10 @@ public class ExchangeTickerDataServer {
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
                 try {
                     t.printStackTrace();
-                    LogUtil.d("websocket 连接失败...:" + t.getMessage());
+                    LogUtil.d("websocket onFailure 准备关闭websocket 重新连接:" + t.getMessage());
                     shutdownHeartbeat();
                     closeWebSocket();
-                    retryConnection(url); // 触发重连逻辑
+                    retryConnection(url);
                 } catch (Exception e) {
                  LogUtil.e(e.toString());
                 }
@@ -147,7 +147,7 @@ public class ExchangeTickerDataServer {
         retryService.schedule(() -> {
             LogUtil.d("开始重新启动 WebSocket 连接...");
             connection(url);
-        }, 20, TimeUnit.SECONDS); // 延时 20 秒后重新连接
+        }, 30, TimeUnit.SECONDS);
     }
 
     private void closeWebSocket() {
