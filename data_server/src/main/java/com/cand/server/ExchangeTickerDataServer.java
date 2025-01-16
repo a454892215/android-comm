@@ -68,10 +68,16 @@ public class ExchangeTickerDataServer {
 
             @Override
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
-                t.printStackTrace();
-                LogUtil.d("websocket 连接失败...:" + t.getMessage());
-                shutdownHeartbeat();
-                retryConnection(url); // 触发重连逻辑
+                try {
+                    t.printStackTrace();
+                    LogUtil.d("websocket 连接失败...:" + t.getMessage());
+                    shutdownHeartbeat();
+                    closeWebSocket();
+                    retryConnection(url); // 触发重连逻辑
+                } catch (Exception e) {
+                 LogUtil.e(e.toString());
+                }
+
             }
 
             private void shutdownHeartbeat() {
@@ -110,7 +116,11 @@ public class ExchangeTickerDataServer {
                                         LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  " + DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4));
                                     }
                                 }
+                            }else{
+                                LogUtil.d("dataArr == null:" + content);
                             }
+                        }else{
+                            LogUtil.d("收到的信息是:" + content);
                         }
                     }
                     //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
@@ -128,7 +138,7 @@ public class ExchangeTickerDataServer {
         }
         isReconnecting = true;
         retryService.schedule(() -> {
-            LogUtil.d("正在尝试重新连接...");
+            LogUtil.d("正在尝试重新连接...:" + url);
             connection(url); // 尝试重新建立连接
         }, 30, TimeUnit.SECONDS);
     }

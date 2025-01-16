@@ -22,14 +22,14 @@ public class TickerDataServerStart {
             // 连接到websocket成功  wss://ws.okx.com:8443/ws/v5/public
             String url = WebSocketConfig.SERVICE_URL + "/ws/v5/public";
             ExchangeTickerDataServer server = new ExchangeTickerDataServer();
-            server.setTradeChannelSubscribeTask(SubscribeModel.getTradeChannelSubscribeEntity());
+            server.setTradeChannelSubscribeTask(SubscribeModel.getTradeChannelSubscribeEntityFromApi());
             server.connection(url);
             Executors.newSingleThreadScheduledExecutor().execute(() -> {
                 // noinspection InfiniteLoopStatement
                 while (true) {
                     try {
                         ThreadU.sleep(1000 * 60);
-                        TradeChannelSubscribeEntity newEntity = SubscribeModel.getTradeChannelSubscribeEntity();
+                        TradeChannelSubscribeEntity newEntity = SubscribeModel.getTradeChannelSubscribeEntityFromApi();
                         if (!newEntity.equals(server.getTradeChannelSubscribeTask())) {
                             LogUtil.d("发现服务器websocket可订阅的币种改变，准备重新启动websocket...");
                             server.setTradeChannelSubscribeTask(newEntity);
