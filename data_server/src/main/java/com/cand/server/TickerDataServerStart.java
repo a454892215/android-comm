@@ -63,7 +63,7 @@ public class TickerDataServerStart {
                             server.closeWebSocket();
                         }
                         LogUtil.d2("准备结束程序:" + input);
-                        ThreadU.sleep(1000);
+                        ThreadU.sleep(3000);
                         System.exit(0);
                         break;
                     } else {
