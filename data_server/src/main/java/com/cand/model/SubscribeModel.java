@@ -12,7 +12,9 @@ public class SubscribeModel {
         TickersEntity tickers = okxModel.getTickers();
         for (int i = 0; i < tickers.data.size(); i++) {
             TickersEntity.Item datum = tickers.data.get(i);
-            entity.args.add(new TradeChannelSubscribeEntity.Item(datum.instId));
+            if(datum.instId.endsWith("USDT-SWAP")){
+                entity.args.add(new TradeChannelSubscribeEntity.Item(datum.instId));
+            }
         }
         return entity;
     }
