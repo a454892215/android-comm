@@ -2,12 +2,13 @@ package com.cand;
 
 import com.cand.server.TickerDataServerStart;
 import com.cand.util.LogUtil;
-import com.cand.util.ThreadU;
 
-import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
 
+/**
+ * java -jar app.jar
+ */
 public class Start {
     public static void main(String[] args) {
         waitForStopSignal();

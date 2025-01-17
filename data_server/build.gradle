@@ -5,7 +5,7 @@ plugins {
 apply plugin: "com.github.johnrengelman.shadow"
 // 配置jar任务
 jar {
-    // 指定Manifest属性
+    // 指定Manifest属性。执行： java -jar candle-server-all.jar
     manifest {
         attributes(
                 'Main-Class': 'com.cand.Start' // 指定入口点类
