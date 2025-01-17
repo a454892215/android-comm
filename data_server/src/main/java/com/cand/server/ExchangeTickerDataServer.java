@@ -150,7 +150,7 @@ public class ExchangeTickerDataServer {
         }, 30, TimeUnit.SECONDS);
     }
 
-    private void closeWebSocket() {
+    public void closeWebSocket() {
         if (webSocket != null) {
             try {
                 LogUtil.d("正在关闭当前 WebSocket 连接...");

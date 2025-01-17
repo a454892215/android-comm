@@ -8,12 +8,15 @@ import com.okex.open.api.test.ws.publicChannel.config.WebSocketConfig;
 
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 
 public class TickerDataServerStart {
+    ExchangeTickerDataServer server;
 
     public void start() {
         try {
@@ -21,7 +24,7 @@ public class TickerDataServerStart {
             rootLogger.setLevel(Level.INFO);
             // 连接到websocket成功  wss://ws.okx.com:8443/ws/v5/public
             String url = WebSocketConfig.SERVICE_URL + "/ws/v5/public";
-            ExchangeTickerDataServer server = new ExchangeTickerDataServer();
+            server = new ExchangeTickerDataServer();
             server.setTradeChannelSubscribeTask(SubscribeModel.getTradeChannelSubscribeEntityFromApi());
             server.connection(url);
             Executors.newSingleThreadScheduledExecutor().execute(() -> {
@@ -41,10 +44,44 @@ public class TickerDataServerStart {
                 }
 
             });
-            Thread.sleep(1000 * 60 * 60 * 24 * 36500L);
+            waitForStopSignal();
         } catch (Exception e) {
             LogUtil.d(e.toString());
             e.printStackTrace();
         }
+    }
+
+    public void waitForStopSignal() {
+        Executors.newSingleThreadScheduledExecutor().execute(() -> {
+            try (Scanner scanner = new Scanner(System.in)) {
+                // System.out.println("输入 'stop' 结束程序：");
+                System.out.println("System.in is available: " + System.in.available());
+                while (scanner.hasNextLine()) {
+                    String input = scanner.nextLine();
+                    if ("stop".equalsIgnoreCase(input.trim())) {
+                        if (server != null) {
+                            server.closeWebSocket();
+                        }
+                        LogUtil.d2("准备结束程序:" + input);
+                        ThreadU.sleep(1000);
+                        System.exit(0);
+                        break;
+                    } else {
+                        LogUtil.d2("非法输入，不处理：" + input);
+                    }
+                }
+                LogUtil.d("======waitForStopSignal 结束========");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+        ThreadU.sleep(1000 * 60 * 60 * 24 * 365L * 100);
+    }
+
+    public static void main(String[] args) {
+        TickerDataServerStart start = new TickerDataServerStart();
+        start.start();
+
     }
 }
