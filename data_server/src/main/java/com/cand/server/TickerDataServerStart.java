@@ -45,9 +45,9 @@ public class TickerDataServerStart {
 
             });
             waitForStopSignal();
+            ThreadU.sleep(1000 * 60 * 60 * 24 * 365L * 100);
         } catch (Exception e) {
             LogUtil.d(e.toString());
-            e.printStackTrace();
         }
     }
 
@@ -76,7 +76,6 @@ public class TickerDataServerStart {
             }
 
         });
-        ThreadU.sleep(1000 * 60 * 60 * 24 * 365L * 100);
     }
 
     public static void main(String[] args) {

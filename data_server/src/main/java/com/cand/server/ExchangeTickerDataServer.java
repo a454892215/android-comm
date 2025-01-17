@@ -69,7 +69,6 @@ public class ExchangeTickerDataServer {
             @Override
             public void onFailure(@NotNull final WebSocket webSocket, @NotNull final Throwable t, final Response response) {
                 try {
-                    t.printStackTrace();
                     LogUtil.d("websocket onFailure 准备关闭websocket 重新连接:" + t.getMessage());
                     shutdownHeartbeat();
                     closeWebSocket();
@@ -123,7 +122,6 @@ public class ExchangeTickerDataServer {
                     }
                     //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     LogUtil.e("处理数据发送异常：" + e);
                 }
             }
@@ -171,7 +169,7 @@ public class ExchangeTickerDataServer {
             try {
                 Thread.sleep(1300);
             } catch (Exception e) {
-                e.printStackTrace();
+                LogUtil.e(e.toString());
             }
             if (!"ping".equals(str)) {
                 String message = DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " 发送给服务端的信息是:";
