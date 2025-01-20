@@ -1,14 +1,12 @@
 package com.okex.open.api.test.ws.publicChannel.config;
 
 
-import com.alibaba.fastjson.JSONArray;
+
 import com.cand.util.LogUtil;
+import com.google.gson.Gson;
 import com.okex.open.api.bean.other.OrderBookItem;
 import com.okex.open.api.bean.other.SpotOrderBook;
-import com.okex.open.api.bean.other.SpotOrderBookDiff;
-import com.okex.open.api.bean.other.SpotOrderBookItem;
 import com.okex.open.api.test.ws.publicChannel.PublicChannelTest;
-import com.okex.open.api.utils.DateUtils;
 
 
 import okhttp3.*;
@@ -19,13 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @SuppressWarnings({"rawtypes", "unused"})
 public class WebSocketClient {
@@ -168,11 +164,6 @@ public class WebSocketClient {
         return hash;
     }
 
-    private static String listToJson(List<Map> list) {
-        JSONArray jsonArray = new JSONArray();
-        return jsonArray.toJSONString();
-    }
-
     //登录
     public static void login(String apiKey, String passPhrase, String secretKey) {
         String timestamp = System.currentTimeMillis() / 1000+ "";
@@ -185,7 +176,7 @@ public class WebSocketClient {
 
     //订阅，参数为频道组成的集合
     public static void subscribe(List<Map> list) {
-        String s = listToJson(list);
+        String s = new Gson().toJson(list);
         String str = "{\"op\": \"subscribe\", \"args\":" + s + "}";
         if (null != webSocket)
             sendMessage(str);
@@ -198,7 +189,7 @@ public class WebSocketClient {
 
     //取消订阅，参数为频道组成的集合
     public static void unsubscribe(List<Map> list) {
-        String s = listToJson(list);
+        String s = new Gson().toJson(list);
         String str = "{\"op\": \"unsubscribe\", \"args\":" + s + "}";
         if (null != webSocket)
             sendMessage(str);

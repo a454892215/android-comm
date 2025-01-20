@@ -55,10 +55,9 @@ public class TickerDataServerStart {
         Executors.newSingleThreadScheduledExecutor().execute(() -> {
             try (Scanner scanner = new Scanner(System.in)) {
                 // System.out.println("输入 'stop' 结束程序：");
-                System.out.println("System.in is available: " + System.in.available());
                 while (scanner.hasNextLine()) {
                     String input = scanner.nextLine();
-                    if ("stop".equalsIgnoreCase(input.trim())) {
+                    if ("s".equalsIgnoreCase(input.trim())) {
                         if (server != null) {
                             server.closeWebSocket();
                         }
@@ -71,7 +70,7 @@ public class TickerDataServerStart {
                     }
                 }
                 LogUtil.d("======waitForStopSignal 结束========");
-            } catch (IOException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 

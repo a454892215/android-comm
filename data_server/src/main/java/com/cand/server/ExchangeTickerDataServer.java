@@ -1,19 +1,15 @@
 package com.cand.server;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.cand.entity.TradeEntity;
 import com.cand.util.LogUtil;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
-import com.okex.open.api.utils.DateUtils;
-
-
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
-import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -93,36 +89,47 @@ public class ExchangeTickerDataServer {
                 try {
                     if ("pong".equals(content)) {
                     } else {
-                        JSONObject jsonObject = JSON.parseObject(content);
-                        JSONObject arg = jsonObject.getJSONObject("arg");
-                        String channel = arg.getString("channel");
-                        if ("trades".equals(channel)) {
-                            // https://www.okx.com/docs-v5/zh/#order-book-trading-market-data-ws-trades-channel
-                            // {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
-                            JSONArray dataArr = jsonObject.getJSONArray("data");
-                            if (dataArr != null) {
-                                int size = dataArr.size();
-                                for (int i = 0; i < size; i++) {
-                                    JSONObject item = dataArr.getJSONObject(i);
-                                    TradeEntity last = new TradeEntity();
-                                    last.coinId = item.getString("instId");
-                                    last.ts = item.getLong("ts"); //时间戳
-                                    last.price = item.getString("px"); //成交价格
-                                    last.size = item.getString("sz"); // 成交数量
-                                    processor.handleTradeEntity(last);
-                                    long delay = System.currentTimeMillis() - last.ts;
-                                    if (Math.abs(delay) > 700) {
-                                        LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  ");
-                                    }
-                                }
-                            }
-                        }else{
-                            LogUtil.d("收到的未处理信息是:" + content);
-                        }
+                        processMessage(content);
                     }
                     //  LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + "======> Receive: " + content);
                 } catch (Exception e) {
                     LogUtil.e("处理数据发送异常：" + e);
+                }
+            }
+
+            public void processMessage(String content) {
+                Gson gson = new Gson();
+                JsonObject jsonObject = gson.fromJson(content, JsonObject.class);
+                if (jsonObject.has("arg")) {
+                    JsonObject arg = jsonObject.getAsJsonObject("arg");
+                    String channel = arg.get("channel").getAsString();
+
+                    if ("trades".equals(channel)) {
+                        // https://www.okx.com/docs-v5/zh/#order-book-trading-market-data-ws-trades-channel
+                        // {"arg":{"channel":"trades","instId":"SOL-USDT-SWAP"},"data":[{"instId":"SOL-USDT-SWAP","tradeId":"620869571","px":"187.08","sz":"6.28","side":"sell","ts":"1736909125942","count":"7"}]}
+                        JsonArray dataArr = jsonObject.getAsJsonArray("data");
+
+                        if (dataArr != null) {
+                            for (JsonElement element : dataArr) {
+                                JsonObject item = element.getAsJsonObject();
+                                TradeEntity last = new TradeEntity();
+                                last.coinId = item.get("instId").getAsString(); // 获取 instId
+                                last.ts = item.get("ts").getAsLong();           // 获取时间戳
+                                last.price = item.get("px").getAsString();      // 获取成交价格
+                                last.size = item.get("sz").getAsString();       // 获取成交数量
+
+                                processor.handleTradeEntity(last);
+                                long delay = System.currentTimeMillis() - last.ts;
+                                if (Math.abs(delay) > 700) {
+                                    LogUtil.e("服务器返回数据延迟超标 delay：" + delay + "  " + last.coinId + "  ");
+                                }
+                            }
+                        }
+                    } else {
+                        LogUtil.d("收到的未处理信息是: " + content);
+                    }
+                } else {
+                    LogUtil.d("无效的消息结构: " + content);
                 }
             }
         });

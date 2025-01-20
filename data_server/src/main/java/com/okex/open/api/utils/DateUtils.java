@@ -1,7 +1,5 @@
 package com.okex.open.api.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -138,23 +136,8 @@ public class DateUtils {
     /**
      * convert UTC timestamp：2018-02-03T16:56:29.919Z  -> object: Sun Feb 04 00:56:29 CST 2018
      */
-    public static Date parseUTCTime(final String utcTime) throws ParseException {
-        if (StringUtils.isEmpty(utcTime)) {
-            return null;
-        }
-        final SimpleDateFormat sdfi = (SimpleDateFormat) DateUtils.SDF.clone();
-        return sdfi.parse(utcTime);
-    }
 
     /**
      * convert decimal timestamp：1517676989.919 ->   -> object: Sun Feb 04 00:56:29 CST 2018
      */
-    public static Date parseDecimalTime(final String decimalTime) {
-        if (StringUtils.isEmpty(decimalTime)) {
-            return null;
-        }
-        final BigDecimal bd1 = new BigDecimal(decimalTime);
-        final BigDecimal bd2 = new BigDecimal(1000);
-        return new Date(bd1.multiply(bd2).longValue());
-    }
 }
