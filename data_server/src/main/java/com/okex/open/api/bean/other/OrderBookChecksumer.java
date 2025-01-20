@@ -1,16 +1,14 @@
 package com.okex.open.api.bean.other;
 
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class OrderBookChecksumer {
 
-    private final HashFunction crc32 = Hashing.crc32();
+   // private final HashFunction crc32 = Hashing.crc32();
 
-    public <T extends OrderBookItem> int checksum(List<T> asks, List<T> bids) {
+    public <T extends OrderBookItem> void checksum(List<T> asks, List<T> bids) {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < 25; i++) {
             if (i < bids.size()) {
@@ -33,6 +31,6 @@ public class OrderBookChecksumer {
             str = "";
         }
 
-        return crc32.hashString(str, StandardCharsets.UTF_8).asInt();
+       // return crc32.hashString(str, StandardCharsets.UTF_8).asInt();
     }
 }

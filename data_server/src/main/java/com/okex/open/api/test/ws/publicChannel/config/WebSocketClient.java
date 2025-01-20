@@ -3,10 +3,6 @@ package com.okex.open.api.test.ws.publicChannel.config;
 
 import com.alibaba.fastjson.JSONArray;
 import com.cand.util.LogUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
 import com.okex.open.api.bean.other.OrderBookItem;
 import com.okex.open.api.bean.other.SpotOrderBook;
 import com.okex.open.api.bean.other.SpotOrderBookDiff;
@@ -14,11 +10,9 @@ import com.okex.open.api.bean.other.SpotOrderBookItem;
 import com.okex.open.api.test.ws.publicChannel.PublicChannelTest;
 import com.okex.open.api.utils.DateUtils;
 
-import net.sf.json.JSONObject;
 
 import okhttp3.*;
 
-import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,8 +32,6 @@ public class WebSocketClient {
     private static WebSocket webSocket = null;
     private static Boolean flag = false;
     private static Boolean isConnect = false;
-    private final static HashFunction crc32 = Hashing.crc32();
-    private final static ObjectReader objectReader = new ObjectMapper().readerFor(OrderBookData.class);
     private static final Map<String,Optional<SpotOrderBook>> bookMap = new HashMap<>();
     private static final Logger logger = Logger.getLogger(PublicChannelTest.class);
     public WebSocketClient() {
@@ -92,106 +84,12 @@ public class WebSocketClient {
 
             @Override
             public void onMessage(@NotNull final WebSocket webSocket, @NotNull final String bytes) {
-                //判断是否是深度接口
-                if (bytes.contains("\"channel\":\"books\",")|| bytes.contains("\"channel\":\"books-l2-tbt\",")|| bytes.contains("\"channel\":\"books50-l2-tbt\",")) {
-                    //是深度接口
-                    handleSd(webSocket, bytes);
-                } else if(bytes.contains("candle")) {
-                    //k线频道
-                    LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
-                } else if(bytes.equals("pong")){
-                     LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " =====> Receive: " + bytes);
-                }else {
-                    //不是深度 k线接口
-                    JSONObject rst = JSONObject.fromObject(bytes);
-                    net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
-                    JSONObject data = JSONObject.fromObject(dataArr.get(0));
-
-                    long pushTimestamp;
-                    long localTimestamp = System.currentTimeMillis();
-                    long timing;
-                    if(dataArr.toString().contains("\"ts\"")){
-                        pushTimestamp= Long.parseLong(data.get("ts").toString());
-                        timing =localTimestamp-pushTimestamp;
-                        LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) +"("+timing+"ms)" + " Receive: " + bytes);
-                    }else {
-                        LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Receive: " + bytes);
-                    }
-                }
-                if (bytes.contains("login")) {
-                    if (bytes.endsWith("true}")) {
-                        flag = true;
-                    }
-                }
             }
         });
     }
 
     private static void handleSd(WebSocket webSocket, String bytes) {
-        if (bytes.contains("snapshot")) {//记录下第一次的全量数据
 
-            JSONObject rst = JSONObject.fromObject(bytes);
-
-
-            JSONObject arg = JSONObject.fromObject(rst.get("arg"));
-            net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
-
-            JSONObject data = JSONObject.fromObject(dataArr.get(0));
-//
-            String dataStr = data.toString();
-
-            LogUtil.d("dataStr:"+dataStr);
-            Optional<SpotOrderBook> oldBook = parse(dataStr);
-            LogUtil.d("oldBook:"+oldBook);
-            String instrumentId = arg.get("instId").toString();
-            LogUtil.d("instrumentId:"+instrumentId);
-            bookMap.put(instrumentId,oldBook);
-        } else if (bytes.contains("\"action\":\"update\",")) {//是后续的增量，则需要进行深度合并
-
-
-            JSONObject rst = JSONObject.fromObject(bytes);
-            JSONObject arg =JSONObject.fromObject(rst.get("arg"));
-            net.sf.json.JSONArray dataArr = net.sf.json.JSONArray.fromObject(rst.get("data"));
-            JSONObject data = JSONObject.fromObject(dataArr.get(0));
-            String dataStr = data.toString();
-
-            String instrumentId = arg.get("instId").toString();
-
-            Optional<SpotOrderBook> oldBook = bookMap.get(instrumentId);
-            Optional<SpotOrderBook> newBook = parse(dataStr);
-
-            //获取增量的ask
-          //  List<SpotOrderBookItem> askList = newBook.get().getAsks();
-            //获取增量的bid
-          //  List<SpotOrderBookItem> bidList = newBook.get().getBids();
-
-            SpotOrderBookDiff bookdiff = oldBook.get().diff(newBook.get());
-
-            LogUtil.d("名称："+instrumentId+",深度合并成功！checknum值为：" + bookdiff.getChecksum() + ",合并后的数据为：" + bookdiff);
-
-            String str = getStr(bookdiff.getAsks(), bookdiff.getBids());
-            LogUtil.d("名称："+instrumentId+",拆分要校验的字符串：" + str);
-            //计算checksum值
-            int checksum = checksum(bookdiff.getAsks(), bookdiff.getBids());
-            LogUtil.d("名称："+instrumentId+",校验的checksum:" + checksum);
-            boolean flag = checksum == bookdiff.getChecksum();
-            if(flag){
-                LogUtil.d("名称："+instrumentId+",深度校验结果为："+flag);
-                oldBook = parse(bookdiff.toString());
-                bookMap.put(instrumentId,oldBook);
-            }else{
-                LogUtil.d("名称："+instrumentId+",深度校验结果为："+flag+"数据有误！请重连！");
-                //获取订阅的频道和币对
-                String channel = rst.get("table").toString();
-                String unSubStr = "{\"op\": \"unsubscribe\", \"args\":[\"" + channel+":"+instrumentId + "\"]}";
-                LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Send: " + unSubStr);
-                webSocket.send(unSubStr);
-                String subStr = "{\"op\": \"subscribe\", \"args\":[\"" + channel+":"+instrumentId + "\"]}";
-                LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " Send: " + subStr);
-                webSocket.send(subStr);
-                LogUtil.d("名称："+instrumentId+",正在重新订阅！");
-            }
-        }
     }
 
 
@@ -228,32 +126,32 @@ public class WebSocketClient {
         return str;
     }
 
-    public static <T extends OrderBookItem<?>> int checksum(List<T> asks, List<T> bids) {
-        LogUtil.d("深度");
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < 25; i++) {
-            if (i < bids.size()) {
-                s.append(bids.get(i).getPrice());
-                s.append(":");
-                s.append(bids.get(i).getSize());
-                s.append(":");
-            }
-            if (i < asks.size()) {
-                s.append(asks.get(i).getPrice());
-                s.append(":");
-                s.append(asks.get(i).getSize());
-                s.append(":");
-            }
-        }
-        final String str;
-        if (s.length() > 0) {
-            str = s.substring(0, s.length() - 1);
-        } else {
-            str = "";
-        }
-
-        return crc32.hashString(str, StandardCharsets.UTF_8).asInt();
-    }
+//    public static <T extends OrderBookItem<?>> int checksum(List<T> asks, List<T> bids) {
+//        LogUtil.d("深度");
+//        StringBuilder s = new StringBuilder();
+//        for (int i = 0; i < 25; i++) {
+//            if (i < bids.size()) {
+//                s.append(bids.get(i).getPrice());
+//                s.append(":");
+//                s.append(bids.get(i).getSize());
+//                s.append(":");
+//            }
+//            if (i < asks.size()) {
+//                s.append(asks.get(i).getPrice());
+//                s.append(":");
+//                s.append(asks.get(i).getSize());
+//                s.append(":");
+//            }
+//        }
+//        final String str;
+//        if (s.length() > 0) {
+//            str = s.substring(0, s.length() - 1);
+//        } else {
+//            str = "";
+//        }
+//
+//        return crc32.hashString(str, StandardCharsets.UTF_8).asInt();
+//    }
 
     //获得sign
     private static String sha256_HMAC(String message, String secret) {
@@ -272,9 +170,6 @@ public class WebSocketClient {
 
     private static String listToJson(List<Map> list) {
         JSONArray jsonArray = new JSONArray();
-        for (Map map : list) {
-            jsonArray.add(JSONObject.fromObject(map));
-        }
         return jsonArray.toJSONString();
     }
 
@@ -317,7 +212,7 @@ public class WebSocketClient {
                 e.printStackTrace();
             }
             if(!"ping".equals(str)){
-                LogUtil.d(DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4)+" 发送给服务端的信息是:" + str);
+                LogUtil.d(" 发送给服务端的信息是:" + str);
             }
 
             webSocket.send(str);
@@ -344,28 +239,6 @@ public class WebSocketClient {
     }
 
 
-
-
-
-    public static Optional<SpotOrderBook> parse(String json) {
-
-
-        try {
-            OrderBookData data = objectReader.readValue(json);
-
-            List<SpotOrderBookItem> asks =
-                    data.getAsks().stream().map(x -> new SpotOrderBookItem(new String(x.get(0)), x.get(1), x.get(2), x.get(3)))
-                            .collect(Collectors.toList());
-
-            List<SpotOrderBookItem> bids =
-                    data.getBids().stream().map(x -> new SpotOrderBookItem(new String(x.get(0)), x.get(1), x.get(2), x.get(3)))
-                            .collect(Collectors.toList());
-            return Optional.of(new SpotOrderBook(asks, bids, data.getTs(),data.getChecksum(), data.getPrevSeqId(), data.getSeqId()));
-        } catch (Exception e) {
-            LogUtil.d("e"+e);
-            return Optional.empty();
-        }
-    }
 
 
     public static class OrderBookData {

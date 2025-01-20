@@ -1,7 +1,7 @@
 package com.okex.open.api.bean.other;
 
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hashing;
+// import com.google.common.hash.HashFunction;
+// import com.google.common.hash.Hashing;
 
 
 import java.util.Comparator;
@@ -38,7 +38,7 @@ public class SpotOrderBook {
     private OrderBookDiffer differ = new OrderBookDiffer();
     private OrderBookChecksumer checksumer = new OrderBookChecksumer();
 
-    private HashFunction crc32 = Hashing.crc32();
+  //  private HashFunction crc32 = Hashing.crc32();
 
     public SpotOrderBook(List<SpotOrderBookItem> asks, List<SpotOrderBookItem> bids, String ts, int checksum, long prevSeqId, long seqId) {
         this.asks = asks;
@@ -175,11 +175,5 @@ public class SpotOrderBook {
         this.checksumer = checksumer;
     }
 
-    public HashFunction getCrc32() {
-        return crc32;
-    }
 
-    public void setCrc32(HashFunction crc32) {
-        this.crc32 = crc32;
-    }
 }

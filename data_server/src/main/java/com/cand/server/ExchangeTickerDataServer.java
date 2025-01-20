@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.okex.open.api.test.ws.publicChannel.TradeChannelSubscribeEntity;
 import com.okex.open.api.utils.DateUtils;
 
-import org.apache.commons.lang.time.DateFormatUtils;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
@@ -112,7 +112,7 @@ public class ExchangeTickerDataServer {
                                     processor.handleTradeEntity(last);
                                     long delay = System.currentTimeMillis() - last.ts;
                                     if (Math.abs(delay) > 700) {
-                                        LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  " + DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4));
+                                        LogUtil.e("服务器返回数据延迟超标delay：" + delay + "  " + last.coinId + "  ");
                                     }
                                 }
                             }
@@ -172,7 +172,7 @@ public class ExchangeTickerDataServer {
                 LogUtil.e(e.toString());
             }
             if (!"ping".equals(str)) {
-                String message = DateFormatUtils.format(new Date(), DateUtils.TIME_STYLE_S4) + " 发送给服务端的信息是:";
+                String message = " 发送给服务端的信息是:";
                 if (str.length() > 80) {
                     message += str.substring(0, 80) + "..."; // 只截取前40个字符，并加上省略号
                 } else {
