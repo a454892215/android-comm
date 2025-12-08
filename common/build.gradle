@@ -1,26 +1,28 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
+apply plugin: 'kotlin-android'   // <- 必须加
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin-kapt' // <- 这个必须加
 
-// 引用自定义在外包的变量
+// 引用自定义外部变量
 def app_info = rootProject.ext.app_info
-println("common compileSdkVersion:" + "${app_info.compileSdkVersion}")
-println("common minSdkVersion:" + "${app_info.minSdkVersion}")
-println("common targetSdkVersion:" + "${app_info.targetSdkVersion}")
+println("common compileSdkVersion: ${app_info.compileSdkVersion}")
+println("common minSdkVersion: ${app_info.minSdkVersion}")
+println("common targetSdkVersion: ${app_info.targetSdkVersion}")
+
 android {
+    namespace "com.common"  // 替换为你的包名
+    namespace 'com.common'
     ndkVersion '21.4.7075529'
     compileSdkVersion app_info.compileSdkVersion
+
     defaultConfig {
         minSdkVersion app_info.minSdkVersion
         targetSdkVersion app_info.targetSdkVersion
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0.7-beta"
         flavorDimensions "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        ndk {
-//           //  abiFilters "armeabi", "armeabi-v7a", "arm64-v8a" //
-//            abiFilters "armeabi-v7a", "arm64-v8a"
-//        }
-
+        // ndk { abiFilters "armeabi-v7a", "arm64-v8a" } // 根据需要启用
     }
 
     buildTypes {
@@ -38,28 +40,37 @@ android {
         }
     }
 
-
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-// ./gradlew common:uploadArchives
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: uri('../repository'))
-        pom.groupId = "com.common"// 唯一标识（通常为模块包名）
-        pom.artifactId = "Common" // 项目名称
-        pom.version = "1.0.7-beta"
+afterEvaluate {
+    publishing {
+        publications {
+            common(MavenPublication) {
+                groupId = "com.common"
+                artifactId = "Common"
+                version = "1.0.7-beta"
+
+                // 指定 AAR 文件
+                artifact("$buildDir/outputs/aar/common-release.aar")
+            }
+        }
+        repositories {
+            maven {
+                url = uri('../repository')
+            }
+        }
     }
 }
+
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
-
     api 'io.reactivex.rxjava2:rxjava:2.2.9'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
@@ -75,32 +86,24 @@ dependencies {
 
     api 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
     api 'com.github.bumptech.glide:okhttp3-integration:4.11.0'
 
     api 'org.litepal.guolindev:core:3.2.3'
     api 'androidx.recyclerview:recyclerview:1.1.0'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
 
-    annotationProcessor 'androidx.annotation:annotation:1.1.0'
+    kapt 'androidx.annotation:annotation:1.1.0'
     api 'com.google.android:flexbox:1.1.0'
     api 'com.jaeger.statusbarutil:library:1.5.1'
     api 'com.just.agentweb:agentweb:4.1.2'
 
-    api 'com.youth.banner:banner:1.4.10'  //最新版本
+    api 'com.youth.banner:banner:1.4.10'
     api 'com.tencent.tbs.tbssdk:sdk:43939'
-    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
     api 'com.tencent.bugly:crashreport:3.1.0'
-    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
-    // compile 'com.tencent.bugly:nativecrashreport:latest.release'
 
     api 'com.google.zxing:core:3.4.0'
- //   debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
-  //  api 'com.java_comm:java_comm:1.0.0'
-
-
-
-    //tinker的核心库
+    // tinker
     implementation("com.tencent.tinker:tinker-android-anno-support:${TINKER_VERSION}") { changing = true }
 }

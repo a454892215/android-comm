@@ -25,9 +25,9 @@ import com.test.util.R
 import com.test.util.accessibility.AccessibilityUtil.Companion.isAccessibilityEnabled
 import com.test.util.accessibility.AccessibilityUtil.Companion.lunchApp
 import com.test.util.base.MyBaseActivity
+import com.test.util.databinding.AtyAccessibilityBinding
 import com.test.util.utils.AppLog
-import kotlinx.android.synthetic.main.aty_accessibility.*
-import kotlinx.android.synthetic.main.floating_view.*
+
 
 
 class AccessibilityActivity : MyBaseActivity() {
@@ -35,6 +35,12 @@ class AccessibilityActivity : MyBaseActivity() {
     override fun getLayoutId(): Int {
         return R.layout.aty_accessibility
     }
+
+    private val binding: AtyAccessibilityBinding
+        get() {
+            val inflate: AtyAccessibilityBinding = AtyAccessibilityBinding.inflate(layoutInflater)
+            return inflate
+        }
 
     /**
     1.4 启动服务
@@ -46,16 +52,17 @@ class AccessibilityActivity : MyBaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppLog.d("====onCreate=====")
-        btn_start.setOnClickListener {
+
+        binding.btnStart.setOnClickListener {
             Log.d("=====btnStart click======")
             val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
             startActivity(intent)
         }
-        tv_server_state.text = ""
-        btn_start_app.setOnClickListener {
+        binding.tvServerState.text = ""
+        binding.btnStartApp.setOnClickListener {
             lunchApp(aty = activity, packageName = "com.test.product_2")
         }
-        btn_open_float_win.setOnClickListener {
+        binding.btnOpenFloatWin.setOnClickListener {
             openFloatWin(activity)
         }
         updateState()
@@ -65,9 +72,9 @@ class AccessibilityActivity : MyBaseActivity() {
 
     @SuppressLint("SetTextI18n")
     fun updateState() {
-        tv_server_state.postDelayed({
+        binding.tvServerState.postDelayed({
             val enable = isAccessibilityEnabled(this@AccessibilityActivity)
-            tv_server_state.text = "辅助服务是否开启：$enable"
+            binding.tvServerState.text = "辅助服务是否开启：$enable"
             //AppLog.d(tv_server_state.text.toString())
             updateState()
         }, 1000)

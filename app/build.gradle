@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 def isNeedTinker = false
 if (isNeedTinker) {
     apply plugin: 'com.tencent.tinker.patch'
@@ -13,10 +12,12 @@ def app_info = rootProject.ext.app_info
 
 
 android {
+    namespace "com.test.util"  // 替换为你的包名
     compileSdkVersion app_info.compileSdkVersion
     ndkVersion '21.4.7075529'
+    buildToolsVersion "36.1.0"  // 强制使用 M 系列兼容的 Build Tools
     defaultConfig {
-        applicationId "com.test.util2"
+        applicationId "com.test.util"
         minSdkVersion app_info.minSdkVersion
         targetSdkVersion app_info.targetSdkVersion
         versionCode 1
@@ -35,19 +36,17 @@ android {
 //        }
         /*=========tinker start==========*/
         javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath = true
-            }
         }
         multiDexEnabled true
         buildConfigField "String", "MESSAGE", "\"I am the base apk\""
         buildConfigField "String", "TINKER_ID", "\"${TINKER_ID}\""
         buildConfigField "String", "PLATFORM", "\"all\""
 
-        dexOptions {
-            jumboMode = true
-        }
         /*=========tinker end==========*/
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     compileOptions {
@@ -202,7 +201,7 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:82:sources'
     // ViewModel和LiveData依赖
     implementation "android.arch.lifecycle:extensions:1.1.1"
-    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    kapt "android.arch.lifecycle:compiler:1.1.1"
     implementation project(path: ':JPushExample')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -217,9 +216,9 @@ dependencies {
         provided("com.tencent.tinker:tinker-android-anno-support:${TINKER_VERSION}") { changing = true }
     }
 
-    compile "androidx.multidex:multidex:2.0.1"
+    implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.github.princekin-f:EasyFloat:1.3.4'
-    implementation "com.wireguard.android:tunnel:1.0.20211029"
+   // implementation "com.wireguard.android:tunnel:1.0.20211029"
 
 // 协程核心库
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0"

@@ -2,12 +2,12 @@ package com.test.util.accessibility
 
 import android.os.Bundle
 import com.common.utils.ToastUtil
-import com.test.util.BuildConfig
+
 
 import com.test.util.R
 import com.test.util.base.MyBaseActivity
+import com.test.util.databinding.AtyVerifyAccessibilityBinding
 import com.test.util.utils.AppLog
-import kotlinx.android.synthetic.main.aty_verify_accessibility.*
 
 class AccessibilityVerifyActivity : MyBaseActivity() {
 
@@ -15,22 +15,28 @@ class AccessibilityVerifyActivity : MyBaseActivity() {
         return R.layout.aty_verify_accessibility
     }
 
+    private val binding: AtyVerifyAccessibilityBinding
+        get() {
+            val inflate: AtyVerifyAccessibilityBinding = AtyVerifyAccessibilityBinding.inflate(layoutInflater)
+            return inflate
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppLog.d("====onCreate=====")
-        tv_app_info.text = BuildConfig.APPLICATION_ID
-        tv_1.setOnClickListener {
+        binding.tvAppInfo.text = "?"
+        binding.tv1.setOnClickListener {
             ToastUtil.showLong("tv_1")
         }
 
-        tv_2.setOnClickListener {
+        binding.tv2.setOnClickListener {
             ToastUtil.showLong("tv_2")
         }
 
-        tv_3.setOnClickListener {
+        binding.tv3.setOnClickListener {
             ToastUtil.showLong("tv_3")
         }
-        tv_4.setOnClickListener {
+        binding.tv4.setOnClickListener {
             ToastUtil.showLong("tv_4")
         }
     }

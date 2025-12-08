@@ -149,7 +149,8 @@
         <!-- Since JCore2.0.0 Required SDK核心功能-->
         <!-- 这个Service要继承JCommonService -->
          <service android:name="com.example.jpushdemo.PushService"
-                 android:process=":pushcore">
+                 android:process=":pushcore"
+             android:exported="true">
                  <intent-filter>
                      <action android:name="cn.jiguang.user.service.action" />
                  </intent-filter>
@@ -172,7 +173,8 @@
         </receiver>
 
         <!-- User defined.  For test only  用户自定义接收消息器,3.0.7开始支持,目前新tag/alias接口设置结果会在该广播接收器对应的方法中回调-->
-        <receiver android:name="com.example.jpushdemo.MyJPushMessageReceiver">
+        <receiver android:name="com.example.jpushdemo.MyJPushMessageReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
                 <category android:name="com.test.product_1"></category>

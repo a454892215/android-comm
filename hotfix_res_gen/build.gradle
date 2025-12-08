@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
 // napply from: "publish.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -39,17 +38,6 @@ android {
     }
 }
 
-
-
-
-uploadArchives {
-    repositories.mavenDeployer {
-        repository(url: uri('../repository'))
-        pom.groupId = "com.hotfix"// 唯一标识（通常为模块包名）
-        pom.artifactId = "hotfix" // 项目名称
-        pom.version = "1.0.6-beta1"
-    }
-}
 
 
 

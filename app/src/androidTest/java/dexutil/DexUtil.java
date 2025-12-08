@@ -6,7 +6,8 @@ import java.io.File;
 public class DexUtil {
 
     //dx.bat 文件全路径
-    private static final String DEX_FULL_PATH = "C:\\Users\\llpp\\AppData\\Local\\Android\\Sdk\\build-tools\\29.0.2\\dx.bat";
+  //  private static final String DEX_FULL_PATH = "C:\\Users\\llpp\\AppData\\Local\\Android\\Sdk\\build-tools\\29.0.2\\dx.bat";
+    private static final String DEX_FULL_PATH = "C:\\Users\\llpp\\AppData\\Local\\Android\\Sdk\\build-tools\\32\\dx.bat";
     //class 文件路径
     private static final String CLASS_DIR = "app/hot_fix/classes";
     //dex输出路径

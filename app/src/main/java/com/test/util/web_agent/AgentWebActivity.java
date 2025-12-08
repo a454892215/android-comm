@@ -172,9 +172,9 @@ public class AgentWebActivity extends MyBaseActivity {
         settings.setLoadWithOverviewMode(true);
 
         String appCachePath = getApplicationContext().getCacheDir().getAbsolutePath();
-        settings.setAppCachePath(appCachePath);
+      //  settings.setAppCachePath(appCachePath);
         settings.setAllowFileAccess(true);
-        settings.setAppCacheEnabled(true);
+      //  settings.setAppCacheEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccessFromFileURLs(true);
@@ -187,7 +187,7 @@ public class AgentWebActivity extends MyBaseActivity {
         settings.setDisplayZoomControls(false);
         settings.setDatabaseEnabled(true);
         settings.setGeolocationEnabled(true);//地理地位
-        settings.setAppCacheMaxSize(Long.MAX_VALUE);
+      //  settings.setAppCacheMaxSize(Long.MAX_VALUE);
         settings.setPluginState(WebSettings.PluginState.ON_DEMAND);
         settings.setCacheMode(WebSettings.LOAD_DEFAULT);
         // settings.setSupportMultipleWindows(false);

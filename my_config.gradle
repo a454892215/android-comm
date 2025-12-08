@@ -5,9 +5,9 @@ ext {
 
 
     app_info = [
-            compileSdkVersion : 28,
+            compileSdkVersion : 34,
             minSdkVersion : 21,
-            targetSdkVersion : 28,
+            targetSdkVersion : 34,
             debug_minifyEnabled : false,
             release_minifyEnabled : true,
     ]
