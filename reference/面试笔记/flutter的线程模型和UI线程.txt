@@ -1,17 +1,17 @@
 flutter 的线程模型和UI线程详解
 
 # **Flutter 的线程模型核心**
-Flutter 的渲染主要靠3个线程：
+Flutter app的渲染主要靠3个线程：
 1. **UI 线程（Dart 线程）**
    * 执行你写的 Dart 代码
    * 构建 Widget → 更新 Element → 更新 RenderObject
    * 负责标记哪些地方需要重新布局和绘制
 
-2. **Raster 线程（绘制线程 / GPU 线程）**
+2. **Raster 线程（绘制线程 / GPU 线程）** 引擎层 C++代码
    * 接收 UI 线程生成的 Layer Tree（渲染指令）
    * 用 Skia 把指令画到 GPU 上
 
-3. **Platform 线程：与原生交互时，这条线程负责收发消息
+3. **Platform 线程：与原生交互时，这条线程负责收发消息，引擎层C++代码
 
 讲一下flutter的线程模型，一个app进程中 最少有几个线程，分别工作是什么？
 
