@@ -1,0 +1,64 @@
+flutter 的线程模型和UI线程详解
+
+# **Flutter 的线程模型核心**
+Flutter 的渲染主要靠3个线程：
+1. **UI 线程（Dart 线程）**
+   * 执行你写的 Dart 代码
+   * 构建 Widget → 更新 Element → 更新 RenderObject
+   * 负责标记哪些地方需要重新布局和绘制
+
+2. **Raster 线程（绘制线程 / GPU 线程）**
+   * 接收 UI 线程生成的 Layer Tree（渲染指令）
+   * 用 Skia 把指令画到 GPU 上
+
+3. **Platform 线程：与原生交互时，这条线程负责收发消息
+
+讲一下flutter的线程模型，一个app进程中 最少有几个线程，分别工作是什么？
+
+好，我用最简单、最直接的方式给你梳理 Flutter 的线程模型，一个 Flutter app 最少会有几个线程，以及每条线程的核心工作。
+# **Flutter 最少线程数量**
+一个 Flutter App 进程里，最少有 **三条核心线程**：
+1. **UI 线程（Dart 线程 / Platform Thread）**
+   * 执行 Dart 代码（Widget 构建、Element diff、RenderObject 更新）
+   * 负责标记哪些地方需要重新布局（layout）和绘制（paint）
+   * 处理用户输入事件（手势、点击、滚动）
+   * 可以理解为“Flutter 的主线程”
+2. **Raster 线程（绘制线程 / GPU 线程）**
+   * 接收 UI 线程生成的 Layer Tree（渲染指令）
+   * 用 Skia 绘制到 GPU
+   * 异步渲染，避免 UI 线程堵塞
+
+3. **Platform 线程（平台线程 / OS 主线程）**
+   * Flutter 在底层和系统交互的线程
+   * 处理操作系统事件（触摸、传感器、生命周期、平台通道）
+   * Dart 通过 Platform Channel 与原生交互时，这条线程负责收发消息
+
+> ⚠ 除了这三条，还有额外线程（比如 GPU driver 线程、IO 线程、网络线程），但最核心渲染逻辑只靠上面三条。
+
+---
+
+# **线程之间的工作关系**
+
+1. **UI 线程**
+   * 负责生成 UI 树（Widget → Element → RenderObject）
+   * 生成 Layer Tree 并提交给 Raster 线程
+   * 接收用户输入、调用 setState 等
+2. **Raster 线程**
+   * 接收 Layer Tree → GPU 绘制 → 显示到屏幕
+   * 异步执行，尽量不阻塞 UI 线程
+
+3. **Platform 线程**
+   * 系统事件和平台消息的入口
+   * 和 UI 线程通信，保证 Dart 层能够获取事件
+
+---
+
+# **一句话总结**
+
+Flutter 的核心线程模型就是：
+
+* **UI 线程**：处理 Dart 逻辑和 UI 树更新
+* **Raster 线程**：负责真正画屏幕
+* **Platform 线程**：和操作系统、原生交互
+
+> 滚动卡顿的瓶颈几乎都在 **UI 线程**，因为它要生成大量 RenderObject 并标记 layout/paint，而 Raster 线程只是执行绘制指令。
