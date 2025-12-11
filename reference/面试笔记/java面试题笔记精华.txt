@@ -8,11 +8,11 @@ classLoad加载java字节码文件，一般有7个流程：
 6.使用
 7.卸载
 Classloader类型从加载优先级类型分为：
-启动ClassLoader
-扩展classloader
-appClassloader
+启动类加载器（C层代码）： 最顶层，由 JVM 本身实现，加载 核心类库，如 java.lang.*、java.util.*、java.io.*
+扩展类加载器（Java层代码）：   加载 JDK 扩展库（$JAVA_HOME/lib/ext 或模块系统中的扩展模块）
+应用程序类加载器（Java层）：（App ClassLoader / System ClassLoader）默认加载 classpath 下的应用类，也是双亲委派的最后一级，父类是扩展类加载器
 自定义ClassLoader
-加载机制：双亲委托机制，优先看上级classLoader是否可以加载，不可以加载则自己加载，依次递归。
+加载机制：双亲委托机制，优先看上级classLoader是否可以加载，不可以加载则自己加载，依次递归。（应用程序类加载器->扩展类加载器->启动类加载器）
 
 
 JVM内存结构：
