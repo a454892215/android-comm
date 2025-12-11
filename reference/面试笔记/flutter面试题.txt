@@ -2,6 +2,12 @@
 
 ## 一、Flutter 核心架构与原理
 
+flutter的 skia 和 impeller 渲染引擎。
+android也是skia渲染引擎，但是 flutter 上自己携带的。flutter对skia进行了高度的定制
+impeller 渲染引擎在2025新版的flutter会上 已经取代skia渲染引擎，android 旧版本还是使用skia渲染引擎29以下
+对于 iOS 平台，如果用的是较新的 Flutter（3.10 及以后），Impeller 已经成为默认渲染引擎。
+对于 Android，如果设备满足要求（例如支持 Vulkan，Android API ≥ 29），Flutter 也倾向默认启用 Impeller。
+
 ### 1.1 Flutter 框架层次结构
 - **Dart 框架层**：提供响应式编程模型和丰富的预构建组件
 - **Flutter 引擎层**：使用 C++ 编写，提供 Skia 图形库、Dart 运行时、平台通道等核心服务
@@ -36,11 +42,19 @@
 - **事件循环**：单线程异步执行的基础
 - **async/await**：语法糖，使异步代码类似同步
 - **Isolate 间通信**：通过 SendPort 和 ReceivePort
+     在 Flutter（或 Dart）中，Isolate 是独立的执行线程，它拥有自己独立的内存空间，
+     不共享主线程（UI 线程）的对象，因此不同 Isolate 之间不能直接访问对方的变量。要在 Isolate 之间通信，
+     就需要用 SendPort 和 ReceivePort。
+     是的，Flutter 的主线程 就是一个 Isolate，同时它也是 UI 线程。
 
 ### 2.3 Dart 的空安全
-- 区分可空和不可空类型
-- 运行时和编译时的空检查
+- 区分可空和不可空类型: 默认情况下，Dart 的类型都是不可空的。也就是说，变量不能赋值为 null。
+- 运行时和编译时的空检查:
+     编译时检查：Dart 编译器会在编译阶段检查不可空变量是否可能为 null，如果有潜在的 null 赋值，会报错。
+     运行时检查：对于可空类型，使用时必须做 null 判断，否则可能会在运行时报 NoSuchMethodError 或 LateInitializationError。
 - `late` 关键字用于延迟初始化
+   编译时检查：Dart 编译器会在编译阶段检查不可空变量是否可能为 null，如果有潜在的 null 赋值，会报错。
+   运行时检查：对于可空类型，使用时必须做 null 判断，否则可能会在运行时报 NoSuchMethodError 或 LateInitializationError。
 
 ## 三、Widget 系统详解
 
