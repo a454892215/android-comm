@@ -19,5 +19,3 @@ www.lp.com
 keytool -importcert -file jitpack.io.crt -alias examplecrt -keystore cacerts
 keytool -list -trustcacerts -keystore cacerts
 
-
-
