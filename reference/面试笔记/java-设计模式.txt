@@ -98,7 +98,8 @@ Java设计模式根据其在软件开发中的目的和应用场景，通常分�
      工厂方法模式（Factory Method Pattern）：定义一个用于创建对象的接口，让子类决定实例化哪一个类。它使一个类的实例化延迟到其子类。
      抽象工厂模式（Abstract Factory Pattern）：提供一个接口，用于创建相关或依赖对象的家族，而无需明确指定具体类。
      建造者模式（Builder Pattern）：将一个复杂对象的构建与其表示分离，使同样的构建过程可以创建不同的表示。
-     原型模式（Prototype Pattern）：通过复制现有对象来创建新对象，而不是从头开始创建。
+     原型模式（Prototype Pattern）：通过复制现有对象来创建新对象，而不是从头开始创建。Object.clone() 确实是Java中原型模式的基础
+
 
 
 结构型模式（Structural Patterns）：
