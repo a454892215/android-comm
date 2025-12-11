@@ -1,0 +1,10 @@
+dart面试题
+final和const区别：  final运行时候确定，const编译时候就要确定。
+                   修饰集合的时候。final可以改变集合内部元素，const不可以。
+                   使用 const 构造函数创建对象时，如果多个对象的属性完全相同，Dart 会复用同一份内存（canonicalization）。但是，如果属性不同或不是 const 构造函数，Dart 会创建新的对象。
+
+
+异步： Future, async await,  stream async* yield,
+Future：表示一次可能还未完成的异步操作，最终会返回一个值或错误。
+`async` 修饰函数，表示函数内部可能有异步操作，返回 `Future`。
+`await` 等待一个 Future 完成并返回结果。
