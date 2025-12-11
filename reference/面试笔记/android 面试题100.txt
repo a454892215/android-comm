@@ -1,0 +1,429 @@
+Android 常见100道面试题（完整版）
+#面试题
+
+一、基础组件与核心原理
+Activity 相关
+Q1：请描述 Activity 的完整生命周期，从创建到销毁经历哪些关键方法？
+
+A：Activity 完整生命周期包括：onCreate（初始化）→ onStart（可见）→ onResume（可交互）→ onPause（失去焦点）→ onStop（不可见）→ onDestroy（销毁）。若被重新打开，会触发 onRestart → onStart → onResume。
+
+Q2：Activity 的 onStart () 和 onResume () 有什么本质区别？
+
+A：onStart () 是 Activity 可见但未获得焦点（后台状态），onResume () 是获得焦点可与用户交互（前台状态）。例如，Activity 被对话框部分遮挡时，会从 onResume 退到 onPause，但不会触发 onStop。
+
+Q3：什么情况下 Activity 会执行 onRestart () 方法？
+
+A：当 Activity 从停止状态（onStop 之后）重新回到前台时触发，比如按 Home 键后再返回应用，或被其他 Activity 遮挡后再次显示。
+
+Q4：如何在 Activity 被销毁前保存数据？onSaveInstanceState () 和 onPause () 有何不同？
+
+A：用 onSaveInstanceState () 保存临时数据，它在 Activity 可能被销毁前调用（如旋转屏幕），适合保存轻量数据；onPause () 用于持久化数据（如保存到数据库），在 Activity 失去焦点时必调用，无论是否销毁。
+
+Q5：Activity 的四种启动模式分别是什么？singleTask 和 singleInstance 有何区别？
+
+A：四种模式：standard（默认，每次新建）、singleTop（栈顶复用）、singleTask（栈内唯一，清除上方 Activity）、singleInstance（独占任务栈）。区别：singleTask 仍可能与其他 Activity 共享任务栈，singleInstance 则完全独立，其他应用调用也会复用同一实例。
+
+Q6：如何通过 Intent 传递数据给另一个 Activity？如何返回数据？
+
+A：正向传递用 Intent.putExtra ()；返回数据需用 startActivityForResult ()（旧）或 registerForActivityResult ()（新），被启动 Activity 通过 setResult () 设置返回数据。
+
+Q7：什么是 Activity 栈？系统如何管理多个 Activity 的栈结构？
+
+A：Activity 栈（Task）是管理 Activity 的后进先出队列。启动新 Activity 时入栈，按返回键时出栈。默认一个应用对应一个栈，可通过 taskAffinity 属性指定不同栈。
+
+Q8：Activity 与 Fragment 的生命周期有何关联？
+
+A：Fragment 生命周期依赖 Activity，Activity 的 onCreate 对应 Fragment 的 onAttach→onCreate→onCreateView→onActivityCreated；Activity 的 onStart 对应 Fragment 的 onStart；Activity 的 onResume 对应 Fragment 的 onResume，销毁阶段则相反。
+
+Q9：如何避免屏幕旋转导致的 Activity 重建问题？
+
+A：在 Manifest 中配置 android:configChanges="orientation|screenSize"，让系统不重建 Activity；或用 ViewModel 保存数据，其生命周期独立于 Activity。
+
+Q10：什么是 TaskAffinity？它如何影响 Activity 的栈管理？
+
+A：TaskAffinity 是 Activity 的任务亲和性，默认与应用包名一致。若指定不同值，Activity 会被放入对应名称的任务栈，常用于将 Activity 放入另一个应用的任务栈（如分享功能）。
+
+Service 相关
+Q11：Service 和 Thread 的本质区别是什么？
+
+A：Service 是 Android 组件，运行在主线程，用于后台任务的生命周期管理；Thread 是操作系统线程，用于并行处理耗时操作。Service 本身不实现多线程，需在内部创建 Thread。
+
+Q12：startService 和 bindService 两种启动方式的生命周期有何不同？
+
+A：startService 启动后，生命周期为 onCreate→onStartCommand→onDestroy，需显式停止；bindService 则是 onCreate→onBind→onUnbind→onDestroy，随绑定组件生命周期结束而销毁，支持双向通信。
+
+Q13：如何保证 Service 在后台被杀死后能自动重启？
+
+A：在 onStartCommand () 返回 START_STICKY 或 START_REDELIVER_INTENT，系统会在内存充足时重启 Service；或使用前台服务，通过通知提升优先级。
+
+Q14：前台服务和普通服务有什么区别？
+
+A：前台服务必须显示通知，优先级高（不易被杀死），用于用户可感知的后台任务（如音乐播放）；普通服务优先级低，系统内存不足时可能被回收。
+
+Q15：IntentService 的特点是什么？
+
+A：IntentService 是 Service 的子类，内部有工作线程处理任务，任务完成后自动停止，无需手动管理线程和生命周期，适合一次性后台任务（如下载单个文件）。
+
+Q16：Service 的 onStartCommand () 返回值有哪些类型？
+
+A：有三种：START_STICKY（重启后不保留 Intent）、START_NOT_STICKY（不自动重启）、START_REDELIVER_INTENT（重启后重发 Intent）。
+
+Q17：如何在 Service 和 Activity 之间进行双向通信？
+
+A：通过 Binder 机制，Service 在 onBind () 中返回自定义 Binder 对象，Activity 绑定后通过 Binder 调用 Service 方法；或用 EventBus、LiveData 等跨组件通信工具。
+
+Q18：为什么不建议在 Service 中执行耗时操作？
+
+A：Service 默认运行在主线程，耗时操作会导致 ANR（应用无响应）。正确做法是在 Service 中创建子线程，或使用 IntentService/WorkManager。
+
+Q19：如何防止 Service 被系统回收？
+
+A：常用策略：提升为前台服务、重写 onStartCommand 返回 START_STICKY、通过 AlarmManager 定时唤醒、使用双 Service 互相守护（不推荐，影响用户体验）。
+
+Q20：远程 Service 和本地 Service 的区别是什么？
+
+A：本地 Service 与应用在同一进程，通信快（直接调用）；远程 Service 独立进程，需通过 AIDL 跨进程通信，适合给其他应用提供服务，开销较大。
+
+BroadcastReceiver 相关
+Q21：广播的两种注册方式有什么区别？
+
+A：静态注册（Manifest 声明）：应用未启动也能接收，耗电，Android 8.0 后对隐式广播限制严格；动态注册（代码中注册）：随组件生命周期，灵活可控，需手动注销。
+
+Q22：Android 8.0 后对静态广播有哪些限制？
+
+A：8.0 后静态注册无法接收大部分隐式广播，需使用显式广播（指定包名）或动态注册，系统广播（如开机完成）不受影响。
+
+Q23：有序广播和无序广播的区别是什么？
+
+A：有序广播按优先级接收，可被拦截（abortBroadcast ()）和修改数据；无序广播所有接收者同时收到，无法拦截，效率高。
+
+Q24：本地广播和全局广播的区别是什么？
+
+A：本地广播（LocalBroadcastManager）仅在应用内传播，安全高效；全局广播可跨应用，存在安全风险（如数据泄露）。
+
+Q25：如何防止广播被恶意接收或发送？
+
+A：发送时指定权限（sendBroadcast (intent, permission)），接收时在 Manifest 声明对应权限；使用显式广播，避免隐式广播被滥用。
+
+Q26：系统常见的广播事件有哪些？
+
+A：如开机完成（ACTION_BOOT_COMPLETED）、网络变化（ACTION_CONNECTIVITY_CHANGE）、电量低（ACTION_BATTERY_LOW）、安装应用（ACTION_PACKAGE_ADDED）等。
+
+Q27：动态广播为什么必须在 onDestroy () 中注销？
+
+A：若不注销，广播接收器会持有 Activity 引用，导致内存泄漏；Activity 销毁后，接收器仍可能接收事件，引发空指针异常。
+
+ContentProvider 相关
+Q28：ContentProvider 的核心作用是什么？
+
+A：提供跨进程数据共享的标准化接口，封装数据访问逻辑，支持细粒度权限控制，常用于系统数据（如联系人、媒体库）和应用间数据共享。
+
+Q29：如何实现一个自定义 ContentProvider？
+
+A：继承 ContentProvider，实现 query/insert/update/delete/getType 方法，在 Manifest 中注册并指定 authority，通过 Uri 匹配器（UriMatcher）处理不同请求。
+
+Q30：ContentResolver 和 ContentProvider 是什么关系？
+
+A：ContentResolver 是客户端访问数据的入口，通过 Uri 统一调用不同 ContentProvider 的方法，隐藏具体实现，实现解耦。
+
+Q31：Uri 的结构是什么？
+
+A：格式为 content://authority/path/id，如 content://com.example.provider/user/1，其中 authority 是唯一标识，path 表示数据集合，id 是具体记录。
+
+Q32：系统提供了哪些常用的 ContentProvider？
+
+A：联系人（ContactsContract）、媒体库（MediaStore）、日历（CalendarContract）、下载管理（Downloads）等。
+
+二、布局与 UI 渲染
+布局与控件
+Q33：LinearLayout、RelativeLayout 和 ConstraintLayout 的性能对比如何？
+
+A：LinearLayout（单方向）测量效率最高，适合简单布局；RelativeLayout 可能需两次测量，复杂布局性能较差；ConstraintLayout 通过约束实现扁平化，性能优于 RelativeLayout，适合复杂 UI。
+
+Q34：什么是过度绘制？如何优化？
+
+A：过度绘制指同一像素被多次绘制（如多层背景叠加）。优化：移除冗余背景、减少布局嵌套、使用 clipRect () 限制绘制区域、通过开发者选项开启过度绘制检测。
+
+Q35：如何减少布局层级？
+
+A：用 ConstraintLayout 替代多层嵌套、使用 merge 标签合并根布局、用 ViewStub 延迟加载非必要布局、避免不必要的 ViewGroup 嵌套。
+
+Q36：ViewStub 的作用是什么？
+
+A：ViewStub 是轻量级占位控件，默认不加载，需时通过 inflate () 加载布局，适合条件显示的 UI（如空数据提示），减少初始布局加载时间。
+
+Q37：自定义 View 的基本流程是什么？
+
+A：继承 View 或现有控件，重写构造方法（解析属性），重写 onMeasure（测量尺寸），重写 onDraw（绘制内容），必要时重写 onTouchEvent（处理触摸）。
+
+Q38：View 的测量模式有哪些？
+
+A：有三种：EXACTLY（精确尺寸，如 match_parent 或固定值）、AT_MOST（最大尺寸，如 wrap_content）、UNSPECIFIED（无限制，如 ScrollView 中的子 View）。
+
+Q39：SurfaceView 和普通 View 的区别是什么？
+
+A：SurfaceView 有独立绘图表面，在子线程绘制，适合高频刷新（如视频、游戏）；普通 View 在主线程绘制，刷新频繁会卡顿。
+
+绘制原理
+Q40：View 的绘制流程包含哪三个核心步骤？
+
+A：测量（onMeasure，确定尺寸）→ 布局（onLayout，确定位置）→ 绘制（onDraw，绘制内容）。父 View 会递归调用子 View 的这三个方法。
+
+Q41：什么是 View 树？系统如何遍历 View 树进行绘制？
+
+A：View 树是由 ViewGroup 和 View 组成的层级结构。系统通过深度优先遍历，先绘制父 View，再绘制子 View，确保子 View 覆盖在父 View 之上。
+
+Q42：硬件加速的原理是什么？哪些情况下需要关闭？
+
+A：硬件加速利用 GPU 处理绘制，提升性能。但部分绘制操作（如 PathEffect、LayerType.SOFTWARE）不支持硬件加速，需在 View 级别关闭。
+
+Q43：什么是 Choreographer？
+
+A：Choreographer 协调 UI 绘制、输入和动画，与屏幕刷新率同步（通常 60fps），确保绘制在每一帧的正确时机执行，避免卡顿。
+
+Q44：View 的事件分发机制中三个核心方法是什么？
+
+A：dispatchTouchEvent（分发事件）、onInterceptTouchEvent（拦截事件，仅 ViewGroup 有）、onTouchEvent（处理事件）。流程：先分发，再判断是否拦截，最后处理。
+
+Q45：如何解决滑动冲突？
+
+A：常见方案：在父 View 的 onInterceptTouchEvent 中根据滑动方向判断是否拦截；或子 View 通过 requestDisallowInterceptTouchEvent () 请求父 View 不拦截。
+
+三、性能优化
+内存优化
+Q46：常见的内存泄漏场景有哪些？
+
+A：单例持有 Activity 上下文、未取消的监听器（如 BroadcastReceiver、EventBus）、Handler 匿名内部类持有 Activity 引用、资源未关闭（流、Cursor）、静态集合持有对象。
+
+Q47：什么是内存抖动？如何解决？
+
+A：内存抖动指短时间频繁创建和回收对象（如循环中创建对象），导致 GC 频繁触发。解决：复用对象、使用对象池、避免在 onDraw () 中创建对象。
+
+Q48：LRU 缓存机制的原理是什么？
+
+A：LRU（最近最少使用）算法优先淘汰最久未使用的对象，通过 LinkedHashMap 实现，适用于图片缓存（如 Glide）、内存数据缓存。
+
+Q49：如何优化 Bitmap 的内存占用？
+
+A：根据控件尺寸加载对应分辨率图片（inSampleSize）、使用适当格式（如 WebP）、及时回收（recycle ()）、使用缓存、通过 Glide 等库自动管理。
+
+Q50：弱引用、软引用和强引用的区别是什么？
+
+A：强引用（默认）：GC 不会回收；软引用（SoftReference）：内存不足时回收，适合缓存；弱引用（WeakReference）：GC 触发时回收，适合临时对象。
+
+启动与响应优化
+Q51：冷启动、热启动和温启动的区别是什么？
+
+A：冷启动：进程首次创建，需初始化 Application 和 Activity，耗时最长；热启动：进程存在，Activity 未销毁，直接恢复；温启动：进程存在，但 Activity 需重建，耗时介于两者之间。
+
+Q52：如何优化应用启动速度？
+
+A：减少 Application onCreate () 中的初始化（延迟非核心任务）、优化首屏布局（减少层级、避免过度绘制）、使用启动主题避免白屏、异步加载数据、启用 R8 混淆缩减代码。
+
+Q53：什么是 ANR？如何避免？
+
+A：ANR（应用无响应）指主线程阻塞超过一定时间（输入事件 5 秒，广播 10 秒，服务 20 秒）。避免：耗时操作放子线程、使用 AsyncTask/HandlerThread/Coroutine、减少布局复杂度。
+
+Q54：如何检测 ANR 问题？
+
+A：通过 Logcat 查看 ANR 日志（data/anr/traces.txt）、使用 Android Vitals 监控、自定义 ANR 监控（如通过 Handler 定时检测主线程响应）。
+
+Q55：启动优化中如何使用 IdleHandler？
+
+A：IdleHandler 在主线程空闲时执行，可用于延迟初始化非核心组件（如统计、推送），避免占用启动时间：Looper.myQueue ().addIdleHandler (() -> { ...; return false; })。
+
+列表与网络优化
+Q56：RecyclerView 相比 ListView 有哪些优势？
+
+A：RecyclerView 更灵活，通过 LayoutManager 支持多种布局（线性、网格、瀑布流）、强制使用 ViewHolder、支持动画、可自定义 ItemDecoration 和 ItemAnimator。
+
+Q57：RecyclerView 的优化策略有哪些？
+
+A：复用 ViewHolder、减少布局层级、图片懒加载（滑动时暂停）、使用 DiffUtil 更新数据、设置固定高度（setHasFixedSize (true)）、优化 onBindViewHolder（避免耗时操作）。
+
+Q58：DiffUtil 的作用是什么？
+
+A：DiffUtil 通过比对新旧数据集，计算差异并更新变化的 Item，替代 notifyDataSetChanged ()，减少不必要的刷新，提升性能和动画效果。
+
+Q59：如何优化网络请求？
+
+A：合并请求、使用缓存（OkHttp 缓存）、压缩数据（Gzip）、图片懒加载、使用 Retrofit+OkHttp 的拦截器统一处理、避免重复请求、根据网络类型（WiFi / 移动网络）调整策略。
+
+Q60：列表滑动卡顿的常见原因有哪些？
+
+A：布局层级过深、Item 布局复杂、onBindViewHolder 中执行耗时操作、图片未优化（过大或未缓存）、过度绘制、主线程做网络 / IO 操作。
+
+四、数据存储与安全
+数据存储
+Q61：Android 中有哪些数据存储方式？
+
+A：SharedPreferences（键值对，轻量）、文件存储（内部 / 外部存储）、SQLite 数据库（结构化数据，Room 封装）、ContentProvider（跨应用共享）、网络存储（服务器）。
+
+Q62：SharedPreferences 的使用注意事项是什么？
+
+A：不适合存储大量数据、线程不安全（多进程需用 MODE_MULTI_PROCESS，已废弃，建议用 ContentProvider）、commit () 同步提交，apply () 异步提交（可能丢失）。
+
+Q63：Room 框架的优势是什么？
+
+A：Room 是 SQLite 的封装，提供编译时语法检查、简化 CRUD 操作、支持 LiveData 和 RxJava 响应式查询、减少模板代码，避免手写 SQL 错误。
+
+Q64：内部存储和外部存储的区别是什么？
+
+A：内部存储：私有（仅本应用访问）、应用卸载时删除、无需权限；外部存储：分为公共目录（所有应用可访问）和私有目录（Android/data/ 包名，卸载删除），访问公共目录需权限。
+
+Q65：Android 10 的分区存储（Scoped Storage）是什么？
+
+A：分区存储限制应用直接访问外部存储根目录，需通过 MediaStore 访问公共媒体文件，或使用应用私有目录，增强用户隐私保护，Android 11 后强制启用。
+
+安全与权限
+Q66：Android 权限分为哪几类？
+
+A：正常权限（如 INTERNET，自动授予）、危险权限（如 CAMERA，需动态申请）、特殊权限（如 SYSTEM_ALERT_WINDOW，需跳转设置页面申请）。
+
+Q67：如何请求危险权限？
+
+A：检查是否已授权（checkSelfPermission ()），未授权则请求（requestPermissions ()），在 onRequestPermissionsResult () 中处理结果，必要时显示权限说明（shouldShowRequestPermissionRationale ()）。
+
+Q68：如何加密存储敏感数据？
+
+A：使用 AndroidKeystore 存储密钥、AES 加密数据、SharedPreferences 加密（如 EncryptedSharedPreferences）、避免明文存储密码（用哈希 + 盐值）。
+
+Q69：如何防止应用被反编译？
+
+A：启用 Proguard/R8 混淆代码、使用加固工具（如 360 加固）、敏感逻辑用 C++ 实现（NDK）、检测调试状态（Debug.isDebuggerConnected ()）。
+
+Q70：网络传输中如何保证数据安全？
+
+A：使用 HTTPS（TLS）、证书校验（避免中间人攻击）、数据加密后传输、敏感参数不放在 URL 中、使用 OKHttp 的 SSLSocketFactory 配置安全连接。
+
+五、框架与第三方库
+Jetpack 组件
+Q71：ViewModel 的作用是什么？
+
+A：ViewModel 存储与 UI 相关的数据，生命周期独立于 Activity/Fragment，解决屏幕旋转等配置变化时的数据丢失问题，通常与 LiveData 配合使用。
+
+Q72：LiveData 的特点是什么？
+
+A：LiveData 是可观察的数据持有者，能感知生命周期，仅在 Activity/Fragment 处于活跃状态时通知更新，避免内存泄漏，支持数据粘性（新观察者能收到旧数据）。
+
+Q73：DataBinding 的优势是什么？
+
+A：DataBinding 将布局与数据直接绑定，减少 findViewById () 代码，支持双向绑定（@={}），可在 XML 中写简单逻辑，提升开发效率。
+
+Q74：WorkManager 的作用是什么？
+
+A：WorkManager 管理后台任务（如同步数据），兼容不同 Android 版本，根据设备状态（充电、网络、空闲）智能调度，支持周期性任务和链式任务。
+
+Q75：Navigation 组件如何管理页面跳转？
+
+A：Navigation 通过导航图（nav_graph.xml）集中管理页面关系，支持 Fragment 和 Activity 跳转，自动处理回退栈，可通过 Safe Args 传递参数，避免类型错误。
+
+网络与图片
+Q76：Retrofit 的工作原理是什么？
+
+A：Retrofit 通过动态代理将接口方法转换为 OKHttp 请求，解析注解（如 @GET、@POST）生成请求参数和 URL，通过 ConverterFactory 解析响应数据（如 Gson），CallAdapter 转换返回类型（如 Observable）。
+
+Q77：OkHttp 的拦截器有什么作用？
+
+A：拦截器用于在请求发送前或响应返回后处理（如添加公共参数、日志打印、缓存控制、token 过期重试），分为应用拦截器和网络拦截器。
+
+Q78：Glide 的三级缓存机制是什么？
+
+A：内存缓存（LruCache + 弱引用，最快）→ 磁盘缓存（原始图片 + 处理后图片，持久化）→ 网络请求（最慢）。加载图片时依次检查三级缓存，未命中则从网络获取。
+
+Q79：Glide 如何实现图片的高效加载？
+
+A：自动根据 ImageView 尺寸加载对应分辨率图片、支持内存和磁盘缓存、使用线程池管理加载任务、生命周期感知（避免 Activity 销毁后仍加载）、自动回收资源。
+
+Q80：RxJava 的背压是什么？
+
+A：背压指生产者发送数据速度快于消费者处理速度的问题，RxJava 通过 Flowable 和 Subscriber 支持背压策略（如缓冲、丢弃、错误），控制数据流速。
+
+六、高级特性与现代开发
+Compose 相关
+Q81：什么是 Composable 函数？
+
+A：Composable 是 Compose 中用于构建 UI 的函数，用 @Composable 注解标记，可嵌套调用，系统会根据状态变化自动重组（重新执行）需要更新的部分。
+
+Q82：Compose 的重组机制是什么？
+
+A：重组是 Compose 根据状态变化重新执行部分 UI 代码的过程，只更新变化的组件，而非整个 UI 树，通过 remember 保存状态，避免不必要的重组。
+
+Q83：如何在 Compose 中管理状态？
+
+A：使用 remember 保存临时状态，viewModel () 获取 ViewModel 中的状态，状态提升（将子组件状态移至父组件）实现状态共享，使用 StateFlow 管理跨组件状态。
+
+Q84：Compose 和传统 View 如何混编？
+
+A：在 Compose 中用 AndroidView 包裹传统 View，在传统布局中用 ComposeView 承载 Compose 内容，适合渐进式迁移。
+
+Q85：Compose 中的副作用有哪些处理方式？
+
+A：LaunchedEffect（协程中执行副作用，如网络请求）、DisposableEffect（需要清理的副作用，如注册监听器）、SideEffect（每次重组都执行，如更新全局状态）。
+
+系统特性与适配
+Q86：Android 12 的 Material You 设计语言有哪些特点？
+
+A：支持动态色彩（从壁纸提取主题色）、圆角设计、新的组件样式（如 Button、Card）、手势导航增强、应用启动动画规范。
+
+Q87：如何适配折叠屏设备？
+
+A：检测屏幕状态（展开 / 折叠）、使用 Jetpack WindowManager 获取屏幕信息、避免硬编码尺寸、测试多窗口模式、适配不同折叠形态（如内折、外折）。
+
+Q88：如何适配暗黑模式？
+
+A：在 styles.xml 中定义 DayNight 主题，使用？attr / 引用主题属性，在 res/values-night 目录下定义暗黑模式资源，支持用户手动切换模式。
+
+Q89：Android 13 对权限有哪些变更？
+
+A：通知权限需动态申请、媒体权限细分（图片、视频、音频）、剪贴板访问限制、精确位置权限需单独申请。
+
+Q90：什么是应用休眠（App Hibernation）？
+
+A：Android 13 引入，长期未使用的应用会被标记为休眠状态，系统限制其后台活动和网络访问，需在 Manifest 中声明豁免或提示用户打开应用解除休眠。
+
+七、测试与调试
+测试相关
+Q91：单元测试和 instrumentation 测试有何区别？
+
+A：单元测试（如 JUnit）在本地 JVM 运行，测试独立组件，速度快；instrumentation 测试（如 Espresso）在设备 / 模拟器运行，测试组件交互，依赖 Android 框架。
+
+Q92：Espresso 框架的作用是什么？
+
+A：Espresso 用于 UI 测试，提供简洁 API（onView ().perform ().check ()），自动处理主线程同步，支持匹配器（Matcher）定位 View，验证 UI 状态。
+
+Q93：Mockito 的作用是什么？
+
+A：Mockito 是 mocking 框架，用于创建模拟对象（如网络请求、数据库），隔离测试对象，验证方法调用，设置返回值，简化单元测试。
+
+Q94：如何测试异步代码？
+
+A：使用 CountDownLatch 等待异步完成、RxJava 的 TestSubscriber、Coroutine 的 runBlockingTest、Espresso 的 IdlingResource 处理异步加载。
+
+Q95：什么是 UI Automator？
+
+A：UI Automator 用于跨应用 UI 测试，可操作系统控件（如通知栏、设置），适合端到端测试，支持通过文本、描述等定位元素。
+
+调试与工具
+Q96：ADB 有哪些常用命令？
+
+A：安装应用（adb install）、卸载（adb uninstall）、查看日志（adb logcat）、重启（adb reboot）、查看设备（adb devices）、截图（adb shell screencap）、录屏（adb shell screenrecord）。
+
+Q97：Android Profiler 的主要功能是什么？
+
+A：Android Profiler 包含 CPU（分析方法耗时）、内存（检测泄漏）、网络（监控请求）、电量（分析耗电）分析工具，实时监控应用性能。
+
+Q98：如何使用 Layout Inspector 分析布局问题？
+
+A：Layout Inspector 可实时查看应用的 View 树结构、属性和测量信息，识别过度绘制、层级过深等问题，支持 3D 视图查看布局层次。
+
+Q99：什么是 systrace？
+
+A：systrace 用于分析系统级性能问题，记录 CPU 调度、UI 渲染、进程状态等信息，生成 HTML 报告，可识别掉帧、锁竞争等瓶颈。
+
+Q100：LeakCanary 的工作原理是什么？
+
+A：LeakCanary 在 Activity/Fragment 销毁后，通过弱引用检测是否被回收，未回收则触发 GC 并分析堆内存，生成泄漏路径报告，帮助定位内存泄漏。
+————————————————
+版权声明：本文为CSDN博主「Monkey-旭」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_37794278/article/details/150381562
