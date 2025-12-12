@@ -1,0 +1,130 @@
+明白了，你希望我根据你这个“包网项目”经验，生成一份针对 **Flutter 高级面试**、贴近你实际项目经验的面试题大全。下面我帮你整理一份，覆盖 **GetX 架构、状态管理、网络层、UI 构建、性能优化、插件和原生交互** 等方面。
+
+---
+
+## **一、Flutter 基础与 Dart 语法**
+
+1. Dart 语言基础
+
+   * `final` 与 `const` 的区别及使用场景。
+   * `late` 关键字作用及延迟初始化场景。
+   * Null Safety 原理？`?`、`!`、`??` 的区别。
+   * `mixin`、`with`、`implements`、`extends` 区别及使用场景。
+   * Dart 异步机制：`Future`、`async/await`、`Stream`、`async*`、`yield` 区别。
+
+2. Flutter Widget
+
+   * `StatelessWidget` 与 `StatefulWidget` 的区别及生命周期。
+   * `Key` 的作用，区别 `LocalKey`、`ValueKey`、`ObjectKey`、`UniqueKey`、`GlobalKey`。
+   * Flutter 声明式 UI 与命令式 UI 的区别与优缺点。
+   * `InheritedWidget` 与 Provider/GetX 的区别及使用场景。
+
+---
+
+## **二、GetX 架构与状态管理**
+
+1. **GetX 基础**
+
+   * `Obx`、`GetX`、`GetBuilder` 的区别与使用场景。
+   * Bindings 的作用和使用方式。
+   * GetX 依赖注入（DI）机制，如何管理 Controller 生命周期。
+   * 如何实现模块化页面架构（View + Controller + Binding）。
+
+2. **状态管理实战**
+
+   * 局部刷新 vs 全局刷新原理。
+   * 如何避免过度 rebuild，优化性能。
+   * 跨模块状态共享方案及全局事件管理。
+   * 与 H5 游戏交互时，状态管理如何保证数据一致性。
+
+---
+
+## **三、网络层与数据处理**
+
+1. **Dio 网络封装**
+
+   * Dio 拦截器如何实现统一请求/响应处理。
+   * Token 管理与刷新策略。
+   * 异常捕获与错误码处理机制。
+   * 如何在网络层实现缓存策略（结合 SharedPreferences 或 GetStorage）。
+
+2. **数据与缓存管理**
+
+   * 本地缓存方案对比：SharedPreferences、Hive、Sqflite。
+   * 数据与 UI 绑定时，如何保证缓存更新及时刷新页面。
+   * JSON 数据解析与序列化优化策略。
+
+---
+
+## **四、UI 构建与适配**
+
+1. **UI 构建**
+
+   * flutter_screenutil 适配体系原理与实战。
+   * 图片加载优化方案：cached_network_image 的使用场景与性能优化。
+   * 高性能列表渲染：ListView、GridView、SliverList、SliverGrid 的区别及优化技巧。
+   * 页面状态占位、错误、空数据处理最佳实践。
+
+2. **H5 游戏集成**
+
+   * InAppWebView 与 Flutter 页面通信方式（JavaScriptChannel、消息回调）。
+   * 如何处理 H5 页面多次加载、缓存、异常处理。
+   * Flutter 与 H5 游戏交互中性能优化方案。
+
+---
+
+## **五、性能优化**
+
+1. **Flutter 层面**
+
+   * 避免不必要的 Widget rebuild 的技巧。
+   * 图片缓存策略及滚动优化（如 ListView.builder、RepaintBoundary）。
+   * UI 渲染线程与异步处理优化（Isolate 使用场景）。
+   * 如何减少内存占用和避免内存泄漏。
+
+2. **网络与数据层**
+
+   * 大量数据请求分页加载与缓存优化。
+   * 网络请求并发控制和防抖节流策略。
+   * 异步任务异常处理与安全退出。
+
+---
+
+## **六、插件、原生交互与多平台适配**
+
+1. **插件使用**
+
+   * 常用插件使用及问题处理：GetX、flutter_screenutil、dio、cached_network_image、InAppWebView。
+   * Flutter 插件热更新、版本冲突解决方法。
+
+2. **原生交互**
+
+   * PlatformChannel、MethodChannel、EventChannel、BasicMessageChannel 的区别。
+   * Flutter 调用原生功能实现支付、推送、登录等。
+   * iOS 与 Android 特性差异处理方案。
+
+3. **多平台适配**
+
+   * iOS 与 Android UI 差异处理方法。
+   * 屏幕尺寸与分辨率适配策略。
+   * Flutter 在多平台下性能调优技巧。
+
+---
+
+## **七、进阶题与实战考察**
+
+1. Flutter 项目结构优化与模块化设计最佳实践。
+2. GetX 模块化架构中如何处理跨模块依赖与事件通信。
+3. Flutter 与 H5 混合开发中性能瓶颈与优化方案。
+4. Flutter 渲染机制（UI/Render/Raster）与滚动性能优化。
+5. Flutter 项目热重载与热重启原理区别。
+6. 如何实现全局异常捕获与统一错误处理。
+7. 如何在大规模页面中保证状态管理高性能、低耦合。
+
+---
+
+这份题库 **覆盖了你在“包网项目”中实际开发的技术栈**，面试官问 GetX 架构、网络封装、H5 交互、性能优化等问题，你都能结合项目经验回答，属于高级 Flutter 面试题大全。
+
+如果你需要，我可以帮你把它 **整理成「项目经验 + 对应面试题 + 简明答案」的表格形式**，方便直接背面试题和回答。
+
+你希望我帮你整理吗？
