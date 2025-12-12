@@ -59,12 +59,16 @@
 ### 四、多线程与异步处理
 1. **线程管理**
    - Handler、Looper、MessageQueue 的工作原理
+       Handler把消息发送到 MessageQueue
+       Looper不断到从MessageQueue里面取出消息执行
    - AsyncTask 的缺陷与替代方案
+       ：AsyncTask 不绑定 Activity/Fragment 生命周期，后台任务可能在界面销毁后仍然运行，容易 内存泄漏
    - 如何在子线程更新 UI？
+        主线程的Handle ，发送 runable,在runable中更新UI
 
 2. **线程安全**
    - `synchronized` 与 `ReentrantLock` 的区别
-   - volatile 关键字的作用
+   - volatile 关键字的作用： 保证写后 其他线程马上可以更新，不会读取到旧的值
    - 使用 Atomic 类避免竞态条件
 
 ### 五、数据存储
@@ -87,29 +91,58 @@
 
 2. **网络框架**
    - OkHttp 拦截器链原理
+        OkHttp 的拦截器链，其实就是 责任链模式（Chain of Responsibility）：
+        责任链模式：串行顺序处理，中间可以拦截或者直接返回，
+        拦截器通过 intercept(Chain chain) 处理请求和响应
+        通过 chain.proceed(request) 递归调用下一个拦截器
+        可分为应用拦截器和网络拦截器，前者不受缓存/重试影响，后者紧贴网络
+        链尾由 CallServerInterceptor 发起真实请求，返回响应沿链回溯
    - Retrofit 动态代理实现原理
 
 3. **数据解析**
    - Gson 反序列化泛型擦除问题如何解决？
+         Gson 提供 TypeToken<T> 来保留泛型类型信息：
    - 如何优化 JSON 解析性能？
+     库的选择：树解析，流式解析，按需解析 / 延迟解析
 
 ### 七、性能优化
 1. **内存优化**
    - 内存泄漏检测（LeakCanary 原理）
+         ：也就是LeakCanary只是监控少数对象（view, activity,fragment），然后根据他们的生命周期状态，确认是否内存泄露。
    - 图片加载优化（Bitmap 压缩、缓存策略）
+         1. BitmapFactory.Options.inSampleSize 按比例缩小图片
+         2. 配置合适的 Bitmap.Config  默认 Bitmap.Config.ARGB_8888，占用 4 字节/像素  如果不需要透明，可用 RGB_565（2 字节/像素），节省50%
+         3. 使用webp
+         4.多级缓存机制
+         5.异步加载
 
 2. **启动优化**
    - 冷启动、温启动、热启动的区别
    - 如何优化 Application 初始化？
+     ： Application 太臃肿主要是因为所有 SDK、业务模块都在 onCreate() 初始化。
+       延迟初始化（Lazy Init）
+       异步初始化（background init）
+       尽量减少住线程的耗时操作
 
 3. **APK 瘦身**
    - 资源混淆（AndResGuard）
-   - 如何减少方法数？
+   - 如何减少方法数？：Android 方法数上限：单个 DEX 文件65536， 开启 R8/ProGuard 混淆
+                    R8 主要执行：
+                    删除无用类、无用方法、无用字段
+                    方法内联（inline）
+                    常量折叠
+                    类合并、方法合并
+                    移除泛型、调试信息等
+     编译期扫描所有资源
+     对资源名进行重命名（短字符）
+     删除 unused 资源
+     压缩图片
+     重新生成 R 类映射
 
 ### 八、架构与设计
 1. **MVC、MVP、MVVM**
    - MVP 中 Presenter 与 View 如何解耦？
-   - ViewModel 如何实现数据持久化？
+   - ViewModel 如何实现数据持久化？： SavedStateHandle， DataStore
    - DataBinding 的双向绑定原理
 
 2. **组件化**
