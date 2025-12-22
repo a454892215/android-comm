@@ -65,6 +65,9 @@
    * 高性能列表渲染：ListView、GridView、SliverList、SliverGrid 的区别及优化技巧。
    * 页面状态占位、错误、空数据处理最佳实践。
 
+   flutter 快速滚动白屏的核心原因是：flutter不能先显示旧的内容，不允许脏显示。要么itemView 渲染完毕要么跳过。
+   而android iOS原生不会出现快速滚动白屏，因为他们都允许脏显示，如果最新itemView没有渲染完毕先显示旧的内容。
+
 2. **H5 游戏集成**
 
    * InAppWebView 与 Flutter 页面通信方式（JavaScriptChannel、消息回调）。
