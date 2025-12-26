@@ -1,0 +1,15 @@
+AsyncTask:   android1.8 以前是串行， android 1.8以后改成了并行， 3.0后又改成了串行
+             早期 Android（2.x）：AsyncTask 是 默认并发执行
+             大量 App 滥用 AsyncTask  结果：  CPU 抢占严重  UI 掉帧 电量暴跌  👉 这正是 Android 3.0 改为“默认串行”的原因
+             主线程： execute()   onPreExecute()
+             后台线程：doInBackground()
+             主线程：onPostExecute()
+             AsyncTask中有两个线程池（SerialExecutor（内部没有线程，只是任务调度器）和THREAD_POOL_EXECUTOR）和一个
+             Handler（InternalHandler），其中线程池SerialExecutor用于任务的排队，而线程池
+             THREAD_POOL_EXECUTOR用于真正地执行任务，InternalHandler用于将执行环境从线程池切换
+             到主线程。
+
+Context：
+ Activity（空壳，实际实现类ContextImpl, 代理模式，Wrapper模式） -> ContextThemeWrapper（空壳） ->  ContextWrapper(空壳) -> Context
+ 1、Activity和Service以及Application的Context是不一样的,Activity继承自
+ ContextThemeWraper.其他的继承自ContextWrapper。
