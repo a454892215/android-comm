@@ -1,10 +1,12 @@
-结论先给你：
-### **⚠ Flutter 滚动性能的最主要瓶颈，不是 widget 重建，也不是 diff，而是 RenderObject 布局 + 绘制（尤其是绘制阶段）。**
-换句话说：
-
-### **渲染树（Render Tree）的更新与绘制，是最耗性能的核心瓶颈。**
-
-下面我用最清晰的方式拆开：
+flutter列表滚动性能比原生android滚动性能差很多，flutter快速滚动还会导致白屏的原因：
+android 拥有item View 复用机制，就是当ItemView被滚出可见窗口后，进入了回收池，当渲染新的ItemView的时候，只要ItemView类型相同，
+就可以从回收池获取复用。
+flutter没有itemView的回收复用机制而是只有缓存机制(viewport + cacheExtent 的短期缓存机制)，flutter缓存机制算法类似android图片内存缓存算法LRU（Least Recently Used），
+缓存最近滚动的itemView。
+因为flutter没有复用机制，导致了两个渲染弱点：
+1. 所以无法支持脏显示（也就是新的内容显示前可以先显示渲染完毕的旧内容）
+2. 如果没有缓存就需要重新渲染（element ，renderObject 都需要重新构建）
+所以flutter滚动性能因为渲染机制的不同，flutter容易出现渲染不及时就白屏，flutter 滚动性能在大多数场景接近原生，但视觉连续性差.
 
 ---
 
