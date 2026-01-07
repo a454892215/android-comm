@@ -86,7 +86,7 @@ getx中刷新UI的三种方式的 obx, getx, GetBuilder 区别：
 1. createState()
 2. mounted == true
 3. initState()
-4. didChangeDependencies()
+4. didChangeDependencies() ->响应 Theme / MediaQuery / Localizations 等内置 InheritedWidget 变化
 5. build()
 6. didUpdateWidget()
 7. setState()
