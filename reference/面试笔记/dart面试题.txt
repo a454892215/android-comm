@@ -1,7 +1,19 @@
 dart面试题
 final和const区别：  final运行时候确定，const编译时候就要确定。
                    修饰集合的时候。final可以改变集合内部元素，const不可以。
-                   使用 const 构造函数创建对象时，如果多个对象的属性完全相同，Dart 会复用同一份内存（canonicalization）。但是，如果属性不同或不是 const 构造函数，Dart 会创建新的对象。
+                   使用 const 修饰的构造函数创建对象时，如果多个对象的属性完全相同，并且创建的变量使用了const修饰。Dart 会复用同一份内存（canonicalization）。但是，如果属性不同或不是 const 构造函数，Dart 会创建新的对象。
+✅ 使用 const 创建
+const p1 = Point(1, 2);
+const p2 = Point(1, 2);
+print(identical(p1, p2)); // true ✅ 复用
+❌ 构造函数是 const，但创建时不用 const
+dart
+复制代码
+final p3 = Point(1, 2);
+final p4 = Point(1, 2);
+print(identical(p3, p4)); // false ❌ 不复用
+
+
 
 
 异步： Future, async await,  stream async* yield,
