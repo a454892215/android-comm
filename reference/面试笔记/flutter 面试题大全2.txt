@@ -8,9 +8,27 @@
 
    * `final` 与 `const` 的区别及使用场景。
    * `late` 关键字作用及延迟初始化场景。
+      dart中 late的唯一作用就是修饰 没有赋值的非空变量，告诉编译器这个变量会稍后赋值
    * Null Safety 原理？`?`、`!`、`??` 的区别。
+     Dart 2.12 之后，默认 变量不可为 null，通过类型系统在编译期保证 不会出现 null 引用异常
+     符号	用法	示例	作用
+     ?	声明可空类型	String? name;	变量可以为 null，需要安全访问
+     !	强制解包	一般用在 可空类型变量后面 print(name!.length);	告诉编译器“我保证这个变量不为 null”，否则运行时会报错
+     ??	空合并运算符	String display = name ?? "默认";	如果左边为 null，使用右边的默认值
+
    * `mixin`、`with`、`implements`、`extends` 区别及使用场景。
    * Dart 异步机制：`Future`、`async/await`、`Stream`、`async*`、`yield` 区别。
+   异步：`Future`、`async/await`
+   future: 异步结果处理器
+   async： 修饰函数，声明一个异步函数，返回类型一定是future
+   await： 调用执行异步函数的时候在前面添加await 表示暂停当前执行函数，等待异步结果返回继续执行。 这个描述正确吗
+
+   flutter异步事件流：Stream async* yield
+   yield： 在async* 修饰的函数中发送异步事件
+   async* 声明一个异步事件流函数，配合yield发送异步事件
+   Stream： 是一个异步事件流，可以持续产生多个事件
+           获取Stream产生的异步事件，一般使用Stream.listen 或者await for Stream
+
 
 2. Flutter Widget
 
