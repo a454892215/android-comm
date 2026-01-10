@@ -36,6 +36,9 @@
    * `Key` 的作用，区别 `LocalKey`、`ValueKey`、`ObjectKey`、`UniqueKey`、`GlobalKey`。
    * Flutter 声明式 UI 与命令式 UI 的区别与优缺点。
    * `InheritedWidget` 与 Provider/GetX 的区别及使用场景。
+   InheritedWidget：在 Widget 树中跨节点共享数据，并在数据变化时，精准通知依赖它的 Widget 重新构建
+                     唯一申明依赖关系的方式：context.dependOnInheritedWidgetOfExactType<MyInherited>();
+                     InheritedWidget数据更变后通知刷新路径：updateShouldNotify -> didChangeDependencies(自己在state的didChangeDependencies中决定是否触发rebuild)
 
 ---
 
