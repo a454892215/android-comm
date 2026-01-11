@@ -46,9 +46,14 @@
 局部刷新 StatefulBuilder & FutureBuilder & StreamBuilder 详解
 StatefulBuilder: 提供了setstate用于局部刷新UI，避免为了局部刷新UI创建StatefulWidget类
 FutureBuilder： FutureBuilder 接受一个 future对象，在builder中可以获取异步结果的三种状态（成功，失败，获取中），根据不同状态返回对应的UI。
-StreamBuilder：StreamBuilder 用于监听一个 Stream，每当Stream的connectionState状态变化（四种）或者有异步结果的时候，都会触发builder, 返回对应的UI
+StreamBuilder：StreamBuilder 用于监听一个 Stream，每当Stream的connectionState状态变化（四种）或者有异步结果（成功/失败）的时候，都会触发builder, 返回对应的UI
 
-
+flutter中Context对象的理解：
+flutter 中每个已经挂载的widget都有自己的 buildContext 对像，buildContext对象指向element
+凡事涉及widget树中其他节点的访问或者widget节点树位置相关操作都需要buildContext对象：
+比如申明对 InheritedWidget 依赖需要 buildContext
+向上查找最近的InheritedWidget需要buildContext。
+获取buildContext的方式有哪些？Build/statelessWidget/statefulWidget 中的build函数中获取
 
 ## **二、GetX 架构与状态管理**
 
