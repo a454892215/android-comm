@@ -21,7 +21,7 @@ Flutter 的 Dart 层是 单线程事件循环模型，分为：
 宏任务队列：（Event Queue / Task Queue）：通过 Timer.run()、IO 回调、手势事件等提交
           Timer.run(() => …)、Timer(Duration(...), () => …)、IO 回调、手势事件
 UI 渲染/Frame:（Layout -> Paint -> Compositing）
-注意：所有这些队列的任务都在同一条线程上按顺序执行。
+注意：所有这些队列的任务都在同一条线程上按顺序执行。所有的异步任务最终都会提交给微任务队列/宏任务队列
 flutter 线程模型的执行顺序是：同步代码流->微任务->宏任务->UI 渲染 / Frame（Layout -> Paint -> Compositing）。
 
 ### 1.2 Flutter 的渲染流程
