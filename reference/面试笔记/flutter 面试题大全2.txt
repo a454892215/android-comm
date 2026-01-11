@@ -73,6 +73,12 @@ flutter 中每个已经挂载的widget都有自己的 buildContext 对像，buil
 
 ---
 
+flutter中的三棵树widget element renderObject直接的关系和作用，以及element renderObject复用规则
+   element复用规则： element的复用只有在父节点不变的情况才可能复用，所以无法跨层级复用，
+                   如果某个节点的widget卸载了那么这个节点和下面的所有子节点会全部卸载，无法再复用了。
+                   Element 复用链是自上而下的： 上层 Element 复用 → 下层 Element 才有机会复用
+                                            上层 Element 被替换 → 下层整个子树都跟着重建
+
 ## **三、网络层与数据处理**
 
 1. **Dio 网络封装**
