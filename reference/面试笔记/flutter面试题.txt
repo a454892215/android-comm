@@ -96,9 +96,10 @@ getx中刷新UI的三种方式的 obx, getx, GetBuilder 区别：
 
 ###  3.4 flutter Key 的作用和类型
 - **作用**：在 Widget 树中标识 Widget，帮助 Flutter 在Widget重建时帮助决定是否复用element:
- element是否复用：
+ LocalKey的情况：
    1. 有key的时候：父element复用成功，并且key匹配上了，并且runtimeType相同，则复用旧的element
-   2. 无Key时，父element复用成功，并且在相同位置的新旧widget的runtimeType相同，则复用旧的element
+   2. 无Key时，父element复用成功，并且在相同位置的新旧widget的 runtimeType相同，则复用旧的element
+  GlobalKey ： 不管父element是否改变，只要新旧widget的 runtimeType相同，则复用element
 - **类型**：
   - **LocalKey**：在同级 Widget 中唯一
     - ValueKey：基于值的 Key
