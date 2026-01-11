@@ -36,11 +36,19 @@
    * `Key` 的作用，区别 `LocalKey`、`ValueKey`、`ObjectKey`、`UniqueKey`、`GlobalKey`。
    * Flutter 声明式 UI 与命令式 UI 的区别与优缺点。
    * `InheritedWidget` 与 Provider/GetX 的区别及使用场景。
-   InheritedWidget：在 Widget 树中跨节点共享数据，并在数据变化时，精准通知依赖它的 Widget 重新构建
+   InheritedWidget：在 Widget 树中跨节点共享数据，并在数据变化时，通知依赖它的StatefulWidget
                      唯一申明依赖关系的方式：context.dependOnInheritedWidgetOfExactType<MyInherited>();
                      InheritedWidget数据更变后通知刷新路径：updateShouldNotify -> didChangeDependencies(自己在state的didChangeDependencies中决定是否触发rebuild)
 
 ---
+
+
+局部刷新 StatefulBuilder & FutureBuilder & StreamBuilder 详解
+StatefulBuilder: 提供了setstate用于局部刷新UI，避免为了局部刷新UI创建StatefulWidget类
+FutureBuilder： FutureBuilder 接受一个 future对象，在builder中可以获取异步结果的三种状态（成功，失败，获取中），根据不同状态返回对应的UI。
+StreamBuilder：StreamBuilder 用于监听一个 Stream，每当Stream的connectionState状态变化（四种）或者有异步结果的时候，都会触发builder, 返回对应的UI
+
+
 
 ## **二、GetX 架构与状态管理**
 
