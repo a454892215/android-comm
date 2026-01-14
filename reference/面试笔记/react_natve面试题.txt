@@ -166,7 +166,19 @@
 ## **九、常见坑与面试必问**
 
 1. 热更新相关坑：CodePush 更新失败、版本控制
+   微软的 center APP 2024年3月 到期下架了，code push 提供了服务器源码需要自己部署
+   iOS 大版本升级 最新包也出现了热更，怀疑是签名机制改变了改变了bundle.js的内容，导致的
 2. 性能相关坑：FlatList 大量渲染、Animated 阻塞 JS 线程
+   一、FlatList 大量渲染导致性能问题
+   1. 原因分析
+   渲染太多元素 FlatList 会默认渲染 initialNumToRender 个元素，其余按需渲染（虚拟化）。
+   如果列表过长或每个 item 组件复杂，会占用大量 JS 和原生线程资源。
+   每次 render 都创建新组件/函数：renderItem 中直接定义匿名函数或内联样式，会导致每次列表滚动都触发重新渲染。
+   key 不合理： key 不唯一或者随 render 改变 → 导致 element 不复用 → 每次滚动都重新创建组件。
+   不合理的 windowSize 或 maxToRenderPerBatch ：windowSize 过大 → JS 线程渲染压力大
+   maxToRenderPerBatch 过小 → 列表滚动时卡顿，因为渲染不及时
+   复杂子组件：每个 item 内部包含大量子组件或嵌套 FlatList/ScrollView → 渲染量爆炸
+
 3. 安卓特殊问题：KeyboardAvoidingView、StatusBar、权限
 4. iOS 特殊问题：SafeAreaView、滚动穿透、内存泄漏
 5. 图片资源与打包：图片尺寸、@2x、@3x、react-native-fast-image 缓存
