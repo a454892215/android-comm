@@ -1,0 +1,181 @@
+明白，我帮你整理一份 **React Native 面试题大全**，覆盖 **基础组件、网络请求、性能优化、常见坑、平台差异、动画、调试和工程实践**，按类别系统整理。内容偏向实战面试，兼顾深度。
+## **一、基础与UI组件**
+
+1. **核心概念**
+
+   * React Native 与 React 的区别是什么？
+   * 什么是 JSX？为什么 RN 里要用 JSX？
+   * RN 中的虚拟 DOM（Virtual DOM）存在吗？工作原理是什么？
+   * RN 的渲染机制：JS 线程和原生线程如何协作？
+
+2. **常用 UI 组件**
+
+   * View、Text、Image、ScrollView、FlatList、SectionList、Touchable 系列的区别和使用场景。
+   * ScrollView 和 FlatList 的性能区别？何时用 FlatList？
+   * FlatList、SectionList 的 keyExtractor 作用？
+   * Button、Pressable 与 TouchableOpacity/Highlight 的区别？
+   * TextInput 的常用属性和注意事项？
+   * Picker/Modal/Alert 的用法和注意点？
+
+3. **布局**
+
+   * RN 如何实现 Flexbox 布局？与 Web 有何差异？
+   * RN 的宽高单位是什么？如何实现适配？
+   * 如何实现响应式设计（不同屏幕、不同尺寸）？
+   * position: 'absolute' 与 'relative' 的应用场景？
+
+---
+
+## **二、状态管理与数据流**
+
+1. React Native 常用状态管理方案：
+
+   * setState、useState、useReducer 的区别和使用场景
+   * Redux/Redux Toolkit 的基本使用，Reducer、Action、Store
+   * MobX 与 Redux 的区别
+   * Context API 使用注意点（性能问题）
+
+2. 列表数据管理：
+
+   * FlatList 数据量大时如何优化渲染？
+   * useCallback、useMemo 在列表优化中的作用
+
+---
+
+## **三、网络请求与数据交互**
+
+1. 网络请求
+
+   * fetch 与 axios 的区别
+   * RN 中如何处理跨域（CORS）问题？
+   * 如何取消一个网络请求？
+   * GET、POST 请求的常见问题
+   * 如何在 RN 中处理大文件上传下载？
+
+2. 数据缓存与持久化
+
+   * AsyncStorage 的使用与限制
+   * MMKV、react-native-mmkv-storage 的区别
+   * Redux Persist 的作用
+
+3. WebSocket 与实时通信
+
+   * RN 如何实现 WebSocket？
+   * WebSocket 与 HTTP 长轮询的区别
+   * 常见问题：断线重连、心跳机制
+
+---
+
+## **四、性能优化**
+
+1. 列表优化
+
+   * FlatList 的 getItemLayout、initialNumToRender、maxToRenderPerBatch、windowSize
+   * SectionList 和 FlatList 区别及优化
+   * 避免匿名函数在 render 里导致的性能问题
+
+2. 渲染优化
+
+   * PureComponent 与 React.memo 的作用
+   * useCallback、useMemo 的使用场景
+   * shouldComponentUpdate 的实现与注意事项
+
+3. 图片与资源
+
+   * 图片优化：Image resizeMode、缓存策略、react-native-fast-image
+   * 图片尺寸适配与内存优化
+
+4. JS 与原生桥优化
+
+   * 避免频繁调用 Native Modules
+   * 使用 InteractionManager 推迟非关键任务
+   * Animated 与 Reanimated 的性能差异
+
+5. 其他
+
+   * 减少重绘与重排
+   * 减少过渡动画对 JS 线程阻塞
+   * 避免大量 inline style 导致的性能问题
+
+---
+
+## **五、动画与手势**
+
+1. RN Animated 基本用法
+2. LayoutAnimation 与 Animated 的区别
+3. react-native-gesture-handler 与 PanResponder 的使用场景
+4. Reanimated 2 的优势与原理
+5. 复杂动画性能优化技巧
+
+---
+
+## **六、平台差异与原生交互**
+
+1. Android 与 iOS 的差异
+
+   * UI 元素差异、SafeAreaView 使用
+   * 状态栏、键盘弹出、手势处理差异
+
+2. 原生模块开发
+
+   * 如何写自定义 Native Module？
+   * RN 调用原生 API 的流程（JS → Bridge → Native → 回调）
+   * Native UI 组件封装（ViewManager）
+
+3. 权限与系统 API
+
+   * react-native-permissions 使用
+   * 定位、相机、存储权限处理
+
+---
+
+## **七、调试与测试**
+
+1. 调试工具
+
+   * React Native Debugger、Flipper、Chrome DevTools
+   * console.log、breakpoint 与性能 profiling
+
+2. 测试
+
+   * Jest 单元测试
+   * react-native-testing-library
+   * E2E 测试：Detox、Appium
+
+---
+
+## **八、工程化与打包**
+
+1. 项目结构设计
+
+   * 按模块划分 vs 按功能划分
+   * 多环境配置（dev、test、prod）
+
+2. 构建与打包
+
+   * Android APK/AAB 与 iOS IPA 打包
+   * CodePush 热更新原理
+   * Hermes 引擎的优势与注意点
+
+3. CI/CD
+
+   * Fastlane、GitHub Actions、Jenkins 在 RN 的应用
+
+---
+
+## **九、常见坑与面试必问**
+
+1. 热更新相关坑：CodePush 更新失败、版本控制
+2. 性能相关坑：FlatList 大量渲染、Animated 阻塞 JS 线程
+3. 安卓特殊问题：KeyboardAvoidingView、StatusBar、权限
+4. iOS 特殊问题：SafeAreaView、滚动穿透、内存泄漏
+5. 图片资源与打包：图片尺寸、@2x、@3x、react-native-fast-image 缓存
+6. 网络请求：fetch 的异常处理、跨域、超时
+7. JSX 与原生组件映射：Text 组件内不能直接放 View、ScrollView 嵌套 ScrollView
+8. Native Module 调用坑：跨线程、回调泄漏
+
+---
+
+如果你需要，我可以帮你整理一份 **更详细的面试题清单**，直接给你 **200+ 道题**，每题都带 **考点解析和参考答案**，覆盖 RN 的所有核心方向，面试前可以直接拿来刷题。
+
+你希望我帮你整理吗？
