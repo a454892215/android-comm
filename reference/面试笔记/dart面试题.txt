@@ -1,7 +1,8 @@
 dart面试题
 final和const区别：  final运行时候确定，const编译时候就要确定。
                    修饰集合的时候。final可以改变集合内部元素，const不可以。
-                   使用 const 修饰的构造函数创建对象时，如果多个对象的属性完全相同，并且创建的变量使用了const修饰。Dart 会复用同一份内存（canonicalization）。但是，如果属性不同或不是 const 构造函数，Dart 会创建新的对象。
+                   使用 const 修饰的构造函数创建对象时，如果多个对象的属性完全相同，并且创建的变量使用了const修饰。
+                   Dart 会复用同一份内存（canonicalization）。但是，如果属性不同或不是 const 构造函数，Dart 会创建新的对象。
 ✅ 使用 const 创建
 const p1 = Point(1, 2);
 const p2 = Point(1, 2);
@@ -31,8 +32,29 @@ mixin 和 implements
 | 特性    | with (Mixin) | implements (接口)       |
 | ----- | ------------ | --------------------- |
 | 方法复用  | 可以复用已有方法实现   | 必须自己实现接口所有方法          |
-| 字段    | 可以有字段        | 不能有字段，需 getter/setter |
+| 字段    | 可以有字段        |  字段会当作 getter/setter |
 | 构造函数  | 不能有构造函数      | 不关心接口构造函数             |
 | 多继承效果 | 支持多 mixin    | 支持多接口，但无方法复用          |
 | 用途    | 功能复用         | 定义约束（接口规范）            |
+
+
+Dart 的构造函数主要有7种：
+class A {
+  final int x;
+  A(this.x);  // 1️⃣ 默认构造函数（Generative Constructor） Dart 的“默认无参构造函数”只在类里完全没有写构造函数时才隐式存在。
+  A.named(this.x); // 2️⃣ 命名构造函数（Named Constructor），作用：dart没有构造还是重载，所以以命名构造函数补充
+  A.fromJson(Map m) : x = m['x']; // 3️⃣ 初始化列表构造函数（Initializer List，成员参数列表赋值，
+                                         为什么需要初始化列表构造函数？1.final字段只能在初始化列表中赋值，2.调用父类构造函数 3.参数计算赋值
+  A.zero() : this(0); // 4️⃣ 重定向构造函数（Redirecting Constructor）调用默认构造函数 A(this.x)，不能有函数体，只能调用本类其他构造函数
+  const A.constant(this.x); // 5️⃣ 常量构造函数（Const Constructor） 所有字段必须是 final，用于编译期常量
+  factory A.factory(int x) { // 6️⃣ 工厂构造函数（Factory Constructor）
+    if (x < 0) {
+      return A.zero(); // 可以返回已有对象
+    }
+    return A(x);       // 或者创建新对象
+  }
+  A._private(this.x); // // 7️⃣ 私有构造函数（Private Constructor） 外部不能直接实例化，命名部分名字以 _ 开头
+}
+
+
 
