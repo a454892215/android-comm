@@ -15,7 +15,11 @@
    * RN 的渲染机制：JS 线程和原生线程如何协作？
       React Native 的渲染机制是“JS 线程负责逻辑和 Virtual DOM 构建，原生层 UI 线程负责原生控件渲染，
       Bridge 异步传递更新指令和事件”，通过线程分离和异步通信实现高性能和流畅的移动端 UI
-
+      JS 单线程（执行组件逻辑、生成 Virtual DOM）
+            ↓ 通过 Bridge 发送布局信息和更新指令
+      Shadow Thread（原生层，计算布局 frame）
+            ↓ 发送布局结果给 UI Thread
+      UI Thread（原生控件创建、更新、渲染屏幕）
 2. **常用 UI 组件**
 
    * View、Text、Image、ScrollView、FlatList、SectionList、Touchable 系列的区别和使用场景。
