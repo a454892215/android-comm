@@ -1,0 +1,45 @@
+js中，函数内部的this指向什么，一句话总结：
+   普通函数的 this 由调用方式决定，箭头函数的 this 继承定义时外层作用域的 this
+     1.普通函数中的this一般指向调用者，严格模式下的全局函数（函数没有所属对象），this是undefined.
+     2.箭头函数 → () => {} → 永远继承定义时外层作用域的 this，与调用方式无关
+
+js中的函数写法：函数申明和函数表达式两种
+   1. 普通申明
+     01. 顶层作用域声明函数，必须使用function关键词，可以声明具名或者匿名函数 function foo(){}
+     02. 类方法中的函数声明，不能使用function关键字（箭头函数或者没有箭头也没有function的函数） sayHi(){} / static create(){}
+     03. get set 关键字的函数声明 get name(){} / set name(){}
+
+   2. 函数表达式(只能使用箭头语法或者function关键字语法)
+      01. 箭头函数表达式（箭头函数 只能用于函数表达式） const foo = () => {}
+      02. function关键字函数表达式 const foo = function(){}
+
+
+ 在 **React Native** 中，全局对象和全局函数与浏览器环境略有不同，因为它运行在 **JavaScriptCore（iOS）或 Hermes / V8（Android）** 上，
+ 没有 DOM、`window`、`document` 等浏览器对象，但仍有很多 JavaScript 和 React Native 提供的全局对象和函数。
+## **完善后的 React Native 全局对象总结**
+| 类型              | 全局对象 / 函数                                                                                           | 描述                                      |
+| --------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| 原生对象            | `Object, Array, String, Number, Boolean, Symbol, BigInt, Date, RegExp, Error`                       | JavaScript 标准对象                         |
+| 数据结构            | `Map, Set, WeakMap, WeakSet`                                                                        | ES6 新增数据结构                              |
+| 其他 JS 对象        | `Math, JSON, Promise, console, global`                                                              | Math 运算、JSON 操作、调试输出、全局对象               |
+| 定时 / 异步         | `setTimeout, clearTimeout, setInterval, clearInterval, requestAnimationFrame, cancelAnimationFrame` | 定时器、动画循环（JS 层实现）                        |
+| 编码 / 解码         | `encodeURI, decodeURI, encodeURIComponent, decodeURIComponent`                                      | URL 编码与解码                               |
+| 环境变量            | `__DEV__`                                                                                           | 布尔值，当前是否开发模式                            |
+| Node 风格变量       | `process`                                                                                           | 仅部分属性可用（如 `process.env`）                |
+| RN 模块 API（模块导入） | `Dimensions, PixelRatio, Platform, InteractionManager, Alert, Keyboard, Appearance`                 | RN 提供的常用系统信息 / UI / 交互模块，需要 `import` 使用 |
+| 社区模块（非内置）       | `AsyncStorage (@react-native-async-storage/async-storage)`                                          | 本地持久化存储，需要单独安装                          |
+
+---
+
+### 🔹 补充说明
+1. **严格意义上，RN 只有 JS 原生对象和 `global`, **DEV**` 这些才是真正的全局对象**。
+2. RN 模块 API（`Dimensions, Platform` 等）只是模块导入对象，并非真正全局变量。
+3. `AsyncStorage` 已不属于 RN 内置，全局可用性取决于是否安装社区包。
+4. 定时器、请求动画帧都是 JS 层实现，和浏览器环境不同。
+
+ 💡 **核心总结**：
+ 1. RN 没有 `window`、`document`，全局对象是 `global`。
+ 2. 顶层 JavaScript 全局对象和函数基本和浏览器一致，但与 DOM 相关的全局对象不存在。
+ 3. RN 自带一些 **环境变量和模块 API** 可视为全局对象/工具。
+
+

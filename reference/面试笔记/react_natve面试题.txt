@@ -75,8 +75,11 @@
    * 避免匿名函数在 render 里导致的性能问题
 
 2. 渲染优化
-
    * PureComponent 与 React.memo 的作用
+      通过对 props（和 state）做浅比较，在数据未变化时 跳过组件 render（bailout）
+      只作用于 JS 层 render / diff 阶段，不直接控制原生 UI 是否重绘
+      在 React Native 中可显著减少 不必要的 JS render 和后续 diff / commit 开销
+
    * useCallback、useMemo 的使用场景
    * shouldComponentUpdate 的实现与注意事项
 
