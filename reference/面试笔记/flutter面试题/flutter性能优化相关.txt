@@ -42,24 +42,18 @@ flutter中 三颗树的关系是： widget树是UI描述组件->element管理wid
 ### 1. 布局与 Widget 构建优化
 
 * **避免不必要的 rebuild**
-
   * 使用 `const` 构造函数
   * 不变化的子树使用 `StatelessWidget`
-
   ```dart
   const Text('Hello');
   ```
 * **减少 Widget 嵌套**
-
   * 避免深层 `Column / Row / Stack`
   * 谨慎使用 `LayoutBuilder`、`IntrinsicWidth/Height`
-
 ### 2. Repaint 控制
 
 * **合理使用 `RepaintBoundary`**
-
   * 隔离不常变化区域，避免整棵树重绘
-
   ```dart
   RepaintBoundary(child: MyComplexWidget());
   ```
@@ -67,15 +61,12 @@ flutter中 三颗树的关系是： widget树是UI描述组件->element管理wid
 ### 3. 渲染层级与 GPU 负担
 
 * **减少绘制层级**
-
-  * 避免滥用 `Container`、`Opacity`、`ClipRRect`
+  * 避免滥用 `Container`、`Opacity`、`ClipRRect`，能使用Padding的不要使用 Container
   * 简单装饰优先 `DecoratedBox`
 * **减少透明层**
-
   * `Opacity` 会触发 offscreen rendering
   * 可用 `color.withOpacity` 替代
 * **避免过度使用 Stack**
-
   * 优先 Row / Column / 自定义布局
 
 ### 4. 动画相关渲染优化
@@ -85,9 +76,7 @@ flutter中 三颗树的关系是： widget树是UI描述组件->element管理wid
 * `Transform`、`Opacity` 利用 GPU compositing，优于频繁 layout
 
 ### 5. 页面与状态保持
-
 * **页面切换用 `IndexedStack`**
-
   * 避免反复 rebuild
 
   ```dart
