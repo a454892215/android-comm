@@ -1,0 +1,29 @@
+flutter列表滚动性能比原生android滚动性能差很多，flutter快速滚动还会导致白屏的原因：
+android 拥有item View 复用机制，就是当ItemView被滚出可见窗口后，进入了回收池，当渲染新的ItemView的时候，只要ItemView类型相同，
+就可以从回收池获取复用。
+flutter没有itemView的回收复用机制而是只有缓存机制(viewport + cacheExtent 的短期缓存机制)，flutter缓存机制算法类似android图片内存缓存算法LRU（Least Recently Used），
+缓存最近滚动的itemView。
+因为flutter没有复用机制，导致了两个渲染弱点：
+1. 所以无法支持脏显示（也就是新的内容显示前可以先显示渲染完毕的旧内容）
+2. 如果没有缓存就需要重新渲染（element ，renderObject 都需要重新构建）
+所以flutter滚动性能因为渲染机制的不同，flutter容易出现渲染不及时就白屏，flutter 滚动性能在大多数场景接近原生，但视觉连续性差.
+
+---
+
+flutterUI优化总纲：
+flutter UI中有三颗树，widget树，element树，render object 树
+要优化flutter UI的性能，就需要从这三棵树的缓存复用入手。
+flutter中 三颗树的关系是： widget树是UI描述组件->element管理widget的挂载和卸载，以及把widget树的变化同步到renderObject->renderObject负责实际绘制
+
+所以优化的角度可以从复用的层级深度来入手：
+1. widget 级别的复用：const 修饰的widget，不会重复的创建widget对象，内存级别的复用
+2. element 级别的复用： widget会被频繁销毁重建，但是widget对应位置的element一直复用，因为element复用，element对应的renderObject也会复用
+                     1.带有GlobalKey的widget可以跨节点复用element
+                     2. 没有key的时候: widget的层级不变，类型不变，也会复用element
+                     3. 如果有key的时候: widget的层级不变，类型不变，也会复用element，但是添加key ,可以让flutter框架直接通过可以比较key是否复用
+                                       优点：Flutter 在 diff 时通过 Key 判断复用，更明确，不会因索引顺序变化导致错误复用.错误复用可能可能导致renderObject缓存失效
+3.renderObject级别的复用： 官方API的widget层面 只提供了 RepaintBoundary进行复用优化
+
+综上，除了const 修饰的widget和带有GlobalKey的widget可以跨节点复用element，其他的widget的element复用都无法跨节点复用，
+也就是当widget父节点改变的时候，比如widget父节点类型改变，父节点element复用失败，都会导致该父节点的所有子节点需要重建，
+所以在widget中，删除某层的widget，或者给widget树中间插入一个widget节点，会导致该widget对应的element下所有缓存节点失效，需要重新构建。
