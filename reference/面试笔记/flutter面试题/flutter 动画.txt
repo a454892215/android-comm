@@ -1,0 +1,3 @@
+完全自定义flutter动画：自己计算好每一帧的UI相关参数，然后让屏幕刷新。
+  真正“按屏幕帧率刷新”的只有两类：Ticker / AnimationController 和 SchedulerBinding
+  Ticker = 官方推荐的、最安全、最干净的方式
