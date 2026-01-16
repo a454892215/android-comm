@@ -24,7 +24,7 @@ Row(
   children: [
     Icon(Icons.star),                    // 固定大小
 
-    Flexible(                            // ← 这里用 Flexible 而非 Expanded
+    Flexible(                            // ← 这里用 Flexible，可以避免文字太长溢出，让ellipsis生效
       child: Text(
         "这是一个可能很长但不希望被强制拉伸的标题",
         overflow: TextOverflow.ellipsis,  // 文字太长时省略号
