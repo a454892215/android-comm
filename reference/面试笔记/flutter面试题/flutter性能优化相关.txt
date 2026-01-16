@@ -16,16 +16,15 @@ flutter UI中有三颗树，widget树，element树，render object 树
 flutter中 三颗树的关系是： widget树是UI描述组件->element管理widget的挂载和卸载，以及把widget树的变化同步到renderObject->renderObject负责实际绘制
 
 所以优化的角度可以从复用的层级深度来入手：
-1. widget 级别的复用：const 修饰的widget，不会重复的创建widget对象，内存级别的复用
+1. widget 级别的复用：const 修饰的widget，不会重复的创建widget对象，内存级别的复用，或者自己处理widget缓存复用逻辑（late final Widget）
+                    推荐使用类widget，而不是普通函数中直接返回widget，因为普通函数中范围的widget树会让const widget内存复用失效。
 2. element 级别的复用： widget会被频繁销毁重建，但是widget对应位置的element一直复用，因为element复用，element对应的renderObject也会复用
                      1.带有GlobalKey的widget可以跨节点复用element
                      2. 没有key的时候: widget的层级不变，类型不变，也会复用element
                      3. 如果有key的时候: widget的层级不变，类型不变，也会复用element，但是添加key ,可以让flutter框架直接通过可以比较key是否复用
                                        优点：Flutter 在 diff 时通过 Key 判断复用，更明确，不会因索引顺序变化导致错误复用.错误复用可能可能导致renderObject缓存失效
-3.renderObject级别的复用： 官方API的widget层面 只提供了 RepaintBoundary进行复用优化
+3.renderObject级别的复用： 官方API的widget层面 提供了 RepaintBoundary 进行了renderObject中的draw layer 复用优化
 
 综上，除了const 修饰的widget和带有GlobalKey的widget可以跨节点复用element，其他的widget的element复用都无法跨节点复用，
 也就是当widget父节点改变的时候，比如widget父节点类型改变，父节点element复用失败，都会导致该父节点的所有子节点需要重建，
 所以在widget中，删除某层的widget，或者给widget树中间插入一个widget节点，会导致该widget对应的element下所有缓存节点失效，需要重新构建。
-
-推荐使用类widget，而不函数widget。
