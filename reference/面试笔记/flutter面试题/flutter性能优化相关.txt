@@ -27,3 +27,5 @@ flutter中 三颗树的关系是： widget树是UI描述组件->element管理wid
 综上，除了const 修饰的widget和带有GlobalKey的widget可以跨节点复用element，其他的widget的element复用都无法跨节点复用，
 也就是当widget父节点改变的时候，比如widget父节点类型改变，父节点element复用失败，都会导致该父节点的所有子节点需要重建，
 所以在widget中，删除某层的widget，或者给widget树中间插入一个widget节点，会导致该widget对应的element下所有缓存节点失效，需要重新构建。
+
+推荐使用类widget，而不函数widget。
