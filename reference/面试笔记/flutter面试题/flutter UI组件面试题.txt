@@ -35,6 +35,11 @@ Row(
   ],
 )
 
+flutter根据子widget有的数目，分为三类基础布局widget，
+LeafRenderObjectWidget（无child）：Text,Image，Icon
+SingleChildRenderObjectWidget：Container,Padding，Align，Center，ConstrainedBox
+MultiChildRenderObjectWidget：Row, Column，Stack，Wrap
+
 flutter组件溢出的理解：
 组件溢出报错，只会发生在无法取约束交集，而且子组件超过了父组件 才会报溢出，如果可以取交集，自然不会溢出。
 组件大全：
@@ -44,14 +49,14 @@ constraints 组件约束，每个子组件都需要在父组件的约束下，�
 这些组件直接有 constraints 字段，可以对子组件大小进行约束：
 组件	说明
 ConstrainedBox	直接对单个子组件施加 BoxConstraints（min/max/固定宽高等）
-UnconstrainedBox	反约束，允许子组件突破父约束，通常用于做超出父容器大小的效果
+UnconstrainedBox	 隔离父组件的约束，允许子组件突破父约束，自身大小会包裹子组件大小，通常用于做超出父容器大小的效果
 SizedBox	通过 width / height / child 间接生成固定 BoxConstraints
 AspectRatio	设置子组件的宽高比
 FractionallySizedBox	子组件宽高按父容器百分比设置，内部会生成 constraints
 LimitedBox	当父容器给无限约束时，限制子组件最大宽高
 OverflowBox	子组件可以超出父约束范围，但内部会生成约束传递给子组件
-SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束，但不改变自身大小，常用于动画或子组件需要超出父组件显示
+SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束，但不改变自身大小（一般是父组件大小），常用于动画或子组件需要超出父组件显示
 IntrinsicWidth / IntrinsicHeight	它会测量子组件的约束，然后根据子组件约束确定自身约束
 Padding	虽然是间接作用，但内部会缩小对子组件的可用 constraints
 ConstrainedBox 和 SizedBox，对子组件进行具体大小的约束
-UnconstrainedBox： 隔离父组件的约束
+UnconstrainedBox：
