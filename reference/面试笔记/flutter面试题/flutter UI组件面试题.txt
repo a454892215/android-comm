@@ -59,4 +59,18 @@ SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束
 IntrinsicWidth / IntrinsicHeight	它会测量子组件的约束，然后根据子组件约束确定自身约束
 Padding	虽然是间接作用，但内部会缩小对子组件的可用 constraints
 ConstrainedBox 和 SizedBox，对子组件进行具体大小的约束
-UnconstrainedBox：
+
+在 Flutter 中，Row/Column 组件的 `mainAxisAlignment` 属性用于控制子Widget在主轴方向的的排列方式。
+它的类型是枚举 `MainAxisAlignment`，一共有6种取值：
+| 枚举值                              | 含义                                              |
+| -------------------------------- | ----------------------------------------------- |
+| `MainAxisAlignment.start`        | 子 Widget 靠左排列（主轴起点）                             |
+| `MainAxisAlignment.end`          | 子 Widget 靠右排列（主轴终点）                             |
+| `MainAxisAlignment.center`       | 子 Widget 居中排列                                   |
+| `MainAxisAlignment.spaceBetween` | 子 Widget 之间的间距平均分配，首尾不留空                        |
+| `MainAxisAlignment.spaceAround`  | 子 Widget 之间的间距平均分配，且每个子 Widget 前后间距相等（首尾也留一半间距） |
+| `MainAxisAlignment.spaceEvenly`  | 子 Widget 之间的间距完全平均，包括首尾                         |
+Row/Column 组件的主要属性有：
+mainAxisSize （注意没有crossAxisSize,需要通过设置父组件大小来设置，交轴方向默认会匹配父组件大小）
+mainAxisAlignment
+crossAxisAlignment
