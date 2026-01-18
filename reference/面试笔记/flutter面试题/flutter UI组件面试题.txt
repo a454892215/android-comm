@@ -308,3 +308,6 @@ class MyList extends StatelessWidget {
     );
   }
 }
+
+IndexedStack组件：
+IndexedStack 只显示指定索引的子 Widget，但保留所有子 Widget 的状态和布局。一般用作需要保持状态的tab切换UI

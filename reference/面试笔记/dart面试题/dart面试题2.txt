@@ -176,11 +176,12 @@ a ??= b  // 空则赋值 如果 a 为 null，赋值
 
 ## 15️⃣ List 的常用高阶方法？
 ```dart
-map
-where
-fold
-reduce
-any / every
+map：将列表的每个元素映射为另一个值，返回一个新的 Iterable。 var doubled = nums.map((e) => e * 2).toList();
+where：根据条件筛选元素，返回满足条件的子集合（Iterable） var even = nums.where((e) => e % 2 == 0).toList();
+fold： 累加 / 聚合列表元素，带一个初始值。var sum = nums.fold(0, (previous, element) => previous + element);
+reduce：累加 / 聚合列表元素，没有初始值，使用列表第一个元素作为初始值。 var sum = nums.reduce((value, element) => value + element);
+any：判断列表是否有至少一个元素满足条件，返回 bool
+every： 判断列表是否所有元素都满足条件，返回 bool
 ```
 📌 面试官爱让你**手写 filter / map**
 # 六、异步（重灾区，重点）
