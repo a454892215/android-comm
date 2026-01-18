@@ -257,3 +257,54 @@ fitWidth	宽度填满父容器，高度按比例缩放	高度可能超出父容�
 fitHeight	高度填满父容器，宽度按比例缩放	宽度可能超出父容器
 scaleDown   仅在子组件比父容器大时缩小（只会缩小），否则保持原始大小
 none	不缩放，使用子组件原始大小	超出父容器部分会溢出
+
+滚动组件: SingleChildScrollView/ListView/SliverList: 底层最终都是基于 Scrollable + ViewPort + Sliver进行滚动的
+只是SingleChildScrollView/ListView/GridView 明面上不需要传入Sliver 但是底层会把itemWidget都封装成Sliver进行滚动。
+Scrollable： 复杂处理手势计算出每次需要滚动的距离和方向
+Viewport： 可视窗口，窗口裁剪，滚动协调，回收与优化
+Sliver：滚动内容切片；根据 scrollOffset 计算自身 geometry（scrollExtent、paintExtent、overflow）；负责绘制可见部分
+Scrollable 内部封装了Viewport，Scrollable计算好要滚动的距离后，然后调用Viewport进行滚动ViewPort自己内部的Sliver
+
+SingleChildScrollView组件： 少量Widget的时候使用
+SingleChildScrollView({
+  this.scrollDirection = Axis.vertical, //滚动方向，默认是垂直方向
+  this.reverse = false,
+  this.padding,
+  bool primary,
+  this.physics,
+  this.controller,
+  this.child,
+})
+
+ListView组件：
+ListView({children:[]})： 没有懒加载机制
+ListView.builder： 有懒加载机制
+ListView.separated： 有懒加载机制，相比ListView.builder，可以配置分割线widget
+ListView.custom：自定义 Sliver 子组件的列表，可以自己控制子组件的动态加载和回收缓存，可以控制每个ItemWidget的缓存策略，粒度比较细
+
+class MyList extends StatelessWidget {
+  const MyList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.custom(
+      childrenDelegate: SliverChildBuilderDelegate(
+        (context, index) {
+          // 每个子项用 KeepAlive 保留在缓存中
+          return KeepAliveWidget(
+            child: Container(
+              height: 100,
+              alignment: Alignment.center,
+              color: index % 2 == 0 ? Colors.blue : Colors.green,
+              child: Text('Item $index', style: const TextStyle(color: Colors.white, fontSize: 20)),
+            ),
+          );
+        },
+        childCount: 50,
+        // 控制是否自动保持活跃状态（缓存）
+        addAutomaticKeepAlives: true, // true// 是否允许子 Widget（如 KeepAliveWidget）发起的缓存请求生效
+        addRepaintBoundaries: true,   // true 表示子组件单独绘制（渲染层面的缓存），提高性能
+      ),
+    );
+  }
+}
