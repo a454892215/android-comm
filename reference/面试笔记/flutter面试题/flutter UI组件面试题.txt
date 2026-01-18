@@ -167,6 +167,14 @@ dy = 1.0 → 子元素底部对齐父容器底部
 偏移公式（简化版）：
 offsetX = dx * (parentWidth - childWidth)
 offsetY = dy * (parentHeight - childHeight)
-
-
 注意这里 (parentWidth - childWidth)，是为了保证 dx = 1 时，子元素右边贴到父容器右边，不是说 dx = 1 时左上角坐标就是父宽度。
+
+Center组件： Align的子组件，是Align组件的阉割版，没有aliment属性，可以看作是Align组件固定了aliment=Alignment.center的属性
+class Center extends Align {
+  const Center({ Key? key,
+  double widthFactor,
+  double heightFactor,
+  Widget? child
+ })
+    : super(key: key, widthFactor: widthFactor, heightFactor: heightFactor, child: child);
+}
