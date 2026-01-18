@@ -8,15 +8,6 @@
 | **最大约束有限（BoxConstraints(maxWidth/maxHeight)）** | Container 可以包裹内容，但不会超过父最大约束  |
 | **无约束 （Center ，Align, Padding）/ 可伸缩父容器**      | Container 可以完美包裹内容 + padding  |
 
-FittedBox 的 fit 属性类型是 BoxFit，共有 6 种方式：
-BoxFit	说明	示意
-fill	拉伸子组件填满父容器，不保持比例，可能变形	子组件可能被压扁或拉长
-contain	缩放子组件以完全显示在父容器内，保持比例	宽高不超过父容器，可能留空白
-cover	缩放子组件以覆盖父容器，保持比例	宽高至少覆盖父容器，可能裁剪
-fitWidth	宽度填满父容器，高度按比例缩放	高度可能超出父容器
-fitHeight	高度填满父容器，宽度按比例缩放	宽度可能超出父容器
-none	不缩放，使用子组件原始大小	超出父容器部分会溢出
-
 Flexible（默认 loose）不会自动压缩子组件 → 子太大 → 溢出。自动计算出剩余空间，给子组件添加最大尺寸约束。
 Expanded / Flexible(tight) 会强制让子组件缩小到分配空间，但不是等比例缩放（而是给紧约束，让子自己适应）。
 想“等比例缩小” → 别只靠 Flexible，要结合 FittedBox 等。
@@ -247,3 +238,22 @@ Container({
   ...
 })
 color和decoration是互斥的，如果同时设置它们则会报错！实际上，当指定color时，Container内会自动创建一个decoration
+
+Clip组件：ClipOval, ClipRRect，ClipRect，ClipPath
+
+FittedBox 组件： 对子组件进行裁剪，缩放以适配父组件大小。
+  const FittedBox({
+    super.key,
+    this.fit = BoxFit.contain,
+    this.alignment = Alignment.center,
+    this.clipBehavior = Clip.none,
+    super.child,
+  })
+fit	的七种取值
+fill	拉伸子组件填满父容器，不保持比例，可能变形	子组件可能被压扁或拉长
+contain	缩放（如果长宽都小于父组件，也可能放大）子组件以完全显示在父容器内，保持比例	宽高不超过父容器，可能留空白
+cover	缩放子组件以覆盖父容器，保持比例	宽高至少覆盖父容器，可能裁剪
+fitWidth	宽度填满父容器，高度按比例缩放	高度可能超出父容器
+fitHeight	高度填满父容器，宽度按比例缩放	宽度可能超出父容器
+scaleDown   仅在子组件比父容器大时缩小（只会缩小），否则保持原始大小
+none	不缩放，使用子组件原始大小	超出父容器部分会溢出
