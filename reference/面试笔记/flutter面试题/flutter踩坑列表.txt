@@ -22,6 +22,8 @@ ListView(
 8. Positioned 必须放在 Stack 里，Positioned 只给 Stack 提供 ParentData
 
 9. IntrinsicWidth / IntrinsicHeight 性能非常差，会触发多次layout，在ListView 中尤其致命
+   IntrinsicWidth / IntrinsicHeight 会在 layout 阶段额外触发子树的 intrinsic 尺寸计算，并导致同一子树被多次 layout；
+   在 ListView 等可滚动 Sliver 场景中，由于 item 会频繁重建与重排，其性能开销会被成倍放大，极易导致严重掉帧，因此应尽量避免使用
 
 10. Transform 不参与布局（只改绘制）
 
