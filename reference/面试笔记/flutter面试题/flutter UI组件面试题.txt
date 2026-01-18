@@ -169,7 +169,7 @@ offsetX = dx * (parentWidth - childWidth)
 offsetY = dy * (parentHeight - childHeight)
 注意这里 (parentWidth - childWidth)，是为了保证 dx = 1 时，子元素右边贴到父容器右边，不是说 dx = 1 时左上角坐标就是父宽度。
 
-Center组件： Align的子组件，是Align组件的阉割版，没有aliment属性，可以看作是Align组件固定了aliment=Alignment.center的属性
+Center组件： 是Align的子类，是Align组件的阉割版，没有aliment属性，可以看作是Align组件固定了aliment=Alignment.center的属性
 class Center extends Align {
   const Center({ Key? key,
   double widthFactor,
@@ -178,3 +178,72 @@ class Center extends Align {
  })
     : super(key: key, widthFactor: widthFactor, heightFactor: heightFactor, child: child);
 }
+
+LayoutBuilder组件：
+可以在布局过程中拿到父组件传递的约束信息，然后我根据约束信息动态的构建布局
+LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {return Container()})
+
+Padding组件：
+Padding({
+  ...
+  EdgeInsetsGeometry padding,// EdgeInsetsGeometry是一个抽象类，开发中，我们一般都使用EdgeInsets类
+  Widget child,
+})
+EdgeInsets提供的便捷方法：
+fromLTRB(double left, double top, double right, double bottom)：分别指定四个方向的填充。
+all(double value) : 所有方向均使用相同数值的填充。
+only({left, top, right ,bottom })：可以设置具体某个方向的填充(可以同时指定多个方向)。
+symmetric({ vertical, horizontal })：用于设置对称方向的填充，vertical指top和bottom，horizontal指left和right
+
+DecoratedBox组件：给组件添加背景、前景，边框、渐变等装饰效果
+const DecoratedBox({
+  Decoration decoration, // Decoration是一个抽象类 ，一般使用子类 BoxDecoration
+  DecorationPosition position = DecorationPosition.background, // background 或 foreground
+  Widget? child
+})
+BoxDecoration({
+  Color color, //颜色
+  DecorationImage image,//图片
+  BoxBorder border, //边框
+  BorderRadiusGeometry borderRadius, //圆角
+  List<BoxShadow> boxShadow, //阴影,可以指定多个
+  Gradient gradient, //渐变
+  BlendMode backgroundBlendMode, //背景混合模式
+  BoxShape shape = BoxShape.rectangle, //形状
+})
+
+Transform组件：对子组件进行矩阵变换实现特效。
+Container(
+  color: Colors.black,
+  child: Transform(
+    alignment: Alignment.topRight, //相对于坐标系原点的对齐方式
+    transform: Matrix4.skewY(0.3), //沿Y轴倾斜0.3弧度
+    child: Container(
+      child: const Text('Apartment for rent!'),
+    ),
+  ),
+)
+Transform.translate(offset: Offset(-20.0, -5.0),child: Text("Hello world"),) // 平移
+Transform.rotate(angle:math.pi/2 ,child: Text("Hello world"),)  // 旋转
+Transform.scale(scale: 1.5,child: Text("Hello world")) // 缩放
+
+RotatedBox组件：
+RotatedBox和Transform.rotate功能相似，它们都可以对子组件进行旋转变换，但是有不同：RotatedBox的变换是在layout阶段，会影响在子组件的位置和大小
+
+Container组件：具有装饰（前景，背景），padding， margin，对齐方式，大小设置，变换功能
+它本身不对应具体的RenderObject，它是DecoratedBox、ConstrainedBox、Transform、Padding、Align等组件组合的一个多功能容器
+Container({
+  this.alignment,
+  this.padding, //容器内补白，属于decoration的装饰范围
+  Color color, // 背景色
+  Decoration decoration, // 背景装饰
+  Decoration foregroundDecoration, //前景装饰
+  double width,//容器的宽度
+  double height, //容器的高度
+  BoxConstraints constraints, //容器大小的限制条件
+  this.margin,//容器外补白，不属于decoration的装饰范围
+  this.transform, //变换
+  this.child,
+  ...
+})
+color和decoration是互斥的，如果同时设置它们则会报错！实际上，当指定color时，Container内会自动创建一个decoration

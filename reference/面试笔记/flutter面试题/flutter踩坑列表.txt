@@ -1,0 +1,30 @@
+flutter踩坑列表
+1. Container组件:color和decoration是互斥的，如果同时设置它们则会报错！实际上，当指定color时，Container内会自动创建一个decoration
+
+2. Expanded / Flexible 只能用在 Flex(子类有Row/Column) 体系中
+
+3. ListView / SingleChildScrollView + Expanded 典型报错：RenderBox was not laid out
+ListView(
+  children: [
+    Expanded(child: Text("xx")),
+  ],
+)
+原因:1. ScrollView 给子组件的是 主轴无界约束. 2. Expanded 要求 主轴必须有界 3.逻辑上根本冲突
+
+4. Column / Row 主轴无界时（主轴是否无界取决余Flex父组件的约束），mainAxisSize不是约束（这是一个超级容易混的点），不能再使用 Expanded
+
+5. Align / Center 会“放松”对子组件的约束: 子组件 可以超过父组件,不会溢出报错,只是被裁剪（如果有 clip）
+
+6. Text 在 Row 中不包 Expanded/Flexible，极易溢出
+
+7. Stack 默认不会限制子组件大小,可能溢出
+
+8. Positioned 必须放在 Stack 里，Positioned 只给 Stack 提供 ParentData
+
+9. IntrinsicWidth / IntrinsicHeight 性能非常差，会触发多次layout，在ListView 中尤其致命
+
+10. Transform 不参与布局（只改绘制）
+
+11. SizedBox.expand 会吃掉父组件全部空间, 在无界约束下（如 ScrollView）直接报错
+
+12. MediaQuery.of(context) 在 initState 中不能用,原因context 还没挂到 widget tree
