@@ -48,7 +48,7 @@ AspectRatio	设置子组件的宽高比
 FractionallySizedBox	子组件宽高按父容器百分比设置，内部会生成 constraints
 LimitedBox	当父容器给无限约束时，限制子组件最大宽高
 OverflowBox	子组件可以超出父约束范围，但内部会生成约束传递给子组件
-SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束，但不改变自身大小（一般是父组件大小），常用于动画或子组件需要超出父组件显示
+SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束，而已可以在父组件的约束下设置自己的大小，常用于动画或子组件需要超出父组件显示
 IntrinsicWidth / IntrinsicHeight	它会测量子组件的约束，然后根据子组件约束确定自身约束
 Padding	虽然是间接作用，但内部会缩小对子组件的可用 constraints
 ConstrainedBox 和 SizedBox，对子组件进行具体大小的约束
@@ -315,3 +315,31 @@ class MyList extends StatelessWidget {
 
 IndexedStack组件：
 IndexedStack 只显示指定索引的子 Widget，但保留所有子 Widget 的状态和布局。一般用作需要保持状态的tab切换UI
+
+GridView组件：
+  GridView({
+    Key? key,
+    Axis scrollDirection = Axis.vertical,
+    bool reverse = false,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
+    bool shrinkWrap = false,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,  //下面解释
+    bool addAutomaticKeepAlives = true,
+    bool addRepaintBoundaries = true,
+    double? cacheExtent,
+    List<Widget> children = const <Widget>[],
+    ...
+  })
+  SliverGridDelegateWithFixedCrossAxisCount({
+    @required double crossAxisCount,  // 横轴子元素的数量
+    double mainAxisSpacing = 0.0,
+    double crossAxisSpacing = 0.0,
+    double childAspectRatio = 1.0, // 子元素长度和宽度比例
+  })
+
+  GridView.count： 适合“列数固定、结构简单”的网格布局场景
+  GridView.extent： 适合item 有“理想宽度”，列数需要根据屏幕自动变化的场景（maxCrossAxisExtent设置全局最大item的宽度，以此确定每行的列数）。
+  GridView.builder：子widget比较多时，我们可以通过GridView.builder来动态创建子widget
