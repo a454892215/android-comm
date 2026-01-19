@@ -340,6 +340,32 @@ GridView组件：
     double childAspectRatio = 1.0, // 子元素长度和宽度比例
   })
 
-  GridView.count： 适合“列数固定、结构简单”的网格布局场景
-  GridView.extent： 适合item 有“理想宽度”，列数需要根据屏幕自动变化的场景（maxCrossAxisExtent设置全局最大item的宽度，以此确定每行的列数）。
+  GridView.count： 适合固定列数的布局
+  GridView.extent： 列数需要根据GridView总宽度变化而变化的场景（maxCrossAxisExtent设置全局最大item的宽度，以此确定每行的列数）。
   GridView.builder：子widget比较多时，我们可以通过GridView.builder来动态创建子widget
+
+  PageView组件：可以平滑滚动切换的页面列表。
+  PageView({
+    Key? key,
+    this.scrollDirection = Axis.horizontal, // 滑动方向
+    this.reverse = false,
+    PageController? controller,
+    this.physics,
+    List<Widget> children = const <Widget>[],
+    this.onPageChanged,
+
+    //每次滑动是否强制切换整个页面，如果为false，则会根据实际的滑动距离显示页面
+    this.pageSnapping = true,
+    //主要是配合辅助功能用的，后面解释
+    this.allowImplicitScrolling = false,
+    //后面解释
+    this.padEnds = true,
+  })
+    PageView 默认并没有缓存功能，一旦页面滑出屏幕它就会被销毁。
+    allowImplicitScrolling 置为 true 时就只会缓存前后各一页，超过，则销毁
+    SliverChildDelegate构建ItemWidget完成后，SliverChildDelegate 都会为其添加一个 AutomaticKeepAlive 父组件（支持缓存）
+    只要子页面声明自己想被缓存(AutomaticKeepAliveClientMixin)
+
+
+
+    widget缓存：AutomaticKeepAlive
