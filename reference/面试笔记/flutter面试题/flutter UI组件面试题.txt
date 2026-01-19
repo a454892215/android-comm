@@ -12,8 +12,8 @@ Intrinsic Size：组件内容在理想无约束状态下需要的自然尺寸。
 flutter 的约束体系大小有两种，一种是组件的布局尺寸（Layout Size），一种是组件自身内容大小（Intrinsic Size），而父组件给子组件的约束大小，只对子组件的layout大小起作用。
         比如SizedBox的宽高都是100，但是里面的Text文本没有变形，就是因为文本自身内容大小没有改变，而是改变Text组件的Layout大小
 
-Flexible（默认 loose）不会自动压缩子组件 → 子太大 → 溢出。自动计算出剩余空间，给子组件添加最大尺寸约束。
-Expanded / Flexible(tight) 会强制让子组件缩小到分配空间，但不是等比例缩放（而是给紧约束，让子自己适应）。
+Flexible 松散约束，约束范围：0-最大尺寸，所有子组件在这个范围可以确定自己的内容，Flexible是包裹内容的
+Expanded：Expanded flex计算的比例占据相应的空间
 想“等比例缩小” → 别只靠 Flexible，要结合 FittedBox 等。
 Row(
   children: [
