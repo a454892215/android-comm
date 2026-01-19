@@ -1,3 +1,26 @@
 完全自定义flutter动画：自己计算好每一帧的UI相关参数，然后让屏幕刷新。
   真正“按屏幕帧率刷新”的只有两类：Ticker / AnimationController 和 SchedulerBinding
   Ticker = 官方推荐的、最安全、最干净的方式
+
+ 隐式动画（Implicit Animation）
+ 不需要手动控制动画，只需在状态改变时，Flutter 会自动平滑过渡。
+ 优点：简单，适合常规属性动画。
+ 常用组件：
+ AnimatedContainer
+ AnimatedOpacity
+ AnimatedPositioned
+ AnimatedAlign
+ AnimatedPadding
+
+ 显式动画（Explicit Animation）：需要开发者手动创建 AnimationController 和 Animation，并管理动画状态。
+ 优点：灵活、可控，适合复杂动画。
+ 常用组件：
+ AnimationController
+ Tween / ColorTween / IntTween
+ AnimatedBuilder
+ 示例：
+ AnimationController _controller = AnimationController(
+   vsync: this,
+   duration: Duration(seconds: 2),
+ );
+ Animation<double> animation = Tween(begin: 0, end: 100).animate(_controller);
