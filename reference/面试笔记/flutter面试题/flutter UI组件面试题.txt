@@ -6,7 +6,7 @@
 | **无限约束（例如 Row/Column/ListView 主轴方向）**         | Container 尝试尽量小，但会受子 Widget layout 限制；复杂子 Widget 可能撑满 → 不能保证完全包裹内容 |
 | **固定尺寸（SizedBox/ConstrainedBox 固定宽高）**         | Container 尺寸被固定 → 无法按内容收缩 |
 | **最大约束有限（BoxConstraints(maxWidth/maxHeight)）** | Container 可以包裹内容，但不会超过父最大约束  |
-| **无约束 （Center ，Align, Padding）/ 可伸缩父容器**      | Container 可以完美包裹内容 + padding  |
+| **“松散约束”：子组件大小由内容决定，只受最大约束限制 （Center ，Align, Padding）/ 可伸缩父容器**      | Container 可以完美包裹内容 + padding  |
 
 Flexible（默认 loose）不会自动压缩子组件 → 子太大 → 溢出。自动计算出剩余空间，给子组件添加最大尺寸约束。
 Expanded / Flexible(tight) 会强制让子组件缩小到分配空间，但不是等比例缩放（而是给紧约束，让子自己适应）。
