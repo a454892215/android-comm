@@ -7,6 +7,8 @@
 | **固定尺寸（SizedBox/ConstrainedBox 固定宽高）**         | Container 尺寸被固定 → 无法按内容收缩 |
 | **最大约束有限（BoxConstraints,Center ，Align, Padding(maxWidth/maxHeight)）** | Container 可以包裹内容，但不会超过父最大约束  |
 注意：
+Layout Size：组件在父约束下实际占据的渲染空间。
+Intrinsic Size：组件内容在理想无约束状态下需要的自然尺寸。
 flutter 的约束体系大小有两种，一种是组件的布局尺寸（Layout Size），一种是组件自身内容大小（Intrinsic Size），而父组件给子组件的约束大小，只对子组件的layout大小起作用。
         比如SizedBox的宽高都是100，但是里面的Text文本没有变形，就是因为文本自身内容大小没有改变，而是改变Text组件的Layout大小
 
