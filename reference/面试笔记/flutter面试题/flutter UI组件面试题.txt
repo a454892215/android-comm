@@ -366,6 +366,31 @@ GridView组件：
     SliverChildDelegate构建ItemWidget完成后，SliverChildDelegate 都会为其添加一个 AutomaticKeepAlive 父组件（支持缓存）
     只要子页面声明自己想被缓存(AutomaticKeepAliveClientMixin)
 
-
-
     widget缓存：AutomaticKeepAlive
+
+    TabBarView:TabBarView 是 Material 组件库中提供了 Tab 布局组件，通常和 TabBar 配合使用。
+    const TabBar({
+      Key? key,
+      required this.tabs, // 具体的 Tabs，需要我们创建
+      this.controller,
+      this.isScrollable = false, // 是否可以滑动
+      this.padding,
+      this.indicatorColor,// 指示器颜色，默认是高度为2的一条下划线
+      this.automaticIndicatorColorAdjustment = true,
+      this.indicatorWeight = 2.0,// 指示器高度
+      this.indicatorPadding = EdgeInsets.zero, //指示器padding
+      this.indicator, // 指示器
+      this.indicatorSize, // 指示器长度，有两个可选值，一个tab的长度，一个是label长度
+      this.labelColor,
+      this.labelStyle,
+      this.labelPadding,
+      this.unselectedLabelColor,
+      this.unselectedLabelStyle,
+      this.mouseCursor,
+      this.onTap,
+      ...
+    })
+
+    CustomScrollView 和 Slivers组件：
+    CustomScrollView，需要Sliver系列的组件，它可以把列表、网格、头部/尾部、固定高度区块等不同类型的 Sliver 组合在一个滚动视图里。
+        每个sliver如果有自己懒加载机制，各自的懒机制机制都是生效的
