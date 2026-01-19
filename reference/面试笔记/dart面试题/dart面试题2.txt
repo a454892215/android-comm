@@ -118,14 +118,6 @@ class FunctionDemo {
 }
 
 
-
-## 5️⃣ 可选参数 `[]` 和 `{}` 的区别？
-* `[]`：位置可选
-* `{}`：命名可选（Flutter 几乎只用这个）
-// 可选参数
-void foo(int a, [int? b]) {}
-void bar({required int a, int b = 0}) {}
-
 ## 6️⃣ 箭头函数有什么限制？只能有一行表达式，不能写 `return`
 
 ## 7️⃣ `String?` 和 `String` 区别？
@@ -156,8 +148,6 @@ a ??= b  // 空则赋值 如果 a 为 null，赋值
 | `with`       | 混入代码  |
 
 📌 **implements 不继承字段，只继承行为（你刚问过）**
-
----
 
 ## 13️⃣ mixin 是什么？和继承的区别？
 * 解决单继承限制
