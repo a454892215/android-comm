@@ -394,3 +394,15 @@ GridView组件：
     CustomScrollView 和 Slivers组件：
     CustomScrollView，需要Sliver系列的组件，它可以把列表、网格、头部/尾部、固定高度区块等不同类型的 Sliver 组合在一个滚动视图里。
         每个sliver如果有自己懒加载机制，各自的懒机制机制都是生效的
+
+Flutter事件机制：
+1.事件处理流程
+Flutter 的事件处理分三个主要阶段：
+(1) Hit Test（命中测试）
+当屏幕上有触摸时，Flutter 会从 根 Widget 的 RenderObject 开始向下遍历 渲染树。找出 所有可能响应事件的 RenderObject，形成一条 命中测试路径（HitTestResult）
+(2) Event Dispatch（事件分发）
+原始指针事件沿着命中路径从 最顶层向下 或 从下到上 分发给各个目标。
+(3) Widget 层处理收到的事件
+
+
+Flutter动画机制：
