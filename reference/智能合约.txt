@@ -1,0 +1,8 @@
+eth 智能合约 项目创建：
+nvm install 22
+nvm use 22
+
+mkdir MyDapp && cd MyDapp
+npm init -y
+npm install --save-dev hardhat
+npx hardhat --init
