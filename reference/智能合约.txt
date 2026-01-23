@@ -6,3 +6,6 @@ mkdir MyDapp && cd MyDapp
 npm init -y
 npm install --save-dev hardhat
 npx hardhat --init
+
+mkdir HardhatProject2 && cd HardhatProject2
+npx hardhat --init
