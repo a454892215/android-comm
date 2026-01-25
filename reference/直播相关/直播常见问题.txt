@@ -261,3 +261,11 @@ ExoPlayer 提供：
 动态调整缓冲区
 自定义 LoadControl
 精确的状态回调（BUFFERING / READY / ENDED）
+
+参数	作用	核心思路
+minBufferMs	缓冲低于这个值 → 强制下载	保证播放不至于频繁卡顿
+maxBufferMs	缓冲高于这个值 → 停止下载	防止延迟过大 / 内存占用过多
+minBufferMs ≤ 缓冲 ≤ maxBufferMs	自适应加载 → 根据网络速度、播放速度、解码情况自动增减下载量
+
+bufferForPlaybackMs	首次起播前至少缓冲量	保证首次起播体验
+bufferForPlaybackAfterRebufferMs	卡顿恢复播放前至少缓冲量	保证恢复播放稳定性
