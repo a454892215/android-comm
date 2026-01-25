@@ -1,0 +1,226 @@
+很好，这个问题**非常核心**，MediaCodec 几乎是 Android 音视频面试的“必考点”。我给你做一份**系统、工程向、面试可用的详解**。
+
+---
+
+## **一、MediaCodec 是什么**
+
+**一句话定义**：
+
+> MediaCodec 是 Android 提供的**底层硬件编解码接口**，用于把原始音视频数据编码成压缩码流，或把压缩码流解码成原始数据。
+
+* 属于 **android.media** 包
+* 直接调用 **手机硬件编码器 / 解码器**
+* 支持：
+
+  * 视频：H.264 / H.265 / VP8 / VP9
+  * 音频：AAC / MP3 / Opus 等
+
+---
+
+## **二、MediaCodec 在直播中的位置**
+
+完整链路：
+
+```
+Camera → 原始YUV帧 → MediaCodec编码 → H.264/H.265码流 → 推流(RTMP/WebRTC)
+```
+
+* 采集阶段：Camera 输出原始帧
+* **编码阶段：MediaCodec 把原始帧压缩成码流**
+* 网络阶段：发送给服务器
+
+---
+
+## **三、MediaCodec 的两种工作模式**
+
+### 1. 同步模式（Blocking）
+
+* 手动调用：
+
+  * dequeueInputBuffer
+  * queueInputBuffer
+  * dequeueOutputBuffer
+* 代码简单，逻辑清晰
+* 适合：
+
+  * 学习
+  * 简单项目
+
+### 2. 异步模式（Callback）
+
+* 通过回调接收：
+
+  * onInputBufferAvailable
+  * onOutputBufferAvailable
+* 性能更好，延迟更低
+* 适合：
+
+  * 直播
+  * 实时音视频
+
+---
+
+## **四、MediaCodec 编码的核心流程**
+
+### 1. 创建编码器
+
+```java
+MediaCodec codec = MediaCodec.createEncoderByType("video/avc"); // H.264
+```
+
+### 2. 配置参数（MediaFormat）
+
+```java
+MediaFormat format = MediaFormat.createVideoFormat("video/avc", width, height);
+
+format.setInteger(MediaFormat.KEY_BIT_RATE, bitRate);          // 码率
+format.setInteger(MediaFormat.KEY_FRAME_RATE, fps);           // 帧率
+format.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, 2);       // I帧间隔
+format.setInteger(MediaFormat.KEY_COLOR_FORMAT,
+        MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible);
+```
+
+### 3. 启动编码器
+
+```java
+codec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+codec.start();
+```
+
+### 4. 输入原始帧（YUV）
+
+```java
+int inputIndex = codec.dequeueInputBuffer(timeoutUs);
+ByteBuffer inputBuffer = codec.getInputBuffer(inputIndex);
+inputBuffer.put(yuvData);
+codec.queueInputBuffer(inputIndex, 0, size, pts, 0);
+```
+
+### 5. 取出编码后的码流
+
+```java
+MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+int outputIndex = codec.dequeueOutputBuffer(bufferInfo, timeoutUs);
+ByteBuffer outputBuffer = codec.getOutputBuffer(outputIndex);
+```
+
+* 这里得到的就是：
+
+  * H.264 / H.265 码流
+  * 包含 I/P/B 帧
+
+---
+
+## **五、MediaCodec 关键概念解释**
+
+### 1. 输入数据是什么？
+
+* Camera 输出的：
+
+  * YUV420 原始帧
+  * 或 Surface 模式下 GPU 直接渲染
+
+### 2. 输出数据是什么？
+
+* 压缩后的视频码流：
+
+  * H.264 Annex-B 或 AVCC 格式
+  * 可直接推流或封包
+
+### 3. 关键参数回顾
+
+| 参数                   | 作用       |
+| -------------------- | -------- |
+| KEY_BIT_RATE         | 控制画质与流量  |
+| KEY_FRAME_RATE       | 控制流畅度    |
+| KEY_I_FRAME_INTERVAL | 控制关键帧频率  |
+| KEY_COLOR_FORMAT     | 控制输入像素格式 |
+
+---
+
+## **六、MediaCodec 的两种输入方式**
+
+### 1. ByteBuffer 模式（CPU路径）
+
+* Camera 输出 YUV
+* 你手动拷贝进编码器
+* 简单，但：
+
+  * CPU 拷贝多
+  * 延迟稍高
+
+### 2. Surface 模式（GPU路径，推荐直播）
+
+```java
+Surface inputSurface = codec.createInputSurface();
+```
+
+* Camera 直接渲染到 Surface
+* 编码器直接从 GPU 取数据
+* 优点：
+
+  * 零拷贝
+  * 低延迟
+  * 性能好
+* 直播项目**几乎都用 Surface 模式**
+
+---
+
+## **七、MediaCodec 常见问题（面试常问）**
+
+### 1. 硬编码 vs 软编码
+
+* **硬编码（MediaCodec）**：
+
+  * 快
+  * 省电
+  * 延迟低
+  * 依赖设备硬件
+
+* **软编码（x264 / libx265）**：
+
+  * 质量可控
+  * 但 CPU 占用高，不适合移动端实时
+
+👉 直播基本只用硬编码。
+
+---
+
+### 2. SPS / PPS 从哪里来？
+
+* MediaCodec 输出流中：
+
+  * 第一帧 I 帧前会包含 SPS / PPS
+* 推流时必须先发送 SPS/PPS，解码端才能解码。
+
+---
+
+### 3. 如何强制生成 I 帧？
+
+```java
+Bundle params = new Bundle();
+params.putInt(MediaCodec.PARAMETER_KEY_REQUEST_SYNC_FRAME, 0);
+codec.setParameters(params);
+```
+
+* 常用于：
+
+  * 新观众加入
+  * 丢包恢复
+
+---
+
+## **八、面试标准总结回答**
+
+你可以这样说：
+
+> “MediaCodec 是 Android 提供的底层硬件编解码接口，用于把原始 YUV 视频帧编码成 H.264/H.265 码流，或把码流解码成原始帧。在直播中，Camera 采集的原始数据通过 MediaCodec 进行硬件编码，生成 I/P/B 帧码流，再通过 RTMP 或 WebRTC 推送出去。它支持同步和异步两种模式，实际项目中多用 Surface 输入模式以降低拷贝和延迟。”
+
+---
+
+如果你愿意，**下一步我可以帮你**：
+
+* 写一份 **完整的 MediaCodec H.264 编码最小可运行示例**
+* 或画一张 **Camera → MediaCodec → 推流 的完整架构图**
+
+这两样对你准备直播面试**非常有杀伤力**。
