@@ -226,3 +226,49 @@ codec.setParameters(params);
 * 或画一张 **Camera → MediaCodec → 推流 的完整架构图**
 
 这两样对你准备直播面试**非常有杀伤力**。
+
+有的，Android 上确实有一些成熟、免费的第三方框架，把 **FFmpeg + librtmp** 封装好了，方便做直播或点播推流。可以分两类看：
+
+---
+
+### 1️⃣ 完整开源直播推流框架
+
+这些框架一般包含：采集（Camera / Mic）、编码（MediaCodec / x264）、封装（FLV/RTMP）、推流（RTMP）一整套流程。
+
+| 框架                                 | 说明                      | 语言     | 特点                            |
+| ---------------------------------- | ----------------------- | ------ | ----------------------------- |
+| **PLDroidMediaStreaming**          | 腾讯开源 Android 推流 SDK     | Java   | 免费，封装好采集 + 编码 + RTMP 推流，易用    |
+| **LFLiveKit Android 移植版**          | 原 iOS LFLiveKit 移植      | Java   | 支持 RTMP 推流，开源，社区活跃            |
+| **ijkplayer + librtmp**            | ijkplayer 本身是播放器 + 推流部分 | C/Java | 可以自定义编码推流，依赖 FFmpeg           |
+| **NodeMediaClient-Android**        | NodeMedia 推流客户端         | Java   | 免费版有功能限制，但基本 RTMP 推流可用        |
+| **SRS Simple RTMP Android Client** | SRS 官方 demo             | C/Java | 基于 FFmpeg / librtmp，适合学习和二次开发 |
+
+> 大部分开源框架底层都是 **MediaCodec + FFmpeg/librtmp** 封装，已经帮你处理好 FLV 封包、关键帧、时间戳等复杂逻辑。
+
+---
+
+### 2️⃣ 自己组合方案（灵活度高）
+
+如果不想用封装好的 SDK，也可以自己组合：
+
+1. **采集 + 编码** → MediaCodec
+2. **封装 + 推流** → FFmpeg 或 librtmp
+3. 这种方式自由度最高，但开发量大，需要处理：
+
+   * NALU 分片、FLV 封装
+   * 时间戳同步
+   * 网络丢包 / 重传
+
+---
+
+### 3️⃣ 实践经验
+
+* **如果只是普通体育直播 / 小型直播** → 推荐用开源 SDK 或 NodeMediaClient，最快最省力。
+* **如果追求低延迟 / 可控性** → 自己做采集 + 编码，FFmpeg/librtmp 封装推流，参考 SRS demo。
+
+---
+
+我可以帮你整理一个 **Android 免费开源推流框架清单**，列出 GitHub 地址和使用特点，直接挑一个最快上手。
+
+你希望我整理吗？
+
