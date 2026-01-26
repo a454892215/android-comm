@@ -1,0 +1,80 @@
+## 二、协议选择总结（延迟 & CDN 分发）
+| 协议     | 延迟     | CDN 友好 | 支持码率切换 | ExoPlayer 支持      |
+| ------ | ------ | ------ | ------ | ----------------- |
+| HLS    | 15~30s | 高      | ✅      | ✅ HlsMediaSource  |  基于 HTTP 的分段流媒体协议 纯 HTTP → CDN 友好，丢包通过重试解决
+| DASH   | 10~20s | 高      | ✅      | ✅ DashMediaSource |  基于 HTTP 的分段流媒体协议 纯 HTTP → CDN 友好，丢包通过重试解决
+| RTSP   | 1~3s   | 低      | ❌      | ✅ RtspMediaSource |  RTSP 本身类似 HTTP（文本命令），媒体流走 RTP → TCP 或 UDP
+| RTMP   | 3~5s   | 中      | ❌      | ⚠️ 第三方扩展          | RTMP 是自定义协议，但它是基于 TCP传输的
+| WebRTC | <1s    | 低      | ❌      | ❌（第三方实现）          | 是基于UDP和TCP的混合协议，支持丢包重传
+| SRT    | <2s    | 中      | ❌      | ❌（第三方实现）          |
+
+## 二、协议选择逻辑
+
+### 1. HLS（HTTP Live Streaming） 基于 HTTP 的分段流媒体协议 纯 HTTP → CDN 友好，丢包通过重试解决
+* **特点**：
+  * Apple 官方协议，安卓也广泛支持
+  * 分片 ts 文件 + m3u8 索引
+  * 延迟通常 **15~30 秒**
+  * CDN 友好（HTTP 分片缓存）
+* **为什么体育直播喜欢**：
+  * CDN 支撑能力强
+  * 支持自适应码率 → 不怕观众网速波动
+  * ExoPlayer 原生支持 HlsMediaSource
+---
+
+### 2. DASH（Dynamic Adaptive Streaming over HTTP） 基于 HTTP 的分段流媒体协议 纯 HTTP → CDN 友好，丢包通过重试解决
+* **特点**：
+  协议定位：基于 HTTP 的分段流媒体协议
+  传输层：纯 HTTP → CDN 友好，丢包通过重试解决
+  * fMP4 分段 + MPD 索引
+  * 延迟比 HLS 略低，通常 **10~20 秒**
+  * CDN 友好，支持自适应码率
+* **为什么体育直播使用**：
+
+  * 安卓端兼容性好
+  * 支持多码率切换和加密（DRM）
+  * ExoPlayer 原生支持 DashMediaSource
+
+---
+
+### 3. RTSP / RTMP
+
+* **RTSP**：延迟低（1~3 秒），CDN 支撑差
+* **RTMP**：延迟低（3~5 秒），CDN 支撑中等
+* **现实使用**：
+
+  * 体育直播 **很少直接拉 RTSP/RTMP** 给大量观众
+  * 多用于推流端或内部转码
+  * 安卓客户端一般不直接拉 RTMP → 使用 CDN 转发成 HLS/DASH
+
+---
+
+### 4. WebRTC / SRT
+
+* **延迟低**（<1 秒），适合互动直播
+* **不适合大规模广播型体育直播**
+* 安卓客户端不常用 ExoPlayer 播放 WebRTC
+* 更多用于连麦/实时互动场景
+
+---
+
+## 三、主流体育直播 App 的典型链路（ExoPlayer + CDN）
+
+1. **主播端推流**
+
+   * RTMP / SRT → 转码服务器 / 分发服务器
+2. **分发 / CDN**
+
+   * 转成 **HLS 或 DASH**
+   * 支撑大规模观众
+3. **Android 观众端**
+
+   * ExoPlayer 拉取 **HLS 或 DASH**
+   * 原生支持多码率切换 + 播放控制
+4. **延迟控制**
+
+   * HLS 会有 15~30 秒
+   * DASH 会低一些（10~20 秒）
+   * 低延迟版本 HLS（LL-HLS）也开始应用，延迟可降到 5~10 秒
+
+\
