@@ -270,3 +270,28 @@ minBufferMs ≤ 缓冲 ≤ maxBufferMs	自适应加载 → 根据网络速度、
 
 bufferForPlaybackMs	首次起播前至少缓冲量	保证首次起播体验
 bufferForPlaybackAfterRebufferMs	卡顿恢复播放前至少缓冲量	保证恢复播放稳定性
+
+ExoPlayer 本身是一个 **Android 媒体播放器框架**，它本身**不限制协议**，支持多种流媒体协议。直播场景主要分成**三类协议**：传统流式协议、分段 HTTP 协议、以及实时通信协议，ExoPlayer 都可以支持，只是需要对应的 **DataSource / Renderer**。我帮你整理一下：
+
+## 二、协议选择总结（延迟 & CDN 分发）
+| 协议     | 延迟     | CDN 友好 | 支持码率切换 | ExoPlayer 支持      |
+| ------ | ------ | ------ | ------ | ----------------- |
+| HLS    | 15~30s | 高      | ✅      | ✅ HlsMediaSource  |
+| DASH   | 10~20s | 高      | ✅      | ✅ DashMediaSource |
+| RTSP   | 1~3s   | 低      | ❌      | ✅ RtspMediaSource |
+| RTMP   | 3~5s   | 中      | ❌      | ⚠️ 第三方扩展          |
+| WebRTC | <1s    | 低      | ❌      | ❌（第三方实现）          |
+| SRT    | <2s    | 中      | ❌      | ❌（第三方实现）          |
+1. **HLS / DASH**
+   * 最适合大规模直播 + CDN 分发
+   * ExoPlayer 原生支持，适合国内主流短视频 / 直播 App
+2. **RTSP / RTMP**
+   * 延迟低，但 CDN 支撑能力差
+   * 安卓端需要硬解 + 网络优化
+3. **WebRTC / SRT**
+   * 实时性要求极高，互动直播、连麦必选
+   * ExoPlayer 只能当做渲染模块，DataSource 要自定义
+
+---
+主流 Android 体育直播 App 使用 ExoPlayer，基本都是 HLS 或 DASH，通过 CDN 分发；
+低延迟或互动直播场景才会用 RTSP / WebRTC，但 ExoPlayer 并不是用来播放这些协议的。
