@@ -32,7 +32,9 @@ Camera → 原始YUV帧 → MediaCodec编码 → H.264/H.265码流 → 推流(RT
 ---
 
 ## **三、MediaCodec 的两种工作模式**
-
+MediaCodec 是 Java API + C++ HAL (硬件加速解码) + Binder/Looper 通信 的组合。
+同步模式 → Java 应用主动轮询 → 每次 JNI 调用和 Binder 消息传递 → 性能损耗。
+异步模式 → native 层主动通知 → 减少 JNI + Binder 调用次数 → 性能更优。
 ### 1. 同步模式（Blocking）
 
 * 手动调用：
