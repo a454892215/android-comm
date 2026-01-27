@@ -34,6 +34,31 @@ ExoPlayer 刚接收到视频/音频切片或 RTP/RTMP 帧数据的时刻
   * 重缓冲（Buffering start/end）:
     a.网络原因: 1.下载速度低于当前码率, 2.丢包 / RTT 高, 3. CDN 节点抖动
              日志特征：分片下载耗时突然变长,连续 timeout / retry, bufferLevel 持续下降到 0
+    在 **ExoPlayer** 里，要排查“网络原因导致的重缓冲”，可以通过几个关键组件和日志来获取。重点是获取 **分片下载耗时、超时重试、bufferLevel 变化**。下面我详细说明：
+    ### 1️⃣ 使用 `AnalyticsListener` 获取播放关键事件
+    ExoPlayer 提供了 `AnalyticsListener` 接口，可以监听几乎所有播放器事件，包括缓冲、加载、网络请求等。
+    **说明：**
+    * `onLoadStarted` / `onLoadCompleted` → 可以获取每个分片下载耗时。
+    * `onLoadError` → 可以看到连续 timeout / retry 错误。
+    * `onPlayerStateChanged` → 可以追踪 bufferLevel 持续下降的情况。
+    **说明：**
+    * `onBytesTransferred` 可以统计下载速度。
+    * 通过对比 `onTransferStart` 与 `onTransferEnd` 时间，可以计算分片下载耗时。
+    * 连续 timeout / retry 会触发 `onLoadError` 或 `IOException`。
+    ---
+
+
+    ### 4️⃣ 结合网络问题判断逻辑
+
+    通过日志，可以做类似判断：
+
+    ```text
+    1. 分片下载耗时突然变长 → onLoadStarted/onLoadCompleted 时间差
+    2. 连续 timeout / retry → onLoadError 连续出现 IOException
+    3. bufferLevel 持续下降到 0 → getBufferedPercentage = 0
+    ```
+
+
     b.解码速度慢（客户端性能瓶颈）1.网络正常，但 buffer 仍然下降, 2.解码队列积压  3.丢帧 / 追帧频繁
              日志特征：decode_time 明显升高, dropped_frames 增多,
              根据totalProcessingOffsetUs，判断，它表示：当前视频帧，相对于理想播放时间，已经“慢了多少时间”
