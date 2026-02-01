@@ -1,0 +1,69 @@
+`src` 和 `href`都区别：
+   | 对比     | src | href |
+   | ------ | --- | ---- |
+   | 是否阻塞解析 | 常见会 | 基本不会 |
+   | 是否一定加载 | 是   | 不一定  |
+   | 是否嵌入页面 | 是   | 否    |
+   ## ✅ src（source）：浏览器必须下载，否则页面不完整
+   例如：<script src="app.js"></script>，浏览器解析到这里时：1.会 **暂停 HTML 解析，立即下载 `app.js`，执行完再继续
+   所以：script 的 `src` 会影响页面性能（除非加 `defer` / `async`）
+   常见标签：
+   * `<img>`
+   * `<script>`
+   * `<iframe>`
+   * `<audio>`
+   * `<video>`
+
+   href（hyper reference）
+   常见标签：`<a>``<link>`
+   例如：<a href="https://google.com">Google</a>， <link href="style.css">
+   特点：浏览器会下载，不会阻塞 HTML 解析**（但可能阻塞渲染），CSS 不属于 DOM 内容
+  * 为什么 CSS 会阻塞渲染但不阻塞解析？
+  * 为什么 script 会阻塞解析？
+  * preload / prefetch 本质区别？
+  * async vs defer 底层发生了什么？
+
+meta 标签的作用？
+   `<meta>` 是 HTML 文档中**用于提供“页面元信息（metadata）”的标签**。
+   这些信息不会直接显示在网页上，而是主要给 **浏览器、搜索引擎、爬虫、第三方平台** 使用。
+   可以理解为：**它在告诉浏览器“这个页面应该如何被解析和处理”。
+   它通常写在：
+   ```html
+   <head>
+     <meta ...>
+   </head>
+   为什么必须尽量靠前？ 浏览器是 **从上往下解析 HTML** 的
+   # 一、最核心的 5 个作用（面试高频⭐⭐⭐⭐⭐）
+   ## ✅ 1. 指定字符编码（极其重要）：<meta charset="UTF-8">， 否则可能乱码
+   ## ✅ 2. 控制移动端布局（现代前端必备）：<meta name="viewport" content="width=device-width, initial-scale=1.0">
+            如果不写：手机会按 **PC宽度（约980px）渲染。页面变得超级小。用户必须手动放大
+            PC 浏览器的 CSS 宽度通常在 1024px ~ 1920px 甚至更高。而手机通常只有 360 ~ 430px（逻辑像素）。
+   ## ✅ 3. SEO（搜索引擎优化）
+            <meta name="description" content="最专业的Go语言教程">
+            <meta name="keywords" content="Go,golang,后端"> keywords 现在基本被 Google 忽略**（因为被滥用）
+   ## ✅ 4. 控制浏览器行为
+            自动刷新： <meta http-equiv="refresh" content="5"> 每5秒刷新。
+            自动跳转： <meta http-equiv="refresh" content="3;url=https://google.com"> 3秒后跳转
+   ## ✅ 5. 社交平台分享优化（Open Graph 协议）：当别人把你的网站发到：微信 Facebook，Twitter等 会生成：带封面 + 标题的卡片。否则可能只显示一个裸链接
+               <meta property="og:title" content="超强Go教程">
+               <meta property="og:image" content="cover.png">
+         6. 禁止 iPhone 自动识别电话 <meta name="format-detection" content="telephone=no">  否则 Safari 会把数字变成：📞 可点击电话
+   # 二、http-equiv：模拟 HTTP 响应头
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">： Content-Type: text/html; charset=UTF-8
+        **优先级：**   HTTP header > meta
+   # 四、面试总结版（30秒背诵）
+   > meta 用于提供 HTML 的元信息，主要作用包括：
+   > 1. 指定字符编码
+   > 2. 控制移动端布局
+   > 3. 提供 SEO 信息
+   > 4. 控制浏览器行为（刷新、跳转）
+   > 5. 优化社交分享
+   如果你想，我还能继续讲几个**高级但面试官很爱问的 meta：**
+   * X-UA-Compatible 是什么？
+   * meta 为什么逐渐被 HTTP header 替代？
+   * SEO 中真正有用的 meta 其实只有 2 个？
+      description → 搜索摘要、点击率
+      viewport → 移动端友好，影响移动搜索体验
+   * 为什么 charset 必须在 1024 字节内？
+
+

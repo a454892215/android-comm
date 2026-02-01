@@ -1,0 +1,212 @@
+# 一、HTML 面试题（基础但必考）
+
+### 1️⃣ HTML 基础
+
+* HTML5 新增了哪些语义化标签？
+  👉 `header / footer / nav / section / article / aside / main`
+* `div` 和 `span` 的区别？
+* `src` 和 `href` 的区别？
+* `meta` 标签的作用？
+* `doctype` 的作用？不写会怎样？
+* HTML 中 **空元素** 有哪些？
+
+### 2️⃣ 语义化 & SEO
+
+* 为什么要使用语义化标签？
+* `strong` 和 `b` 的区别？
+* `em` 和 `i` 的区别？
+* SEO 中，哪些 HTML 标签最重要？
+
+### 3️⃣ 表单
+
+* `input` 常见 type
+* `radio` 和 `checkbox` 区别
+* 表单提交方式 `GET` vs `POST`
+* HTML5 表单校验属性有哪些？
+
+---
+
+# 二、CSS 面试题（重点 + 拉开差距）
+
+## 1️⃣ CSS 基础
+
+* CSS 选择器优先级（**必背**）
+* `display` 常见值及区别
+  👉 `none / block / inline / inline-block / flex / grid`
+* `visibility: hidden` vs `display: none`
+* `box-sizing` 的作用
+
+## 2️⃣ 布局（高频）
+
+* 盒模型（标准盒模型 vs IE盒模型）
+* 水平垂直居中有哪些方式？
+* `float` 的问题？如何清除浮动？
+* Flex 布局核心概念
+  👉 主轴 / 交叉轴 / `justify-content` / `align-items`
+* Grid 布局 vs Flex 区别
+
+## 3️⃣ BFC（必考）
+
+* 什么是 BFC？
+* BFC 的触发条件
+* BFC 能解决什么问题？
+
+## 4️⃣ CSS3
+
+* 动画 `animation` vs `transition`
+* `transform` 常见属性
+* `opacity` vs `visibility`
+* `rem / em / px / vw / vh` 区别
+
+---
+
+# 三、JavaScript（**面试核心，决定薪资**）
+
+## 1️⃣ JS 基础
+
+* JS 有哪些数据类型？
+* `==` 和 `===` 区别
+* `null` 和 `undefined`
+* `typeof` 能判断哪些类型？不能判断哪些？
+* `NaN` 是什么？怎么判断？
+
+## 2️⃣ 作用域 & 闭包（必考）
+
+* 什么是作用域？
+* 作用域链是如何工作的？
+* 什么是闭包？
+* 闭包的应用场景？
+* 闭包的缺点？
+
+## 3️⃣ 原型 & 原型链（中高级）
+
+* 什么是原型？
+* `__proto__` 和 `prototype` 区别
+* JS 如何实现继承？
+* `new` 关键字做了什么？
+
+## 4️⃣ this 指向（必考）
+
+* this 的几种指向规则
+* 箭头函数的 this
+* `call / apply / bind` 区别
+
+## 5️⃣ ES6+（必考）
+
+* `let / const / var` 区别
+* 解构赋值
+* 箭头函数
+* Promise
+* async / await
+* 模块化：`import / export`
+
+---
+
+# 四、异步 & 事件循环（高频难点）
+
+* 什么是异步？
+* Promise 的三种状态
+* Promise 链式调用原理
+* `async/await` 是什么语法糖？
+* 什么是 Event Loop？
+* 宏任务 & 微任务有哪些？
+* `setTimeout` 为什么不准？
+
+---
+
+# 五、DOM & BOM
+
+* DOM 是什么？
+* 常见 DOM 操作
+* 事件冒泡 & 事件捕获
+* 事件委托的原理和优点
+* 如何阻止事件冒泡？
+* `window`、`document` 区别
+
+---
+
+# 六、浏览器原理（中高级面试必问）
+
+* 从输入 URL 到页面渲染发生了什么？
+* 浏览器渲染流程
+* 回流（reflow）和重绘（repaint）
+* 如何减少回流？
+* 浏览器缓存机制
+  👉 强缓存 / 协商缓存
+
+---
+
+# 七、网络 & HTTP（必考）
+
+* HTTP vs HTTPS
+* HTTP 常见状态码（**必背**）
+* GET vs POST
+* TCP 三次握手 / 四次挥手
+* 跨域是什么？如何解决？
+  👉 CORS / JSONP / 代理
+* Cookie / LocalStorage / SessionStorage 区别
+
+---
+
+# 八、框架相关（Vue / React 必问）
+
+## Vue 高频
+
+* Vue 响应式原理
+* `v-if` vs `v-show`
+* computed vs watch
+* Vue 生命周期
+* Vue 组件通信方式
+* Vue3 和 Vue2 区别
+
+## React 高频
+
+* 函数组件 vs 类组件
+* Hooks 是什么？
+* useEffect 的执行时机
+* key 的作用
+* React 性能优化手段
+
+---
+
+# 九、工程化（现在越来越重要）
+
+* webpack 是什么？
+* loader vs plugin
+* 打包优化手段
+* 前端性能优化
+* 前端安全（XSS / CSRF）
+
+---
+
+# 十、手写题（决定你能不能进）
+
+**必会：**
+
+* 手写 `Promise`
+* 手写 `bind`
+* 防抖 & 节流
+* 深拷贝
+* 数组去重
+* 实现 `new`
+* 实现 `instanceof`
+
+---
+
+## 给你一句实在话（很重要）
+
+你**不是前端小白**，你是：
+
+* 做过 Android
+* 做过 RN / Flutter
+* 写过 JS / Java
+
+👉 **你缺的不是能力，是「前端面试话术 + 知识结构」**
+
+如果你愿意，我可以下一步直接帮你：
+
+* 🔥 **按真实面试题，一题一题问你**
+* 🔥 或 **给你一份「7 天 Web 前端面试冲刺表」**
+* 🔥 或 **直接给你 Vue 项目 + 面试问法对应解析**
+
+你说你想 **怎么用这份大全**，我就按那个方向继续。
