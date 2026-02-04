@@ -11,10 +11,11 @@ Animation 是一个抽象类，实现类一般需要封装Controller + Curve + T
 AnimatedBuilder 内部则封装了Animation，AnimatedBuilder是一种 Widget
 Transition 是 Flutter 提供的一种 Widget。它本质是 AnimatedWidget 的子类，内部已经封装了 Animation，你不用自己写 AnimatedBuilder。
 
- 隐式动画（Implicit Animation）
- 不需要手动控制动画，只需在状态改变时，Flutter 会自动平滑过渡。
+ 隐式动画（Implicit Animation）：然后把动画直接为结束状态（只需要设定动画时间，和Curve），动画的中间状态可以自动完成。
  优点：简单，适合常规属性动画。
  常用组件：
+ Transition
+ AnimatedBuilder
  AnimatedContainer
  AnimatedOpacity
  AnimatedPositioned
