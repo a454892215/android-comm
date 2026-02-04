@@ -1,5 +1,5 @@
  Flutter动画的时间核心是 AnimationController，而 AnimationController 基于 Ticker 驱动。
- AnimationController 一般配合 Tween 和 Curve 使用，一起构建动画。
+ AnimationController 一般配合 Tween 和 Curve 使用，一起构建动画。AnimationController 是 Animation<double> 的子类
  AnimationController：设置动画是否循环，是否反向，动画时间。控制动画的播放，停止，并且提供了动画在播放时间内，默认从0到1线性变化的时间进度映射值。
  Curve 是用来改变动画的播放速率的，默认是线性变化。
  Tween是基于AnimationController提供的时间进度映射值，进行二次转换成动画需要的实际动画值。
@@ -7,7 +7,6 @@
  系统封装好的常见的 Curve： Curves.linear，Curves.easeInOut，Curves.easeOut
  系统封装好的常见的 Tween： Tween<double> ,Tween<Offset> , ColorTween, SizeTween, DecorationTween
 
-Animation 是一个抽象类，实现类一般需要封装Controller + Curve + Tween。
 AnimatedBuilder 内部则封装了Animation，AnimatedBuilder是一种 Widget
 Transition 是 Flutter 提供的一种 Widget。它本质是 AnimatedWidget 的子类，内部已经封装了 Animation，你不用自己写 AnimatedBuilder。
 
@@ -15,7 +14,7 @@ Transition 是 Flutter 提供的一种 Widget。它本质是 AnimatedWidget 的�
  优点：简单，适合常规属性动画。
  常用组件：
  Transition
- AnimatedBuilder
+ AnimatedBuilder（使用中，需要传递animation对象）
  AnimatedContainer
  AnimatedOpacity
  AnimatedPositioned
