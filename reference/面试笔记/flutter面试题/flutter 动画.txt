@@ -14,7 +14,7 @@ Transition 是 Flutter 提供的一种 Widget。它本质是 AnimatedWidget 的�
  优点：简单，适合常规属性动画。
  常用组件：
  Transition
- AnimatedBuilder（使用中，需要传递animation对象）
+ AnimatedBuilder（使用中，需要传递animation对象， 通过animation.value把动画过程中每一帧的变换值映射到UI上实现动画效果）
  AnimatedContainer 需要自己显示控制 动画的播放 停止才需要使用。否则一般情况使用AnimatedContainer等隐式widget动画就够了。
  AnimatedOpacity
  AnimatedPositioned
