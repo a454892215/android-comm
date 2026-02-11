@@ -1,0 +1,50 @@
+Overlay = 一个可以动态增删子节点的顶层 Stack.
+class Overlay extends StatefulWidget {
+  final List<OverlayEntry> initialEntries;
+}
+
+RenderView
+   ↓
+WidgetsApp / MaterialApp
+   ↓
+Navigator （内部封装了Overlay，通过Overlay来对页面进行声明周期管理（页面的进栈和出栈））
+   ↓
+Overlay （内部就是封装了Stack组件来实现页面的管理（进栈和出栈））
+   ↓
+OverlayEntry (每个路由导航的页面 本质上就是OverlayEntry， Toast 也是一个OverlayEntry。Route / Dialog / Toast...)
+页面其实只是一个 OverlayEntry！
+Navigator.push() 本质是 overlay.insert(routeEntry); 页面 = OverlayEntry
+
+class OverlayState extends State<Overlay> {
+  final List<OverlayEntry> _entries = [];
+
+  @override
+  Widget build(BuildContext context) {
+  // OverlayState 内部就是封装了Stack组件来实现页面的管理
+    return Stack(
+      children: _entries.map((e) => e.builder(context)).toList(),
+    );
+  }
+}
+
+OverlayEntry entry = OverlayEntry(
+  builder: (context) {
+    return Positioned(
+      top: 100,
+      left: 100,
+      child: Material(
+        child: Text("Hello Overlay"),
+      ),
+    );
+  },
+);
+插入：Overlay.of(context).insert(entry);
+删除：：entry.remove();
+不要频繁 new OverlayEntry，OverlayEntry ≈ 一个独立 Layer，频繁创建 → 合成压力上升。
+entry.markNeedsBuild();
+
+问题：MaterialApp是跟节点的话，WidgetsApp又是什么？Navigator是什么 为什么要在Overlay的前面
+MaterialApp 本身并不直接创建 Overlay。
+👉 它创建的是 WidgetsApp。
+👉 WidgetsApp 再创建 Navigator。
+👉 Navigator 内部再创建 Overlay。
