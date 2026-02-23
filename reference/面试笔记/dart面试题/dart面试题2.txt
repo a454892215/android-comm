@@ -64,7 +64,9 @@ class VariableDemo {
 
 # 二、函数 & 语法糖（高频）
 ## 4️⃣ Dart 有哪些函数写法？
-typedef IntBinaryOp = int Function(int a, int b);
+typedef 在dart中的作用是给复杂的类型或者函数起别名：
+typedef UserList = List<Map<String, dynamic>>; // 给复杂的 Map 类型起名
+typedef IntBinaryOp = int Function(int a, int b); // 给复杂的函数起别名
 
 class FunctionDemo {
   int value;
