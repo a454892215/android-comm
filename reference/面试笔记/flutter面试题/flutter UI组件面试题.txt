@@ -1,3 +1,8 @@
+flutter 中 所有可以设置宽高的组件，本质上并不是设置自己的宽高，flutter中所有组件的最终宽高一定是取父组件的约束和自己要求的宽高大小的交集决定的。
+flutter中设置的宽高一般有两种作用：1.转成对子组件的约束向下传递（特殊情况：Container既可以设置自己的宽高也有自己的constraints, 提供要求自己期望大小，和对子组件约束分开设置的功能）
+                              2.根据父组件的约束确定自己的layout大小
+
+
 # **1️⃣ Container 的“包裹内容”能力是被动的**
 * 它的尺寸完全依赖于 **父 Widget 的约束（constraints）**
 ## **2️⃣ 不同父约束的结果**
@@ -5,7 +10,7 @@
 | ---------------------------------------------- | ------------------------------------------------------------------ |
 | **无限约束（例如 Row/Column/ListView 主轴方向）**         | Container 尝试尽量小，但会受子 Widget layout 限制；复杂子 Widget 可能撑满 → 不能保证完全包裹内容 |
 | **固定尺寸（SizedBox/ConstrainedBox 固定宽高）**         | Container 尺寸被固定 → 无法按内容收缩 |
-| **最大约束有限（BoxConstraints,Center ，Align, Padding(maxWidth/maxHeight)）** | Container 可以包裹内容，但不会超过父最大约束  |
+| **最大有限约束（BoxConstraints,Center ，Align, Padding(maxWidth/maxHeight)）** | Container 可以包裹内容，但不会超过父最大约束  |
 注意：
 Layout Size：组件在父约束下实际占据的渲染空间。
 Intrinsic Size：组件内容在理想无约束状态下需要的自然尺寸。

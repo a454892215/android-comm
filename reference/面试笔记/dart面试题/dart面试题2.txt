@@ -127,6 +127,8 @@ class FunctionDemo {
 * `String?`：可以为 null
 ## 8️⃣ `!`、`?`、`??`、`??=` 区别？
 ```dart
+
+a?       // 表示类型可空
 a!       // 我保证不为 null（骗编译器）
 a?.b     // null 传播， 如果a不是null才调用b
 a ?? b   // 空合并
