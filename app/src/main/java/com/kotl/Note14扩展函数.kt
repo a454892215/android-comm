@@ -5,7 +5,7 @@ import com.kotl.ut.random as randomizer  // 使用as 别名
 /**
  *  1.扩展函数
  *    01. 不修改原类的情况下，扩展类的功能
- *    02. 语法示例： fun Any.d(str: String){} 与普通函数定义的差别是：函数名前增加了: className.
+ *    02. 语法示例： fun <接收者类型>.<函数名>(<参数列表>): <返回类型> {}
  *    03.infix 关键字：适用于单个参数的扩展和类函数，使用该关键字修饰的函数，调用时可以省略.和参数括号
  *    04. 如果扩展函数定义在不同包，需要使用import导入
  *    04. import xxx as 别名的使用. 示例： import com.kotl.ut.random as randomizer
