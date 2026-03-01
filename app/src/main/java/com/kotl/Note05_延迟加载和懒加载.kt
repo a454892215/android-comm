@@ -14,11 +14,12 @@ package com.kotl
  */
 class Test5 {
     // 01. 延迟初始化 lateinit ： 变量类型不能是Int等基本类型
+    // lateinit 就是 Kotlin 为了让非空类型变量在声明时不必立即赋值，而能延迟到后面某个时刻再初始化的一种方案。
     private lateinit var favorite: String
 
     // 02.  懒加载 by lazy ： 只能使用val 不能使用var
     val config by lazy {
-        // 使用的时候调用， 只调用一次， 返回最后一行赋值给目标变量
+        // 使用的时候初始化赋值， 只赋值一次
         Log.d("=====懒加载=========")
         1
     }
