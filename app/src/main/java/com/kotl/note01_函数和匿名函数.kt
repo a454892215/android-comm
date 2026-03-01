@@ -26,7 +26,7 @@ fun main(args: Array<String>) {
     // 02.变量的申明， 类型可以省略, kotlin的类型自动推断
     val name = "小花"
     Log.d(name)
-    // 03.支持的基本类型：String Char Boolean Int Double List Set Map
+    // 03.支持的基本类型：String Char Boolean Int Double
     // 04. 不会修改的变量 val
     val age = 18
     Log.d("age:$age")

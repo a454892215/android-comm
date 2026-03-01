@@ -11,12 +11,13 @@ import kotlin.math.roundToInt
  *  03. 合并操作符  a ?: "2"   a为null,返回右边，否则返回a
  *  2.扩展函数
  *  01. apply 示例: a.apply {)   a调用者作为this传入作用域，b.返回调用者对象
- *  02. let   示例: a.let {)   a.调用者作为it传入作用域，b.返回作用域最后一行
- *  03. run   示例:a.run {) ， a.调用者作为this传入作用域，b.返回作用域最后一行
- *  04. with  示例: val isLong = with(""){} ， a.接受一个参数作为this传入作用域 ，b.返回作用域最后一行
- *  05  also  示例: a.also {}  a.调用者作为it传入作用域，b.返回调用者对象
- *  06  takeIf  示例: ...   a.调用者作为it传入作用域，b.作用域最后一行为true返回调用者对象，false返回null
- *  07  takeUnless  示例:...  a.调用者作为it传入作用域，b.作用域最后一行为false返回调用者对象，true返回null
+ *  02. run   示例: a.run {) ，   a.调用者作为this传入作用域，b.返回作用域最后一行
+ *  03  also  示例: a.also {}   a.调用者作为it传入作用域，b.返回调用者对象
+ *  04. let   示例: a.let {)     a.调用者作为it传入作用域，b.返回作用域最后一行
+ *  05  takeIf  示例: ...   a.调用者作为it传入作用域，b.作用域最后一行为true返回调用者对象，false返回null
+ *  06  takeUnless  示例:...  a.调用者作为it传入作用域，b.作用域最后一行为false返回调用者对象，true返回null
+   补充的普通函数 with
+ *  with  示例: val isLong = with(""){} ， a.接受一个参数作为this传入作用域 ，b.返回作用域最后一行
 
  */
 
