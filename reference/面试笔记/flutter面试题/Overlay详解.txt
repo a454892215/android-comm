@@ -1,3 +1,4 @@
+Navigator，Overlay，都是 StatefulWidget
 Overlay = 一个可以动态增删子节点的顶层 Stack.
 class Overlay extends StatefulWidget {
   final List<OverlayEntry> initialEntries;

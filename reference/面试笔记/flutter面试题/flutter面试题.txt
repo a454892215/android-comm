@@ -89,6 +89,7 @@ getx中刷新UI的三种方式的 obx, getx, GetBuilder 区别：
      obx：只监听回调函数中用到的obs变量。它只负责监听，不关心Controller的创建和销毁。
      getx： 和Obx刷新逻辑完全一致。但是可以绑定Controller, 自动管理controller的声明周期
      GetBuilder：需要手动调用update([id])刷新(如没有声明ID可以不传)
+     GetX 官方一直宣称的三大核心支柱（The Three Pillars）就是：状态管理 (State Management)、依赖管理 (Dependency Management)，以及 路由管理 (Route Management)。
 
 
 
