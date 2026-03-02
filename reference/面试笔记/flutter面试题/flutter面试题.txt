@@ -86,9 +86,9 @@ flutter 线程模型的执行顺序是：同步代码流->微任务->宏任务->
   - **Redux**：单向数据流架构
 
 getx中刷新UI的三种方式的 obx, getx, GetBuilder 区别：
-     obx只监听回调函数中用到的obs变量
-     getx监听绑定的 controller中声明的所有obs变量
-     GetBuilder需要手动调用update([id])刷新(如没有声明ID可以不传)
+     obx：只监听回调函数中用到的obs变量。它只负责监听，不关心Controller的创建和销毁。
+     getx： 和Obx刷新逻辑完全一致。但是可以绑定Controller, 自动管理controller的声明周期
+     GetBuilder：需要手动调用update([id])刷新(如没有声明ID可以不传)
 
 
 
