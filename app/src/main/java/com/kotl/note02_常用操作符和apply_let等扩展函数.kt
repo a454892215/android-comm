@@ -5,7 +5,7 @@ import kotlin.math.roundToInt
 
 
 /**
- *  1.常见操作符
+ *  1.kotlin常见操作符
  *  01. 申请可空变量 val a: String? = null
  *  02. null也强制调用 a!!.count()
  *  03. 合并操作符  a ?: "2"   a为null,返回右边，否则返回a

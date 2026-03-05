@@ -13,3 +13,15 @@ Context：
  Activity（空壳，实际实现类ContextImpl, 代理模式，Wrapper模式） -> ContextThemeWrapper（空壳） ->  ContextWrapper(空壳) -> Context
  1、Activity和Service以及Application的Context是不一样的,Activity继承自
  ContextThemeWraper.其他的继承自ContextWrapper。
+
+
+ apk包体积缩减方案从三个方向入手：
+ 1. 代码：
+    1.开启混淆，对代码内容进行压缩，
+    2.删除不必要的第三方代码库依赖，如果第三方库比较大，但是使用的功能简单，可以把这部分代码单独抽签到项目。
+ 2. 资源文件：
+    1. 删除没有使用的图片资源，多语言资源（可能有的第三方库有）
+    2. 有的老项目使用了多套图片适应不同的分辨率，但是如果不是为了极致性能，只使用一套1080P基础分辨率的就行了
+    3. 对图片使用专门的压缩工具进行压缩，在不损伤图片质量的前提下，尽可能减少图片体积，以及转换为webp图片
+ 3.架构
+    1. gradle打包只配置需要的arm架构（"armeabi-v7a", "arm64-v8a"）, x86系列不需要
