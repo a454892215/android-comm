@@ -25,3 +25,38 @@ Context：
     3. 对图片使用专门的压缩工具进行压缩，在不损伤图片质量的前提下，尽可能减少图片体积，以及转换为webp图片
  3.架构
     1. gradle打包只配置需要的arm架构（"armeabi-v7a", "arm64-v8a"）, x86系列不需要
+
+
+MVC模式：把页面模块的代码逻辑分为三个部分，旨在将数据的获取封装，UI，业务逻辑三个部分分离开。
+        M即modal:指数据的获取，存储和封装部分
+        V即View：指UI页面的构建，刷新和交互部分
+        C即Controller: 指控制层，作为V和M之间的桥梁，调度处理View的事件交互结果同步到Modal上。（这个总结OK吗）
+
+MVP模式：（MVP模式 我感觉 多了一个接口层，对于单套实现的业务逻辑 一般不需要这么做 因为这会增加代码的负责）
+  把页面模块的代码逻辑分为三个部分，旨在将数据的获取封装、UI展示和业务逻辑三个部分分离开。
+  M即Model：指数据的获取，存储和封装部分（与MVC中完全一致，负责数据层的工作）
+  V即View：指UI页面的构建，刷新和交互部分，但通常抽象为接口，由Activity/Fragment实现，只负责纯粹的UI操作
+  P即Presenter：指呈现器，作为V和M之间的核心协调者，接收View接口转发来的用户事件，从Model获取数据并进行业务处理，再通过View接口回调刷新UI
+
+android： Serializable 和 Parcelable
+   这两个两个接口都用于标识数据类的可序列化。
+   Serializable  是Java自带的接口采用反射的方式 实现数据的序列化和反序列化
+   Parcelable  是android优化后的序列化接口，需要数据类自己实现需要序列化和反序列化的数据，因为没有使用反射，手动代码实现比较复杂，但是性能好。
+   (这个总结OK吗)
+
+Dialog 和 PopWindow 的区别：Dialog是自己创建的独立的 PhoneWindow，PopupWindow复用activity的 PhoneWindow.
+   PhoneWindow 是Activity的核心成员。
+   PhoneWindow 主要功能是 1. 负责 DecorView 的创建和销毁 管理其生命周期
+                        2. 接收系统内核的用户触摸事件，向DecorView进行分发
+                        3. 状态栏管理和输入法模式管理
+  (这个总结OK吗)
+
+APK安装核心过程：
+   1. 拷贝APK到：/data/app/包名-随机后缀/base.apk
+   2. 解析与验证阶段：验证所有类的签名，将verified状态写入.odex文件，下次启动时就会跳过验证
+   3. 创建数据目录阶段：创建/data/data/包名/ 应用私有的目录，其他应用无法访问，app 卸载后此目录会被删除。
+   4. 资源处理和注册阶段： 资源ID在编译后固定（插件化需要处理资源ID冲突），注册Manifest中声明的四大组件到 PackageManagerService 中，建立组件查找表
+   5. 发送安装完成的广播： 通知桌面安装完成 显示正常app启动图标
+   （这个总结OK吗）
+
+
