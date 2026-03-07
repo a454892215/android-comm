@@ -26,7 +26,7 @@ android静态广播的限制历史：
 
 Android 跨进程通信机制：Binder机制。
       APP进程之极都是内存隔离的，如果需要夸进程通信，一般是通过中间进程，向目标进程发送信息。这样会有两次数据拷贝，中间进程一次，目标进程一次。
-      Android为了提高跨进程通信的效率，开发了Binder机制进行跨进程通信，通过内核进程和目标进程内存共享+ 双重映射 (mmap) 的方式，实现了通信过程只拷贝一次数据。
+      Android为了提高跨进程通信的效率，开发了Binder机制进行跨进程通信，通过内核进程和目标进程内存共享，实现了通信过程只拷贝一次数据。
 
  apk包体积缩减方案从三个方向入手：
  1. 代码：
@@ -88,6 +88,15 @@ Android 插件化
               3. Native 代码 (.so) 的加载路径问题
               4. 宿主与插件的通信协议 (Interface Contract)
            （总结OK吗）
+
+Android 动态加载没有安装的外部的APK机制：
+         DexClassLoader类，可以加载指定路径的 .apk,.dex, .jar,zip 文件（PathClassLoader只能加载已经安装的APK(固定了/data/app/路径)）
+         DexClassLoader 的核心功能是在进程内建立一套外部 DEX 的类寻址表。它通过 mmap 将磁盘上的 APK/DEX 文件映射到虚拟地址空间，使 ART 虚拟机能够像访问内存一样读取字节码
+         DexClassLoader loader = new DexClassLoader(apkPath, optDir, null, getClassLoader());
+         Class<?> clazz = loader.loadClass("com.plugin.Test");
+         Android开发中，要宿主APP加载执行外部没有安装的APK都是通过 创建 DexClassLoader 对象加载APK文件，然后通过DexClassLoader对象反射调用apk中打包好的Java入口代码。
+         如果外部的APK中也有自己的资源图片和资源ID要管理，则需要构建自己的AssetManager和Resource来进行获取，宿主app的Resource对象是无法获取插件资源文件的。
+
 
 Dynamic Delivery 技术
   动态分发 本质上 是把一个apk 打包成多个独立的模块 可以进行按需安装。但是这些模块在打包的时候 就已经确认了。 不可能在打包后 再动态加入其他模块来安装。
