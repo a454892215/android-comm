@@ -94,9 +94,18 @@ Android 动态加载没有安装的外部的APK机制：
          DexClassLoader 的核心功能是在进程内建立一套外部 DEX 的类寻址表。它通过 mmap 将磁盘上的 APK/DEX 文件映射到虚拟地址空间，使 ART 虚拟机能够像访问内存一样读取字节码
          DexClassLoader loader = new DexClassLoader(apkPath, optDir, null, getClassLoader());
          Class<?> clazz = loader.loadClass("com.plugin.Test");
-         Android开发中，要宿主APP加载执行外部没有安装的APK都是通过 创建 DexClassLoader 对象加载APK文件，然后通过DexClassLoader对象反射调用apk中打包好的Java入口代码。
-         如果外部的APK中也有自己的资源图片和资源ID要管理，则需要构建自己的AssetManager和Resource来进行获取，宿主app的Resource对象是无法获取插件资源文件的。
+         1. 加载外部的没有安装的APK dex 涉及到 类加载机制，因为在 Java进程中 已经加载的类的字节码的唯一性是 类加载器 + 类的全路径来保证的。
+            也就是说 如果同一个全路径相同的类 如果采用不同的类加载器加载，那么Java也会把他们当不同的类进行处理。所以加载外部的类资源需要明白Java的类加载器加载机制。
+         2. Android开发中，要宿主APP加载执行外部没有安装的APK都是通过 创建 DexClassLoader 对象加载APK文件，然后通过DexClassLoader对象反射调用apk中打包好的Java入口代码。
+         3. 如果外部的APK中也有自己的资源图片和资源ID要管理，则需要构建自己的AssetManager和Resource来进行获取，宿主app的Resource对象是无法获取插件资源文件的。
 
+Android APP运行过程中可能存在的4个classLoader:
+    1. BootClassLoader: 所有加载器的祖先，加载最早的相关Java代码，继承自抽象基类ClassLoader。私有的外部无法访问
+    2. BaseDexClassLoader：直接继承ClassLoader，和 BootClassLoader是平级关系
+    3. PathClassLoader:加载已经安装的APk中的资源代码, 继承自 BaseDexClassLoader
+    4. DexClassLoader：继承自 BaseDexClassLoader
+    类加载器的双亲委托机制：是指当一个类加载器收到类加载请求时，它首先不会尝试自己去加载这个类，而是把这个请求委派给它的父类加载器去完成。
+    DexClassLoader 并不会加载自己绑定的apk中的所有的类，而是会使用传入的classLoader 去判断 某个类是否已经被它加载了，如果加载过了 就不会再加载。如果没有加载过 才会尝试DexClassLoader自己去加载。
 
 Dynamic Delivery 技术
   动态分发 本质上 是把一个apk 打包成多个独立的模块 可以进行按需安装。但是这些模块在打包的时候 就已经确认了。 不可能在打包后 再动态加入其他模块来安装。
