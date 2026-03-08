@@ -9,7 +9,7 @@ import kotlin.math.roundToInt
  *  01. 申请可空变量 val a: String? = null
  *  02. null也强制调用 a!!.count()
  *  03. 合并操作符  a ?: "2"   a为null,返回右边，否则返回a
- *  2.扩展函数
+ *  2.扩展函数（inline（内联）函数）
  *  01. apply 示例: a.apply {)   a调用者作为this传入作用域，b.返回调用者对象
  *  02. run   示例: a.run {) ，   a.调用者作为this传入作用域，b.返回作用域最后一行
  *  03  also  示例: a.also {}   a.调用者作为it传入作用域，b.返回调用者对象
