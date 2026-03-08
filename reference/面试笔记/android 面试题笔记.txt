@@ -6,10 +6,12 @@ AsyncTask:   android1.8 以前是串行， android 1.8以后改成了并行， 3
              主线程：onPostExecute()
              AsyncTask中有两个线程池（SerialExecutor（内部没有线程，只是任务调度器）和THREAD_POOL_EXECUTOR）和一个
              Handler（InternalHandler），其中线程池SerialExecutor用于任务的排队，而线程池
-             THREAD_POOL_EXECUTOR用于真正地执行任务，InternalHandler用于将执行环境从线程池切换
-             到主线程。
+             THREAD_POOL_EXECUTOR用于真正地执行任务，InternalHandler用于将执行环境从线程池切换到主线程。
 
 Context：
+主要功能：1.四大组件的通信：startActivity startService sendBroadcast getContentResolver()
+        2.获取APP私有资源文件（Res目录资源， asset目录资源）
+        3.获取系统服务（getSystemService）
  Activity（空壳，实际实现类ContextImpl, 代理模式，Wrapper模式） -> ContextThemeWrapper（空壳） ->  ContextWrapper(空壳) -> Context
  1、Activity和Service以及Application的Context是不一样的,Activity继承自
  ContextThemeWraper.其他的继承自ContextWrapper。
@@ -104,8 +106,9 @@ Android APP运行过程中可能存在的4个classLoader:
     2. BaseDexClassLoader：直接继承ClassLoader，和 BootClassLoader是平级关系
     3. PathClassLoader:加载已经安装的APk中的资源代码, 继承自 BaseDexClassLoader
     4. DexClassLoader：继承自 BaseDexClassLoader
-    类加载器的双亲委托机制：是指当一个类加载器收到类加载请求时，它首先不会尝试自己去加载这个类，而是把这个请求委派给它的父类加载器去完成。
-    DexClassLoader 并不会加载自己绑定的apk中的所有的类，而是会使用传入的classLoader 去判断 某个类是否已经被它加载了，如果加载过了 就不会再加载。如果没有加载过 才会尝试DexClassLoader自己去加载。
+    类加载器的双亲委托机制（不是继承关系的父加载器还是逻辑关系的父子关系）：是指当一个类加载器收到类加载请求时，它首先不会尝试自己去加载这个类，
+    而是把这个请求委派给它的父加载器去完成。DexClassLoader 并不会加载自己绑定的apk中的所有的类，而是会使用传入的classLoader 去判断
+    某个类是否已经被它加载了，如果加载过了 就不会再加载。如果没有加载过 才会尝试DexClassLoader自己去加载。
 
 Dynamic Delivery 技术
   动态分发 本质上 是把一个apk 打包成多个独立的模块 可以进行按需安装。但是这些模块在打包的时候 就已经确认了。 不可能在打包后 再动态加入其他模块来安装。
@@ -136,3 +139,7 @@ android 性能优化：
            04. 对于不同设备不同大小的图片显示区域加载合适分辨率大小的图片，优化内存（现在流行的图片加载缓存框架比如Glide，可以根据图片显示区域大小和图片实际分辨率大小，动态的裁剪压缩图片显示缓存）
 
 
+Android Bitmap 压缩图片节省内存原理：
+    1. 选则合适的图片加载格式：Bitmap加载图片使用的格式有。1. ARGB_8888(每个像素4字节), 2.RGB_565（每个像素2字节，适用于不需要透明通道的图片，可以减少50%内存占用）
+    2. 进行图片大小压缩：BitmapFactory.Options.inSampleSize = 2 , 表示宽高是原始宽高的1/2, 进行宽高压缩。大幅度减少内存占用
+    3. 内存复用：BitmapFactory.Options.inBitmap = 可以指向复用一个已经存在但是不再使用的Bitmap 内存区域，该区域的大小满足使用就可以复用。
