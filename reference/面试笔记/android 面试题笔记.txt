@@ -1,4 +1,4 @@
-AsyncTask:   android1.8 以前是串行， android 1.8以后改成了并行， 3.0后又改成了串行
+AsyncTask:   android1.8 以前是串行， android 1.8以后改成了并行， 3.0后又改成了串行， API 30 起已被弃用
              早期 Android（2.x）：AsyncTask 是 默认并发执行
              大量 App 滥用 AsyncTask  结果：  CPU 抢占严重  UI 掉帧 电量暴跌  👉 这正是 Android 3.0 改为“默认串行”的原因
              主线程： execute()   onPreExecute()
@@ -7,6 +7,11 @@ AsyncTask:   android1.8 以前是串行， android 1.8以后改成了并行， 3
              AsyncTask中有两个线程池（SerialExecutor（内部没有线程，只是任务调度器）和THREAD_POOL_EXECUTOR）和一个
              Handler（InternalHandler），其中线程池SerialExecutor用于任务的排队，而线程池
              THREAD_POOL_EXECUTOR用于真正地执行任务，InternalHandler用于将执行环境从线程池切换到主线程。
+             AsyncTask 被废弃的原因：
+                1.AsyncTask 使用的是静态全局线程池，所有对象共享一个线程池，并且是串行的，如果APP中多个地方使用了AsyncTask，当其中一个地方执行了耗时任务，其他AsyncTask都只能等待。
+                2.依赖外部的Activity等Context对象，容易造成内存泄漏
+                3.在 doInBackground 里发生的任何 RuntimeException 都不会自动传播到主线程，需要手动try处理异常。
+                  现代的 Coroutines（协程）可以实现异常的自动向上冒泡和统一捕获，大大减少了模板代码。
 
 Context：
 主要功能：1.四大组件的通信：startActivity startService sendBroadcast getContentResolver()
@@ -160,3 +165,5 @@ Android的 HandlerThread类:
 Android的夸进程通信；
     1. android中Binder进程通信进制是在原本Linux系统上优化后的高效进程通信机制。AIDL，四大组件的跨进程访问底层都使用了Binder机制。
     2. Android的四大组件本质上都可以进行跨进程通信：跨进程启动activity，跨进程调用服务，跨进程接收广播，跨进程访问内容提供者。
+
+android 中的fragment 为什么要使用事务进行管理 如此严格？
