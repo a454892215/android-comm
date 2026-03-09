@@ -1,0 +1,14 @@
+HashCode：
+  Java中的 hashCode() 是定义在 Object 类中的一个 native 方法。它的本质是：将对象的状态（字段数据）通过特定算法映射为一个 32 位整型（int）数值。
+  HashCode 的计算原则是保证其作用的对象集，不同对象的HashCode值尽可能不相同，如果不同对象的HashCode值相同，被称作Hash碰撞。
+  Hash 碰撞的本质你提到的“Hash 碰撞”总结得很好。从应用层 API 来看，碰撞会直接导致以下后果：HashMap/HashSet
+     性能退化： 在 Java 8 之前，碰撞会导致 Entry 在同一个 Bucket 下形成长链表（$O(n)$ 查询）；Java 8 之后，
+     当碰撞超过阈值（8个）时，链表会转为红黑树（$O(\log n)$ 查询）。
+
+  hashCode 的计算必须遵循以下三大原则：
+     1. 一致性（Consistency）： 在应用执行期间，只要对象的 equals 比较中所用的信息未被修改，多次调用 hashCode 必须返回相同的整数。
+     2. 等价映射（Equality Mapping）： 如果两个对象通过 equals(Object) 方法比较是相等的，那么它们的 hashCode 必须相同。
+     3. 碰撞容忍（Collision Tolerance）： 如果两个对象不相等，它们的 hashCode 不一定不同。但程序员应尽量使不同对象的哈希码不同，以提高哈希表（如 HashMap）的性能。
+
+HashMap:
+     1. key的定位是先计算其 hash 值，获取hash值后，根据hash值寻找对应的链表或者红黑树，然后迭代列表和红黑树找到目标key.
