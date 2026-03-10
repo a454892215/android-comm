@@ -167,3 +167,13 @@ Android的夸进程通信；
     2. Android的四大组件本质上都可以进行跨进程通信：跨进程启动activity，跨进程调用服务，跨进程接收广播，跨进程访问内容提供者。
 
 android 中的fragment 为什么要使用事务进行管理 如此严格？
+
+Android 中 activity和fragment的通信方式有？
+1. 在fragment声明周期的任何时候，进行动态参数传递：
+     01. activity发送数据给fragment：activity.getParentFragmentManager().setFragmentResult("key", bundle);
+         fragment接受Activity发送的数据：getParentFragmentManager().setFragmentResultListener("key", lifecycleOwner, listener);
+     02. ViewModel：是状态的持有者，可以很好的跨组件同步状态。所以也支持Activity动态的在fragment的任何生命周期 进行参数传递。
+                    ViewModel是状态管理器，很好的处理了因为手机配置更变导致Activity和fragment重建产生 数据丢失问题。
+
+2. 初始化fragment的时候进行传递参数：
+   fragment.setArguments(Bundle) 和 fragment.getArguments():Fragment 不支持带参数的构造函数,以此方式作为补充。
