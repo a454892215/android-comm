@@ -61,3 +61,8 @@ Java注解： 用于给Java的类， 成员函数， 成员变量标记相关信
           Java中 使用@interface进行注解类的定义
 
 Java反射： Java程序在运行过程中可以动态获取任何一个类的全部信息（类中定义的所有函数和成员变量，泛型，注解），并且可以调用这些函数和变量。
+
+String ，StringBuilder, StringBuffer 区别：
+ String：线程安全，不可变对象，每次拼接都会创建新的String对象，浪费内存
+ StringBuilder： 线程不安全，可变对象，拼接字符串不会创建新的对象
+ StringBuffer： 线程安全，可变对象，拼接字符串不会创建新的对象
