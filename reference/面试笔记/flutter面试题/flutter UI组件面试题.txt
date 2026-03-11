@@ -55,7 +55,7 @@ AspectRatio	设置子组件的宽高比
 FractionallySizedBox	子组件宽高按父容器百分比设置，内部会生成 constraints
 LimitedBox	当父容器给无限约束时，限制子组件最大宽高
 OverflowBox	子组件可以超出父约束范围，但内部会生成约束传递给子组件
-SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束，而已可以在父组件的约束下设置自己的大小，常用于动画或子组件需要超出父组件显示
+SizedOverflowBox	给子组件一个可以超过自己大小的固定尺寸约束，可以在父组件的约束下设置自己的大小，常用于动画或子组件需要超出父组件显示
 IntrinsicWidth / IntrinsicHeight	它会测量子组件的约束，然后根据子组件约束确定自身约束
 Padding	虽然是间接作用，但内部会缩小对子组件的可用 constraints
 ConstrainedBox 和 SizedBox，对子组件进行具体大小的约束
