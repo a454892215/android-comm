@@ -67,6 +67,11 @@ String ，StringBuilder, StringBuffer 区别：
  StringBuilder： 线程不安全，可变对象，拼接字符串不会创建新的对象
  StringBuffer： 线程安全，可变对象，拼接字符串不会创建新的对象
 
+ Java 要判断一个共享的成员变量，多线程操作是否安全，要看操作的代码是否遵循2点：原子性，可见性
+  原子性： 一个操作要么全部执行完成，要么完全不执行，中间状态不会被其他线程看到。
+  可见性：一个线程修改的变量，其他线程能够 立即看到最新值。因为每个线程都有自己的 工作内存（CPU缓存）：
+
+
  Java中的浅拷贝和深拷贝：
  浅拷贝： 浅拷贝通常通过实现 Cloneable 接口并重写 Object.clone() 方法实现，会建一个新对象
          新对象内部引用的成员变量，如果是引用类型，依然指向原始对象的内存地址，所以如果原始对象的引用类型对象内的数据改变了，浅拷贝的对象的相应成员数据也会改变。
@@ -81,6 +86,10 @@ String ，StringBuilder, StringBuffer 区别：
                            http 中 的缓存协议 可以优化网络请求路径，如果本地有完善可以使用的缓存，就直接从本地获取，如果CDN有可以使用的有效缓存，就不会继续向中心服务器请求。
          ConnectInterceptor：建立连接处理进行TCP/TLS 三次握手逻辑，查找或创建可用的 RealConnection，并获取 HttpCodec（用于编码解码)
          CallServerInterceptor：数据读写。真正向 Socket 写入 Request body 字节流，并从 Socket 读取 Response 数据
+
+
+Retrofit框架的作用：把请求URL，请求方式，请求参数，请求头等通过接口注解等方式和具体的请求API进行解耦
+                  通过注解的方式配置接口信息，尽可能降低接口管理成本
 
 
 TCP三次握手：
