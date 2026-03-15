@@ -16,13 +16,27 @@ flutter StatefulWidget 的 state 为什么单独拆？
 
 2. Flutter Widget
    * `StatelessWidget` 与 `StatefulWidget` 的区别及生命周期。
-   * `Key` 的作用，区别 `LocalKey`、`ValueKey`、`ObjectKey`、`UniqueKey`、`GlobalKey`。
    * Flutter 声明式 UI 与命令式 UI 的区别与优缺点。
    * `InheritedWidget` 与 Provider/GetX 的区别及使用场景。
    InheritedWidget：在 Widget 树中跨节点共享数据，并在数据变化时，通知依赖它的StatefulWidget
                      唯一申明依赖关系的方式：context.dependOnInheritedWidgetOfExactType<MyInherited>();
                      InheritedWidget数据更变后通知刷新路径：updateShouldNotify -> didChangeDependencies(自己在state的didChangeDependencies中决定是否触发rebuild)
 ---
+
+Flutter 中的 key
+ 当widget带有 Key后，如果同级兄弟节点的顺序发生变化，Flutter 会进入一个“非顺序匹配”阶段，将带有 Key 的 Element 存入一个 Map<Key, Element> 中，
+ 通过key 获取匹配（如果数目很大，就可能发生遍历，消耗性能）
+flutter 使用widget构建UI树时候，并不是每个widget都需要显示的使用key.不仅不需要，而且通常不建议。
+        不建议使用Key的原因：
+          1. 性能损耗：Key 的存在会增加框架在 diff 算法中的查找和比较开销
+          2. 不使用key 是通过widget在父组件中的index进行迭代索引，性能比Key要好很多
+          3. 静态布局没必要：同级多个子widget 是写死的，类型顺序都不会改变
+        建议使用Key的情况：
+          1.同级节点存在多个相同类型的 StatefulWidget，而且可能发生节点顺序和数目的变化，比如增加或者减少widget
+1. ValueKey : 同级兄弟 Widget 的位置可能发生改变的时候，需要使用
+2. ObjectKey： 需要对象完全相同的时候 使用
+3. UniqueKey： 独一无二的key,强制widget不能复用
+3. GlobalKey： 而在于跨树引用，flutter 中widget复用的基础是要有相同的父节点，但是如果widget使用了GlobalKey，即使父节点改变也会保持状态复用
 
 
 局部刷新 StatefulBuilder & FutureBuilder & StreamBuilder 详解
