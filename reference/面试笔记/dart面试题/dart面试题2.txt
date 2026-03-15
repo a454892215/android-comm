@@ -6,26 +6,29 @@
 
 📌 Dart 在 **编译期就做类型检查**（AOT/JIT 都是）
 
-## 2️⃣ `var`、`dynamic`、`Object` 的区别？
-| 类型        | 编译期检查      | 运行期检查    |
-| --------- | ---------- | -------- |
-| `var`     | ✅ 有（推断后固定） | ✅        |
-| `Object`  | ✅ 有        | ❌（需强转）   |
-| `dynamic` | ❌ 没有       | ✅（运行时报错） |
+`var`、`dynamic`、`Object` 的区别？
+`var`     类型推断关键字，用于声明一个变量，编译后，会根据变量第一次赋值的类型，自动推断，然后固定变量的类型
+`Object`  所有类的基类，所以可以声明任何非空类型的变量（它是 Dart 类层次结构的根节点）
+`dynamic` 变量声明关键字 是动态类型 编译期间不会检查 可以赋值任何类型
 
 dart中声明变量的所有方式：
-typedef IntOp = int Function(int a, int b); // 在 Dart 中叫 函数类型别名（typedef）
-                                            这种函数类型别名，实际上就是申明一个函数签名，但是没有实现，一般做函数传参限制
+typedef  类型别名,用于给已经存在的类型定义一个新的名字。在dart中的作用是给复杂的类型(包含类型内部泛型约束部分)或者函数起别名：
+         函数也是一种类型，函数的类型由返回类型和参数共同决定。
+  1. typedef UserList = List<Map<String, dynamic>>; // 给复杂的 Map 类型起名
+  2. typedef IntBinaryOp = int Function(int a, int b); // 给复杂的函数起别名
+  3. typedef IntOp = int Function(int a, int b); // 函数类型别名（typedef），申明一个函数签名，一般做函数传参限制
+
 class VariableDemo {
   // 1️⃣ 普通变量
   int a = 10;                  // 显式类型，非空，类型固定
-  var b = 20;                  // 自动类型推导，推到完成类型固定，不能赋值其他类型
+  var b = 20;                  // 自动类型推导，编译后类型固定为int
+  var a = null;                // 编译后，类型会进行推断 固定为dynamic
   dynamic c = "hello";         // 动态类型，可以动态赋值其他类型
-  Object d = 30;               // 非空父类类型
-  Object? e;                   // 可空父类类型
+  Object d = 30;               // 非空指定类型
+  Object? e;                   // 可空指定类型
   int? f;                       // 可空类型
 
-  // 2️⃣ final / const
+  // 2️⃣ final / const 都支持自动推断类型，所以可以省略显示的类型声明
   final int g = 100;           // 运行时常量，只能赋值一次
   final h = "final var";       // 自动推导类型
   late final int i;            // 延迟初始化，只能赋值一次
@@ -35,38 +38,24 @@ class VariableDemo {
   List<int> list1 = [1, 2, 3];          // List
   var list2 = <String>["a", "b"];       // 自动类型推导
   final List<int> list3 = [4, 5, 6];    // final 集合（集合不可重新赋值，但可修改元素）
-  const List<int> list4 = [7, 8, 9];    // const 集合，编译时常量
-  Set<int> set1 = {1, 2, 3};            // Set
-  Map<String, int> map1 = {"a": 1};     // Map
+  const List<int> list4 = [7, 8, 9];    // const 集合，编译时常量，也不可修改，增删集合内部元素
 
   // 4️⃣ 函数变量
   int Function(int, int) sum = (a, b) => a + b;  // 匿名函数赋值
   IntOp multiply = (a, b) => a * b;              // typedef 类型函数
 
-  // 5️⃣ late 变量
-  late int k;                     // 延迟初始化
-  late final int l;               // 延迟初始化 + final
+  // 5️dart late 变量
+  late int k;                     // 延迟初始化 非final 的使用 late，可以避免申明变量不赋值报错，可以赋值多次
+  late final int l;               // 延迟初始化 + final， 只能延迟赋值一次
 
-  // 6️⃣ 多变量声明
+ dart 多变量声明
   int m = 1, n = 2, o = 3;
   var p = 10, q = "hello";
 
-  // 7️⃣ 异步相关变量（可存储 Future / Stream）
-  Future<int> futureValue = Future.value(42);
-  Stream<int> streamValue = Stream.fromIterable([1, 2, 3]);
-}
-
-
-
-## 3️⃣ Dart 中一切都是对象吗？ **是的**
+Dart 中一切都是对象吗？ **是的**
 * int / double / bool 都是对象
-* 没有 Java 那种 primitive
+* 没有 Java 那种 primitive 基本类型
 
-# 二、函数 & 语法糖（高频）
-## 4️⃣ Dart 有哪些函数写法？
-typedef 在dart中的作用是给复杂的类型或者函数起别名：
-typedef UserList = List<Map<String, dynamic>>; // 给复杂的 Map 类型起名
-typedef IntBinaryOp = int Function(int a, int b); // 给复杂的函数起别名
 
 class FunctionDemo {
   int value;
@@ -108,12 +97,12 @@ class FunctionDemo {
     for (int i = 1; i <= n; i++) yield i;
   }
 
-  // 9️⃣ 高阶函数：接收函数
+  // 9. 高阶函数：接收函数
   void applyOperation(int a, int b, IntBinaryOp op) {
     print(op(a, b));
   }
 
-  // 10️⃣ 高阶函数：返回函数
+  // 10. 高阶函数：返回函数
   Function multiplier(int x) {
     return (int y) => x * y;
   }
@@ -125,8 +114,8 @@ class FunctionDemo {
 ## 7️⃣ `String?` 和 `String` 区别？
 * `String`：**永远不为 null**
 * `String?`：可以为 null
+
 ## 8️⃣ `!`、`?`、`??`、`??=` 区别？
-```dart
 
 a?       // 表示类型可空
 a!       // 我保证不为 null（骗编译器）
@@ -139,28 +128,18 @@ a ??= b  // 空则赋值 如果 a 为 null，赋值
 * 延迟初始化
 * 编译期保证“使用前一定会赋值”
 
-## 🔟 Dart 中类的构造函数有哪些？7种
-
-
-## 11️⃣ `const` 构造函数的作用？编译期常量，内存复用
 
 dart语言 `extends` vs `implements` vs `with`
  `extends`    继承class类暴露的成员函数和成员属性，子类可以重写（Override）父类方法，也可以直接使用父类实现，单继承
  `implements` 必须实现目标class类暴露的所有成员函数和成员变量（成员变了可以通过重新定义来实现，或者实现get/set方法实现两种办法）
  `with`       混入一个使用mixin定义的类，可以把混入的类中的成员函数和成员变量看做是这个类自己定义的（用于解决单继承的局限，提高代码拆分和复用）
 
-📌 **implements 不继承字段，只继承行为（你刚问过）**
-
-## 13️⃣ mixin 是什么？和继承的区别？
- Mixin 类不能有显式声明的构造函数，解决单继承限制
 
 # 五、集合（必问
-## 14️⃣ List / Set / Map 的区别？
-| 类型   | 特点        |
-| ---- | --------- |
-| List | 有序、可重复    |
-| Set  | 无序、不重复    |
-| Map  | key-value |
+dart 的 List / Set / Map 的区别？
+List  有序、可重复 （与Java的 ArrayList在内存布局和基本算法上是高度一致的）
+Set  无序、不重复 （实现原理类似 LinkedHashMap）
+Map  key-value （实现原理类似HashMap）
 
 ---
 
