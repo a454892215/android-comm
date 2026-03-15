@@ -56,11 +56,23 @@ flutter中BuildContext对象的理解：
 获取buildContext的方式有哪些？Build/statelessWidget/statefulWidget 中的build函数中获取
 
 ## **二、GetX 架构与状态管理**
-
 1. **GetX 基础**
-   * `Obx`、`GetX`、`GetBuilder` 的区别与使用场景。
-   * Bindings 的作用和使用方式。
+   * `Obx`、`GetX`、`GetBuilder` 的区别与使用场景?
+      1. GetBuilder: 是非响应式的状态管理器，需要通过关联一个 GetxController 对象，然后显示调用 GetxController 的 update() 函数触发UI刷新。
+      2. Obx：响应式管理器，会自动记录闭包中，用到的全部Rx变量，当变量更新的时候 触发UI刷新
+      3. GetX:它可以看作是绑定了特定 Controller 的 Obx。响应式管理器，会自动记录闭包中，用到的全部Rx变量，当变量更新的时候 触发UI刷新，但是它提供了绑定和局部注入GetxController的功能。
+   * Bindings 的作用和使用方式?
+      Bindings: 通过 binding 绑定页面对应的 GetxController,将路由（Route）与 依赖管理（Dependency Injection） 解耦，而且Bindings中可以依赖多个GetxController和支持懒加载机制
+                Binding 负责具体的创建逻辑，而泛型（在 GetView<UserController> 或 Get.find 中）负责“寻址”和“匹配”
    * GetX 依赖注入（DI）机制，如何管理 Controller 生命周期。
+         GetX中管理 Controller 生命周期的核心 API 是
+           1. Get.put：立即实例化并存入内存， 默认随当前路由销毁而销毁。
+           2. Get.lazyPut ： 第一次 Get.find 时才执行 Builder 实例化，默认随当前路由销毁而销毁。
+           3. Get.find： 获取已经创建的实例，如果没有创建会报错
+         Controller 的生命周期钩子：
+            1. onInit()  ： widget树还没有初始化完毕，适合进行网络请求初始化、Stream 监听
+            2. onReady() ： 在 Widget 渲染到屏幕后的 1 帧调用，适合处理弹窗、引导页等需要 Context 的操作
+            3. onClose() ： 当路由销毁，Controller 从内存中移除前调用。必须在此处关闭 StreamController、取消定时器或释放原生资源。
    * 如何实现模块化页面架构（View + Controller + Binding）。
 
 2. **状态管理实战**
