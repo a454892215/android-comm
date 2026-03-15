@@ -179,21 +179,7 @@ Dart 泛型是运行期还是编译期？
 ## 21️⃣ `T extends Object` 和 `T extends Object?`
 * 前者：T 不能为 null， 后者：T 可以为 null
 
-## 22️⃣ Widget 为什么是不可变的？
-1. flutter 源码 Widget被 @immutable修饰，被 @immutable 修饰的类及其子类的成员变量 都必须是final的 只能赋值一次，不可再改变。
-2. Widget不可变是flutterUI体系的核心规则，为的是让应用层开发不再关注UI组件的中间状态，也就是View复杂的生命周期变化。
-3. 让应用层只需要通过配置不可改变的widget来构建UI，实现式UI构建，方便element树复用逻辑的diff 提高性能
 
-flutter 为什么大量 Widget 构造函数是 const？
-1. flutter中所有的widget都是不可变的 也就是成员变量都是final的， 那么widget的构造函数就可能使用const修饰（需要widget的所有final修饰的成员变量都在编译期确定才可以）
-2. 有些final修饰的的成员变量 需要在运行期间才能确定，这就导致了部分widget的构造函数，不能使用const修饰
-3. dart 语言的一个特性是 const修饰的构造函数，在创建对象的时候 也使用const修饰，如果参数都相同，就可以进行内存复用
-
----
-flutter StatefulWidget 的 state 为什么单独拆？
-答案： Widget 是不可变的配置 State 是可变数据 解耦生命周期
-      State 的生命周期： State 实例在 Widget 重建时会被 保留（Retain）。只要 Widget 的 runtimeType 和 key 没有变化，
-      Flutter 框架就会重用同一个 State 对象，并将新的 Widget 引用挂载到该 State 上。
 
 
 # 九、常见“坑题”
