@@ -58,6 +58,12 @@ MVP模式：（MVP模式 我感觉 多了一个接口层，对于单套实现的
   V即View：指UI页面的构建，刷新和交互部分，但通常抽象为接口，由Activity/Fragment实现，只负责纯粹的UI操作
   P即Presenter：指呈现器，作为V和M之间的核心协调者，接收View接口转发来的用户事件，从Model获取数据并进行业务处理，再通过View接口回调刷新UI
 
+MVVM 模式：旨在通过数据驱动的方式，实现 UI 与业务逻辑的自动同步，进一步降低控制层与 UI 的耦合度。
+  M 即 Model：指数据的获取、存储和封装部分（与前两者一致）。
+  V 即 View：指 UI 页面。在 Android/Flutter 中，它观察（Observe）数据的变化，根据数据状态自动改变 UI。
+  VM 即 ViewModel：指视图模型。它负责持有 UI 所需的数据（State）并处理业务逻辑。它不持有 View 的引用，而是通过 数据绑定（Data Binding） 或
+     响应式流（如 LiveData/StateFlow/Stream） 与 View 通信。
+
 android： Serializable 和 Parcelable
    这两个两个接口都用于标识数据类的可序列化。
    Serializable  是Java自带的接口采用反射的方式 实现数据的序列化和反序列化
