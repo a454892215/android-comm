@@ -146,20 +146,58 @@ flutter中的三棵树widget element renderObject的关系和作用，以及elem
 1. **插件使用**
 
    * 常用插件使用及问题处理：GetX、flutter_screenutil、dio、cached_network_image、InAppWebView。
+    cached_network_image：cached_network_image 从技术上 应该可以实现Android 的glide的根据设备情况 设置合适的内存缓存大小吧 为什么cached_network_image没有内部实现呢。
+                          cached_network_image 默认使用 DefaultCacheManager。其源码中定义的默认参数如下：
+                          磁盘缓存默认配置：最大缓存数量 (maxNrOfCacheObjects): 200 个文件。 缓存有效期 (stalePeriod): 30 天。 最大缓存容量: 没有硬性的空间限制。
+                          内存缓存默认配置：最大缓存张数张图片，最大缓存空间100 MiB，
+                          100KB 的网络图片（压缩格式）解码后可能是 5MB 的 RGBA 位图。1000 张的上限在极端情况下会瞬间撑爆 Android 的 Native Heap
+                          Flutter 的这个 100 MiB 是硬编码的，它不会像 Glide 那样根据设备的 RAM（如 4GB vs 12GB）动态调整
+
+
    * Flutter 插件热更新、版本冲突解决方法。
 
-2. **原生交互**
-
+2. **flutter原生交互**
    * PlatformChannel、MethodChannel、EventChannel、BasicMessageChannel 的区别。
+    PlatformChannel：是一个统称概念，用于实现 Dart 与原生平台（Android/iOS）之间的通信。其底层依赖于二进制消息传递，但在应用层 API 层面，主要通过三种具体的 Channel 实现。
+    MethodChannel：用于 Dart 端调用原生方法，通常是双向的，但多用于 Dart -> Native，并异步获取结果
+    EventChannel： 用于从原生平台向 Flutter 发送连续的数据流（Stream）。单向，Native -> Dart
+                   适用于传感器数据（加速度计、GPS）、Wi-Fi 状态变化、下载进度等持续性事件
+    BasicMessageChannel：用于传递字符串或半结构化数据，支持自定义编解码器（Codec）。
+                        语义：Messaging 模式。它比 MethodChannel 更底层，不强调“方法名”，只强调“发送数据”和“响应数据”
+                         通信方向：双向，且支持持续的双向通信
    * Flutter 调用原生功能实现支付、推送、登录等。
    * iOS 与 Android 特性差异处理方案。
 
 3. **多平台适配**
-
    * iOS 与 Android UI 差异处理方法。
+     1. 运行时平台判断 (Platform Dispatch)，Platform.isIOS，根据不同平台返回不同风格的UI组件
    * 屏幕尺寸与分辨率适配策略。
+    flutter_screenutil
    * Flutter 在多平台下性能调优技巧。
-
+     1： 合理的使用key, 保证element的的正常复用
+     2.  合理的使用各种Widget构建高性能UI
+     3.  尽可能在 Widget 前加 const。这在编译期确定了实例，Flutter 在 Reconciliation 阶段会跳过这些不变的节点
+     4.  通过埋点监控 APP在各种条件下异常内存波动，内存占用比例
+     5.  合理的 cached_network_image 内存和本地缓存大小，为较大的图片设置合适的图片缓存大小
+     6.  善用 Isolate通信，在其他线程处理异步耗时的任务（大的json数据解析，大量数据的计算）
+     7.  避免在 Platform Channel 中频繁传递大尺寸数据，如 Bitmap
+     iOS 专用调优：
+        1.字体渲染：iOS 系统字体解析较重，避免在长列表滚动中使用复杂的自定义字体排版
+        2.背景任务：iOS 对后台执行限制极严，长连接或 GPS 任务需通过原生插件处理，避免 Dart Isolate 被挂起
+     性能监控工具 (DevTools)：
+        1. Performance Overlay：监控 GPU 和 UI 线程的时长
+        2. Raster Cache：查看哪些层被缓存了。
+        3. Memory Profiler：排查内存泄漏，特别是那些被闭包持有的 BuildContext
+     flutter 如果首屏的json数据很大100KB 以上，JSON UI 线程解析，会明显抢占时间片， 导致VSync 信号被跳过，首屏动画卡顿或白屏时间延长
+          手动解析通常第一步是 jsonDecode，它会在堆内存中创建一个巨大的 Map<String, dynamic>。每一个 Key 都是一个新的 String 对象
+          ，每一个 Value 都需要分配内存，这涉及成千上万次的内存申请
+          内存颠簸：大规模 JSON 解析会瞬间产生大量临时 String 和 Map 对象，触发频繁的 GC（垃圾回收），进一步阻塞渲染
+          一般通过 Isolate.run() 或 compute() 将解析任务分发到另一个 CPU 核心。因为UI线程的任务本来就比较重
+     flutter 要设置合适的图片缓存大小，但是在Android中 glide框架管理View对象后，可以自己设置合适的缓存对象，为什么flutter不行呢，要手动设置缓存大小？
+           1.Android (Glide)：ImageView 拥有明确的 onMeasure 过程和 LayoutParams。Glide 可以在图片下载前就准确知道 View 的物理尺寸，从而只加载 100x100 的采样图，节省内存
+           2. Widget 只是轻量级的配置描述，不是真正的渲染对象。在布局阶段（Layout Protocol）完成之前，Image Widget 甚至不知道自己最终会渲染多大。
+              Flutter 引擎默认会按照图片的原始像素高度和宽度进行解码。如果不手动设置 cacheWidth 或 cacheHeight，一张 4K 图片即使显示在 100x100 的容器里，也会占用几十 MB 的解码内存
+              Flutter 框架原生只提供内存缓存，cached_network_image 的内存缓存也是基于flutter系统的Image，但是再此基础上，提供了多图缓存机制，和本地缓存机制
 ---
 
 ## **七、进阶题与实战考察**
