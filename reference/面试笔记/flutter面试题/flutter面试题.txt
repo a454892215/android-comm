@@ -203,9 +203,21 @@ getx中刷新UI的三种方式的 obx, getx, GetBuilder 区别：
 - **RepaintBoundary**：隔离重绘区域
 - **Opacity 优化**：使用 Opacity widget 的注意事项
 - **列表优化**：
+ flutter ListView 中 默认有两张缓存机制：
+ 1. cacheExtent 视口外的渲染缓存，指定一个总高度，视口外的总缓存item没有这个这个高度 就会缓存
+ 2. addAutomaticKeepAlives 标记性缓存，标准实现了 AutomaticKeepAliveClientMixin 类的 StatefulWidget 进行缓存
+                           它不是缓存 Widget 树，而是通过 KeepAliveHandle 阻止 Element 被销毁
+
+ Gemini 说
+
   - ListView.builder 的 itemExtent
   - AutomaticKeepAliveClientMixin
+    AutomaticKeepAliveClientMixin 缓存方案 只能适用于 StatefulWidget，不能适用于 StatelessWidget。同时满足一下两点才生效
+     1：并且必须调用 Widget build(BuildContext context) 的 super.build(context);
+     2. bool get wantKeepAlive => true;
+
   - addRepaintBoundaries 属性
+
 
 ### 8.3 内存优化
 - **图像优化**：适当压缩和缓存
