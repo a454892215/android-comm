@@ -12,6 +12,7 @@ flutter 为什么大量 Widget 构造函数是 const？
 flutter StatefulWidget 的 state 为什么单独拆？
 答案： Widget 是不可变的配置 State 是可变数据 解耦生命周期
       State 的生命周期： State 实例在 Widget 重建时会被 保留（Retain）。只要 Widget 的 runtimeType 和 key 没有变化，
+      GlobalKey 要起作用 ，必须是 StatefulWidget，而不是StatelessWidget
       Flutter 框架就会重用同一个 State 对象，并将新的 Widget 引用挂载到该 State 上。
 
 2. Flutter Widget
@@ -57,10 +58,12 @@ flutter中BuildContext对象的理解：
 
 ## **二、GetX 架构与状态管理**
 1. **GetX 基础**
-   * `Obx`、`GetX`、`GetBuilder` 的区别与使用场景?
-      1. GetBuilder: 是非响应式的状态管理器，需要通过关联一个 GetxController 对象，然后显示调用 GetxController 的 update() 函数触发UI刷新。
-      2. Obx：响应式管理器，会自动记录闭包中，用到的全部Rx变量，当变量更新的时候 触发UI刷新
-      3. GetX:它可以看作是绑定了特定 Controller 的 Obx。响应式管理器，会自动记录闭包中，用到的全部Rx变量，当变量更新的时候 触发UI刷新，但是它提供了绑定和局部注入GetxController的功能。
+   * flutter GetX 框架 的 `Obx`、`GetX`、`GetBuilder` GetView 的区别与使用场景?
+      1. Obx：响应式管理器，会自动记录闭包中，用到的全部Rx变量，当变量更新的时候 触发UI刷新。Obx不提供GetxController的创建和消耗管理机制
+      2. GetBuilder: 是非响应式的状态管理器，需要通过关联一个 GetxController 对象，然后显示调用 GetxController 的 update() 函数触发UI刷新。
+      3. GetX:全功能响应式组件，它可以看作是绑定了Controller 的 Obx。01.响应式管理器，会自动记录响应闭包中的全部Rx变量，当变量更新的时候 触发UI刷新，
+         02.当GetX绑定的 GetxController 调用 update() 也会触发UI更新
+      4. GetView: 内部维护了controller = get.find<T>(),自动给GetView内部的GetxController注入已经创建的实例
    * Bindings 的作用和使用方式?
       Bindings: 通过 binding 绑定页面对应的 GetxController,将路由（Route）与 依赖管理（Dependency Injection） 解耦，而且Bindings中可以依赖多个GetxController和支持懒加载机制
                 Binding 负责具体的创建逻辑，而泛型（在 GetView<UserController> 或 Get.find 中）负责“寻址”和“匹配”

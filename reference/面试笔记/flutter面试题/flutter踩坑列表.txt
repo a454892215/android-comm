@@ -1,7 +1,7 @@
 flutter踩坑列表
 1. Container组件:color和decoration是互斥的，如果同时设置它们则会报错！实际上，当指定color时，Container内会自动创建一个decoration
 
-2. Expanded / Flexible 只能用在 Flex(子类有Row/Column) 体系中
+2. flutter 的 Expanded / Flexible 只能用在 Flex(子类有Row/Column) 体系中，并且Flex有最大大小限制
 
 3. ListView / SingleChildScrollView + Expanded 典型报错：RenderBox was not laid out
 ListView(
