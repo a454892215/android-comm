@@ -65,17 +65,17 @@ flutter中BuildContext对象的理解：
          02.当GetX绑定的 GetxController 调用 update() 也会触发UI更新
       4. GetView: 内部维护了controller = get.find<T>(),自动给GetView内部的GetxController注入已经创建的实例，但是当GetView销毁的时候，
          GetView对应的GetPage中配置的的 binding，中使用Get.put/lazyPut 注册的 Controller 也会销毁，但是使用Get.spawn配置的Controller不会销毁
-         // 注册 spawn。注意：它不立即创建实例，而是注册了一个“生产工厂”，然后每次调用Get.find<TemplateDrawerController>();都会创建新的实例，需要自己手动消耗
-         Get.spawn<TemplateDrawerController>(() => TemplateDrawerController());
 
    * Bindings 的作用和使用方式?
       Bindings: 通过 binding 绑定页面对应的 GetxController,将路由（Route）与 依赖管理（Dependency Injection） 解耦，而且Bindings中可以依赖多个GetxController和支持懒加载机制
                 Binding 负责具体的创建逻辑，而泛型（在 GetView<UserController> 或 Get.find 中）负责“寻址”和“匹配”
    * GetX 依赖注入（DI）机制，如何管理 Controller 生命周期。
          GetX中管理 Controller 生命周期的核心 API 是
-           1. Get.put：立即实例化并存入内存， 默认随当前路由销毁而销毁。
+           1. Get.put：立即实例化并存入内存， 默认随当前路由销毁而销毁。多次调用获取同一个示列，如果示列已经存在，创建的对象会被舍弃销毁，返回旧的对象。
            2. Get.lazyPut ： 第一次 Get.find 时才执行 Builder 实例化，默认随当前路由销毁而销毁。
            3. Get.find： 获取已经创建的实例，如果没有创建会报错
+           4. Get.replace 不会触发新创建的实例的 onInit 和 onReady。只是替换旧的实例
+           5. Get.spawn<TemplateDrawerController>(() => TemplateDrawerController());  注册 spawn。注意：它不立即创建实例，而是注册了一个“生产工厂”，然后每次调用Get.find<TemplateDrawerController>();都会创建新的实例，需要自己手动消耗
          Controller 的生命周期钩子：
             1. onInit()  ： Controller 对象创建后调用，此时绑定的widget不一定已经初始化完毕了，适合进行网络请求初始化、Stream 监听
             2. onReady() ： 被调用的时候对应的widget一定已经渲染完毕（如果Controller绑定了widget就是绑定的widget，如果是动态创建的Controller，就是当前路由中根节点widget）
