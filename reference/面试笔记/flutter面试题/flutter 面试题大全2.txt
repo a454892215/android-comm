@@ -187,8 +187,14 @@ flutter中的三棵树widget element renderObject的关系和作用，以及elem
      1. UI优化
         01：构建UI过程中，遵循的隐式规范：1.每次刷新重建UI的范围尽可能的小 2.尽可能使用const 修饰创建Widget
                                      3.避免在 build 方法中进行耗时计算
-        02. 慎用的UI组件：Opacity，Clip，IntrinsicHeight / IntrinsicWidth，ShaderMask
-        03. 特定场景下推荐使用的UI组件：1. 合理使用RepaintBoundary，UI 中有一个复杂的子树在频繁重绘，而其父级或兄弟节点不需要重绘时，用 RepaintBoundary 包裹。它会为该子树创建独立的 Layer，在渲染树（Layer Tree）层面实现缓存
+        02. 慎用的UI组件：Opacity，Clip，IntrinsicHeight / IntrinsicWidth，ShaderMask，BackdropFilter
+        03. 避免子组件的重绘，导致不必要的外层组件被重绘：  1.  紧约束： 隔绝Layout阶段的向上传播，避免触发 Relayout Boundary（重新布局边界）。
+                                                    2. RepaintBoundary：
+                                                            1. 的作用是切断 Paint 信号的传播， 它会强制为其子节点创建一个独立的 OffsetLayer。
+                                                            2. 当子节点请求重绘时，信号会停止在 RepaintBoundary 节点，而不会触发父节点的 paint 方法。
+                                                            3. RepaintBoundary包裹的子组件如果过大 会导致内存占用大。
+
+            而其父级或兄弟节点不需要重绘时，用
      1： 合理的使用key, 保证element的的正常复用
      2.  合理的使用各种Widget构建高性能UI
      3.  尽可能在 Widget 前加 const。这在编译期确定了实例，Flutter 在 Reconciliation 阶段会跳过这些不变的节点
