@@ -192,7 +192,8 @@ flutter中的三棵树widget element renderObject的关系和作用，以及elem
                                                     2. RepaintBoundary：
                                                             1. 的作用是切断 Paint 信号的传播， 它会强制为其子节点创建一个独立的 OffsetLayer。
                                                             2. 当子节点请求重绘时，信号会停止在 RepaintBoundary 节点，而不会触发父节点的 paint 方法。
-                                                            3. RepaintBoundary包裹的子组件如果过大 会导致内存占用大。
+                                                            3. RepaintBoundary 包裹的子组件如果过大 会导致内存占用大。因为旧的layer层内存占用不变，而RepaintBoundary新开出的区域会占用新的layer内存
+                                                               1080P标准分辨率大小的屏幕，如果使用RepaintBoundary会多占用约9M的内存。
 
             而其父级或兄弟节点不需要重绘时，用
      1： 合理的使用key, 保证element的的正常复用
