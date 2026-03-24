@@ -221,6 +221,10 @@ flutter中的三棵树widget element renderObject的关系和作用，以及elem
               Flutter 框架原生只提供内存缓存，cached_network_image 的内存缓存也是基于flutter系统的Image，但是再此基础上，提供了多图缓存机制，和本地缓存机制
 ---
 
+在 flutter 的 devTools 工具的 highlight repaint 模式下 为什么 ListView 滚动区域没有闪烁？
+  答案：highlight repaint 监控的是 RenderObject.paint。 你的意思滚蛋过程中每个widget只会在屏幕外paint一次，
+  之后的滚动显示 不会再layout 和paint了 只会偏移滚蛋，所以不会闪烁对吗。
+
 ## **七、进阶题与实战考察**
 
 1. Flutter 项目结构优化与模块化设计最佳实践。
