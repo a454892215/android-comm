@@ -46,6 +46,8 @@ android {
     }
 }
 
+
+///发布命令：./gradlew :common:publish
 afterEvaluate {
     publishing {
         publications {
@@ -54,8 +56,8 @@ afterEvaluate {
                 artifactId = "Common"
                 version = "1.0.7-beta"
 
-                // 指定 AAR 文件
-                artifact("$buildDir/outputs/aar/common-release.aar")
+                // 【修改这里】让 Gradle 自动处理 AAR 文件的依赖和路径
+                from components.release
             }
         }
         repositories {
